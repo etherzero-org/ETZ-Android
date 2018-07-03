@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:background="@color/extra_light_blue_background"
+                android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/back_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="-4dp"
+                android:background="@drawable/ic_arrow_left" />
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <com.breadwallet.presenter.customviews.BRText
+        app:customTFont="CircularPro-Bold.otf"
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_alignParentEnd="true"
+        android:textColor="@color/total_assets_usd_color"
+        android:textSize="28sp"
+        android:layout_margin="@dimen/bread_margin"/>
+
+    <ListView
+        android:id="@+id/settings_list"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
+        android:background="@color/extra_light_blue_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:layout_below="@id/title"
+
+        />
+
+</RelativeLayout>

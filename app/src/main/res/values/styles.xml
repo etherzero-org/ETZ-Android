@@ -1,0 +1,32 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:title">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">true</item>
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:statusBarColor">@android:color/darker_gray</item>
+        <item name="android:actionBarStyle">@style/BreadActionBar</item>
+        <item name="android:textViewStyle">@style/RobotoTextViewStyle</item>
+        <item name="android:buttonStyle">@style/RobotoButtonStyle</item>
+    </style>
+
+    <!-- ActionBar styles -->
+    <style name="BreadActionBar"
+           parent="@style/Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/white_trans</item>
+    </style>
+
+    <style name="RobotoTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">sans-serif-light</item>
+    </style>
+
+    <style name="RobotoButtonStyle" parent="android:Widget.Holo.Button">
+        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="android:textColor">@color/dark_blue</item>
+
+    </style>
+
+</resources>

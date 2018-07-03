@@ -38,16 +38,16 @@ public class WriteDownActivity extends BRActivity {
                 close();
             }
         });
-        ImageButton faq = findViewById(R.id.faq_button);
-        faq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                BaseWalletManager wm = WalletsMaster.getInstance(WriteDownActivity.this).getCurrentWallet(WriteDownActivity.this);
-                BRAnimator.showSupportFragment(WriteDownActivity.this, BRConstants.FAQ_PAPER_KEY, wm);
-
-            }
-        });
+//        ImageButton faq = findViewById(R.id.faq_button);
+//        faq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BaseWalletManager wm = WalletsMaster.getInstance(WriteDownActivity.this).getCurrentWallet(WriteDownActivity.this);
+//                BRAnimator.showSupportFragment(WriteDownActivity.this, BRConstants.FAQ_PAPER_KEY, wm);
+//
+//            }
+//        });
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

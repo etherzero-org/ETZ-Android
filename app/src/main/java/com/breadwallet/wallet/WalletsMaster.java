@@ -97,12 +97,13 @@ public class WalletsMaster {
         if (mTokenListMetaData == null) {
             List<TokenListMetaData.TokenInfo> enabled = new ArrayList<>();
             enabled.add(new TokenListMetaData.TokenInfo("BTC", false, null));
-            enabled.add(new TokenListMetaData.TokenInfo("BCH", false, null));
+            //enabled.add(new TokenListMetaData.TokenInfo("BCH", false, null));
             enabled.add(new TokenListMetaData.TokenInfo("ETZ", false, null));
-            BREthereumWallet brdWallet = ethWallet.node.getWallet(ethWallet.node.tokenBRD);
-            enabled.add(new TokenListMetaData.TokenInfo(brdWallet.getToken().getSymbol(), true, brdWallet.getToken().getAddress()));
-            mTokenListMetaData = new TokenListMetaData(enabled, null);
-            KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
+            //添加钱包 及brd
+//            BREthereumWallet brdWallet = ethWallet.node.getWallet(ethWallet.node.tokenBRD);
+//            enabled.add(new TokenListMetaData.TokenInfo(brdWallet.getToken().getSymbol(), true, brdWallet.getToken().getAddress()));
+//            mTokenListMetaData = new TokenListMetaData(enabled, null);
+//            KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
         }
 
         for (TokenListMetaData.TokenInfo enabled : mTokenListMetaData.enabledCurrencies) {
@@ -114,14 +115,14 @@ public class WalletsMaster {
                 mWallets.add(WalletBitcoinManager.getInstance(app));
             } else if (enabled.symbol.equalsIgnoreCase("BCH") && !isHidden) {
                 //BCH wallet
-                mWallets.add(WalletBchManager.getInstance(app));
+//                mWallets.add(WalletBchManager.getInstance(app));
             } else if (enabled.symbol.equalsIgnoreCase("ETZ") && !isHidden) {
                 //ETH wallet
                 mWallets.add(ethWallet);
             } else {
-                //add ERC20 wallet
-                WalletTokenManager tokenWallet = WalletTokenManager.getTokenWalletByIso(app, ethWallet, enabled.symbol);
-                if (tokenWallet != null && !isHidden) mWallets.add(tokenWallet);
+                //add ERC20 wallet   home页不显示代币 brd
+//                WalletTokenManager tokenWallet = WalletTokenManager.getTokenWalletByIso(app, ethWallet, enabled.symbol);
+//                if (tokenWallet != null && !isHidden) mWallets.add(tokenWallet);
             }
 
         }

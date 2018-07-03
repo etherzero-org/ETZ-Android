@@ -284,7 +284,7 @@
         android:background="@color/extra_light_blue_background"
         android:elevation="0dp"
         android:orientation="horizontal"
-        android:weightSum="3">
+        android:weightSum="2">
 
 
         <com.breadwallet.presenter.customviews.BRButton
@@ -324,7 +324,7 @@
             app:customTFont="CircularPro-Bold.otf"
             app:hasShadow="false"
             app:isBreadButton="true"/>
-
+        <!--
         <com.breadwallet.presenter.customviews.BRButton
             android:id="@+id/buy_button"
             android:layout_width="0dp"
@@ -363,6 +363,9 @@
             app:customTFont="CircularPro-Bold.otf"
             app:hasShadow="false"
             app:isBreadButton="true"/>
+
+        -->
+
 
     </LinearLayout>
 

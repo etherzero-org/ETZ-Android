@@ -47,7 +47,7 @@
                 android:textSize="@dimen/header"
                 app:customTFont="CircularPro-Bold.otf"
                 />
-
+            <!--
             <ImageButton
                 android:id="@+id/faq_button"
                 android:layout_width="@dimen/faq_dimen"
@@ -56,6 +56,8 @@
                 android:layout_margin="@dimen/bread_margin"
                 android:background="@drawable/faq_question_white"
                 />
+            -->
+
 
 
         </RelativeLayout>

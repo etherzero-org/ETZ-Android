@@ -238,7 +238,6 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
 
     @Override
     public byte[] signAndPublishTransaction(CryptoTransaction tx, byte[] phrase) {
-        Log.i(TAG, "签名发布交易");
         mWallet.sign(tx.getEtherTx(), new String(phrase));
         mWallet.submit(tx.getEtherTx());
         String hash = tx.getEtherTx().getHash();

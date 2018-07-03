@@ -51,7 +51,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
     private BRText mFiatTotal;
     private RelativeLayout mSettings;
     private RelativeLayout mSecurity;
-    private RelativeLayout mSupport;
+//    private RelativeLayout mSupport;
     private PromptManager.PromptItem mCurrentPrompt;
     public BRNotificationBar mNotificationBar;
 
@@ -78,7 +78,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
         mSettings = findViewById(R.id.settings_row);
         mSecurity = findViewById(R.id.security_row);
-        mSupport = findViewById(R.id.support_row);
+//        mSupport = findViewById(R.id.support_row);
         mNotificationBar = findViewById(R.id.notification_bar);
 
         mPromptCard = findViewById(R.id.prompt_card);
@@ -129,15 +129,15 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                 overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
             }
         });
-        mSupport.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                BaseWalletManager wm = WalletsMaster.getInstance(HomeActivity.this).getCurrentWallet(HomeActivity.this);
-
-                BRAnimator.showSupportFragment(HomeActivity.this, null, wm);
-            }
-        });
+//        mSupport.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BaseWalletManager wm = WalletsMaster.getInstance(HomeActivity.this).getCurrentWallet(HomeActivity.this);
+//
+//                BRAnimator.showSupportFragment(HomeActivity.this, null, wm);
+//            }
+//        });
 
 
         mPromptDismiss.setColor(Color.parseColor("#b3c0c8"));

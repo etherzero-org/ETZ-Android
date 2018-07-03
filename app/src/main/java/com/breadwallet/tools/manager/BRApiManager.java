@@ -154,6 +154,7 @@ public class BRApiManager {
             @Override
             public void run() {
                 updateErc20Rates(context);
+                updateETZRates(context);
             }
         });
 
@@ -181,7 +182,42 @@ public class BRApiManager {
         }
 
     }
+    @WorkerThread
+    private  synchronized  void updateETZRates(Context context){
+        String url = "https://api.coinmarketcap.com/v2/ticker/2843/?convert=BTC&limit=10&structure=array";
+        String result = urlGET(context, url);
+        try {
+            if (Utils.isNullOrEmpty(result)) {
+                Log.e(TAG, "updateErc20Rates: Failed to fetch");
+                return;
+            }
+            String object = null;
+            Set<CurrencyEntity> tmp = new LinkedHashSet<>();
 
+                JSONObject json = new JSONObject(result);
+
+            JSONArray json1 = new JSONArray(json.getString("data"));
+            JSONObject json2 = new JSONObject(json1.getString(0));
+
+
+                String code = "BTC";
+                String name = json2.getString("name");
+                String iso = json2.getString("symbol");
+                JSONObject json3 = new JSONObject(json2.getString("quotes"));
+                JSONObject json4 = new JSONObject(json3.getString("BTC"));
+                String rate = json4.getString("price");
+
+                CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
+                tmp.add(ent);
+
+            RatesDataSource.getInstance(context).putCurrencies(context, tmp);
+            if (object != null)
+                BRReportsManager.reportBug(new IllegalArgumentException("JSONArray returns a wrong object: " + object));
+        } catch (JSONException e) {
+            BRReportsManager.reportBug(e);
+            e.printStackTrace();
+        }
+    }
     @WorkerThread
     private synchronized void updateErc20Rates(Context context) {
         //get all erc20 rates.
@@ -213,6 +249,9 @@ public class BRApiManager {
                 String iso = json.getString("symbol");
 
                 CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
+
+//                Log.i(TAG, "updateETZRates: json333==="+ent);
+//                Log.i(TAG, "updateETZRates: json4444==="+ent.toString());
                 tmp.add(ent);
 
             }

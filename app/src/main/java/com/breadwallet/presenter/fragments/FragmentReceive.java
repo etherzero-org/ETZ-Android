@@ -123,22 +123,22 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
 
         WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity()).addBalanceChangedListener(this);
 
-        ImageButton faq = rootView.findViewById(R.id.faq_button);
+//        ImageButton faq = rootView.findViewById(R.id.faq_button);
 
-        faq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                Activity app = getActivity();
-                if (app == null) {
-                    Log.e(TAG, "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
-                    return;
-                }
-
-                BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
-                BRAnimator.showSupportFragment(app, BRConstants.FAQ_RECEIVE, wm);
-            }
-        });
+//        faq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                Activity app = getActivity();
+//                if (app == null) {
+//                    Log.e(TAG, "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
+//                    return;
+//                }
+//
+//                BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
+//                BRAnimator.showSupportFragment(app, BRConstants.FAQ_RECEIVE, wm);
+//            }
+//        });
 
         signalLayout.removeView(shareButtonsLayout);
         signalLayout.removeView(copiedLayout);

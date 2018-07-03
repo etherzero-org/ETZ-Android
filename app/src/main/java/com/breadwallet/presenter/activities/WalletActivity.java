@@ -79,8 +79,8 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     private ImageButton mBackButton;
     private BRButton mSendButton;
     private BRButton mReceiveButton;
-    private BRButton mBuyButton;
-    private BRButton mSellButton;
+//    private BRButton mBuyButton;
+//    private BRButton mSellButton;
     private LinearLayout mProgressLayout;
     private BRText mSyncStatusLabel;
     private BRText mProgressLabel;
@@ -119,8 +119,8 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         mBackButton = findViewById(R.id.back_icon);
         mSendButton = findViewById(R.id.send_button);
         mReceiveButton = findViewById(R.id.receive_button);
-        mBuyButton = findViewById(R.id.buy_button);
-        mSellButton = findViewById(R.id.sell_button);
+//        mBuyButton = findViewById(R.id.buy_button);
+//        mSellButton = findViewById(R.id.sell_button);
         mBarFlipper = findViewById(R.id.tool_bar_flipper);
         mSearchBar = findViewById(R.id.search_bar);
         mSearchIcon = findViewById(R.id.search_icon);
@@ -172,19 +172,19 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
             }
         });
 
-        mBuyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startWebActivity(HTTPServer.URL_BUY);
-            }
-        });
-
-        mSellButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startWebActivity(HTTPServer.URL_SELL);
-            }
-        });
+//        mBuyButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startWebActivity(HTTPServer.URL_BUY);
+//            }
+//        });
+//
+//        mSellButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startWebActivity(HTTPServer.URL_SELL);
+//            }
+//        });
 
 
         mBalancePrimary.setOnClickListener(new View.OnClickListener() {
@@ -289,15 +289,15 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
             mToolbar.setBackground(gd);
             mSendButton.setColor(Color.parseColor(endColor)); //end color if gradient
             mReceiveButton.setColor(Color.parseColor(endColor));
-            mBuyButton.setColor(Color.parseColor(endColor));
-            mSellButton.setColor(Color.parseColor(endColor));
+//            mBuyButton.setColor(Color.parseColor(endColor));
+//            mSellButton.setColor(Color.parseColor(endColor));
         } else {
             //it's a solid color
             mToolbar.setBackgroundColor(Color.parseColor(startColor));
             mSendButton.setColor(Color.parseColor(startColor));
             mReceiveButton.setColor(Color.parseColor(startColor));
-            mBuyButton.setColor(Color.parseColor(startColor));
-            mSellButton.setColor(Color.parseColor(startColor));
+//            mBuyButton.setColor(Color.parseColor(startColor));
+//            mSellButton.setColor(Color.parseColor(startColor));
         }
 
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {

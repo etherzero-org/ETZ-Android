@@ -39,7 +39,7 @@ networkGetChainId (BREthereumNetwork network) {
 // Mainnet
 //
 static struct BREthereumNetworkRecord ethereumMainnetRecord = {
-    1
+    88
 };
 const BREthereumNetwork ethereumMainnet = &ethereumMainnetRecord;
 

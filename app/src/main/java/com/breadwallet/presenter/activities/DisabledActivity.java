@@ -45,16 +45,16 @@ public class DisabledActivity extends BRActivity {
         disabled = findViewById(R.id.disabled);
         resetButton = findViewById(R.id.reset_button);
 
-        ImageButton faq = findViewById(R.id.faq_button);
-
-        faq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                BaseWalletManager wm = WalletsMaster.getInstance(DisabledActivity.this).getCurrentWallet(DisabledActivity.this);
-                BRAnimator.showSupportFragment(DisabledActivity.this, BRConstants.FAQ_WALLET_DISABLE, wm);
-            }
-        });
+//        ImageButton faq = findViewById(R.id.faq_button);
+//
+//        faq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BaseWalletManager wm = WalletsMaster.getInstance(DisabledActivity.this).getCurrentWallet(DisabledActivity.this);
+//                BRAnimator.showSupportFragment(DisabledActivity.this, BRConstants.FAQ_WALLET_DISABLE, wm);
+//            }
+//        });
 
         resetButton.setOnClickListener(new View.OnClickListener() {
             @Override

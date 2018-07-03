@@ -179,21 +179,21 @@ public class FragmentSend extends Fragment {
 //        });
         keyboardIndex = signalLayout.indexOfChild(keyboardLayout);
 
-        ImageButton faq = rootView.findViewById(R.id.faq_button);
-
-        faq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                Activity app = getActivity();
-                if (app == null) {
-                    Log.e(TAG, "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
-                    return;
-                }
-                BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
-                BRAnimator.showSupportFragment(app, BRConstants.FAQ_SEND, wm);
-            }
-        });
+//        ImageButton faq = rootView.findViewById(R.id.faq_button);
+//
+//        faq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                Activity app = getActivity();
+//                if (app == null) {
+//                    Log.e(TAG, "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
+//                    return;
+//                }
+//                BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
+//                BRAnimator.showSupportFragment(app, BRConstants.FAQ_SEND, wm);
+//            }
+//        });
 
         showKeyboard(false);
         setButton(true);

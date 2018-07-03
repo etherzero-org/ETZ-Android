@@ -70,16 +70,16 @@ public class UpdatePinActivity extends BRActivity {
         dot5 = findViewById(R.id.dot5);
         dot6 = findViewById(R.id.dot6);
 
-        faq = findViewById(R.id.faq_button);
-
-        faq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                BaseWalletManager wm = WalletsMaster.getInstance(UpdatePinActivity.this).getCurrentWallet(UpdatePinActivity.this);
-                BRAnimator.showSupportFragment(UpdatePinActivity.this, BRConstants.FAQ_SET_PIN, wm);
-            }
-        });
+//        faq = findViewById(R.id.faq_button);
+//
+//        faq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BaseWalletManager wm = WalletsMaster.getInstance(UpdatePinActivity.this).getCurrentWallet(UpdatePinActivity.this);
+//                BRAnimator.showSupportFragment(UpdatePinActivity.this, BRConstants.FAQ_SET_PIN, wm);
+//            }
+//        });
 
         keyboard.addOnInsertListener(new BRKeyboard.OnInsertListener() {
             @Override

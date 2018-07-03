@@ -53,16 +53,16 @@ public class ReEnterPinActivity extends BRActivity {
         keyboard = findViewById(R.id.brkeyboard);
         pinLayout = findViewById(R.id.pinLayout);
 
-        ImageButton faq = findViewById(R.id.faq_button);
-
-        faq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                BaseWalletManager wm = WalletsMaster.getInstance(ReEnterPinActivity.this).getCurrentWallet(ReEnterPinActivity.this);
-                BRAnimator.showSupportFragment(ReEnterPinActivity.this, BRConstants.FAQ_SET_PIN, wm);
-            }
-        });
+//        ImageButton faq = findViewById(R.id.faq_button);
+//
+//        faq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BaseWalletManager wm = WalletsMaster.getInstance(ReEnterPinActivity.this).getCurrentWallet(ReEnterPinActivity.this);
+//                BRAnimator.showSupportFragment(ReEnterPinActivity.this, BRConstants.FAQ_SET_PIN, wm);
+//            }
+//        });
 
         title = findViewById(R.id.title);
         title.setText(getString(R.string.UpdatePin_createTitleConfirm));

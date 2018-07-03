@@ -65,7 +65,7 @@ public class BRDialogView extends DialogFragment {
     private BRButton negativeButton;
     private BRButton positiveButton;
     private LinearLayout buttonsLayout;
-    private ImageButton helpButton;
+//    private ImageButton helpButton;
     private LinearLayout mainLayout;
 
     //provide the way to have clickable span in the message
@@ -86,7 +86,7 @@ public class BRDialogView extends DialogFragment {
 //        ImageView icon = (ImageView) view.findViewById(R.id.dialog_icon);
         mainLayout = view.findViewById(R.id.main_layout);
         buttonsLayout = view.findViewById(R.id.linearLayout3);
-        helpButton = view.findViewById(R.id.help_icon);
+//        helpButton = view.findViewById(R.id.help_icon);
 
         //assuming that is the last text to bet set.
         if (Utils.isNullOrEmpty(title))
@@ -150,21 +150,21 @@ public class BRDialogView extends DialogFragment {
         builder.setView(view);
 
         if (showHelpIcon) {
-            helpButton.setVisibility(View.VISIBLE);
+//            helpButton.setVisibility(View.VISIBLE);
 
             messageText.setPadding(0, 0, 0, Utils.getPixelsFromDps(getContext(), 16));
 
-            helpButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (!BRAnimator.isClickAllowed()) return;
-                    if (helpListener != null)
-                        helpListener.onClick(BRDialogView.this);
-                }
-            });
+//            helpButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (!BRAnimator.isClickAllowed()) return;
+//                    if (helpListener != null)
+//                        helpListener.onClick(BRDialogView.this);
+//                }
+//            });
 
         } else {
-            helpButton.setVisibility(View.INVISIBLE);
+//            helpButton.setVisibility(View.INVISIBLE);
 
         }
 //        builder.setOnDismissListener(dismissListener);

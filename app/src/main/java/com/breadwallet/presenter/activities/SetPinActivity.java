@@ -47,16 +47,16 @@ public class SetPinActivity extends BRActivity {
 
         keyboard = findViewById(R.id.brkeyboard);
         title = findViewById(R.id.title);
-        faq = findViewById(R.id.faq_button);
-
-        faq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                BaseWalletManager wm = WalletsMaster.getInstance(SetPinActivity.this).getCurrentWallet(SetPinActivity.this);
-                BRAnimator.showSupportFragment(SetPinActivity.this, BRConstants.FAQ_SET_PIN, wm);
-            }
-        });
+//        faq = findViewById(R.id.faq_button);
+//
+//        faq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BaseWalletManager wm = WalletsMaster.getInstance(SetPinActivity.this).getCurrentWallet(SetPinActivity.this);
+//                BRAnimator.showSupportFragment(SetPinActivity.this, BRConstants.FAQ_SET_PIN, wm);
+//            }
+//        });
 
         dot1 = findViewById(R.id.dot1);
         dot2 = findViewById(R.id.dot2);

@@ -77,6 +77,7 @@ public class TxManager {
 
             }
         });
+        //交易列表
         txList = app.findViewById(R.id.tx_list);
         txList.setLayoutManager(new CustomLinearLayoutManager(app));
         txList.addOnItemTouchListener(mItemListener);

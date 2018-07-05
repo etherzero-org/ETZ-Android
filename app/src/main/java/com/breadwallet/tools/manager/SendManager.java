@@ -210,7 +210,7 @@ public class SendManager {
         } else {
             if (Utils.isNullOrEmpty(item.address)) throw new RuntimeException("can't happen");
             BigDecimal fee = wm.getEstimatedFee(maxAmountDouble, item.address);
-            if (fee.compareTo(BigDecimal.ZERO) <= 0) {
+            if (fee.compareTo(BigDecimal.ZERO) < 0) {
                 BRReportsManager.reportBug(new RuntimeException("fee is weird:  " + fee));
                 BRDialog.showCustomDialog(app, app.getString(R.string.Alerts_sendFailure), app.getString(R.string.Send_nilFeeError), app.getString(R.string.Button_ok), null, new BRDialogView.BROnClickListener() {
                     @Override
@@ -259,10 +259,10 @@ public class SendManager {
             return;
         }
 
-        BigDecimal minOutput = request.isAmountRequested ? wm.getMinOutputAmountPossible() : wm.getMinOutputAmount(ctx);
-
+//        BigDecimal minOutput = request.isAmountRequested ? wm.getMinOutputAmountPossible() : wm.getMinOutputAmount(ctx);
+        BigDecimal minOutput = new BigDecimal("0");
         //amount can't be less than the min
-        if (minOutput != null && request.amount.abs().compareTo(minOutput) <= 0) {
+        if (minOutput != null && request.amount.abs().compareTo(minOutput) < 0) {
             final String bitcoinMinMessage = String.format(Locale.getDefault(), ctx.getString(R.string.PaymentProtocol_Errors_smallTransaction),
                     CurrencyUtils.getFormattedAmount(ctx, wm.getIso(), minOutput));
 
@@ -335,7 +335,7 @@ public class SendManager {
 
         String iso = BRSharedPrefs.getPreferredFiatIso(ctx);
         BigDecimal feeForTx = wm.getEstimatedFee(request.amount, request.address);
-        if (feeForTx.compareTo(BigDecimal.ZERO) <= 0) {
+        if (feeForTx.compareTo(BigDecimal.ZERO) < 0) {
             BigDecimal maxAmount = wm.getMaxOutputAmount(ctx);
             if (maxAmount != null && maxAmount.compareTo(new BigDecimal(-1)) == 0) {
                 BRReportsManager.reportBug(new RuntimeException("getMaxOutputAmount is -1, meaning _wallet is NULL"), true);
@@ -352,7 +352,7 @@ public class SendManager {
                 return null;
             }
         }
-        if (feeForTx.compareTo(BigDecimal.ZERO) <= 0) {
+        if (feeForTx.compareTo(BigDecimal.ZERO) < 0) {
             BRDialog.showCustomDialog(ctx, "", ctx.getString(R.string.Send_nilFeeError),
                     ctx.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
                         @Override

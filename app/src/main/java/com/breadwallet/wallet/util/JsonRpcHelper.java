@@ -101,8 +101,9 @@ public class JsonRpcHelper {
     }
 
     public static String createEthereumTransactionsUrl(String address) {
-        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT
-                + "query?module=account&action=txlist&address=" + address;
+//        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT
+//                + "query?module=account&action=txlist&address=" + address;
+        return PROTOCOL + "://" + "openetz.org/etzq/api/v1/getEtzTxlist?address="+address;
     }
 
     public static String createLogsUrl(String address, String contract, String event) {
@@ -116,6 +117,30 @@ public class JsonRpcHelper {
                 + "&topic1_2_opr=or"
                 + "&topic2=" + address;
     }
+
+    @WorkerThread
+    public static void makeRpcRequestGet(Context app, String url, JSONObject payload, JsonRpcRequestListener listener) {
+        final MediaType JSON
+                = MediaType.parse("application/json; charset=utf-8");
+
+        RequestBody requestBody = RequestBody.create(JSON, payload.toString());
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Content-Type", "application/json; charset=utf-8")
+                .header("Accept", "application/json")
+                .get().build();
+
+
+        APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, true);
+        String responseString = resp.getBodyText();
+
+        if (listener != null) {
+            listener.onRpcRequestCompleted(responseString);
+        }
+
+    }
+
+
 
     @WorkerThread
     public static void makeRpcRequest(Context app, String url, JSONObject payload, JsonRpcRequestListener listener) {

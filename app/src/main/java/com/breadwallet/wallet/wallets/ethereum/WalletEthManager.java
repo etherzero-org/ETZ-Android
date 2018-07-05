@@ -961,7 +961,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
             @Override
             public void run() {
                 final String ethRpcUrl = JsonRpcHelper.createEthereumTransactionsUrl(address);
-
+                Log.i(TAG, "ethRpcUrl==: "+ethRpcUrl);
                 final JSONObject payload = new JSONObject();
                 try {
                     payload.put(JsonRpcHelper.ID, String.valueOf(id));
@@ -970,10 +970,10 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
-
+                        Log.i(TAG, "交易记录==="+jsonResult);
                         if (!Utils.isNullOrEmpty(jsonResult)) {
                             try {
                                 // Convert response into JsonArray of transactions

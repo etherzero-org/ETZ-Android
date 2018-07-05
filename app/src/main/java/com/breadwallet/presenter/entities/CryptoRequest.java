@@ -76,8 +76,10 @@ public class CryptoRequest {
     public boolean isSmallerThanMin(Context app, BaseWalletManager walletManager) {
         BigDecimal minAmount = walletManager.getMinOutputAmount(app);
         BigDecimal absAmt = this.amount.abs();
-        Log.e(TAG, "isSmallerThanMin: " + absAmt);
-        return minAmount != null && absAmt.compareTo(minAmount) < 0;
+        Log.i(TAG, "isSmallerThanMin: " + absAmt);
+        Log.i(TAG, "isSmallerThanMin:minAmount " + minAmount);
+        Log.i(TAG, "isSmallerThanMin:minAmount2222 " + absAmt.compareTo(minAmount));
+        return false;//minAmount != null && absAmt.compareTo(minAmount) < 0
     }
 
     public boolean isLargerThanBalance(Context app, BaseWalletManager walletManager) {

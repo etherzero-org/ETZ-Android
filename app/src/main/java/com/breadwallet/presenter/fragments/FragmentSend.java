@@ -421,6 +421,8 @@ public class FragmentSend extends Fragment {
 
             }
         });
+
+        //交易  点击发送按钮
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -463,7 +465,10 @@ public class FragmentSend extends Fragment {
                             }, null, null, 0);
                     return;
                 }
-                if (cryptoAmount.compareTo(BigDecimal.ZERO) <= 0) {
+                Log.i(TAG, "onClick: cryptoAmount=="+cryptoAmount);
+                Log.i(TAG, "onClick: BigDecimal.ZERO=="+BigDecimal.ZERO);
+                Log.i(TAG, "onClick: cryptoAmount.compareTo(BigDecimal.ZERO)=="+cryptoAmount.compareTo(BigDecimal.ZERO));
+                if (cryptoAmount.compareTo(BigDecimal.ZERO) < 0) {
                     allFilled = false;
                     SpringAnimator.failShakeAnimation(getActivity(), amountEdit);
                 }

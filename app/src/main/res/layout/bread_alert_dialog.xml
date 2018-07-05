@@ -14,14 +14,16 @@
         android:layout_height="40dp"
         android:background="@drawable/bch_dialog_gradient"
         android:orientation="vertical">
-
-        <ImageButton
+        <!--
+             <ImageButton
             android:id="@+id/brd_logo"
             android:layout_width="38dp"
             android:layout_height="14dp"
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/brd_logo_white_svg"/>
+
+-->
         <!--
         <ImageButton
             android:id="@+id/help_icon"

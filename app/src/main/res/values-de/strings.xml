@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <!-- App name -->
-  <string name="About.appName.android">Bread</string>
+  <string name="About.appName.android">ETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">Blog</string>
   <!-- About screen footer -->
-  <string name="About.footer">Erstellt vom globalen Bread-Team. Version %1$s</string>
+  <string name="About.footer">Erstellt vom globalen ETZ-Team. Version %1$s</string>
   <!-- Privay Policy button label -->
   <string name="About.privacy">Datenschutzerklärung</string>
   <!-- About screen reddit label -->
@@ -17,7 +17,7 @@
   <!-- About screen twitter label -->
   <string name="About.twitter">Twitter</string>
   <!-- About screen wallet ID label -->
-  <string name="About.walletID">BRD-Rewards-ID</string>
+  <string name="About.walletID">ETZ-Rewards-ID</string>
   <!-- Close modal button accessibility label -->
   <string name="AccessibilityLabels.close">Schließen</string>
   <!-- Support center accessibiliy label -->
@@ -29,15 +29,15 @@
   <!-- Loading Wallet Message -->
   <string name="Account.loadingMessage">Wallet wird geladen</string>
   <!-- Default wallet name -->
-  <string name="AccountHeader.defaultWalletName">Mein Bread</string>
+  <string name="AccountHeader.defaultWalletName">Mein ETZ</string>
   <!-- Third party keyboard warning -->
   <string name="Alert.customKeyboard.android">Anscheinend verwenden Sie eine Drittanbieter-Tastatur, die Ihre Eingaben aufzeichnen und Ihren Paper Key stehlen kann. Bitte wechseln Sie für zusätzlichen Schutz zur Standard-Tastatur von Android.</string>
   <!-- Error alert title -->
   <string name="Alert.error">Fehler</string>
   <!-- Keystore error -->
-  <string name="Alert.keystore.generic.android">Es liegt ein Problem mit dem KeyStore Ihres Android-Betriebssystems vor, bitte wenden Sie sich an support@breadwallet.com</string>
+  <string name="Alert.keystore.generic.android">Es liegt ein Problem mit dem KeyStore Ihres Android-Betriebssystems vor, bitte wenden Sie sich an support@etherzero.org</string>
   <!-- KeyStore error, keys are invalidated -->
-  <string name="Alert.keystore.invalidated.android">Ihre mit Bread verschlüsselten Daten wurden vor Kurzem für ungültig erklärt, da Ihre Android-Bildschirmsperre deaktiviert war.</string>
+  <string name="Alert.keystore.invalidated.android">Ihre mit ETZ verschlüsselten Daten wurden vor Kurzem für ungültig erklärt, da Ihre Android-Bildschirmsperre deaktiviert war.</string>
   <!-- Keystore error title -->
   <string name="Alert.keystore.title.android">Android-KeyStore-Fehler</string>
   <!-- No internet alert message -->
@@ -63,11 +63,11 @@
   <!-- Fingerprint was recognized by the scanner -->
   <string name="Alerts.touchIdSucceeded.android">Fingerabdruck erkannt</string>
   <!-- Tell the user where they can enable permissions to access device storage. -->
-  <string name="Android.allowFileSystemAccess">Bitte aktivieren Sie die Speicherberechtigung in Ihren Geräteeinstellungen: „Einstellungen\" &gt; „Apps\" &gt; „BRD\" &gt; „Berechtigungen\".</string>
+  <string name="Android.allowFileSystemAccess">Bitte aktivieren Sie die Speicherberechtigung in Ihren Geräteeinstellungen: „Einstellungen\" &gt; „Apps\" &gt; „ETZ\" &gt; „Berechtigungen\".</string>
   <!-- The "home" screen is the name of the top level menu for the app. -->
   <string name="Android.BCH.welcome.message">Sie können über den Startbildschirm auf alle BCH in Ihrer Wallet zugreifen.</string>
-  <string name="Android.BCH.welcome.title">BRD unterstützt ab sofort Bitcoin Cash!</string>
-  <string name="Android.screenAlteringMessage">BRD funktioniert nicht ordnungsgemäß, solange bildschirmverändernde Apps (z.B. Twilight) aktiv sind.</string>
+  <string name="Android.BCH.welcome.title">ETZ unterstützt ab sofort Bitcoin Cash!</string>
+  <string name="Android.screenAlteringMessage">ETZ funktioniert nicht ordnungsgemäß, solange bildschirmverändernde Apps (z.B. Twilight) aktiv sind.</string>
   <!-- An app that alters the screen ("screen-altering app") has been detected. -->
   <string name="Android.screenAlteringTitle">Bildschirmverändernde App erkannt</string>
   <!-- JSON Serialization error message -->
@@ -99,7 +99,7 @@
   <!-- Approve button label -->
   <string name="BitID.approve">Bestätigen</string>
   <!-- <sitename> is requesting authentication using your bitcoin wallet -->
-  <string name="BitID.authenticationRequest">%1$s fordert die Authentifizierung über Ihr Bitcoin-Wallet an</string>
+  <string name="BitID.authenticationRequest">%1$s fordert die Authentifizierung über Ihr ETZ-Wallet an</string>
   <!-- Deny button label -->
   <string name="BitID.deny">Ablehnen</string>
   <!-- BitID error alert title -->
@@ -183,7 +183,7 @@
   <!-- Email unavailable alert title -->
   <string name="ErrorMessages.emailUnavailableTitle">E-Mail nicht verfügbar</string>
   <!-- Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters) -->
-  <string name="ErrorMessages.loopingLockScreen.android">Bread kann nicht authentifiziert werden aufgrund eines Fehlers in deiner Version von Android. [Bitte tippe hier für weitere Informationen].</string>
+  <string name="ErrorMessages.loopingLockScreen.android">ETZ kann nicht authentifiziert werden aufgrund eines Fehlers in deiner Version von Android. [Bitte tippe hier für weitere Informationen].</string>
   <!-- Messaging unavailable alert title -->
   <string name="ErrorMessages.messagingUnavailableMessage">Dieses Gerät ist nicht dafür eingerichtet, Nachrichten zu versenden.</string>
   <!-- Messaging unavailable alert title -->
@@ -193,11 +193,11 @@
   <!-- You can customize your Face ID Spending Limit from the [menu] -->
   <string name="FaceIDSettings.customizeText">Sie können Ihr Ausgabenlimit für Face ID im %1$s] anpassen.</string>
   <!-- Face Id screen label -->
-  <string name="FaceIDSettings.label">Mit Ihrem Gesicht können Sie Ihre BRD freischalten und Geld bis zu einem festgelegten Limit senden.</string>
+  <string name="FaceIDSettings.label">Mit Ihrem Gesicht können Sie Ihre ETZ freischalten und Geld bis zu einem festgelegten Limit senden.</string>
   <!-- Title of the screen for setting the Face ID Spending Limit -->
   <string name="FaceIDSettings.linkText">Bildschirm für Face-ID-Ausgabenlimit</string>
-  <!-- Setting to turn on Face ID for BRD -->
-  <string name="FaceIDSettings.switchLabel">Face-ID für BRD aktivieren</string>
+  <!-- Setting to turn on Face ID for ETZ -->
+  <string name="FaceIDSettings.switchLabel">Face-ID für ETZ aktivieren</string>
   <!-- Face ID settings view title -->
   <string name="FaceIDSettings.title">Face ID</string>
   <!-- Instructions on how to turn on face id on the iPhone. Please ensure the name of the menu in this string matches the wording Apple uses in the iPhone menu. -->
@@ -247,13 +247,13 @@
   <!-- Caption for graphics -->
   <string name="Import.leftCaption">Privater Schlüssel</string>
   <!-- Import wallet intro screen message -->
-  <string name="Import.message">Private Schlüssel werden oft als QR-Code auf Papier ausgedruckt und genutzt, um Geldbeträge offline zu speichern. Lösen Sie einen privaten Schlüssel ein, um das gesamte Geld, das von ihm kontrolliert wird, mit nur einer Transaktion in Ihr Bread zu übertragen.</string>
+  <string name="Import.message">Private Schlüssel werden oft als QR-Code auf Papier ausgedruckt und genutzt, um Geldbeträge offline zu speichern. Lösen Sie einen privaten Schlüssel ein, um das gesamte Geld, das von ihm kontrolliert wird, mit nur einer Transaktion in Ihr ETZ zu übertragen.</string>
   <!-- Enter password alert view title -->
   <string name="Import.password">Dieser private Schlüssel ist passwortgeschützt.</string>
   <!-- password textfield placeholder -->
   <string name="Import.passwordPlaceholder">Passwort</string>
   <!-- Caption for graphics -->
-  <string name="Import.rightCaption">Dein Bread-Wallet</string>
+  <string name="Import.rightCaption">Dein ETZ-Wallet</string>
   <!-- Scan Private key button label -->
   <string name="Import.scan">Privaten Schlüssel scannen</string>
   <!-- Import wallet success alert title -->
@@ -273,9 +273,9 @@
   <!-- Ignore jailbreak warning button -->
   <string name="JailbreakWarnings.ignore">Ignorieren</string>
   <!-- Jailbreak warning message -->
-  <string name="JailbreakWarnings.messageWithBalance">DAS GERÄT IST NICHT LÄNGER SICHER\nJede beliebige „Jailbreak“-App kann auf Breads Keychain-Daten zugreifen und deine Bitcoins stehlen! Lösche dieses Wallet unverzüglich und stelle es auf einem sicheren Gerät wieder her.</string>
+  <string name="JailbreakWarnings.messageWithBalance">DAS GERÄT IST NICHT LÄNGER SICHER\nJede beliebige „Jailbreak“-App kann auf ETZs Keychain-Daten zugreifen und deine Bitcoins stehlen! Lösche dieses Wallet unverzüglich und stelle es auf einem sicheren Gerät wieder her.</string>
   <!-- Jailbreak warning message -->
-  <string name="JailbreakWarnings.messageWithoutBalance">DAS GERÄT IST NICHT LÄNGER SICHER\nJede beliebige „Jailbreak“-App kann auf Breads Keychain-Daten zugreifen und deine Bitcoins stehlen. Bitte setze Bread ausschließlich auf Geräten ohne Jailbreak ein.</string>
+  <string name="JailbreakWarnings.messageWithoutBalance">DAS GERÄT IST NICHT LÄNGER SICHER\nJede beliebige „Jailbreak“-App kann auf ETZs Keychain-Daten zugreifen und deine Bitcoins stehlen. Bitte setze ETZ ausschließlich auf Geräten ohne Jailbreak ein.</string>
   <!-- Jailbreak warning title -->
   <string name="JailbreakWarnings.title">ACHTUNG</string>
   <!-- Wipe wallet button -->
@@ -283,7 +283,7 @@
   <!-- Location services disabled error -->
   <string name="LocationPlugin.disabled">Standortdienste sind deaktiviert</string>
   <!-- No permissions for location services -->
-  <string name="LocationPlugin.notAuthorized">Bread fehlt die Berechtigung, um auf die Standortdienste zuzugreifen.</string>
+  <string name="LocationPlugin.notAuthorized">ETZ fehlt die Berechtigung, um auf die Standortdienste zuzugreifen.</string>
   <!-- Wallet creation date prefix -->
   <string name="ManageWallet.creationDatePrefix">Du hast dein Wallet am %1$s erstellt</string>
   <!-- Manage wallet description text -->
@@ -369,7 +369,7 @@
   <!-- Transaction rejected prompt title -->
   <string name="Prompts.RecommendRescan.title">Transaktion abgelehnt</string>
   <!-- Share data prompt body -->
-  <string name="Prompts.ShareData.body">Tragen Sie zur Verbesserung von Bread bei, indem Sie Ihre anonymen Daten mit uns teilen</string>
+  <string name="Prompts.ShareData.body">Tragen Sie zur Verbesserung von ETZ bei, indem Sie Ihre anonymen Daten mit uns teilen</string>
   <!-- Share data prompt title -->
   <string name="Prompts.ShareData.title">Anonyme Daten teilen</string>
   <!-- Enable touch ID prompt body -->
@@ -383,11 +383,11 @@
   <!-- Button on fingerprint prompt so the user can enter their PIN instead -->
   <string name="Prompts.TouchId.usePin.android">PIN</string>
   <!-- Upgrade PIN prompt body. -->
-  <string name="Prompts.UpgradePin.body">Bread nutzt mittlerweile eine 6-stellige PIN. Hier antippen, um upzugraden.</string>
+  <string name="Prompts.UpgradePin.body">ETZ nutzt mittlerweile eine 6-stellige PIN. Hier antippen, um upzugraden.</string>
   <!-- Upgrade PIN prompt title. -->
   <string name="Prompts.UpgradePin.title">PIN upgraden</string>
   <!-- Notifications will be added later but users can set their preferences now, which is why we specify "in the future". -->
-  <string name="PushNotifications.body">Schalten Sie Benachrichtigungen ein, um in Zukunft besondere Meldungen von Bread zu erhalten.</string>
+  <string name="PushNotifications.body">Schalten Sie Benachrichtigungen ein, um in Zukunft besondere Meldungen von ETZ zu erhalten.</string>
   <!-- Push notifications toggle switch label -->
   <string name="PushNotifications.label">Push-Benachrichtigungen</string>
   <!-- Push notifications are off label -->
@@ -417,7 +417,7 @@
   <!-- Enter paper key instruction -->
   <string name="RecoverWallet.instruction">Offlineschlüssel eingeben</string>
   <!-- Recover wallet intro -->
-  <string name="RecoverWallet.intro">Stelle dein Bread mithilfe deines Offlineschlüssels wieder her.</string>
+  <string name="RecoverWallet.intro">Stelle dein ETZ mithilfe deines Offlineschlüssels wieder her.</string>
   <!-- Invalid paper key message -->
   <string name="RecoverWallet.invalid">Der von dir eingegebene Offlineschlüssel ist ungültig. Bitte überprüfe nochmal jedes Wort und versuche es erneut.</string>
   <!-- Previous button accessibility label -->
@@ -445,7 +445,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20–45 Minuten</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">Wenn eine Transaktion im Bitcoin-Netzwerk, aber nicht in deinem Bread als abgeschlossen angezeigt wird.</string>
+  <string name="ReScan.body2">Wenn eine Transaktion im Bitcoin-Netzwerk, aber nicht in deinem ETZ als abgeschlossen angezeigt wird.</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">Sie erhalten wiederholt eine Fehlermeldung, dass Ihre Transaktion abgewiesen wurde.</string>
   <!-- Start Sync button label -->
@@ -473,17 +473,17 @@
   <!-- Security Center Info -->
   <string name="SecurityCenter.info">Aktiviere alle Sicherheitsfunktionen für maximalen Schutz.</string>
   <!-- Paper Key button description -->
-  <string name="SecurityCenter.paperKeyDescription">Die einzige Möglichkeit, wie du auf deine Bitcoins zugreifen kannst, falls du dein Smartphone verlierst oder wechselst.</string>
+  <string name="SecurityCenter.paperKeyDescription">Die einzige Möglichkeit, wie du auf deine ETZ zugreifen kannst, falls du dein Smartphone verlierst oder wechselst.</string>
   <!-- Paper Key button title -->
   <string name="SecurityCenter.paperKeyTitle">Offlineschlüssel</string>
   <!-- PIN button description -->
-  <string name="SecurityCenter.pinDescription">Schütze dein Bread vor nicht autorisierten Benutzern.</string>
+  <string name="SecurityCenter.pinDescription">Schütze dein ETZ vor nicht autorisierten Benutzern.</string>
   <!-- PIN button title -->
   <string name="SecurityCenter.pinTitle">6-stellige PIN</string>
   <!-- Security Center Title -->
   <string name="SecurityCenter.title">Sicherheits-Center</string>
   <!-- Touch ID button description -->
-  <string name="SecurityCenter.touchIdDescription">Eine praktische Möglichkeit, dein Bread zu entsperren und Geld bis zu einer festlegbaren Höchstgrenze zu versenden.</string>
+  <string name="SecurityCenter.touchIdDescription">Eine praktische Möglichkeit, dein ETZ zu entsperren und Geld bis zu einer festlegbaren Höchstgrenze zu versenden.</string>
   <!-- Touch ID button title -->
   <string name="SecurityCenter.touchIdTitle">Touch ID</string>
   <!-- Security center fingerprint authentication button -->
@@ -493,13 +493,13 @@
   <!-- Balance: $4.00 -->
   <string name="Send.balance">Guthaben: %1$s</string>
   <!-- Instructions how to allow the camera access for the app -->
-  <string name="Send.cameraUnavailabeMessage.android">Erlauben Sie den Kamerazugriff unter „Einstellungen” &gt; „Apps” &gt; „Bread” &gt; „Berechtigungen”</string>
+  <string name="Send.cameraUnavailabeMessage.android">Erlauben Sie den Kamerazugriff unter „Einstellungen” &gt; „Apps” &gt; „ETZ” &gt; „Berechtigungen”</string>
   <!-- Permission required to access camera -->
-  <string name="Send.cameraUnavailabeTitle.android">Bread hat keine Berechtigung für Kamerazugriff</string>
+  <string name="Send.cameraUnavailabeTitle.android">ETZ hat keine Berechtigung für Kamerazugriff</string>
   <!-- Camera not allowed message -->
   <string name="Send.cameraunavailableMessage">Rufe die Einstellungen auf, um den Zugriff auf die Kamera zu erlauben.</string>
   <!-- Camera not allowed alert title -->
-  <string name="Send.cameraUnavailableTitle">Bread darf nicht auf die Kamera zugreifen</string>
+  <string name="Send.cameraUnavailableTitle">ETZ darf nicht auf die Kamera zugreifen</string>
   <!-- Warning when sending to self. -->
   <string name="Send.containsAddress">Das Ziel ist deine eigene Adresse. Du kannst nichts an dich selbst senden.</string>
   <!-- Could not create transaction alert title -->
@@ -580,8 +580,8 @@
   <string name="Settings.currencySettings">Währungseinstellungen</string>
   <!-- Join Early access label -->
   <string name="Settings.earlyAccess">Zum Early Access anmelden</string>
-  <!-- Are you enjoying bread alert message body -->
-  <string name="Settings.enjoying">Gefällt dir Bread?</string>
+  <!-- Are you enjoying ETZ alert message body -->
+  <string name="Settings.enjoying">Gefällt dir ETZ?</string>
   <!-- Face ID spending limit label -->
   <string name="Settings.faceIdLimit">Face ID Ausgabenlimit</string>
   <!-- Redeem the funds stored on this private key. -->
@@ -611,7 +611,7 @@
   <!-- Unlink/delete your wallet from the current device. -->
   <string name="Settings.wipe">Verknüpfung mit diesem Gerät aufheben</string>
   <!-- Share data view body -->
-  <string name="ShareData.body">Hilf dabei, Bread zu verbessern, indem du uns deine Nutzungsdaten anonym übermittelst. Hiervon sind sämtliche Finanzinformationen ausgeschlossen. Wir respektieren deine finanzielle Privatsphäre.</string>
+  <string name="ShareData.body">Hilf dabei, ETZ zu verbessern, indem du uns deine Nutzungsdaten anonym übermittelst. Hiervon sind sämtliche Finanzinformationen ausgeschlossen. Wir respektieren deine finanzielle Privatsphäre.</string>
   <!-- Share data header -->
   <string name="ShareData.header">Nutzungsdaten übermitteln?</string>
   <!-- Share data switch label. -->
@@ -619,7 +619,7 @@
   <!-- button label -->
   <string name="StartPaperPhrase.againButtonTitle">Offlineschlüssel erneut notieren</string>
   <!-- Paper key explanation text. -->
-  <string name="StartPaperPhrase.body">Dein Offlineschlüssel ist die einzige Möglichkeit, dein Bread wiederherzustellen, falls du dein Smartphone verlierst, austauscht, es gestohlen wird oder kaputtgeht.\n\nHierfür zeigen wir dir eine Liste von Wörtern an, damit du sie dir auf ein Stück Papier notieren kannst, das es sicher aufzubewahren gilt.</string>
+  <string name="StartPaperPhrase.body">Dein Offlineschlüssel ist die einzige Möglichkeit, dein ETZ wiederherzustellen, falls du dein Smartphone verlierst, austauscht, es gestohlen wird oder kaputtgeht.\n\nHierfür zeigen wir dir eine Liste von Wörtern an, damit du sie dir auf ein Stück Papier notieren kannst, das es sicher aufzubewahren gilt.</string>
   <!-- button label -->
   <string name="StartPaperPhrase.buttonTitle">Offlineschlüssel notieren</string>
   <!-- Argument is date -->
@@ -627,7 +627,7 @@
   <!-- button label -->
   <string name="StartViewController.createButton">Neue Geldbörse erstellen</string>
   <!-- Start view message -->
-  <string name="StartViewController.message">Die sicherste Option zur Nutzung von Bitcoin.</string>
+  <string name="StartViewController.message">Die sicherste Option zur Nutzung von ETZ.</string>
   <!-- Recover your wallet from a backup -->
   <string name="StartViewController.recoverButton">Geldbörse wiederherstellen</string>
   <!-- Syncing view connectiong state header text -->
@@ -667,14 +667,14 @@
   <!-- Fingerprint Is Not Setup -->
   <string name="TouchIdSettings.disabledWarning.title.android">Fingerabdruck-Authentifizierung nicht aktiviert</string>
   <!-- Touch Id screen label -->
-  <string name="TouchIdSettings.label">Nutze deinen Fingerabdruck, um dein Bread zu entsperren und Geld bis zu einer festlegbaren Höchstgrenze zu versenden.</string>
+  <string name="TouchIdSettings.label">Nutze deinen Fingerabdruck, um dein ETZ zu entsperren und Geld bis zu einer festlegbaren Höchstgrenze zu versenden.</string>
   <!-- Link Text (see TouchIdSettings.customizeText) -->
   <string name="TouchIdSettings.linkText">Bildschirm für Touch-ID-Ausgabenmaximum</string>
   <!-- Spending Limit: b100,000 ($100) -->
   <string name="TouchIdSettings.spendingLimit">Ausgabelimit: %1$s  (%2$s)</string>
   <!-- Touch id switch label. -->
-  <string name="TouchIdSettings.switchLabel">Touch ID für Bread aktivieren</string>
-  <!-- Enable fingerprint for this wallet called Bread -->
+  <string name="TouchIdSettings.switchLabel">Touch ID für ETZ aktivieren</string>
+  <!-- Enable fingerprint for this wallet called ETZ -->
   <string name="TouchIdSettings.switchLabel.android">Fingerabdruck-Authentifizierung aktivieren</string>
   <!-- Touch ID settings view title -->
   <string name="TouchIdSettings.title">Touch ID</string>
@@ -724,7 +724,7 @@
   <string name="Transaction.sentTo">gesendet an %1$s</string>
   <!-- eg. Starting balance: $50.00 -->
   <string name="Transaction.starting">Startguthaben: %1$s</string>
-  <!-- e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) -->
+  <!-- e.g. "[The money you paid was a] Fee for token transfer: ETZ" (ETZ is the token that was transfered) -->
   <string name="Transaction.tokenTransfer">Gebühr für Token-Übertragung: %1$s</string>
   <!-- Waiting to be confirmed string -->
   <string name="Transaction.waiting">Bestätigung ausstehend. Einige Händler fordern eine Bestätigung, um Transaktionen abzuschließen. Voraussichtliche Dauer: 1–2 Stunden.</string>
@@ -833,7 +833,7 @@
   <!-- Instruction to touch the sensor for fingerprint authentication -->
   <string name="UnlockScreen.touchIdInstructions.android">Sensor berühren</string>
   <!-- TouchID prompt text -->
-  <string name="UnlockScreen.touchIdPrompt">Entsperre dein Bread.</string>
+  <string name="UnlockScreen.touchIdPrompt">Entsperre dein ETZ.</string>
   <!-- Device authentication body -->
   <string name="UnlockScreen.touchIdPrompt.android">Bitte entsperren Sie Ihr Android-Gerät, um fortzufahren.</string>
   <!-- Unlock with TouchID accessibility label -->
@@ -843,9 +843,9 @@
   <!-- Wallet unlocked message -->
   <string name="UnlockScreen.unlocked">Wallet entsperrt</string>
   <!-- Update PIN caption text -->
-  <string name="UpdatePin.caption">Merke dir diese PIN. Falls du sie vergisst, kannst du nicht mehr auf deine Bitcoins zugreifen.</string>
+  <string name="UpdatePin.caption">Merke dir diese PIN. Falls du sie vergisst, kannst du nicht mehr auf deine ETZ zugreifen.</string>
   <!-- PIN creation info. -->
-  <string name="UpdatePin.createInstruction">Deine PIN wird verwendet, um dein Bread zu entsperren und Geld zu versenden.</string>
+  <string name="UpdatePin.createInstruction">Deine PIN wird verwendet, um dein ETZ zu entsperren und Geld zu versenden.</string>
   <!-- Update PIN title -->
   <string name="UpdatePin.createTitle">PIN festlegen</string>
   <!-- Update PIN title -->
@@ -879,7 +879,7 @@
   <!-- Authorize transaction with touch id message -->
   <string name="VerifyPin.touchIdMessage">Diese Transaktion genehmigen</string>
   <!-- 'No wallet' warning for watch app -->
-  <string name="Watch.noWalletWarning">Öffne die Bread-iPhone-App, um dein Wallet einzurichten.</string>
+  <string name="Watch.noWalletWarning">Öffne die ETZ-iPhone-App, um dein Wallet einzurichten.</string>
   <!-- Dismiss button label -->
   <string name="Webview.dismiss">Verwerfen</string>
   <!-- Webview loading error message -->
@@ -887,9 +887,9 @@
   <!-- Updating webview message -->
   <string name="Webview.updating">Aktualisierung läuft …</string>
   <!-- Welcome screen text. (?) will be replaced with the help icon users should look for. -->
-  <string name="Welcome.body">Breadwallet heißt jetzt Bread und hat ein brandneues Erscheinungsbild sowie einige neue Funktionen.\n\nWenn Sie Hilfe benötigen, halten Sie Ausschau nach dem (?), das auf den meisten Bildschirm oben rechts zu finden ist.</string>
+  <string name="Welcome.body">ETZwallet heißt jetzt ETZ und hat ein brandneues Erscheinungsbild sowie einige neue Funktionen.\n\nWenn Sie Hilfe benötigen, halten Sie Ausschau nach dem (?), das auf den meisten Bildschirm oben rechts zu finden ist.</string>
   <!-- Top title of welcome screen -->
-  <string name="Welcome.title">Willkommen bei Bread!</string>
+  <string name="Welcome.title">Willkommen bei ETZ!</string>
   <!-- Wipe wallet alert message -->
   <string name="WipeWallet.alertMessage">Sind Sie sicher, dass Sie dieses Wallet löschen möchten?</string>
   <!-- Wipe wallet alert title -->
@@ -903,7 +903,7 @@
   <!-- Instructions for unlinking the wallet -->
   <string name="WipeWallet.startMessage">Heben Sie die Verknüpfung Ihres Wallets auf, um es von diesem Gerät zu entfernen. Sobald die Verknüpfung dieses Wallets entfernt ist, können Sie ein neues Wallet anlegen oder ein anderes Wallet auf diesem Gerät wiederherstellen.</string>
   <!-- Start wipe wallet view warning -->
-  <string name="WipeWallet.startWarning">Sie werden von diesem Gerät aus keinen Zugriff auf Ihr aktuelles Bread-Wallet mehr haben. Der Saldo verbleibt auf dem Satz.</string>
+  <string name="WipeWallet.startWarning">Sie werden von diesem Gerät aus keinen Zugriff auf Ihr aktuelles ETZ-Wallet mehr haben. Der Saldo verbleibt auf dem Satz.</string>
   <!-- Unlink this wallet from this device. -->
   <string name="WipeWallet.title">Verknüpfung des Wallets aufheben</string>
   <!-- Wipe wallet button title -->

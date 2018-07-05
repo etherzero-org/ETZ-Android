@@ -9,7 +9,7 @@ import com.breadwallet.R;
 import com.breadwallet.presenter.activities.UpdatePinActivity;
 import com.breadwallet.presenter.activities.intro.WriteDownActivity;
 import com.breadwallet.presenter.activities.settings.FingerprintActivity;
-import com.breadwallet.presenter.activities.settings.ShareDataActivity;
+//import com.breadwallet.presenter.activities.settings.ShareDataActivity;
 import com.breadwallet.tools.security.BRKeyStore;
 import com.breadwallet.tools.threads.executor.BRExecutor;
 import com.breadwallet.tools.util.Utils;
@@ -19,7 +19,7 @@ import com.breadwallet.wallet.abstracts.BaseWalletManager;
 import static com.breadwallet.tools.manager.PromptManager.PromptItem.FINGER_PRINT;
 import static com.breadwallet.tools.manager.PromptManager.PromptItem.PAPER_KEY;
 import static com.breadwallet.tools.manager.PromptManager.PromptItem.RECOMMEND_RESCAN;
-import static com.breadwallet.tools.manager.PromptManager.PromptItem.SHARE_DATA;
+//import static com.breadwallet.tools.manager.PromptManager.PromptItem.SHARE_DATA;
 import static com.breadwallet.tools.manager.PromptManager.PromptItem.UPGRADE_PIN;
 
 /**
@@ -64,7 +64,7 @@ public class PromptManager {
         UPGRADE_PIN,
         RECOMMEND_RESCAN,
         NO_PASSCODE,
-        SHARE_DATA
+//        SHARE_DATA
     }
 
     public class PromptInfo {
@@ -94,8 +94,9 @@ public class PromptManager {
             case RECOMMEND_RESCAN:
                 BaseWalletManager wallet = WalletsMaster.getInstance(app).getCurrentWallet(app);
                 return wallet != null && BRSharedPrefs.getScanRecommended(app, wallet.getIso());
-            case SHARE_DATA:
-                return !BRSharedPrefs.getShareData(app) && !BRSharedPrefs.getPromptDismissed(app, "shareData");
+//            case SHARE_DATA:
+//                return null;
+//                return !BRSharedPrefs.getShareData(app) && !BRSharedPrefs.getPromptDismissed(app, "shareData");
 
         }
         return false;
@@ -106,7 +107,7 @@ public class PromptManager {
         if (shouldPrompt(app, UPGRADE_PIN)) return UPGRADE_PIN;
         if (shouldPrompt(app, PAPER_KEY)) return PAPER_KEY;
         if (shouldPrompt(app, FINGER_PRINT)) return FINGER_PRINT;
-        if (shouldPrompt(app, SHARE_DATA)) return SHARE_DATA;
+//        if (shouldPrompt(app, SHARE_DATA)) return SHARE_DATA;
         return null;
     }
 
@@ -154,20 +155,22 @@ public class PromptManager {
                         });
                     }
                 });
-            case SHARE_DATA:
-                return new PromptInfo(app.getString(R.string.Prompts_ShareData_title), app.getString(R.string.Prompts_ShareData_body), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(app, ShareDataActivity.class);
-                                app.startActivity(intent);
-                                app.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                            }
-                        });
-                    }
-                });
+//            case SHARE_DATA:
+                    //共享匿名数据
+//                return null;
+//                return new PromptInfo(app.getString(R.string.Prompts_ShareData_title), app.getString(R.string.Prompts_ShareData_body), new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                Intent intent = new Intent(app, ShareDataActivity.class);
+//                                app.startActivity(intent);
+//                                app.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+//                            }
+//                        });
+//                    }
+//                });
 
         }
         return null;
@@ -194,8 +197,9 @@ public class PromptManager {
                 return "recommendRescanPrompt";
             case NO_PASSCODE:
                 return "noPasscodePrompt";
-            case SHARE_DATA:
-                return "shareDataPrompt";
+//            case SHARE_DATA:
+//                return  null;
+//                return "shareDataPrompt";
 
         }
         return null;

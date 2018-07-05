@@ -371,7 +371,10 @@ public class SendManager {
         String formattedAmount = CurrencyUtils.getFormattedAmount(ctx, iso, wm.getFiatForSmallestCrypto(ctx, amount, null));
         String formattedFee = CurrencyUtils.getFormattedAmount(ctx, iso, wm.getFiatForSmallestCrypto(ctx, feeForTx, null));
         String formattedTotal = CurrencyUtils.getFormattedAmount(ctx, iso, wm.getFiatForSmallestCrypto(ctx, amount, null));//total
-
+//        Log.i(TAG, "createConfirmation: formattedFee==="+formattedFee);
+//        Log.i(TAG, "createConfirmation: iso==="+iso);
+//        Log.i(TAG, "createConfirmation: feeForTx==="+feeForTx);
+//        Log.i(TAG, "createConfirmation: iso222==="+wm.getFiatForSmallestCrypto(ctx, feeForTx, null));
         boolean isErc20 = WalletsMaster.getInstance(ctx).isIsoErc20(ctx, wm.getIso());
 
         if (isErc20) {
@@ -386,7 +389,7 @@ public class SendManager {
 
         String line2 = ctx.getString(R.string.Confirmation_amountLabel) + " " + formattedCryptoAmount + " (" + formattedAmount + ")\n";
 //        String line3 = ctx.getString(R.string.Confirmation_feeLabel) + " " + formattedCryptoFee + " (" + formattedFee + ")\n";//网络费用
-        String line3 = ctx.getString(R.string.Confirmation_feeLabel) + " " + "0.00" + " (" + "0.00" + ")\n";//网络费用
+        String line3 = ctx.getString(R.string.Confirmation_feeLabel) + " " + "0.00" + " (" + formattedFee + ")\n";//网络费用
         String line4 = ctx.getString(R.string.Confirmation_totalLabel) + " " + formattedCryptoTotal + " (" + formattedTotal + ")";//总费用
         String line5 = Utils.isNullOrEmpty(request.message) ? "" : "\n\n" + request.message;
 

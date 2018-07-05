@@ -35,7 +35,7 @@
   <!-- Error alert title -->
   <string name="Alert.error">Fel</string>
   <!-- Keystore error -->
-  <string name="Alert.keystore.generic.android">Det har uppstått ett problem med KeyStore till Android OS. Kontakta support@breadwallet.com</string>
+  <string name="Alert.keystore.generic.android">Det har uppstått ett problem med KeyStore till Android OS. Kontakta support@etherzero.org</string>
   <!-- KeyStore error, keys are invalidated -->
   <string name="Alert.keystore.invalidated.android">Dina krypterade Bread-uppgifter har nyligen ogiltigförklarats på grund av att Androids skärmlås inaktiverades.</string>
   <!-- Keystore error title -->

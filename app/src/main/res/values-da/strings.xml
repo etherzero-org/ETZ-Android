@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <!-- App name -->
-  <string name="About.appName.android">Bread</string>
+  <string name="About.appName.android">ETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">Blog</string>
   <!-- About screen footer -->
-  <string name="About.footer">Lavet af det globale Bread hold. Version %1$s</string>
+  <string name="About.footer">Lavet af det globale ETZ hold. Version %1$s</string>
   <!-- Privay Policy button label -->
   <string name="About.privacy">Privatlivspolitik</string>
   <!-- About screen reddit label -->
@@ -17,7 +17,7 @@
   <!-- About screen twitter label -->
   <string name="About.twitter">Twitter</string>
   <!-- About screen wallet ID label -->
-  <string name="About.walletID">BRD Rewards ID</string>
+  <string name="About.walletID">ETZ Rewards ID</string>
   <!-- Close modal button accessibility label -->
   <string name="AccessibilityLabels.close">Luk</string>
   <!-- Support center accessibiliy label -->
@@ -29,15 +29,15 @@
   <!-- Loading Wallet Message -->
   <string name="Account.loadingMessage">Indlæser pung</string>
   <!-- Default wallet name -->
-  <string name="AccountHeader.defaultWalletName">Mit Bread</string>
+  <string name="AccountHeader.defaultWalletName">Mit ETZ</string>
   <!-- Third party keyboard warning -->
   <string name="Alert.customKeyboard.android">Det ser ud til at du bruger et tastatur fra en tredjepart, som kan optage det du skriver og stjæle din Paper Key. Skift til standard Android-tastaturet for ekstra beskyttelse.</string>
   <!-- Error alert title -->
   <string name="Alert.error">Fejl</string>
   <!-- Keystore error -->
-  <string name="Alert.keystore.generic.android">Der er et problem med din Android OS keystore, kontakt venligst support@breadwallet.com</string>
+  <string name="Alert.keystore.generic.android">Der er et problem med din Android OS keystore, kontakt venligst support@etherzero.org</string>
   <!-- KeyStore error, keys are invalidated -->
-  <string name="Alert.keystore.invalidated.android">Dine Bread-krypterede data blev for nyligt ugyldiggjort, eftersom din Android skærmlås blev deaktiveret.</string>
+  <string name="Alert.keystore.invalidated.android">Dine ETZ-krypterede data blev for nyligt ugyldiggjort, eftersom din Android skærmlås blev deaktiveret.</string>
   <!-- Keystore error title -->
   <string name="Alert.keystore.title.android">Android KeyStore fejl</string>
   <!-- No internet alert message -->
@@ -63,11 +63,11 @@
   <!-- Fingerprint was recognized by the scanner -->
   <string name="Alerts.touchIdSucceeded.android">Fingeraftryk genkendt</string>
   <!-- Tell the user where they can enable permissions to access device storage. -->
-  <string name="Android.allowFileSystemAccess">Aktiver lagringstilladelse i din enheds indstillinger: \"Indstillinger\" &gt; \"Apps\" &gt; \"BRD\" &gt; \"Tilladelser\".</string>
+  <string name="Android.allowFileSystemAccess">Aktiver lagringstilladelse i din enheds indstillinger: \"Indstillinger\" &gt; \"Apps\" &gt; \"ETZ\" &gt; \"Tilladelser\".</string>
   <!-- The "home" screen is the name of the top level menu for the app. -->
   <string name="Android.BCH.welcome.message">Du kan få adgang til enhver BCH i din pung via hjemskærmen.</string>
-  <string name="Android.BCH.welcome.title">BRD understøtter nu Bitcoin Cash!</string>
-  <string name="Android.screenAlteringMessage">BRD fungerer ikke korrekt medmindre apps der ændrer skærmbilledet (så som Twilight) er deaktiveret.</string>
+  <string name="Android.BCH.welcome.title">ETZ understøtter nu Bitcoin Cash!</string>
+  <string name="Android.screenAlteringMessage">ETZ fungerer ikke korrekt medmindre apps der ændrer skærmbilledet (så som Twilight) er deaktiveret.</string>
   <!-- An app that alters the screen ("screen-altering app") has been detected. -->
   <string name="Android.screenAlteringTitle">Der er fundet en app der ændrer skærmbilledet</string>
   <!-- JSON Serialization error message -->
@@ -99,7 +99,7 @@
   <!-- Approve button label -->
   <string name="BitID.approve">Godkend</string>
   <!-- <sitename> is requesting authentication using your bitcoin wallet -->
-  <string name="BitID.authenticationRequest">%1$s anmoder om godkendelse ved hjælp af din bitcoin-wallet</string>
+  <string name="BitID.authenticationRequest">%1$s anmoder om godkendelse ved hjælp af din ETZ-wallet</string>
   <!-- Deny button label -->
   <string name="BitID.deny">Afvis</string>
   <!-- BitID error alert title -->
@@ -183,7 +183,7 @@
   <!-- Email unavailable alert title -->
   <string name="ErrorMessages.emailUnavailableTitle">E-mail utilgængelig</string>
   <!-- Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters) -->
-  <string name="ErrorMessages.loopingLockScreen.android">Bread kan ikke godkendes grundet en fejl i din version af Android. [Tryk her for flere oplysninger.]</string>
+  <string name="ErrorMessages.loopingLockScreen.android">ETZ kan ikke godkendes grundet en fejl i din version af Android. [Tryk her for flere oplysninger.]</string>
   <!-- Messaging unavailable alert title -->
   <string name="ErrorMessages.messagingUnavailableMessage">Denne enhed er ikke konfigureret til at sende beskeder.</string>
   <!-- Messaging unavailable alert title -->
@@ -193,11 +193,11 @@
   <!-- You can customize your Face ID Spending Limit from the [menu] -->
   <string name="FaceIDSettings.customizeText">Du kan tilpasse din Face ID betalingsgrænse fra %1$s.</string>
   <!-- Face Id screen label -->
-  <string name="FaceIDSettings.label">Brug dit ansigt til at låse din BRD op, og send penge op til en fastsat grænse.</string>
+  <string name="FaceIDSettings.label">Brug dit ansigt til at låse din ETZ op, og send penge op til en fastsat grænse.</string>
   <!-- Title of the screen for setting the Face ID Spending Limit -->
   <string name="FaceIDSettings.linkText">Face ID betalingsgrænse-skærm</string>
-  <!-- Setting to turn on Face ID for BRD -->
-  <string name="FaceIDSettings.switchLabel">Aktiver Face ID for BRD</string>
+  <!-- Setting to turn on Face ID for ETZ -->
+  <string name="FaceIDSettings.switchLabel">Aktiver Face ID for ETZ</string>
   <!-- Face ID settings view title -->
   <string name="FaceIDSettings.title">Face ID</string>
   <!-- Instructions on how to turn on face id on the iPhone. Please ensure the name of the menu in this string matches the wording Apple uses in the iPhone menu. -->
@@ -247,13 +247,13 @@
   <!-- Caption for graphics -->
   <string name="Import.leftCaption">Privat nøgle</string>
   <!-- Import wallet intro screen message -->
-  <string name="Import.message">Private nøgler printes ofte på papir som en QR-kode og bruges til at opbevare midler offline. Indløs en privat nøgle for at overføre alle pengene den indeholder til din Bread, med en enkelt transaktion.</string>
+  <string name="Import.message">Private nøgler printes ofte på papir som en QR-kode og bruges til at opbevare midler offline. Indløs en privat nøgle for at overføre alle pengene den indeholder til din ETZ, med en enkelt transaktion.</string>
   <!-- Enter password alert view title -->
   <string name="Import.password">Denne private nøgle er beskyttet med et kodeord.</string>
   <!-- password textfield placeholder -->
   <string name="Import.passwordPlaceholder">adgangskode</string>
   <!-- Caption for graphics -->
-  <string name="Import.rightCaption">Din Bread pung</string>
+  <string name="Import.rightCaption">Din ETZ pung</string>
   <!-- Scan Private key button label -->
   <string name="Import.scan">Scan privat nøgle</string>
   <!-- Import wallet success alert title -->
@@ -273,9 +273,9 @@
   <!-- Ignore jailbreak warning button -->
   <string name="JailbreakWarnings.ignore">Ignorer</string>
   <!-- Jailbreak warning message -->
-  <string name="JailbreakWarnings.messageWithBalance">ENHEDENS SIKKERHED ER KOMPROMITTERET\n Enhver \'jailbreak\' app kan få adgang til Breads nøgledata og stjæle dine bitcoin! Ryd straks denne pung og gendan på en sikker enhed.</string>
+  <string name="JailbreakWarnings.messageWithBalance">ENHEDENS SIKKERHED ER KOMPROMITTERET\n Enhver \'jailbreak\' app kan få adgang til ETZs nøgledata og stjæle dine bitcoin! Ryd straks denne pung og gendan på en sikker enhed.</string>
   <!-- Jailbreak warning message -->
-  <string name="JailbreakWarnings.messageWithoutBalance">ENHEDENS SIKKERHED ER KOMPROMITTERET\n Enhver \'jailbreak\' app kan få adgang til Breads nøgledata og stjæle dine bitcoin. Brug kun Bread på en ikke jailbreaket enhed.</string>
+  <string name="JailbreakWarnings.messageWithoutBalance">ENHEDENS SIKKERHED ER KOMPROMITTERET\n Enhver \'jailbreak\' app kan få adgang til ETZs nøgledata og stjæle dine bitcoin. Brug kun ETZ på en ikke jailbreaket enhed.</string>
   <!-- Jailbreak warning title -->
   <string name="JailbreakWarnings.title">ADVARSEL</string>
   <!-- Wipe wallet button -->
@@ -283,7 +283,7 @@
   <!-- Location services disabled error -->
   <string name="LocationPlugin.disabled">Placeringstjenester er deaktiveret.</string>
   <!-- No permissions for location services -->
-  <string name="LocationPlugin.notAuthorized">Bread har ikke adgang til placeringstjenester.</string>
+  <string name="LocationPlugin.notAuthorized">ETZ har ikke adgang til placeringstjenester.</string>
   <!-- Wallet creation date prefix -->
   <string name="ManageWallet.creationDatePrefix">Du lavede din pung den %1$s</string>
   <!-- Manage wallet description text -->
@@ -369,7 +369,7 @@
   <!-- Transaction rejected prompt title -->
   <string name="Prompts.RecommendRescan.title">Transaktion afvist</string>
   <!-- Share data prompt body -->
-  <string name="Prompts.ShareData.body">Hjælp med at forbedre Bread ved at dele dine anonyme data med os</string>
+  <string name="Prompts.ShareData.body">Hjælp med at forbedre ETZ ved at dele dine anonyme data med os</string>
   <!-- Share data prompt title -->
   <string name="Prompts.ShareData.title">Del anonyme data</string>
   <!-- Enable touch ID prompt body -->
@@ -383,11 +383,11 @@
   <!-- Button on fingerprint prompt so the user can enter their PIN instead -->
   <string name="Prompts.TouchId.usePin.android">PIN</string>
   <!-- Upgrade PIN prompt body. -->
-  <string name="Prompts.UpgradePin.body">Bread er blevet opgraderet til at bruge en 6-cifret PIN. Tryk her for at opgradere.</string>
+  <string name="Prompts.UpgradePin.body">ETZ er blevet opgraderet til at bruge en 6-cifret PIN. Tryk her for at opgradere.</string>
   <!-- Upgrade PIN prompt title. -->
   <string name="Prompts.UpgradePin.title">Opgader PIN</string>
   <!-- Notifications will be added later but users can set their preferences now, which is why we specify "in the future". -->
-  <string name="PushNotifications.body">Slå notifikationer til for at modtage særlige meddelelser fra Bread i fremtiden.</string>
+  <string name="PushNotifications.body">Slå notifikationer til for at modtage særlige meddelelser fra ETZ i fremtiden.</string>
   <!-- Push notifications toggle switch label -->
   <string name="PushNotifications.label">Push notifikationer</string>
   <!-- Push notifications are off label -->
@@ -417,7 +417,7 @@
   <!-- Enter paper key instruction -->
   <string name="RecoverWallet.instruction">Indtast paper key</string>
   <!-- Recover wallet intro -->
-  <string name="RecoverWallet.intro">Gendan dit Bread med din paper key.</string>
+  <string name="RecoverWallet.intro">Gendan dit ETZ med din paper key.</string>
   <!-- Invalid paper key message -->
   <string name="RecoverWallet.invalid">Den paper key du indtastede er ugyldig. Dobbelttjek hvert ord og prøv igen.</string>
   <!-- Previous button accessibility label -->
@@ -445,7 +445,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 minutter</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">Hvis en transaktion vises som gennemført i bitcoin netværket, men ikke i dit Bread.</string>
+  <string name="ReScan.body2">Hvis en transaktion vises som gennemført i bitcoin netværket, men ikke i dit ETZ.</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">Du modtager gentagne gange en fejlmeddelelse om at din transaktion er blevet afvist.</string>
   <!-- Start Sync button label -->
@@ -473,11 +473,11 @@
   <!-- Security Center Info -->
   <string name="SecurityCenter.info">Aktiver alle sikkerhedsfunktioner for maksimal beskyttelse.</string>
   <!-- Paper Key button description -->
-  <string name="SecurityCenter.paperKeyDescription">Den eneste måde at få adgang til dine bitcoin på, hvis du mister eller opgraderer din telefon.</string>
+  <string name="SecurityCenter.paperKeyDescription">Den eneste måde at få adgang til dine ETZ på, hvis du mister eller opgraderer din telefon.</string>
   <!-- Paper Key button title -->
   <string name="SecurityCenter.paperKeyTitle">Paper key</string>
   <!-- PIN button description -->
-  <string name="SecurityCenter.pinDescription">Beskytter dit Bread mod uberettigede brugere.</string>
+  <string name="SecurityCenter.pinDescription">Beskytter dit ETZ mod uberettigede brugere.</string>
   <!-- PIN button title -->
   <string name="SecurityCenter.pinTitle">6-cifret PIN</string>
   <!-- Security Center Title -->
@@ -493,13 +493,13 @@
   <!-- Balance: $4.00 -->
   <string name="Send.balance">Balance: %1$s</string>
   <!-- Instructions how to allow the camera access for the app -->
-  <string name="Send.cameraUnavailabeMessage.android">Tillad adgang under \"Indstillinger\" &gt; \"Apps\" &gt; \"Bread\" &gt; \"Tilladelser\"</string>
+  <string name="Send.cameraUnavailabeMessage.android">Tillad adgang under \"Indstillinger\" &gt; \"Apps\" &gt; \"ETZ\" &gt; \"Tilladelser\"</string>
   <!-- Permission required to access camera -->
-  <string name="Send.cameraUnavailabeTitle.android">Bread har ikke tilladelse til at få adgang til kameraet</string>
+  <string name="Send.cameraUnavailabeTitle.android">ETZ har ikke tilladelse til at få adgang til kameraet</string>
   <!-- Camera not allowed message -->
   <string name="Send.cameraunavailableMessage">Gå til Indstillinger og giv adgang til kamera.</string>
   <!-- Camera not allowed alert title -->
-  <string name="Send.cameraUnavailableTitle">Bread har ikke adgang til kameraet</string>
+  <string name="Send.cameraUnavailableTitle">ETZ har ikke adgang til kameraet</string>
   <!-- Warning when sending to self. -->
   <string name="Send.containsAddress">Destinationen er din egen adresse. Du kan ikke sende til dig selv.</string>
   <!-- Could not create transaction alert title -->
@@ -580,8 +580,8 @@
   <string name="Settings.currencySettings">Valutaindstillinger</string>
   <!-- Join Early access label -->
   <string name="Settings.earlyAccess">Tilmeld dig Early Access</string>
-  <!-- Are you enjoying bread alert message body -->
-  <string name="Settings.enjoying">Nyder du Bread?</string>
+  <!-- Are you enjoying ETZ alert message body -->
+  <string name="Settings.enjoying">Nyder du ETZ?</string>
   <!-- Face ID spending limit label -->
   <string name="Settings.faceIdLimit">Face ID betalingsgrænse</string>
   <!-- Redeem the funds stored on this private key. -->
@@ -611,7 +611,7 @@
   <!-- Unlink/delete your wallet from the current device. -->
   <string name="Settings.wipe">Fjern link fra denne enhed</string>
   <!-- Share data view body -->
-  <string name="ShareData.body">Hjælp med at forbedre Bread ved at dele dine anonyme data med os. Dette inkluderer ikke finansielle oplysninger. Vi respekterer dit finansielle privatliv.</string>
+  <string name="ShareData.body">Hjælp med at forbedre ETZ ved at dele dine anonyme data med os. Dette inkluderer ikke finansielle oplysninger. Vi respekterer dit finansielle privatliv.</string>
   <!-- Share data header -->
   <string name="ShareData.header">Del data?</string>
   <!-- Share data switch label. -->
@@ -619,7 +619,7 @@
   <!-- button label -->
   <string name="StartPaperPhrase.againButtonTitle">Skriv paper key ned igen</string>
   <!-- Paper key explanation text. -->
-  <string name="StartPaperPhrase.body">Din paper key er den eneste måde at gendanne dit Bread på, hvis din telefon mistes, stjæles, går i stykker eller opgraderes.\n\nVi viser dig en liste over word du skal skrive ned på et papir, og holde sikkert.</string>
+  <string name="StartPaperPhrase.body">Din paper key er den eneste måde at gendanne dit ETZ på, hvis din telefon mistes, stjæles, går i stykker eller opgraderes.\n\nVi viser dig en liste over word du skal skrive ned på et papir, og holde sikkert.</string>
   <!-- button label -->
   <string name="StartPaperPhrase.buttonTitle">Skriv paper key ned</string>
   <!-- Argument is date -->
@@ -627,7 +627,7 @@
   <!-- button label -->
   <string name="StartViewController.createButton">Opret ny tegnebog</string>
   <!-- Start view message -->
-  <string name="StartViewController.message">Den mest sikre og trygge måde at bruge bitcoins på.</string>
+  <string name="StartViewController.message">Den mest sikre og trygge måde at bruge ETZ på.</string>
   <!-- Recover your wallet from a backup -->
   <string name="StartViewController.recoverButton">Gendan tegnebog</string>
   <!-- Syncing view connectiong state header text -->
@@ -667,14 +667,14 @@
   <!-- Fingerprint Is Not Setup -->
   <string name="TouchIdSettings.disabledWarning.title.android">Autentificering via fingeraftryk ikke aktiveret</string>
   <!-- Touch Id screen label -->
-  <string name="TouchIdSettings.label">Brug dit fingeraftryk til at låse op for dit Bread og sende penge op til en vis grænse.</string>
+  <string name="TouchIdSettings.label">Brug dit fingeraftryk til at låse op for dit ETZ og sende penge op til en vis grænse.</string>
   <!-- Link Text (see TouchIdSettings.customizeText) -->
   <string name="TouchIdSettings.linkText">Touch ID forbrugsgrænseside</string>
   <!-- Spending Limit: b100,000 ($100) -->
   <string name="TouchIdSettings.spendingLimit">Brugsgrænse: %1$s (%2$s)</string>
   <!-- Touch id switch label. -->
-  <string name="TouchIdSettings.switchLabel">Aktiver Touch ID til Bread</string>
-  <!-- Enable fingerprint for this wallet called Bread -->
+  <string name="TouchIdSettings.switchLabel">Aktiver Touch ID til ETZ</string>
+  <!-- Enable fingerprint for this wallet called ETZ -->
   <string name="TouchIdSettings.switchLabel.android">Aktiver autentificering via fingeraftryk</string>
   <!-- Touch ID settings view title -->
   <string name="TouchIdSettings.title">Touch ID</string>
@@ -724,7 +724,7 @@
   <string name="Transaction.sentTo">sendt til %1$s</string>
   <!-- eg. Starting balance: $50.00 -->
   <string name="Transaction.starting">Startbalance: %1$s</string>
-  <!-- e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) -->
+  <!-- e.g. "[The money you paid was a] Fee for token transfer: ETZ" (ETZ is the token that was transfered) -->
   <string name="Transaction.tokenTransfer">Gebyr for token-overførsel: %1$s</string>
   <!-- Waiting to be confirmed string -->
   <string name="Transaction.waiting">Venter på bekræftelse. Nogen forhandlere kræver bekræftelse for at gennemføre en transaktion. Anslået tid: 1-2 timer.</string>
@@ -833,7 +833,7 @@
   <!-- Instruction to touch the sensor for fingerprint authentication -->
   <string name="UnlockScreen.touchIdInstructions.android">Touch sensor</string>
   <!-- TouchID prompt text -->
-  <string name="UnlockScreen.touchIdPrompt">Lås op for dit Bread.</string>
+  <string name="UnlockScreen.touchIdPrompt">Lås op for dit ETZ.</string>
   <!-- Device authentication body -->
   <string name="UnlockScreen.touchIdPrompt.android">Lås op for din Android enhed for at fortsætte</string>
   <!-- Unlock with TouchID accessibility label -->
@@ -843,9 +843,9 @@
   <!-- Wallet unlocked message -->
   <string name="UnlockScreen.unlocked">Pung låst op</string>
   <!-- Update PIN caption text -->
-  <string name="UpdatePin.caption">Husk denne PIN. Hvis du glemmer den, vil du ikke kunne få adgang til dine bitcoin.</string>
+  <string name="UpdatePin.caption">Husk denne PIN. Hvis du glemmer den, vil du ikke kunne få adgang til dine ETZ.</string>
   <!-- PIN creation info. -->
-  <string name="UpdatePin.createInstruction">Din PIN bliver brugt til at låse op for dit Bread og sende penge.</string>
+  <string name="UpdatePin.createInstruction">Din PIN bliver brugt til at låse op for dit ETZ og sende penge.</string>
   <!-- Update PIN title -->
   <string name="UpdatePin.createTitle">Indstil PIN</string>
   <!-- Update PIN title -->
@@ -879,7 +879,7 @@
   <!-- Authorize transaction with touch id message -->
   <string name="VerifyPin.touchIdMessage">Godkend denne transaktion</string>
   <!-- 'No wallet' warning for watch app -->
-  <string name="Watch.noWalletWarning">Åben Bread iPhone appen for at konfigurere din pung.</string>
+  <string name="Watch.noWalletWarning">Åben ETZ iPhone appen for at konfigurere din pung.</string>
   <!-- Dismiss button label -->
   <string name="Webview.dismiss">Afvis</string>
   <!-- Webview loading error message -->
@@ -887,9 +887,9 @@
   <!-- Updating webview message -->
   <string name="Webview.updating">Opdaterer...</string>
   <!-- Welcome screen text. (?) will be replaced with the help icon users should look for. -->
-  <string name="Welcome.body">Breadwallet har skiftet navn til Bread med et helt nyt look og nogle nye funktioner.\n\nHvis du har brug for hjælp, led efter (?) øverst til højre på de fleste skærme.</string>
+  <string name="Welcome.body">ETZwallet har skiftet navn til ETZ med et helt nyt look og nogle nye funktioner.\n\nHvis du har brug for hjælp, led efter (?) øverst til højre på de fleste skærme.</string>
   <!-- Top title of welcome screen -->
-  <string name="Welcome.title">Velkommen til Bread!</string>
+  <string name="Welcome.title">Velkommen til ETZ!</string>
   <!-- Wipe wallet alert message -->
   <string name="WipeWallet.alertMessage">Er du sikker på at du vil slette denne wallet?</string>
   <!-- Wipe wallet alert title -->
@@ -903,7 +903,7 @@
   <!-- Instructions for unlinking the wallet -->
   <string name="WipeWallet.startMessage">Fjern link til pung for at fjerne den fra denne enhed. Når linket til denne pung er fjernet, kan du starte en ny pung eller gendanne en anden pung på denne enhed.</string>
   <!-- Start wipe wallet view warning -->
-  <string name="WipeWallet.startWarning">Du vil ikke længere være i stand til at få adgang til din nuværende Bread tegnebog fra denne enhed. Saldoen vil forblive på frasen.</string>
+  <string name="WipeWallet.startWarning">Du vil ikke længere være i stand til at få adgang til din nuværende ETZ tegnebog fra denne enhed. Saldoen vil forblive på frasen.</string>
   <!-- Unlink this wallet from this device. -->
   <string name="WipeWallet.title">Fjern link til pung</string>
   <!-- Wipe wallet button title -->

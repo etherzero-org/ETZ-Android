@@ -35,7 +35,7 @@
   <!-- Error alert title -->
   <string name="Alert.error">Error</string>
   <!-- Keystore error -->
-  <string name="Alert.keystore.generic.android">Er is een probleem met uw Android OS keystore, neem alstublieft contact op met support@breadwallet.com</string>
+  <string name="Alert.keystore.generic.android">Er is een probleem met uw Android OS keystore, neem alstublieft contact op met support@etherzero.org</string>
   <!-- KeyStore error, keys are invalidated -->
   <string name="Alert.keystore.invalidated.android">Uw door Bread geëncrypteerde data is onlangs ongeldig gemaakt omdat uw Android schermvergrendeling is uitgeschakeld.</string>
   <!-- Keystore error title -->

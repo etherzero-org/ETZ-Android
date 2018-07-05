@@ -168,9 +168,10 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
     public void hidePrompt() {
         mPromptCard.setVisibility(View.GONE);
         Log.e(TAG, "hidePrompt: " + mCurrentPrompt);
-        if (mCurrentPrompt == PromptManager.PromptItem.SHARE_DATA) {
-            BRSharedPrefs.putPromptDismissed(app, "shareData", true);
-        } else if (mCurrentPrompt == PromptManager.PromptItem.FINGER_PRINT) {
+//        if (mCurrentPrompt == PromptManager.PromptItem.SHARE_DATA) {
+//            BRSharedPrefs.putPromptDismissed(app, "shareData", true);
+//        }else
+         if (mCurrentPrompt == PromptManager.PromptItem.FINGER_PRINT) {
             BRSharedPrefs.putPromptDismissed(app, "fingerprint", true);
         }
         if (mCurrentPrompt != null)

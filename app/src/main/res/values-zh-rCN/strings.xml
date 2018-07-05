@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <!-- App name -->
-  <string name="About.appName.android">Bread</string>
+  <string name="About.appName.android">ETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">博客</string>
   <!-- About screen footer -->
-  <string name="About.footer">由全球 Bread 团队制作。版本%1$s</string>
+  <string name="About.footer">由全球 以太零 团队制作。版本%1$s</string>
   <!-- Privay Policy button label -->
   <string name="About.privacy">隐私政策</string>
   <!-- About screen reddit label -->
@@ -17,7 +17,7 @@
   <!-- About screen twitter label -->
   <string name="About.twitter">Twitter</string>
   <!-- About screen wallet ID label -->
-  <string name="About.walletID">BRD 奖励 ID</string>
+  <string name="About.walletID">ETZ 奖励 ID</string>
   <!-- Close modal button accessibility label -->
   <string name="AccessibilityLabels.close">关闭</string>
   <!-- Support center accessibiliy label -->
@@ -29,15 +29,15 @@
   <!-- Loading Wallet Message -->
   <string name="Account.loadingMessage">正在加载钱包</string>
   <!-- Default wallet name -->
-  <string name="AccountHeader.defaultWalletName">我的 Bread</string>
+  <string name="AccountHeader.defaultWalletName">我的 ETZ</string>
   <!-- Third party keyboard warning -->
   <string name="Alert.customKeyboard.android">看起来您正在使用第三方键盘，它可以记录您键入的内容并窃取您的密钥（Paper Key）。请切换到默认的安卓键盘以便获得额外保护。</string>
   <!-- Error alert title -->
   <string name="Alert.error">错误</string>
   <!-- Keystore error -->
-  <string name="Alert.keystore.generic.android">您的安卓操作系统密钥库存在问题，请联系support@breadwallet.com</string>
+  <string name="Alert.keystore.generic.android">您的安卓操作系统密钥库存在问题，请联系support@etherzero.org</string>
   <!-- KeyStore error, keys are invalidated -->
-  <string name="Alert.keystore.invalidated.android">您的 Bread 加密数据最近因为您的安卓系统屏幕锁定被禁用而失效。</string>
+  <string name="Alert.keystore.invalidated.android">您的 ETZ 加密数据最近因为您的安卓系统屏幕锁定被禁用而失效。</string>
   <!-- Keystore error title -->
   <string name="Alert.keystore.title.android">安卓系统密钥库错误</string>
   <!-- No internet alert message -->
@@ -63,11 +63,11 @@
   <!-- Fingerprint was recognized by the scanner -->
   <string name="Alerts.touchIdSucceeded.android">已识别指纹</string>
   <!-- Tell the user where they can enable permissions to access device storage. -->
-  <string name="Android.allowFileSystemAccess">请在您的设备设置中启用存储空间使用权限：“设置” &gt; “应用” &gt; “BRD” &gt; “权限”。</string>
+  <string name="Android.allowFileSystemAccess">请在您的设备设置中启用存储空间使用权限：“设置” &gt; “应用” &gt; “ETZ” &gt; “权限”。</string>
   <!-- The "home" screen is the name of the top level menu for the app. -->
   <string name="Android.BCH.welcome.message">您钱包中的任何比特币现金 (BCH) 均可通过主屏幕访问。</string>
-  <string name="Android.BCH.welcome.title">BRD 现已支持比特币现金！</string>
-  <string name="Android.screenAlteringMessage">您应禁用屏幕更改应用（如 Twilight），否则 BRD 将无法正常工作。</string>
+  <string name="Android.BCH.welcome.title">ETZ 现已支持比特币现金！</string>
+  <string name="Android.screenAlteringMessage">您应禁用屏幕更改应用（如 Twilight），否则 ETZ 将无法正常工作。</string>
   <!-- An app that alters the screen ("screen-altering app") has been detected. -->
   <string name="Android.screenAlteringTitle">检测到屏幕更改应用</string>
   <!-- JSON Serialization error message -->
@@ -99,7 +99,7 @@
   <!-- Approve button label -->
   <string name="BitID.approve">批准</string>
   <!-- <sitename> is requesting authentication using your bitcoin wallet -->
-  <string name="BitID.authenticationRequest">%1$s 正使用您的比特币钱包请求验证</string>
+  <string name="BitID.authenticationRequest">%1$s 正使用您的ETZ钱包请求验证</string>
   <!-- Deny button label -->
   <string name="BitID.deny">拒绝</string>
   <!-- BitID error alert title -->
@@ -183,7 +183,7 @@
   <!-- Email unavailable alert title -->
   <string name="ErrorMessages.emailUnavailableTitle">电子邮箱不可用</string>
   <!-- Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters) -->
-  <string name="ErrorMessages.loopingLockScreen.android">由于您的 Android 版本错误，Bread 无法验证。[Please tap here for more information.]</string>
+  <string name="ErrorMessages.loopingLockScreen.android">由于您的 Android 版本错误，ETZ 无法验证。[Please tap here for more information.]</string>
   <!-- Messaging unavailable alert title -->
   <string name="ErrorMessages.messagingUnavailableMessage">本设备未被配置来发送消息。</string>
   <!-- Messaging unavailable alert title -->
@@ -193,11 +193,11 @@
   <!-- You can customize your Face ID Spending Limit from the [menu] -->
   <string name="FaceIDSettings.customizeText">您可以在 %1$s 自定义面部识别支出限额。</string>
   <!-- Face Id screen label -->
-  <string name="FaceIDSettings.label">使用面部识别解锁 BRD，在设置的限额内汇款。</string>
+  <string name="FaceIDSettings.label">使用面部识别解锁 ETZ，在设置的限额内汇款。</string>
   <!-- Title of the screen for setting the Face ID Spending Limit -->
   <string name="FaceIDSettings.linkText">面部识别支出限额页</string>
-  <!-- Setting to turn on Face ID for BRD -->
-  <string name="FaceIDSettings.switchLabel">为 BRD 启用面部识别</string>
+  <!-- Setting to turn on Face ID for ETZ -->
+  <string name="FaceIDSettings.switchLabel">为 ETZ 启用面部识别</string>
   <!-- Face ID settings view title -->
   <string name="FaceIDSettings.title">面部识别</string>
   <!-- Instructions on how to turn on face id on the iPhone. Please ensure the name of the menu in this string matches the wording Apple uses in the iPhone menu. -->
@@ -247,13 +247,13 @@
   <!-- Caption for graphics -->
   <string name="Import.leftCaption">私钥</string>
   <!-- Import wallet intro screen message -->
-  <string name="Import.message">私钥通常以 QR 码形式打印在纸上，用于离线存储资金。 兑换私钥，用一笔交易将其控制的全部资金转入 Bread。</string>
+  <string name="Import.message">私钥通常以 QR 码形式打印在纸上，用于离线存储资金。 兑换私钥，用一笔交易将其控制的全部资金转入 ETZ。</string>
   <!-- Enter password alert view title -->
   <string name="Import.password">本私钥受到密码保护。</string>
   <!-- password textfield placeholder -->
   <string name="Import.passwordPlaceholder">密码</string>
   <!-- Caption for graphics -->
-  <string name="Import.rightCaption">您的 Bread 钱包</string>
+  <string name="Import.rightCaption">您的 ETZ 钱包</string>
   <!-- Scan Private key button label -->
   <string name="Import.scan">扫描私钥</string>
   <!-- Import wallet success alert title -->
@@ -273,9 +273,9 @@
   <!-- Ignore jailbreak warning button -->
   <string name="JailbreakWarnings.ignore">忽略</string>
   <!-- Jailbreak warning message -->
-  <string name="JailbreakWarnings.messageWithBalance">设备安全性受损\n任何\'越狱\'应用都可能访问 Bread 的密钥链数据并盗取您的比特币！立即擦除这个钱包并在一台安全设备上进行恢复。</string>
+  <string name="JailbreakWarnings.messageWithBalance">设备安全性受损\n任何\'越狱\'应用都可能访问 ETZ 的密钥链数据并盗取您的比特币！立即擦除这个钱包并在一台安全设备上进行恢复。</string>
   <!-- Jailbreak warning message -->
-  <string name="JailbreakWarnings.messageWithoutBalance">设备安全性受损\n任何\'越狱\'应用都可能访问 Bread 的密钥链数据并盗取您的比特币！请您仅在未越狱设备上使用 Bread 。</string>
+  <string name="JailbreakWarnings.messageWithoutBalance">设备安全性受损\n任何\'越狱\'应用都可能访问 ETZ 的密钥链数据并盗取您的比特币！请您仅在未越狱设备上使用 ETZ 。</string>
   <!-- Jailbreak warning title -->
   <string name="JailbreakWarnings.title">警告</string>
   <!-- Wipe wallet button -->
@@ -283,7 +283,7 @@
   <!-- Location services disabled error -->
   <string name="LocationPlugin.disabled">位置服务被禁用。</string>
   <!-- No permissions for location services -->
-  <string name="LocationPlugin.notAuthorized">Bread 无权限访问位置服务。</string>
+  <string name="LocationPlugin.notAuthorized">ETZ 无权限访问位置服务。</string>
   <!-- Wallet creation date prefix -->
   <string name="ManageWallet.creationDatePrefix">您在%1$s上创建了您的钱包</string>
   <!-- Manage wallet description text -->
@@ -369,7 +369,7 @@
   <!-- Transaction rejected prompt title -->
   <string name="Prompts.RecommendRescan.title">交易被拒</string>
   <!-- Share data prompt body -->
-  <string name="Prompts.ShareData.body">与我们分享您的匿名数据来帮助改善 Bread。</string>
+  <string name="Prompts.ShareData.body">与我们分享您的匿名数据来帮助改善 ETZ。</string>
   <!-- Share data prompt title -->
   <string name="Prompts.ShareData.title">分享匿名数据</string>
   <!-- Enable touch ID prompt body -->
@@ -383,11 +383,11 @@
   <!-- Button on fingerprint prompt so the user can enter their PIN instead -->
   <string name="Prompts.TouchId.usePin.android">密码</string>
   <!-- Upgrade PIN prompt body. -->
-  <string name="Prompts.UpgradePin.body">Bread 已升级到使用 6 位 PIN。点击此处升级。</string>
+  <string name="Prompts.UpgradePin.body">ETZ 已升级到使用 6 位 PIN。点击此处升级。</string>
   <!-- Upgrade PIN prompt title. -->
   <string name="Prompts.UpgradePin.title">升级 PIN</string>
   <!-- Notifications will be added later but users can set their preferences now, which is why we specify "in the future". -->
-  <string name="PushNotifications.body">打开推送通知，以便将来从 Bread 接收特殊消息。</string>
+  <string name="PushNotifications.body">打开推送通知，以便将来从 ETZ 接收特殊消息。</string>
   <!-- Push notifications toggle switch label -->
   <string name="PushNotifications.label">推送通知</string>
   <!-- Push notifications are off label -->
@@ -417,7 +417,7 @@
   <!-- Enter paper key instruction -->
   <string name="RecoverWallet.instruction">输入纸键</string>
   <!-- Recover wallet intro -->
-  <string name="RecoverWallet.intro">用您的纸键恢复您的 Bread。</string>
+  <string name="RecoverWallet.intro">用您的纸键恢复您的 ETZ。</string>
   <!-- Invalid paper key message -->
   <string name="RecoverWallet.invalid">您输入的纸键无效。请仔细检查每个单词并重试。</string>
   <!-- Previous button accessibility label -->
@@ -445,7 +445,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 分钟</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">如果某次交易在比特币网络上显示为已完成，却不在您的 Bread 里。</string>
+  <string name="ReScan.body2">如果某次交易在以太坊网络上显示为已完成，却不在您的 ETZ 里。</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">你反复得到交易被拒绝的出错信息。</string>
   <!-- Start Sync button label -->
@@ -473,17 +473,17 @@
   <!-- Security Center Info -->
   <string name="SecurityCenter.info">启用所有安全功能以获得最大保护。</string>
   <!-- Paper Key button description -->
-  <string name="SecurityCenter.paperKeyDescription">若您丢失或升级您的手机，访问您的比特币的唯一方法。</string>
+  <string name="SecurityCenter.paperKeyDescription">若您丢失或升级您的手机，访问您的以太零的唯一方法。</string>
   <!-- Paper Key button title -->
   <string name="SecurityCenter.paperKeyTitle">纸键</string>
   <!-- PIN button description -->
-  <string name="SecurityCenter.pinDescription">保护您的 Bread 免遭未授权用户盗用。</string>
+  <string name="SecurityCenter.pinDescription">保护您的 ETZ 免遭未授权用户盗用。</string>
   <!-- PIN button title -->
   <string name="SecurityCenter.pinTitle">6 位 PIN</string>
   <!-- Security Center Title -->
   <string name="SecurityCenter.title">安全中心</string>
   <!-- Touch ID button description -->
-  <string name="SecurityCenter.touchIdDescription">方便地解锁 Bread，在设定限额下汇钱。</string>
+  <string name="SecurityCenter.touchIdDescription">方便地解锁 ETZ，在设定限额下汇钱。</string>
   <!-- Touch ID button title -->
   <string name="SecurityCenter.touchIdTitle">触摸 ID</string>
   <!-- Security center fingerprint authentication button -->
@@ -493,13 +493,13 @@
   <!-- Balance: $4.00 -->
   <string name="Send.balance">余额：%1$s</string>
   <!-- Instructions how to allow the camera access for the app -->
-  <string name="Send.cameraUnavailabeMessage.android">在“设置”&gt;“应用”&gt;“Bread”&gt;“权限”中允许访问相机</string>
+  <string name="Send.cameraUnavailabeMessage.android">在“设置”&gt;“应用”&gt;“ETZ”&gt;“权限”中允许访问相机</string>
   <!-- Permission required to access camera -->
-  <string name="Send.cameraUnavailabeTitle.android">Bread 没有访问相机的权限</string>
+  <string name="Send.cameraUnavailabeTitle.android">ETZ 没有访问相机的权限</string>
   <!-- Camera not allowed message -->
   <string name="Send.cameraunavailableMessage">前往“设置”以允许访问照相机。</string>
   <!-- Camera not allowed alert title -->
-  <string name="Send.cameraUnavailableTitle">Bread 不允许访问照相机</string>
+  <string name="Send.cameraUnavailableTitle">ETZ 不允许访问照相机</string>
   <!-- Warning when sending to self. -->
   <string name="Send.containsAddress">目标是您自己的地址。您不能发送给您自己。</string>
   <!-- Could not create transaction alert title -->
@@ -579,8 +579,8 @@
   <string name="Settings.currencySettings">货币设置</string>
   <!-- Join Early access label -->
   <string name="Settings.earlyAccess">加入早期访问</string>
-  <!-- Are you enjoying bread alert message body -->
-  <string name="Settings.enjoying">您喜欢 Bread 吗？</string>
+  <!-- Are you enjoying ETZ alert message body -->
+  <string name="Settings.enjoying">您喜欢 ETZ 吗？</string>
   <!-- Face ID spending limit label -->
   <string name="Settings.faceIdLimit">面部识别支出限额</string>
   <!-- Redeem the funds stored on this private key. -->
@@ -610,7 +610,7 @@
   <!-- Unlink/delete your wallet from the current device. -->
   <string name="Settings.wipe">取消与此设备的链接</string>
   <!-- Share data view body -->
-  <string name="ShareData.body">同我们分享您的匿名数据来帮助改善 Bread。这不包括任何财务信息。我们尊重您的财务隐私。</string>
+  <string name="ShareData.body">同我们分享您的匿名数据来帮助改善 ETZ。这不包括任何财务信息。我们尊重您的财务隐私。</string>
   <!-- Share data header -->
   <string name="ShareData.header">共享数据？</string>
   <!-- Share data switch label. -->
@@ -618,7 +618,7 @@
   <!-- button label -->
   <string name="StartPaperPhrase.againButtonTitle">再次书写纸键</string>
   <!-- Paper key explanation text. -->
-  <string name="StartPaperPhrase.body">如果您的手机丢失、被盗、损坏或升级，纸上密钥是恢复 Bread 的唯一方法。\n\n\n我们将向您显示一张单词表，请将其写在纸上并保存在安全的地方。</string>
+  <string name="StartPaperPhrase.body">如果您的手机丢失、被盗、损坏或升级，纸上密钥是恢复 ETZ 的唯一方法。\n\n\n我们将向您显示一张单词表，请将其写在纸上并保存在安全的地方。</string>
   <!-- button label -->
   <string name="StartPaperPhrase.buttonTitle">写下纸键</string>
   <!-- Argument is date -->
@@ -626,7 +626,7 @@
   <!-- button label -->
   <string name="StartViewController.createButton">创建新钱包</string>
   <!-- Start view message -->
-  <string name="StartViewController.message">使用比特币最安全且最可靠的方式。</string>
+  <string name="StartViewController.message">使用以太零最安全且最可靠的方式。</string>
   <!-- Recover your wallet from a backup -->
   <string name="StartViewController.recoverButton">恢复钱包</string>
   <!-- Syncing view connectiong state header text -->
@@ -666,14 +666,14 @@
   <!-- Fingerprint Is Not Setup -->
   <string name="TouchIdSettings.disabledWarning.title.android">指纹认证未启用</string>
   <!-- Touch Id screen label -->
-  <string name="TouchIdSettings.label">请用指纹解锁 Bread 并在设定限额下汇钱。</string>
+  <string name="TouchIdSettings.label">请用指纹解锁 ETZ 并在设定限额下汇钱。</string>
   <!-- Link Text (see TouchIdSettings.customizeText) -->
   <string name="TouchIdSettings.linkText">Touch ID 支出限额屏幕</string>
   <!-- Spending Limit: b100,000 ($100) -->
   <string name="TouchIdSettings.spendingLimit">支出限制：%1$s (%2$s)</string>
   <!-- Touch id switch label. -->
-  <string name="TouchIdSettings.switchLabel">针对 Bread 启用触摸 ID</string>
-  <!-- Enable fingerprint for this wallet called Bread -->
+  <string name="TouchIdSettings.switchLabel">针对 ETZ 启用触摸 ID</string>
+  <!-- Enable fingerprint for this wallet called ETZ -->
   <string name="TouchIdSettings.switchLabel.android">指纹认证</string>
   <!-- Touch ID settings view title -->
   <string name="TouchIdSettings.title">触摸 ID</string>
@@ -723,7 +723,7 @@
   <string name="Transaction.sentTo">已发送至 %1$s</string>
   <!-- eg. Starting balance: $50.00 -->
   <string name="Transaction.starting">期初余额：%1$s</string>
-  <!-- e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) -->
+  <!-- e.g. "[The money you paid was a] Fee for token transfer: ETZ" (ETZ is the token that was transfered) -->
   <string name="Transaction.tokenTransfer">代币转让费用： %1$s</string>
   <!-- Waiting to be confirmed string -->
   <string name="Transaction.waiting">等待确认中。部分商家需要进行确认以完成交易。预估时间：1-2 小时。</string>
@@ -832,7 +832,7 @@
   <!-- Instruction to touch the sensor for fingerprint authentication -->
   <string name="UnlockScreen.touchIdInstructions.android">触控感应器</string>
   <!-- TouchID prompt text -->
-  <string name="UnlockScreen.touchIdPrompt">解锁您的 Bread。</string>
+  <string name="UnlockScreen.touchIdPrompt">解锁您的 ETZ。</string>
   <!-- Device authentication body -->
   <string name="UnlockScreen.touchIdPrompt.android">请解锁您的安卓设备以便继续。</string>
   <!-- Unlock with TouchID accessibility label -->
@@ -842,9 +842,9 @@
   <!-- Wallet unlocked message -->
   <string name="UnlockScreen.unlocked">钱包已解锁</string>
   <!-- Update PIN caption text -->
-  <string name="UpdatePin.caption">请牢记此 PIN 码。如果您忘记，您将无法访问您的比特币。</string>
+  <string name="UpdatePin.caption">请牢记此 PIN 码。如果您忘记，您将无法访问您的以太零钱包。</string>
   <!-- PIN creation info. -->
-  <string name="UpdatePin.createInstruction">您的 PIN 码将用于解锁您的 Bread 并发送款项。</string>
+  <string name="UpdatePin.createInstruction">您的 PIN 码将用于解锁您的 ETZ 并发送款项。</string>
   <!-- Update PIN title -->
   <string name="UpdatePin.createTitle">设置 PIN 码</string>
   <!-- Update PIN title -->
@@ -878,7 +878,7 @@
   <!-- Authorize transaction with touch id message -->
   <string name="VerifyPin.touchIdMessage">授权此交易</string>
   <!-- 'No wallet' warning for watch app -->
-  <string name="Watch.noWalletWarning">打开 Bread iPhone app 以设置您的钱包。</string>
+  <string name="Watch.noWalletWarning">打开 ETZ iPhone app 以设置您的钱包。</string>
   <!-- Dismiss button label -->
   <string name="Webview.dismiss">忽略</string>
   <!-- Webview loading error message -->
@@ -886,9 +886,9 @@
   <!-- Updating webview message -->
   <string name="Webview.updating">正在更新...</string>
   <!-- Welcome screen text. (?) will be replaced with the help icon users should look for. -->
-  <string name="Welcome.body">Breadwallet 更名为 Bread， 并增加了全新的界面和功能。如果您需要帮助，请使用在大多数设备屏幕右上角的(?)</string>
+  <string name="Welcome.body">OpenETZ 更名为 ETZ， 并增加了全新的界面和功能。如果您需要帮助，请使用在大多数设备屏幕右上角的(?)</string>
   <!-- Top title of welcome screen -->
-  <string name="Welcome.title">欢迎使用bread！</string>
+  <string name="Welcome.title">欢迎使用ETZ！</string>
   <!-- Wipe wallet alert message -->
   <string name="WipeWallet.alertMessage">您确认要删除此钱包吗？</string>
   <!-- Wipe wallet alert title -->
@@ -902,7 +902,7 @@
   <!-- Instructions for unlinking the wallet -->
   <string name="WipeWallet.startMessage">取消钱包链接可将其从本设备移除。一旦钱包链接被取消，您可以启用新钱包，或恢复本设备的其他钱包。</string>
   <!-- Start wipe wallet view warning -->
-  <string name="WipeWallet.startWarning">您无法再在这个设备上使用现在的Bread钱包。 现在的一切资金都留在纸键上。</string>
+  <string name="WipeWallet.startWarning">您无法再在这个设备上使用现在的ETZ钱包。 现在的一切资金都留在纸键上。</string>
   <!-- Unlink this wallet from this device. -->
   <string name="WipeWallet.title">取消钱包的链接</string>
   <!-- Wipe wallet button title -->

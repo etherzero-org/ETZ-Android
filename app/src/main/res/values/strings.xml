@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <!-- App name -->
-    <string name="About.appName.android">Bread</string>
+    <string name="About.appName.android">ETZ</string>
     <!-- About screen blog label -->
     <string name="About.blog">Blog</string>
     <!-- About screen footer -->
@@ -35,9 +35,9 @@
     <!-- Error alert title -->
     <string name="Alert.error">Error</string>
     <!-- Keystore error -->
-    <string name="Alert.keystore.generic.android">There is a problem with your Android OS keystore, please contact support@breadwallet.com</string>
+    <string name="Alert.keystore.generic.android">There is a problem with your Android OS keystore, please contact support@etherzero.org</string>
     <!-- KeyStore error, keys are invalidated -->
-    <string name="Alert.keystore.invalidated.android">Your Bread encrypted data was recently invalidated because your Android lock screen was disabled.</string>
+    <string name="Alert.keystore.invalidated.android">Your ETZ encrypted data was recently invalidated because your Android lock screen was disabled.</string>
     <!-- Keystore error title -->
     <string name="Alert.keystore.title.android">Android KeyStore Error</string>
     <!-- No internet alert message -->
@@ -99,7 +99,7 @@
     <!-- Approve button label -->
     <string name="BitID.approve">Approve</string>
     <!-- <sitename> is requesting authentication using your bitcoin wallet -->
-    <string name="BitID.authenticationRequest">%1$s is requesting authentication using your bitcoin wallet</string>
+    <string name="BitID.authenticationRequest">%1$s is requesting authentication using your ETZ wallet</string>
     <!-- Deny button label -->
     <string name="BitID.deny">Deny</string>
     <!-- BitID error alert title -->
@@ -471,7 +471,7 @@
     <!-- Security Center Info -->
     <string name="SecurityCenter.info">Enable all security features for maximum protection.</string>
     <!-- Paper Key button description -->
-    <string name="SecurityCenter.paperKeyDescription">The only way to access your bitcoin if you lose or upgrade your phone.</string>
+    <string name="SecurityCenter.paperKeyDescription">The only way to access your ETZ if you lose or upgrade your phone.</string>
     <!-- Paper Key button title -->
     <string name="SecurityCenter.paperKeyTitle">Paper Key</string>
     <!-- PIN button description -->
@@ -491,9 +491,9 @@
     <!-- Balance: $4.00 -->
     <string name="Send.balance">Balance: %1$s</string>
     <!-- Instructions how to allow the camera access for the app -->
-    <string name="Send.cameraUnavailabeMessage.android">Allow camera access in \"Settings\" &gt; \"Apps\" &gt; \"Bread\" &gt; \"Permissions\"</string>
+    <string name="Send.cameraUnavailabeMessage.android">Allow camera access in \"Settings\" &gt; \"Apps\" &gt; \"ETZ\" &gt; \"Permissions\"</string>
     <!-- Permission required to access camera -->
-    <string name="Send.cameraUnavailabeTitle.android">Bread is not allowed to access the camera</string>
+    <string name="Send.cameraUnavailabeTitle.android">ETZ is not allowed to access the camera</string>
     <!-- Camera not allowed message -->
     <string name="Send.cameraunavailableMessage">Go to Settings to allow camera access.</string>
     <!-- Camera not allowed alert title -->
@@ -576,7 +576,7 @@
     <string name="Settings.currencySettings">Currency Settings</string>
     <!-- Join Early access label -->
     <string name="Settings.earlyAccess">Join Early Access</string>
-    <!-- Are you enjoying bread alert message body -->
+    <!-- Are you enjoying ETZ alert message body -->
     <string name="Settings.enjoying">Are you enjoying ETZ?</string>
     <!-- Face ID spending limit label -->
     <string name="Settings.faceIdLimit">Face ID Spending Limit</string>
@@ -672,7 +672,7 @@
     <string name="TouchIdSettings.spendingLimit">Spending limit: %1$s (%2$s)</string>
     <!-- Touch id switch label. -->
     <string name="TouchIdSettings.switchLabel">Enable Touch ID for ETZ</string>
-    <!-- Enable fingerprint for this wallet called Bread -->
+    <!-- Enable fingerprint for this wallet called ETZ -->
     <string name="TouchIdSettings.switchLabel.android">Enable Fingerprint Authentication</string>
     <!-- Touch ID settings view title -->
     <string name="TouchIdSettings.title">Touch ID</string>
@@ -885,7 +885,7 @@
     <!-- Updating webview message -->
     <string name="Webview.updating">Updating...</string>
     <!-- Welcome screen text. (?) will be replaced with the help icon users should look for. -->
-    <string name="Welcome.body">Breadwallet has changed its name to ETZ, with a brand new look and some new features.\n\nIf you need help, look for the (?) in the top right of most screens.</string>
+    <string name="Welcome.body">ETZwallet has changed its name to ETZ, with a brand new look and some new features.\n\nIf you need help, look for the (?) in the top right of most screens.</string>
     <!-- Top title of welcome screen -->
     <string name="Welcome.title">Welcome to ETZ!</string>
     <!-- Wipe wallet alert message -->

@@ -102,8 +102,8 @@ public class WalletsMaster {
             //添加钱包 及brd
 //            BREthereumWallet brdWallet = ethWallet.node.getWallet(ethWallet.node.tokenBRD);
 //            enabled.add(new TokenListMetaData.TokenInfo(brdWallet.getToken().getSymbol(), true, brdWallet.getToken().getAddress()));
-//            mTokenListMetaData = new TokenListMetaData(enabled, null);
-//            KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
+            mTokenListMetaData = new TokenListMetaData(enabled, null);
+            KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
         }
 
         for (TokenListMetaData.TokenInfo enabled : mTokenListMetaData.enabledCurrencies) {

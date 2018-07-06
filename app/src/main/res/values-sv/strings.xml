@@ -404,6 +404,7 @@
   <string name="Receive.request">Begär ett belopp</string>
   <!-- Share button label -->
   <string name="Receive.share">Dela</string>
+  <string name="Receive.copy">kopia</string>
   <!-- Share via text message (SMS) -->
   <string name="Receive.textButton">Textmeddelande</string>
   <!-- Receive modal title -->

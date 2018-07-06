@@ -79,8 +79,9 @@ public class FragmentRequestAmount extends Fragment {
     public LinearLayout signalLayout;
     private String mReceiveAddress;
     private BRButton shareButton;
-    private Button shareEmail;
-    private Button shareTextMessage;
+    private BRButton copyButton;
+//    private Button shareEmail;
+//    private Button shareTextMessage;
     private boolean shareButtonsShown = true;
     private String selectedIso;
     private Button isoButton;
@@ -119,8 +120,9 @@ public class FragmentRequestAmount extends Fragment {
         mAddress = rootView.findViewById(R.id.address_text);
         mQrImage = rootView.findViewById(R.id.qr_image);
         shareButton = rootView.findViewById(R.id.share_button);
-        shareEmail = rootView.findViewById(R.id.share_email);
-        shareTextMessage = rootView.findViewById(R.id.share_text);
+        copyButton = rootView.findViewById(R.id.copy_button);
+//        shareEmail = rootView.findViewById(R.id.share_email);
+//        shareTextMessage = rootView.findViewById(R.id.share_text);
         shareButtonsLayout = rootView.findViewById(R.id.share_buttons_layout);
         close = rootView.findViewById(R.id.close_button);
         keyboardIndex = signalLayout.indexOfChild(keyboardLayout);
@@ -205,22 +207,47 @@ public class FragmentRequestAmount extends Fragment {
         });
 
 
-        shareEmail.setOnClickListener(new View.OnClickListener() {
+//        shareEmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                removeCurrencySelector();
+//                if (!BRAnimator.isClickAllowed()) return;
+//                showKeyboard(false);
+//                BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
+//                Uri bitcoinUri = CryptoUriParser.createCryptoUrl(getActivity(), wm, wm.decorateAddress(mReceiveAddress),
+//                        getAmount(), null, null, null);
+//                QRUtils.share("mailto:", getActivity(), bitcoinUri.toString());
+//
+//            }
+//        });
+//        shareTextMessage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                removeCurrencySelector();
+//                if (!BRAnimator.isClickAllowed()) return;
+//                showKeyboard(false);
+//                BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
+//
+//                Uri bitcoinUri = CryptoUriParser.createCryptoUrl(getActivity(), wm, wm.decorateAddress(mReceiveAddress),
+//                        getAmount(), null, null, null);
+//                QRUtils.share("sms:", getActivity(), bitcoinUri.toString());
+//            }
+//        });
+        copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                removeCurrencySelector();
                 if (!BRAnimator.isClickAllowed()) return;
-                showKeyboard(false);
-                BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
-                Uri bitcoinUri = CryptoUriParser.createCryptoUrl(getActivity(), wm, wm.decorateAddress(mReceiveAddress),
-                        getAmount(), null, null, null);
-                QRUtils.share("mailto:", getActivity(), bitcoinUri.toString());
-
+                copyText();
             }
         });
-        shareTextMessage.setOnClickListener(new View.OnClickListener() {
+
+        shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                shareButtonsShown = !shareButtonsShown;
+//                showShareButtons(shareButtonsShown);
+//                showKeyboard(false);
                 removeCurrencySelector();
                 if (!BRAnimator.isClickAllowed()) return;
                 showKeyboard(false);
@@ -229,15 +256,7 @@ public class FragmentRequestAmount extends Fragment {
                 Uri bitcoinUri = CryptoUriParser.createCryptoUrl(getActivity(), wm, wm.decorateAddress(mReceiveAddress),
                         getAmount(), null, null, null);
                 QRUtils.share("sms:", getActivity(), bitcoinUri.toString());
-            }
-        });
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                shareButtonsShown = !shareButtonsShown;
-                showShareButtons(shareButtonsShown);
-                showKeyboard(false);
+
             }
         });
         mAddress.setOnClickListener(new View.OnClickListener() {

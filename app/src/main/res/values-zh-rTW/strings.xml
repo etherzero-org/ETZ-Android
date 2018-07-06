@@ -404,6 +404,7 @@
   <string name="Receive.request">要求帳戶</string>
   <!-- Share button label -->
   <string name="Receive.share">分享</string>
+  <string name="Receive.copy">複製</string>
   <!-- Share via text message (SMS) -->
   <string name="Receive.textButton">簡訊</string>
   <!-- Receive modal title -->

@@ -95,15 +95,16 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                 if (position >= mAdapter.getItemCount() || position < 0) return;
 
                 if (mAdapter.getItemViewType(position) == 0) {
+                    //交易记录页面
                     BRSharedPrefs.putCurrentWalletIso(HomeActivity.this, mAdapter.getItemAt(position).getIso());
                     Intent newIntent = new Intent(HomeActivity.this, WalletActivity.class);
                     startActivity(newIntent);
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                 } else {
+                    //添加钱包页面
                     Intent intent = new Intent(HomeActivity.this, AddWalletsActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-
                 }
             }
 

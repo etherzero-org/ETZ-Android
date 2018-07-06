@@ -70,8 +70,6 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
             return new AddWalletItemViewHolder(convertView);
 
         }
-
-
     }
 
     @Override
@@ -241,7 +239,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
             mTradePrice = view.findViewById(R.id.wallet_trade_price);
             mWalletBalanceFiat = view.findViewById(R.id.wallet_balance_fiat);
             mWalletBalanceCurrency = view.findViewById(R.id.wallet_balance_currency);
-            mParent = view.findViewById(R.id.wallet_card);
+            mParent = view.findViewById(R.id.wallet_card);//Home页面 添加
             mSyncingLabel = view.findViewById(R.id.syncing_label);
             mSyncingProgressBar = view.findViewById(R.id.sync_progress);
         }

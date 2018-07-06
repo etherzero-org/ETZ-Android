@@ -404,6 +404,7 @@
   <string name="Receive.request">Richiedi un Importo</string>
   <!-- Share button label -->
   <string name="Receive.share">Condividi</string>
+  <string name="Receive.copy">copia</string>
   <!-- Share via text message (SMS) -->
   <string name="Receive.textButton">SMS</string>
   <!-- Receive modal title -->

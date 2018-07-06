@@ -75,14 +75,14 @@ public class SettingsActivity extends BaseSettingsActivity {
 
         items.add(new BRSettingsItem(getString(R.string.Settings_wallet), "", null, true, 0));
         //钱包管理
-//        items.add(new BRSettingsItem(getString(R.string.TokenList_manageTitle), "", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(SettingsActivity.this, ManageWalletsActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-//            }
-//        }, false, R.drawable.chevron_right_light));
+        items.add(new BRSettingsItem(getString(R.string.TokenList_manageTitle), "", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, ManageWalletsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        }, false, R.drawable.chevron_right_light));
 
 
         items.add(new BRSettingsItem(getString(R.string.Settings_wipe), "", new View.OnClickListener() {
@@ -152,14 +152,14 @@ public class SettingsActivity extends BaseSettingsActivity {
                 }
             }, false, R.drawable.chevron_right_light));
 
-
-        items.add(new BRSettingsItem(getString(R.string.Tokens_Reset), "", new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                resetToDefaultCurrencies();
-            }
-        }, false, 0));
+        // 设置中  重置已添加的钱包
+//        items.add(new BRSettingsItem(getString(R.string.Tokens_Reset), "", new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                resetToDefaultCurrencies();
+//            }
+//        }, false, 0));
 
         items.add(new BRSettingsItem(getString(R.string.Settings_other), "", null, true, 0));
 

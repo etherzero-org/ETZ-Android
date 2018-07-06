@@ -63,9 +63,9 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
             TokenItem tokenItem = null;
             String tokenSymbol = mTokens.get(i).symbol;
 
-            if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("bch") &&
-                    !tokenSymbol.equalsIgnoreCase("eth") && !tokenSymbol.equalsIgnoreCase("brd")) {
-
+//            if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("bch") &&
+//                    !tokenSymbol.equalsIgnoreCase("eth") && !tokenSymbol.equalsIgnoreCase("brd")) {
+            if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("etz")) {
                 BREthereumToken tk = WalletEthManager.getInstance(this).node.lookupToken(info.contractAddress);
                 if (tk == null) {
                     BRReportsManager.reportBug(new NullPointerException("No token for contract: " + info.contractAddress));
@@ -76,13 +76,14 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
 
             } else if (tokenSymbol.equalsIgnoreCase("btc"))
                 tokenItem = new TokenItem(null, "BTC", "Bitcoin", null);
-
-            else if (tokenSymbol.equalsIgnoreCase("bch"))
-                tokenItem = new TokenItem(null, "BCH", "Bitcoin Cash", null);
-            else if (tokenSymbol.equalsIgnoreCase("eth"))
-                tokenItem = new TokenItem(null, "ETH", "Ethereum", null);
-            else if (tokenSymbol.equalsIgnoreCase("brd"))
-                tokenItem = new TokenItem(null, "BRD", "BRD", null);
+            else if (tokenSymbol.equalsIgnoreCase("etz"))
+                tokenItem = new TokenItem(null, "ETZ", "EtherZero", "@drawable/etz");
+//            else if (tokenSymbol.equalsIgnoreCase("bch"))
+//                tokenItem = new TokenItem(null, "BCH", "Bitcoin Cash", null);
+//            else if (tokenSymbol.equalsIgnoreCase("eth"))
+//                tokenItem = new TokenItem(null, "ETH", "Ethereum", null);
+//            else if (tokenSymbol.equalsIgnoreCase("brd"))
+//                tokenItem = new TokenItem(null, "BRD", "BRD", null);
 
 
             if (tokenItem != null) {

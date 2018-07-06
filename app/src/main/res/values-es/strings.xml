@@ -404,6 +404,7 @@
   <string name="Receive.request">Solicitar una cantidad</string>
   <!-- Share button label -->
   <string name="Receive.share">Compartir</string>
+  <string name="Receive.copy">Copia</string>
   <!-- Share via text message (SMS) -->
   <string name="Receive.textButton">Mensaje de texto</string>
   <!-- Receive modal title -->

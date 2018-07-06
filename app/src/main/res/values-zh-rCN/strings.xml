@@ -404,6 +404,7 @@
   <string name="Receive.request">申请金额</string>
   <!-- Share button label -->
   <string name="Receive.share">分享</string>
+  <string name="Receive.copy">复制</string>
   <!-- Share via text message (SMS) -->
   <string name="Receive.textButton">短信</string>
   <!-- Receive modal title -->

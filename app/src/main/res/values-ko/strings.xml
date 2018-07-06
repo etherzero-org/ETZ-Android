@@ -404,6 +404,7 @@
   <string name="Receive.request">금액 요청</string>
   <!-- Share button label -->
   <string name="Receive.share">공유</string>
+  <string name="Receive.copy">복사</string>
   <!-- Share via text message (SMS) -->
   <string name="Receive.textButton">문자 메시지</string>
   <!-- Receive modal title -->

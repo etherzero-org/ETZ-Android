@@ -404,6 +404,7 @@
   <string name="Receive.request">金額のリクエスト</string>
   <!-- Share button label -->
   <string name="Receive.share">シェアする</string>
+  <string name="Receive.copy">コピー</string>
   <!-- Share via text message (SMS) -->
   <string name="Receive.textButton">テキストメッセージ</string>
   <!-- Receive modal title -->

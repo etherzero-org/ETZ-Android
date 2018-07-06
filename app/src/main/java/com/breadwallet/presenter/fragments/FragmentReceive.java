@@ -81,8 +81,9 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
     private String mReceiveAddress;
     private View separator;
     private BRButton shareButton;
-    private Button shareEmail;
-    private Button shareTextMessage;
+    private BRButton copyButton;
+//    private Button shareEmail;
+//    private Button shareTextMessage;
     private Button requestButton;
     private BRLinearLayoutWithCaret shareButtonsLayout;
     private BRLinearLayoutWithCaret copiedLayout;
@@ -106,8 +107,9 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
         backgroundLayout = rootView.findViewById(R.id.background_layout);
         signalLayout = rootView.findViewById(R.id.signal_layout);
         shareButton = rootView.findViewById(R.id.share_button);
-        shareEmail = rootView.findViewById(R.id.share_email);
-        shareTextMessage = rootView.findViewById(R.id.share_text);
+        copyButton = rootView.findViewById(R.id.copy_button);
+//        shareEmail = rootView.findViewById(R.id.share_email);
+//        shareTextMessage = rootView.findViewById(R.id.share_text);
         shareButtonsLayout = rootView.findViewById(R.id.share_buttons_layout);
         copiedLayout = rootView.findViewById(R.id.copied_layout);
         requestButton = rootView.findViewById(R.id.request_button);
@@ -152,36 +154,54 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
 
 
     private void setListeners() {
-        shareEmail.setOnClickListener(new View.OnClickListener() {
+        //电子邮件分享
+//        shareEmail.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BaseWalletManager walletManager = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
+//                Uri cryptoUri = CryptoUriParser.createCryptoUrl(getActivity(), walletManager,
+//                        walletManager.decorateAddress(mReceiveAddress),
+//                        BigDecimal.ZERO, null, null, null);
+//                QRUtils.share("mailto:", getActivity(), cryptoUri.toString());
+//
+//
+//            }
+//        });
+        //短信
+//        shareTextMessage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BaseWalletManager walletManager = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
+//                Uri cryptoUri = CryptoUriParser.createCryptoUrl(getActivity(), walletManager,
+//                        walletManager.decorateAddress(mReceiveAddress),
+//                        BigDecimal.ZERO, null, null, null);
+//                QRUtils.share("sms:", getActivity(), cryptoUri.toString());
+//            }
+//        });
+        //复制按钮
+        copyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
-                BaseWalletManager walletManager = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
-                Uri cryptoUri = CryptoUriParser.createCryptoUrl(getActivity(), walletManager,
-                        walletManager.decorateAddress(mReceiveAddress),
-                        BigDecimal.ZERO, null, null, null);
-                QRUtils.share("mailto:", getActivity(), cryptoUri.toString());
-
-
+                copyText();
             }
         });
-        shareTextMessage.setOnClickListener(new View.OnClickListener() {
+        //分享按钮
+        shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                shareButtonsShown = !shareButtonsShown;
+//                showShareButtons(shareButtonsShown);
+
                 if (!BRAnimator.isClickAllowed()) return;
                 BaseWalletManager walletManager = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
                 Uri cryptoUri = CryptoUriParser.createCryptoUrl(getActivity(), walletManager,
                         walletManager.decorateAddress(mReceiveAddress),
                         BigDecimal.ZERO, null, null, null);
                 QRUtils.share("sms:", getActivity(), cryptoUri.toString());
-            }
-        });
-        shareButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                shareButtonsShown = !shareButtonsShown;
-                showShareButtons(shareButtonsShown);
             }
         });
         mAddress.setOnClickListener(new View.OnClickListener() {

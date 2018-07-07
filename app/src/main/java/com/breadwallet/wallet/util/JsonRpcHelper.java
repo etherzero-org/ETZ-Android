@@ -41,7 +41,7 @@ import static com.breadwallet.tools.adapter.CurAdapter.TAG;
  * THE SOFTWARE.
  */
 public class JsonRpcHelper {
-    private static final String BRD_ETH_RPC_ENDPOINT = BuildConfig.BITCOIN_TESTNET ? "/ethq/ropsten/proxy" : "/ethq/mainnet/proxy";
+//    private static final String BRD_ETH_RPC_ENDPOINT = BuildConfig.BITCOIN_TESTNET ? "/ethq/ropsten/proxy" : "/ethq/mainnet/proxy";
     private static final String BRD_ETH_TX_ENDPOINT = BuildConfig.BITCOIN_TESTNET ? "/ethq/ropsten/" : "/ethq/mainnet/";
     private static final String PROTOCOL = "https";
     public static final String METHOD = "method";
@@ -92,9 +92,11 @@ public class JsonRpcHelper {
 
     public static String getEthereumRpcUrl() {
 //        return PROTOCOL + "://" + BreadApp.HOST + JsonRpcHelper.BRD_ETH_RPC_ENDPOINT;
-        return "https://rpc.etherzero.org:443";
+        return PROTOCOL + "://" + "rpc.etherzero.org:443";
     }
 
+
+    //代币交易的url
     public static String createTokenTransactionsUrl(String address, String contractAddress) {
         return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT + "query?" + "module=account&action=tokenbalance"
                 + "&address=" + address + "&contractaddress=" + contractAddress;

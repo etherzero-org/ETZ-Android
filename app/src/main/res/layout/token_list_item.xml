@@ -12,7 +12,7 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="16dp" />
 
-    <com.breadwallet.presenter.customviews.BRText
+    <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/token_ticker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         android:textSize="20sp"
         app:customTFont="CircularPro-Bold.otf" />
 
-    <com.breadwallet.presenter.customviews.BRText
+    <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/token_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

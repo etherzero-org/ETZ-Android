@@ -1,10 +1,6 @@
 package com.platform.entities;
 
 
-import android.util.Log;
-
-import com.breadwallet.presenter.entities.TokenItem;
-
 import java.util.ArrayList;
 import java.util.List;
 

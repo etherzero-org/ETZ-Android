@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         testInstrumentationRunner = 'android.support.test.runner.AndroidJUnitRunner'
-        applicationId = 'com.breadwallet'
+        applicationId = 'com.etzwallet'
         minSdkVersion 23
         targetSdkVersion 27
         versionCode 1
@@ -54,7 +54,7 @@ android {
 
     productFlavors {
         brd {
-            applicationId = "com.breadwallet"
+            applicationId = "com.etzwallet"
             dimension "mode"
             resValue "string", "app_name", "BRD"
             buildConfigField "boolean", "BITCOIN_TESTNET", "false"
@@ -137,7 +137,7 @@ android {
     }
     sourceSets {
         main {
-            java.srcDirs = ['src/main/java', 'src/main/jni/breadwallet-core/Java/root', 'src/main/jni/breadwallet-core/ethereum/Java/root']
+            java.srcDirs = ['src/main/java', 'src/main/jni/etzwallet-core/Java/root', 'src/main/jni/etzwallet-core/ethereum/Java/root']
         }
     }
 }

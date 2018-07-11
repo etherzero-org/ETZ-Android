@@ -6,16 +6,16 @@ import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Base64;
 import android.util.Log;
 
-import com.breadwallet.core.BRCoreKey;
-import com.breadwallet.core.BRCoreMasterPubKey;
-import com.breadwallet.presenter.interfaces.BRAuthCompletion;
-import com.breadwallet.tools.manager.BRSharedPrefs;
-import com.breadwallet.tools.security.AuthManager;
-import com.breadwallet.tools.security.BRKeyStore;
-import com.breadwallet.tools.security.PostAuth;
-import com.breadwallet.tools.threads.executor.BRExecutor;
-import com.breadwallet.tools.util.BRConstants;
-import com.breadwallet.tools.util.Utils;
+import com.etzwallet.core.BRCoreKey;
+import com.etzwallet.core.BRCoreMasterPubKey;
+import com.etzwallet.presenter.interfaces.BRAuthCompletion;
+import com.etzwallet.tools.manager.BRSharedPrefs;
+import com.etzwallet.tools.security.AuthManager;
+import com.etzwallet.tools.security.BRKeyStore;
+import com.etzwallet.tools.security.PostAuth;
+import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.tools.util.BRConstants;
+import com.etzwallet.tools.util.Utils;
 import com.platform.APIClient;
 import com.platform.middlewares.plugins.WalletPlugin;
 
@@ -24,7 +24,6 @@ import junit.framework.Assert;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -39,7 +38,6 @@ import java.util.Map;
 
 import okhttp3.Request;
 import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 /**

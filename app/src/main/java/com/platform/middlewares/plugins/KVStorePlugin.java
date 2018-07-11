@@ -1,10 +1,9 @@
 package com.platform.middlewares.plugins;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.breadwallet.BreadApp;
+import com.etzwallet.BreadApp;
 import com.platform.APIClient;
 import com.platform.BRHTTPHelper;
 import com.platform.interfaces.Plugin;

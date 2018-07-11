@@ -12,7 +12,7 @@
                 android:fitsSystemWindows="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical"
-                tools:context="com.breadwallet.presenter.activities.WalletActivity">
+                tools:context="com.etzwallet.presenter.activities.WalletActivity">
 
     <LinearLayout
         android:id="@+id/toolbar_layout"
@@ -27,7 +27,7 @@
             android:id="@+id/tool_bar_flipper"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            tools:context="com.breadwallet.presenter.activities.CurrencyActivity">
+            tools:context="com.etzwallet.presenter.activities.CurrencyActivity">
 
 
             <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -51,7 +51,7 @@
                     android:clipToPadding="false">
 
 
-                    <com.breadwallet.presenter.customviews.BRText
+                    <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/currency_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/search_icon"/>
 
-                    <com.breadwallet.presenter.customviews.BRText
+                    <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/currency_usd_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -85,7 +85,7 @@
                         app:layout_constraintTop_toBottomOf="@id/currency_label"/>
 
 
-                    <com.breadwallet.presenter.customviews.BRText
+                    <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/balance_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
                         app:layout_constraintRight_toRightOf="parent"/>
 
 
-                    <com.breadwallet.presenter.customviews.BRText
+                    <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/balance_primary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                         app:layout_constraintRight_toLeftOf="@id/balance_primary"
                         app:layout_constraintVertical_bias="0.492"/>
 
-                    <com.breadwallet.presenter.customviews.BRText
+                    <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/balance_secondary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
 
             </android.support.v7.widget.Toolbar>
 
-            <com.breadwallet.presenter.customviews.BRSearchBar xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.etzwallet.presenter.customviews.BRSearchBar xmlns:app="http://schemas.android.com/apk/res-auto"
                                                                android:id="@+id/search_bar"
                                                                android:layout_width="match_parent"
                                                                android:layout_height="160dp"
@@ -175,7 +175,7 @@
                                                                app:contentInsetLeft="0dp"
                                                                app:contentInsetStart="0dp"/>
 
-            <com.breadwallet.presenter.customviews.BRNotificationBar xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.etzwallet.presenter.customviews.BRNotificationBar xmlns:app="http://schemas.android.com/apk/res-auto"
                                                                      android:id="@+id/notification_bar"
                                                                      android:layout_width="match_parent"
                                                                      android:layout_height="160dp"
@@ -214,7 +214,7 @@
             android:layout_marginEnd="10dp"
             android:orientation="vertical">
 
-            <com.breadwallet.presenter.customviews.BRText
+            <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/sync_status_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -224,7 +224,7 @@
                 android:textSize="14sp"
                 app:customTFont="CircularPro-Book.otf" />
 
-            <com.breadwallet.presenter.customviews.BRText
+            <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/syncing_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -287,7 +287,7 @@
         android:weightSum="2">
 
 
-        <com.breadwallet.presenter.customviews.BRButton
+        <com.etzwallet.presenter.customviews.BRButton
             android:id="@+id/send_button"
             android:layout_width="0dp"
             android:layout_height="65dp"
@@ -307,7 +307,7 @@
             app:isBreadButton="true"/>
 
 
-        <com.breadwallet.presenter.customviews.BRButton
+        <com.etzwallet.presenter.customviews.BRButton
             android:id="@+id/receive_button"
             android:layout_width="0dp"
             android:layout_height="65dp"

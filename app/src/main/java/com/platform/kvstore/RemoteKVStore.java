@@ -2,7 +2,7 @@ package com.platform.kvstore;
 
 import android.util.Log;
 
-import com.breadwallet.tools.util.Utils;
+import com.etzwallet.tools.util.Utils;
 import com.platform.APIClient;
 import com.platform.interfaces.KVStoreAdaptor;
 import com.platform.sqlite.KVItem;

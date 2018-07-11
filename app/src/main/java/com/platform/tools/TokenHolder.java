@@ -1,16 +1,10 @@
 package com.platform.tools;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.breadwallet.tools.security.BRKeyStore;
-import com.breadwallet.tools.util.Utils;
+import com.etzwallet.tools.security.BRKeyStore;
+import com.etzwallet.tools.util.Utils;
 import com.platform.APIClient;
-
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * BreadWallet

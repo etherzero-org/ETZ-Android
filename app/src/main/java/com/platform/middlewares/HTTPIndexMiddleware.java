@@ -1,13 +1,11 @@
 package com.platform.middlewares;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
-import com.breadwallet.BreadApp;
+import com.etzwallet.BreadApp;
 import com.platform.APIClient;
 import com.platform.BRHTTPHelper;
-import com.platform.HTTPServer;
 import com.platform.interfaces.Middleware;
 
 import junit.framework.Assert;

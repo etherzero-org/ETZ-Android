@@ -32,11 +32,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.breadwallet.BreadApp;
-import com.breadwallet.core.BRCoreKey;
-import com.breadwallet.tools.security.BRKeyStore;
-import com.breadwallet.tools.util.BRConstants;
-import com.breadwallet.tools.util.Utils;
+import com.etzwallet.BreadApp;
+import com.etzwallet.core.BRCoreKey;
+import com.etzwallet.tools.security.BRKeyStore;
+import com.etzwallet.tools.util.BRConstants;
+import com.etzwallet.tools.util.Utils;
 import com.platform.interfaces.KVStoreAdaptor;
 import com.platform.sqlite.KVItem;
 import com.platform.sqlite.PlatformSqliteHelper;

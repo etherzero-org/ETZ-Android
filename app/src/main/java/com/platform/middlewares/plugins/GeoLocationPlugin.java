@@ -9,10 +9,10 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
-import com.breadwallet.BreadApp;
-import com.breadwallet.tools.manager.BRSharedPrefs;
-import com.breadwallet.tools.threads.executor.BRExecutor;
-import com.breadwallet.tools.util.BRConstants;
+import com.etzwallet.BreadApp;
+import com.etzwallet.tools.manager.BRSharedPrefs;
+import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.tools.util.BRConstants;
 import com.platform.APIClient;
 import com.platform.BRHTTPHelper;
 import com.platform.GeoLocationManager;
@@ -23,8 +23,6 @@ import org.eclipse.jetty.continuation.ContinuationSupport;
 import org.eclipse.jetty.server.Request;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

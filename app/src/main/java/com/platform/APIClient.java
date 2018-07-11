@@ -8,18 +8,18 @@ import android.os.NetworkOnMainThreadException;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.breadwallet.BreadApp;
-import com.breadwallet.core.BRCoreKey;
-import com.breadwallet.presenter.activities.util.ActivityUTILS;
-import com.breadwallet.tools.crypto.Base58;
-import com.breadwallet.tools.manager.BRReportsManager;
-import com.breadwallet.tools.manager.BRSharedPrefs;
-import com.breadwallet.tools.crypto.CryptoHelper;
-import com.breadwallet.tools.security.BRKeyStore;
-import com.breadwallet.tools.threads.executor.BRExecutor;
-import com.breadwallet.tools.util.Utils;
-import com.breadwallet.wallet.WalletsMaster;
-import com.breadwallet.wallet.abstracts.BaseWalletManager;
+import com.etzwallet.BreadApp;
+import com.etzwallet.core.BRCoreKey;
+import com.etzwallet.presenter.activities.util.ActivityUTILS;
+import com.etzwallet.tools.crypto.Base58;
+import com.etzwallet.tools.manager.BRReportsManager;
+import com.etzwallet.tools.manager.BRSharedPrefs;
+import com.etzwallet.tools.crypto.CryptoHelper;
+import com.etzwallet.tools.security.BRKeyStore;
+import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.tools.util.Utils;
+import com.etzwallet.wallet.WalletsMaster;
+import com.etzwallet.wallet.abstracts.BaseWalletManager;
 import com.platform.kvstore.RemoteKVStore;
 import com.platform.kvstore.ReplicatedKVStore;
 import com.platform.tools.TokenHolder;
@@ -50,7 +50,7 @@ import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.breadwallet.tools.manager.BRApiManager.HEADER_WALLET_ID;
+import static com.etzwallet.tools.manager.BRApiManager.HEADER_WALLET_ID;
 import io.sigpipe.jbsdiff.InvalidHeaderException;
 import io.sigpipe.jbsdiff.ui.FileUI;
 import okhttp3.Interceptor;
@@ -64,7 +64,7 @@ import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSink;
 
-import static com.breadwallet.tools.util.BRCompressor.gZipExtract;
+import static com.etzwallet.tools.util.BRCompressor.gZipExtract;
 
 
 /**

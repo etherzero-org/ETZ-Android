@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import com.breadwallet.BreadApp;
-import com.breadwallet.tools.threads.executor.BRExecutor;
-import com.breadwallet.tools.util.Utils;
+import com.etzwallet.BreadApp;
+import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.tools.util.Utils;
 import com.platform.interfaces.Middleware;
 import com.platform.interfaces.Plugin;
 import com.platform.middlewares.APIProxy;

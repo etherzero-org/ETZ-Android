@@ -23,7 +23,7 @@
                 android:background="@drawable/ic_arrow_left"/>
 
 
-            <com.breadwallet.presenter.customviews.BRText
+            <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/add_wallets_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
 
     </View>
 
-    <com.breadwallet.presenter.customviews.BREdit
+    <com.etzwallet.presenter.customviews.BREdit
         android:id="@+id/search_edit"
         android:layout_width="match_parent"
         android:layout_height="40dp"

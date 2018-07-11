@@ -11,10 +11,10 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 
-import com.breadwallet.BreadApp;
-import com.breadwallet.tools.manager.BRReportsManager;
-import com.breadwallet.tools.threads.executor.BRExecutor;
-import com.breadwallet.tools.util.Utils;
+import com.etzwallet.BreadApp;
+import com.etzwallet.tools.manager.BRReportsManager;
+import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.tools.util.Utils;
 
 import org.eclipse.jetty.continuation.Continuation;
 import org.eclipse.jetty.server.Request;

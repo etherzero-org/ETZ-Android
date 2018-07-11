@@ -24,6 +24,10 @@ import com.platform.tools.KVStoreManager;
 
 import java.util.ArrayList;
 
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 public class AddWalletsActivity extends BRActivity {
 
 
@@ -94,15 +98,14 @@ public class AddWalletsActivity extends BRActivity {
             public void run() {
                 mTokens = WalletEthManager.getInstance(AddWalletsActivity.this).node.tokens;
 
-
                 for (BREthereumToken token : mTokens) {
-
+                    Log.i(TAG, "run: token===="+token);
                     TokenItem tokenItem = new TokenItem(token.getAddress(), token.getSymbol(), token.getName(), null);
+
                     if (!md.isCurrencyEnabled(tokenItem.symbol))
+
                         tokenItems.add(tokenItem);
-
                 }
-
 
             }
         });
@@ -112,7 +115,7 @@ public class AddWalletsActivity extends BRActivity {
             @Override
             public void onTokenAdded(TokenItem token) {
 
-                Log.d(TAG, "onTokenAdded, -> " + token.symbol);
+                Log.i(TAG, "onTokenAdded, -> " + token);
 
                 TokenListMetaData metaData = KVStoreManager.getInstance().getTokenListMetaData(AddWalletsActivity.this);
                 TokenListMetaData.TokenInfo item = new TokenListMetaData.TokenInfo(token.symbol, true, token.address);

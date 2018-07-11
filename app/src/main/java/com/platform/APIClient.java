@@ -214,7 +214,6 @@ public class APIClient {
                 .get()
                 .build();
         BRResponse response = sendRequest(request, true);
-
         return response.getBodyText();
     }
 
@@ -250,6 +249,9 @@ public class APIClient {
                     .header("Accept", "application/json")
                     .post(requestBody).build();
             BRResponse response = sendRequest(request, false);
+
+            Log.i(TAG, "getToken: response==="+response.getBodyText());
+
             if (Utils.isNullOrEmpty(response.getBodyText())) {
                 Log.e(TAG, "getToken: retrieving token failed");
                 return null;
@@ -341,6 +343,7 @@ public class APIClient {
             }
             request = request.newBuilder().header("User-agent", Utils.getAgentString(mContext, "OkHttp/3.4.1")).build();
             rawResponse = mHTTPClient.newCall(request).execute();
+            Log.i(TAG, "sendHttpRequest: rawResponse==="+rawResponse);
         } catch (IOException e) {
             Log.e(TAG, "sendRequest: ", e);
             return new Response.Builder().code(599).request(request)
@@ -349,6 +352,7 @@ public class APIClient {
         byte[] bytesBody = new byte[0];
         try {
             bytesBody = rawResponse.body().bytes();
+            Log.i(TAG, "sendHttpRequest: bytesBody=="+bytesBody);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -367,6 +371,7 @@ public class APIClient {
             }
             return createNewResponseWithBody(rawResponse, decompressed);
         } else {
+            Log.i(TAG, "sendHttpRequest: 6666==="+createNewResponseWithBody(rawResponse, bytesBody));
             return createNewResponseWithBody(rawResponse, bytesBody);
         }
 
@@ -986,7 +991,7 @@ public class APIClient {
         public void print() {
             String logText = String.format(Locale.getDefault(), "%s (%d)|%s|", url, code, getBodyText());
             if (isSuccessful())
-                Log.d(TAG, "BRResponse: " + logText);
+                Log.d(TAG, "BRResponse:111 " + logText);
             else Log.e(TAG, "BRResponse: " + logText);
         }
     }

@@ -657,6 +657,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
 
     @Override
     public void getBalance(final int wid, final String address, final int rid) {
+
         BREthereumWallet wallet = this.node.getWalletByIdentifier(wid);
         BREthereumToken token = wallet.getToken();
         if (null == token)
@@ -694,7 +695,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                             if (!Utils.isNullOrEmpty(jsonResult)) {
 
                                 JSONObject responseObject = new JSONObject(jsonResult);
-                                Log.d(TAG, "getBalance response -> " + responseObject.toString());
+                                Log.i(TAG, "getETZBalance" + responseObject.toString());
 
                                 if (responseObject.has(JsonRpcHelper.RESULT)) {
                                     String balance = responseObject.getString(JsonRpcHelper.RESULT);
@@ -727,6 +728,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
 
                 String ethRpcUrl = JsonRpcHelper.createTokenTransactionsUrl(address, contractAddress);
 
+                Log.i(TAG, "run: token balance url=="+ethRpcUrl);
 
                 final JSONObject payload = new JSONObject();
                 try {
@@ -735,12 +737,17 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         try {
                             if (!Utils.isNullOrEmpty(jsonResult)) {
                                 JSONObject responseObject = new JSONObject(jsonResult);
+
+                                Log.i(TAG, "onRpcRequestCompleted: responseObject==="+responseObject);
+                                Log.i(TAG, "onRpcRequestCompleted: responseObject==="+responseObject.toString());
+
+
 
                                 if (responseObject.has(JsonRpcHelper.RESULT)) {
                                     String balance = responseObject.getString(JsonRpcHelper.RESULT);
@@ -759,6 +766,8 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
             }
         });
     }
+
+
 
     @Override
     public void getGasPrice(final int wid, final int rid) {
@@ -1136,7 +1145,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
             @Override
             public void run() {
                 final String ethRpcUtl = JsonRpcHelper.createLogsUrl(address, contract, event);
-                Log.d(TAG, "getLogs: " + ethRpcUtl);
+                Log.i(TAG, "createLogsUrlgetLogs: " + ethRpcUtl);
                 final JSONObject payload = new JSONObject();
                 try {
                     payload.put(JsonRpcHelper.ID, String.valueOf(rid));
@@ -1145,7 +1154,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), ethRpcUtl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUtl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
 
@@ -1153,6 +1162,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                             try {
                                 // Convert response into JsonArray of logs
                                 JSONObject logs = new JSONObject(jsonResult);
+                                Log.i(TAG, "onRpcRequestCompleted: logs===="+logs);
                                 JSONArray logsArray = logs.getJSONArray(JsonRpcHelper.RESULT);
 
                                 // Iterate through the list of transactions and call node.announceTransaction()

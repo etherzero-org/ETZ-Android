@@ -119,10 +119,15 @@ public class WalletsMaster {
             } else if (enabled.symbol.equalsIgnoreCase("ETZ") && !isHidden) {
                 //ETH wallet
                 mWallets.add(ethWallet);
-            } else {
-                //add ERC20 wallet   home页不显示代币 brd
-//                WalletTokenManager tokenWallet = WalletTokenManager.getTokenWalletByIso(app, ethWallet, enabled.symbol);
-//                if (tokenWallet != null && !isHidden) mWallets.add(tokenWallet);
+            } else if(enabled.symbol.equalsIgnoreCase("BRD") && !isHidden){
+                //home页不显示代币 brd
+                Log.i(TAG, "updateWallets: enabled.symbol11==="+enabled.symbol);
+            }else{
+                //其他代币
+                Log.i(TAG, "updateWallets: enabled.symbol222==="+enabled.symbol);
+                WalletTokenManager tokenWallet = WalletTokenManager.getTokenWalletByIso(app, ethWallet, enabled.symbol);
+                if (tokenWallet != null && !isHidden) mWallets.add(tokenWallet);
+
             }
 
         }
@@ -152,6 +157,7 @@ public class WalletsMaster {
             return WalletBchManager.getInstance(app);
         if (iso.equalsIgnoreCase("ETZ"))
             return WalletEthManager.getInstance(app);
+
         else if (isIsoErc20(app, iso)) {
             return WalletTokenManager.getTokenWalletByIso(app, WalletEthManager.getInstance(app), iso);
         }

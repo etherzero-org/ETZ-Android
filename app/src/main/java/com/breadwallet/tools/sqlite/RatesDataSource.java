@@ -80,15 +80,17 @@ public class RatesDataSource implements BRDataSourceInterface {
             database.beginTransaction();
             int failed = 0;
             for (CurrencyEntity c : currencyEntities) {
+
                 ContentValues values = new ContentValues();
-                if (Utils.isNullOrEmpty(c.code) || Utils.isNullOrEmpty(c.name) || c.rate <= 0) {
-                    failed++;
-                    continue;
-                }
+//                if (Utils.isNullOrEmpty(c.code) || Utils.isNullOrEmpty(c.name) || c.rate <= 0) {
+//                    failed++;
+//                    continue;
+//                }
                 values.put(BRSQLiteHelper.CURRENCY_CODE, c.code);
                 values.put(BRSQLiteHelper.CURRENCY_NAME, c.name);
                 values.put(BRSQLiteHelper.CURRENCY_RATE, c.rate);
                 values.put(BRSQLiteHelper.CURRENCY_ISO, c.iso);
+                Log.i(TAG, "putCurrencies: c.iso===="+c.iso);
                 database.insertWithOnConflict(BRSQLiteHelper.CURRENCY_TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
             }

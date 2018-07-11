@@ -155,6 +155,7 @@ public class BRApiManager {
             public void run() {
                 updateErc20Rates(context);
                 updateETZRates(context);
+//                updateTokenRates(context);
             }
         });
 
@@ -182,6 +183,7 @@ public class BRApiManager {
         }
 
     }
+
     @WorkerThread
     private  synchronized  void updateETZRates(Context context){
         String url = "https://api.coinmarketcap.com/v2/ticker/2843/?convert=BTC&limit=10&structure=array";
@@ -194,21 +196,21 @@ public class BRApiManager {
             String object = null;
             Set<CurrencyEntity> tmp = new LinkedHashSet<>();
 
-                JSONObject json = new JSONObject(result);
+            JSONObject json = new JSONObject(result);
 
             JSONArray json1 = new JSONArray(json.getString("data"));
             JSONObject json2 = new JSONObject(json1.getString(0));
 
 
-                String code = "BTC";
-                String name = json2.getString("name");
-                String iso = json2.getString("symbol");
-                JSONObject json3 = new JSONObject(json2.getString("quotes"));
-                JSONObject json4 = new JSONObject(json3.getString("BTC"));
-                String rate = json4.getString("price");
+            String code = "BTC";
+            String name = json2.getString("name");
+            String iso = json2.getString("symbol");
+            JSONObject json3 = new JSONObject(json2.getString("quotes"));
+            JSONObject json4 = new JSONObject(json3.getString("BTC"));
+            String rate = json4.getString("price");
 
-                CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
-                tmp.add(ent);
+            CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
+            tmp.add(ent);
 
             RatesDataSource.getInstance(context).putCurrencies(context, tmp);
             if (object != null)
@@ -218,11 +220,30 @@ public class BRApiManager {
             e.printStackTrace();
         }
     }
+
+//    @WorkerThread
+//    private  synchronized  void updateTokenRates(Context context){
+//
+//        Set<CurrencyEntity> tmp = new LinkedHashSet<>();
+//        String code = "BTC";
+//        String name = "Black Options";
+//        String iso = "BO";
+//        String rate = "0";
+//        CurrencyEntity ent1 = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
+//        tmp.add(ent1);
+//
+//        RatesDataSource.getInstance(context).putCurrencies(context, tmp);
+//    }
+
+
+
     @WorkerThread
     private synchronized void updateErc20Rates(Context context) {
         //get all erc20 rates.
         String url = "https://api.coinmarketcap.com/v1/ticker/?limit=1000&convert=BTC";
         String result = urlGET(context, url);
+
+        Log.i(TAG, "updateErc20Rates: result==="+result);
         try {
             if (Utils.isNullOrEmpty(result)) {
                 Log.e(TAG, "updateErc20Rates: Failed to fetch");
@@ -235,30 +256,44 @@ public class BRApiManager {
             }
             String object = null;
             Set<CurrencyEntity> tmp = new LinkedHashSet<>();
-            for (int i = 0; i < arr.length(); i++) {
+//            for (int i = 0; i < arr.length(); i++) {
+//
+//                Object obj = arr.get(i);
+//                if (!(obj instanceof JSONObject)) {
+//                    object = obj.getClass().getSimpleName();
+//                    continue;
+//                }
+//                JSONObject json = (JSONObject) obj;
+//                String code = "BTC";
+//                String name = json.getString("name");
+//                String rate = json.getString("price_btc");
+//                String iso = json.getString("symbol");
+//
+//                CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
+//
+//
+//
+//
+//
+//                tmp.add(ent);
+//
+//            }
+            String code1 = "BTC";
+            String name1 = "Black Options";
+            String iso1 = "BO";
+            String rate1 = "0";
 
-                Object obj = arr.get(i);
-                if (!(obj instanceof JSONObject)) {
-                    object = obj.getClass().getSimpleName();
-                    continue;
-                }
-                JSONObject json = (JSONObject) obj;
-                String code = "BTC";
-                String name = json.getString("name");
-                String rate = json.getString("price_btc");
-                String iso = json.getString("symbol");
+            CurrencyEntity ent1 = new CurrencyEntity(code1, name1, Float.valueOf(rate1), iso1);
 
-                CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
-
-//                Log.i(TAG, "updateETZRates: json333==="+ent);
-//                Log.i(TAG, "updateETZRates: json4444==="+ent.toString());
-                tmp.add(ent);
-
-            }
+            Log.i(TAG, "updateErc20Rates: ent1=="+ent1);
+            Log.i(TAG, "updateErc20Rates: ent1=="+ent1.toString());
+            tmp.add(ent1);
+            Log.i(TAG, "updateErc20Rates: tmp==="+tmp);
             RatesDataSource.getInstance(context).putCurrencies(context, tmp);
             if (object != null)
                 BRReportsManager.reportBug(new IllegalArgumentException("JSONArray returns a wrong object: " + object));
         } catch (JSONException e) {
+            Log.i(TAG, "updateErc20Rates: error=="+e);
             BRReportsManager.reportBug(e);
             e.printStackTrace();
         }

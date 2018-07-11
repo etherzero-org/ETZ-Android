@@ -545,6 +545,7 @@ public class BRKeyStore {
     public  static byte[] getAuthKey(final Context context) {
         AliasObject obj = aliasObjectMap.get(AUTH_KEY_ALIAS);
         try {
+
             return _getData(context, obj.alias, obj.datafileName, obj.ivFileName, 0);
         } catch (UserNotAuthenticatedException e) {
             e.printStackTrace();
@@ -565,6 +566,7 @@ public class BRKeyStore {
     public  static byte[] getToken(final Context context) {
         AliasObject obj = aliasObjectMap.get(TOKEN_ALIAS);
         try {
+
             return _getData(context, obj.alias, obj.datafileName, obj.ivFileName, 0);
         } catch (UserNotAuthenticatedException e) {
             e.printStackTrace();

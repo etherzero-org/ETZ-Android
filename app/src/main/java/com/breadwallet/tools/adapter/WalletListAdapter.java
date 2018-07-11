@@ -98,16 +98,30 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
             WalletItem item = mWalletItems.get(position);
             final BaseWalletManager wallet = item.walletManager;
             String name = wallet.getName();
-            final String iso = wallet.getIso();
+            String iso = wallet.getIso();
 
-            String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatExchangeRate(mContext));
+
             String fiatBalance = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatBalance(mContext));
             String cryptoBalance = CurrencyUtils.getFormattedAmount(mContext, wallet.getIso(), wallet.getCachedBalance(mContext));
 
             // Set wallet fields
             holder.mWalletName.setText(name);
+
+//            if(iso.equalsIgnoreCase("BO")){
+//                String exchangeRate = "0";
+//                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
+//                holder.mWalletBalanceFiat.setText("0");
+//            }else{
+//                String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatExchangeRate(mContext));
+//                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
+//                holder.mWalletBalanceFiat.setText(fiatBalance);
+//            }
+
+            String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatExchangeRate(mContext));
             holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
             holder.mWalletBalanceFiat.setText(fiatBalance);
+
+
             holder.mWalletBalanceFiat.setTextColor(mContext.getResources().getColor(item.mShowSyncProgress ? R.color.wallet_balance_fiat_syncing : R.color.wallet_balance_fiat));
             holder.mWalletBalanceCurrency.setText(cryptoBalance);
             holder.mWalletBalanceCurrency.setVisibility(!item.mShowSyncProgress ? View.VISIBLE : View.INVISIBLE);

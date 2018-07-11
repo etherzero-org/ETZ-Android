@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.breadwallet.BreadApp;
 import com.breadwallet.R;
 import com.breadwallet.presenter.activities.settings.SecurityCenterActivity;
 import com.breadwallet.presenter.activities.settings.SettingsActivity;
@@ -32,6 +33,9 @@ import com.breadwallet.tools.threads.executor.BRExecutor;
 import com.breadwallet.tools.util.CurrencyUtils;
 import com.breadwallet.wallet.WalletsMaster;
 import com.breadwallet.wallet.abstracts.BaseWalletManager;
+import com.breadwallet.wallet.util.JsonRpcHelper;
+
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -72,7 +76,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         Log.e(TAG, "onCreate: 1");
-
+//        getTokenList();
         mWalletRecycler = findViewById(R.id.rv_wallet_list);
         mFiatTotal = findViewById(R.id.total_assets_usd);
 
@@ -95,13 +99,13 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                 if (position >= mAdapter.getItemCount() || position < 0) return;
 
                 if (mAdapter.getItemViewType(position) == 0) {
-                    //交易记录页面
+                    //首页的钱包item 比特币 etz 代币等
                     BRSharedPrefs.putCurrentWalletIso(HomeActivity.this, mAdapter.getItemAt(position).getIso());
                     Intent newIntent = new Intent(HomeActivity.this, WalletActivity.class);
                     startActivity(newIntent);
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                 } else {
-                    //添加钱包页面
+                    //添加钱包
                     Intent intent = new Intent(HomeActivity.this, AddWalletsActivity.class);
                     startActivity(intent);
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
@@ -165,6 +169,26 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         Log.e(TAG, "onCreate: 2");
 
     }
+
+//    public void getTokenList(){
+//        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//            @Override
+//            public void run(){
+//                final String listUrl = JsonRpcHelper.getTokenListUrl();
+//
+//                Log.i(TAG, "run: listUrl=="+listUrl);
+//                final JSONObject payload = new JSONObject();
+//                JsonRpcHelper.makeRpcRequest1(BreadApp.getBreadContext(), listUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+//                    @Override
+//                    public void onRpcRequestCompleted(String jsonResult) {
+//
+//                        Log.i(TAG, "gettokenlist=="+jsonResult);
+//
+//                    }
+//                });
+//            }
+//        });
+//    }
 
     public void hidePrompt() {
         mPromptCard.setVisibility(View.GONE);

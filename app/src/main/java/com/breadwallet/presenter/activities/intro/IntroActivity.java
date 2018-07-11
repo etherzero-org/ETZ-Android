@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.breadwallet.BreadApp;
 import com.breadwallet.BuildConfig;
 import com.breadwallet.R;
 import com.breadwallet.presenter.activities.HomeActivity;
@@ -25,7 +26,10 @@ import com.breadwallet.tools.util.BRConstants;
 import com.breadwallet.tools.util.Utils;
 import com.breadwallet.wallet.WalletsMaster;
 import com.breadwallet.wallet.abstracts.BaseWalletManager;
+import com.breadwallet.wallet.util.JsonRpcHelper;
 import com.platform.APIClient;
+
+import org.json.JSONObject;
 
 import java.io.Serializable;
 
@@ -116,7 +120,13 @@ public class IntroActivity extends BRActivity implements Serializable {
             }
         }, DateUtils.SECOND_IN_MILLIS);
 
+
+
+
+
     }
+
+
 
     private void updateBundles() {
         BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {

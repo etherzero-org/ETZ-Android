@@ -43,6 +43,22 @@ public class BREthereumToken extends BRCoreJniReference {
     public native String getColorLeft ();
     public native String getColorRight ();
 
+
+//    {
+//        // BRD first... so we can find it.
+//        "0x558ec3152e2eb2174905cd19aea4e34a23de9ad6", // address
+//                "BRD", // Symbol
+//                "BRD Token", // Name
+//                "", // Desc
+//                18, //Decimals
+//                "#ff5193", //color left
+//                "#f9a43a", //color right
+//                {TOKEN_BRD_DEFAULT_GAS_LIMIT},  //92000
+//                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}}, //500000000  0.5 GWEI
+//        1
+//    },
+
+
     public long getIdentifier () {
         return jniReferenceAddress;
     }

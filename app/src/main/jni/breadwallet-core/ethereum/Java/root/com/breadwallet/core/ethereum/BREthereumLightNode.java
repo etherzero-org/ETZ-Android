@@ -24,6 +24,8 @@
  */
 package com.breadwallet.core.ethereum;
 
+import android.util.Log;
+
 import com.breadwallet.core.BRCoreJniReference;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -31,6 +33,7 @@ import java.util.Map;
 
 import static com.breadwallet.core.ethereum.BREthereumToken.jniGetTokenBRD;
 import static com.breadwallet.core.ethereum.BREthereumToken.jniTokenAll;
+import static com.breadwallet.presenter.entities.PeerEntity.TAG;
 
 /**
  *
@@ -401,8 +404,11 @@ public class BREthereumLightNode extends BRCoreJniReference {
         long[] references =  jniTokenAll ();
         tokens = new BREthereumToken[references.length];
 
-        for (int i = 0; i < references.length; i++)
+        for (int i = 0; i < references.length; i++){
             tokens[i] = new BREthereumToken(references[i]);
+        }
+
+
 
         for (BREthereumToken token : tokens) {
             System.err.println ("Token: " + token.getSymbol());

@@ -96,28 +96,42 @@ public class JsonRpcHelper {
     }
 
 
-    //代币交易的url
+    //代币余额
     public static String createTokenTransactionsUrl(String address, String contractAddress) {
-        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT + "query?" + "module=account&action=tokenbalance"
-                + "&address=" + address + "&contractaddress=" + contractAddress;
+//        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT + "query?" + "module=account&action=tokenbalance"
+//                + "&address=" + address + "&contractaddress=" + contractAddress;
+
+        return PROTOCOL + "://" + "openetz.org/etzq/api/v1/gettokenBlance?address=" + address + "&contractaddress=" + contractAddress;
+//
     }
 
+    //代币列表
+
+    public static String getTokenListUrl(){
+        return "http://10.0.3.2:8080/api/v1/getTokenList";
+    }
+
+
+    //etz交易记录
     public static String createEthereumTransactionsUrl(String address) {
 //        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT
 //                + "query?module=account&action=txlist&address=" + address;
         return PROTOCOL + "://" + "openetz.org/etzq/api/v1/getEtzTxlist?address="+address;
     }
-
+    //代币交易记录
     public static String createLogsUrl(String address, String contract, String event) {
 
-        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT + "query?"
-                + "module=logs&action=getLogs"
-                + "&fromBlock=0&toBlock=latest"
-                + (null == contract ? "" : ("&address=" + contract))
-                + "&topic0=" + event
-                + "&topic1=" + address
-                + "&topic1_2_opr=or"
-                + "&topic2=" + address;
+//        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT + "query?"
+//                + "module=logs&action=getLogs"
+//                + "&fromBlock=0&toBlock=latest"
+//                + (null == contract ? "" : ("&address=" + contract))
+//                + "&topic0=" + event
+//                + "&topic1=" + address
+//                + "&topic1_2_opr=or"
+//                + "&topic2=" + address;
+
+//        https://openetz.org/etzq/api/v1/gettokenLogs?address=0x86d105D5FA67F3eEf986F75b7e63C6664f88319A&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic1=0x000000000000000000000000c158bae8a8bb67fb095eec9aa72e641004e2597e
+        return PROTOCOL + "://" + "openetz.org/etzq/api/v1/gettokenLogs?" + (null == contract ? "" : ("&address=" + contract)) + "&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" + "&topic1=" + address;
     }
 
     @WorkerThread
@@ -142,7 +156,25 @@ public class JsonRpcHelper {
 
     }
 
+    @WorkerThread
+    public static void makeRpcRequest1(Context app, String url, JSONObject payload, JsonRpcRequestListener listener) {
 
+
+
+
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+
+
+        APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, true);
+        String responseString = resp.getBodyText();
+
+        if (listener != null) {
+            listener.onRpcRequestCompleted(responseString);
+        }
+
+    }
 
     @WorkerThread
     public static void makeRpcRequest(Context app, String url, JSONObject payload, JsonRpcRequestListener listener) {

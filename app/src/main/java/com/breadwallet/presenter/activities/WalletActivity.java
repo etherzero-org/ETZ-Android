@@ -30,6 +30,7 @@ import com.breadwallet.presenter.activities.util.BRActivity;
 import com.breadwallet.presenter.customviews.BRButton;
 import com.breadwallet.presenter.customviews.BRSearchBar;
 import com.breadwallet.presenter.customviews.BRText;
+import com.breadwallet.tools.adapter.WalletListAdapter;
 import com.breadwallet.tools.animation.BRAnimator;
 import com.breadwallet.tools.animation.BRDialog;
 import com.breadwallet.tools.manager.BRSharedPrefs;
@@ -274,6 +275,13 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
 
         mCurrencyTitle.setText(wm.getName());
         mCurrencyPriceUsd.setText(String.format("%s per %s", fiatExchangeRate, wm.getIso()));
+
+//        if(wm.getIso().equalsIgnoreCase("BO")){
+//            mBalancePrimary.setText("0.00");
+//        }else{
+//            mBalancePrimary.setText(fiatBalance);
+//        }
+
         mBalancePrimary.setText(fiatBalance);
         mBalanceSecondary.setText(cryptoBalance);
 

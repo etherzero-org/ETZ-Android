@@ -1,10 +1,16 @@
 package com.platform.tools;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.breadwallet.tools.security.BRKeyStore;
 import com.breadwallet.tools.util.Utils;
 import com.platform.APIClient;
+
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * BreadWallet
@@ -58,6 +64,7 @@ public class TokenHolder {
         }
 
     }
+    public static final String TAG = "TokenHolder";
 
     private synchronized static void fetchNewToken(Context app) {
         mApiToken = APIClient.getInstance(app).getToken();

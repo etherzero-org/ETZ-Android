@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-
+<!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/wallet_card"
     android:layout_width="match_parent"
@@ -9,7 +9,9 @@
     android:background="#fff">
 
 </RelativeLayout>
-<!--
+-->
+
+
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/wallet_card"
@@ -42,8 +44,5 @@
         android:layout_height="wrap_content" />
 
 
-
-
-
 </RelativeLayout>
--->
+

@@ -10,8 +10,8 @@ android {
         applicationId = 'com.breadwallet'
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 273
-        versionName "3.1.0"
+        versionCode 1
+        versionName "1.0-alpha"
         multiDexEnabled true
 
         // Similar to other properties in the defaultConfig block,
@@ -108,11 +108,11 @@ android {
     buildTypes {
         release {
             minifyEnabled = false
-            debuggable = false
+            debuggable = true
 
             ndk {
                 minifyEnabled = false
-                debuggable = false
+                debuggable = true
             }
         }
         debug {

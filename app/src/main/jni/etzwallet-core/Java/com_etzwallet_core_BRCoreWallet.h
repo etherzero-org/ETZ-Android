@@ -133,7 +133,7 @@ JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreWallet_getDefaultFeePerKb
  * Signature: (JLcom/etzwallet/core/BRCoreAddress;)Lcom/etzwallet/core/BRCoreTransaction;
  */
 JNIEXPORT jobject JNICALL Java_com_etzwallet_core_BRCoreWallet_createTransaction
-  (JNIEnv *, jobject, jlong, jobject);
+  (JNIEnv *, jobject, jlong, jobject, jchar);
 
 /*
  * Class:     com_etzwallet_core_BRCoreWallet

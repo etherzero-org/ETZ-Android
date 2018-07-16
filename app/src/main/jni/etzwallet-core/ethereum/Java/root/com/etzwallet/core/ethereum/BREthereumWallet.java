@@ -258,7 +258,7 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
      */
     public BREthereumTransaction createTransaction(String targetAddress,
                                                    String amount,
-                                                   Unit amountUnit) {
+                                                   Unit amountUnit,String data) {
         BREthereumLightNode lightNode = node.get();
 
         // Note: The created transaction's unit will be `amountUnit`.  This unit may differ
@@ -267,7 +267,7 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
                 lightNode.jniCreateTransaction(identifier,
                         targetAddress,
                         amount,
-                        amountUnit.jniValue),
+                        amountUnit.jniValue,data),
                 amountUnit);
     }
 

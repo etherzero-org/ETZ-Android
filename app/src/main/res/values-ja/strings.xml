@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <!-- App name -->
-  <string name="About.appName.android">ブレッド</string>
+  <string name="About.appName.android">EasyEasyETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">ブログ</string>
   <!-- About screen footer -->
@@ -17,7 +17,7 @@
   <!-- About screen twitter label -->
   <string name="About.twitter">Twitter</string>
   <!-- About screen wallet ID label -->
-  <string name="About.walletID">ETZリワードID</string>
+  <string name="About.walletID">EasyETZリワードID</string>
   <!-- Close modal button accessibility label -->
   <string name="AccessibilityLabels.close">閉じる</string>
   <!-- Support center accessibiliy label -->
@@ -63,11 +63,11 @@
   <!-- Fingerprint was recognized by the scanner -->
   <string name="Alerts.touchIdSucceeded.android">指紋が認識されました</string>
   <!-- Tell the user where they can enable permissions to access device storage. -->
-  <string name="Android.allowFileSystemAccess">お使いのデバイスの設定でストレージの使用を許可して下さい: 「設定」&gt;「アプリ」&gt;「ETZ」&gt;「許可」。</string>
+  <string name="Android.allowFileSystemAccess">お使いのデバイスの設定でストレージの使用を許可して下さい: 「設定」&gt;「アプリ」&gt;「EasyETZ」&gt;「許可」。</string>
   <!-- The "home" screen is the name of the top level menu for the app. -->
   <string name="Android.BCH.welcome.message">お使いのウォレットのBCHには、ホーム画面からアクセスすることができます。</string>
-  <string name="Android.BCH.welcome.title">ETZがビットコインキャッシュに対応しました!</string>
-  <string name="Android.screenAlteringMessage">画面変更アプリ(例: Twilight) が無効になっていなければ、ETZは正常に動作しません。</string>
+  <string name="Android.BCH.welcome.title">EasyETZがビットコインキャッシュに対応しました!</string>
+  <string name="Android.screenAlteringMessage">画面変更アプリ(例: Twilight) が無効になっていなければ、EasyETZは正常に動作しません。</string>
   <!-- An app that alters the screen ("screen-altering app") has been detected. -->
   <string name="Android.screenAlteringTitle">画面変更アプリが検出されました</string>
   <!-- JSON Serialization error message -->
@@ -183,7 +183,7 @@
   <!-- Email unavailable alert title -->
   <string name="ErrorMessages.emailUnavailableTitle">メールが利用できません</string>
   <!-- Message that gets shown when we've detected the user has encountered the looping lock-screen bug. (preserve [ ] characters) -->
-  <string name="ErrorMessages.loopingLockScreen.android">ETZは、お使いのAndroidのバージョンに不具合があるため認証できません。 [詳しい情報はこちらをタップしてご覧ください。]</string>
+  <string name="ErrorMessages.loopingLockScreen.android">EasyETZは、お使いのAndroidのバージョンに不具合があるため認証できません。 [詳しい情報はこちらをタップしてご覧ください。]</string>
   <!-- Messaging unavailable alert title -->
   <string name="ErrorMessages.messagingUnavailableMessage">この端末からメッセージを送信するための設定がされていません。</string>
   <!-- Messaging unavailable alert title -->
@@ -196,7 +196,7 @@
   <string name="FaceIDSettings.label">自分の顔を使って、ブレッドのロックを解除して、設定された使用限度額までお金を送金しましょう。</string>
   <!-- Title of the screen for setting the Face ID Spending Limit -->
   <string name="FaceIDSettings.linkText">Face ID使用限度額画面</string>
-  <!-- Setting to turn on Face ID for ETZ -->
+  <!-- Setting to turn on Face ID for EasyETZ -->
   <string name="FaceIDSettings.switchLabel">ブレッド利用時にFace IDを有効にする</string>
   <!-- Face ID settings view title -->
   <string name="FaceIDSettings.title">Face ID</string>
@@ -247,7 +247,7 @@
   <!-- Caption for graphics -->
   <string name="Import.leftCaption">秘密鍵</string>
   <!-- Import wallet intro screen message -->
-  <string name="Import.message">秘密鍵は通常QRコードとして紙に印刷され、オフラインでの資金保管に使用されています。秘密鍵からの引き出しをすると秘密鍵が管理する資金全額を1回の取引でお使いのETZに送金します。</string>
+  <string name="Import.message">秘密鍵は通常QRコードとして紙に印刷され、オフラインでの資金保管に使用されています。秘密鍵からの引き出しをすると秘密鍵が管理する資金全額を1回の取引でお使いのEasyETZに送金します。</string>
   <!-- Enter password alert view title -->
   <string name="Import.password">この秘密鍵はパスワードで保護されています。</string>
   <!-- password textfield placeholder -->
@@ -369,7 +369,7 @@
   <!-- Transaction rejected prompt title -->
   <string name="Prompts.RecommendRescan.title">トランザクションが拒否されました</string>
   <!-- Share data prompt body -->
-  <string name="Prompts.ShareData.body">匿名のデータを共有してETZの機能向上に役立てる</string>
+  <string name="Prompts.ShareData.body">匿名のデータを共有してEasyETZの機能向上に役立てる</string>
   <!-- Share data prompt title -->
   <string name="Prompts.ShareData.title">匿名のデータを共有する</string>
   <!-- Enable touch ID prompt body -->
@@ -387,7 +387,7 @@
   <!-- Upgrade PIN prompt title. -->
   <string name="Prompts.UpgradePin.title">PINコードを更新する</string>
   <!-- Notifications will be added later but users can set their preferences now, which is why we specify "in the future". -->
-  <string name="PushNotifications.body">今後、ETZからの特別なメッセージを受け取るために通知をオンにしてください。</string>
+  <string name="PushNotifications.body">今後、EasyETZからの特別なメッセージを受け取るために通知をオンにしてください。</string>
   <!-- Push notifications toggle switch label -->
   <string name="PushNotifications.label">プッシュ通知</string>
   <!-- Push notifications are off label -->
@@ -446,7 +446,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20〜45分</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">ビットコインネットワークでトランザクションが完了したと表示されているが、ETZ上では完了と表示されない場合。</string>
+  <string name="ReScan.body2">ビットコインネットワークでトランザクションが完了したと表示されているが、EasyETZ上では完了と表示されない場合。</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">送金しているが、拒否され続けている場合。</string>
   <!-- Start Sync button label -->
@@ -484,7 +484,7 @@
   <!-- Security Center Title -->
   <string name="SecurityCenter.title">セキュリティセンター</string>
   <!-- Touch ID button description -->
-  <string name="SecurityCenter.touchIdDescription">ETZロック解除の他、設定した限度額までの送金も指紋認証で出来ます。</string>
+  <string name="SecurityCenter.touchIdDescription">EasyETZロック解除の他、設定した限度額までの送金も指紋認証で出来ます。</string>
   <!-- Touch ID button title -->
   <string name="SecurityCenter.touchIdTitle">Touch ID</string>
   <!-- Security center fingerprint authentication button -->
@@ -507,6 +507,7 @@
   <string name="Send.creatTransactionError">トランザクションの作成ができませんでした。</string>
   <!-- Description for sending money label -->
   <string name="Send.descriptionLabel">メモ</string>
+  <string name="Send.descriptionLabelData">Data(オプション)</string>
   <!-- Emtpy pasteboard error message -->
   <string name="Send.emptyPasteboard">ペーストボードが空です</string>
   <!-- "(you) can't send (to your)self" -->
@@ -580,7 +581,7 @@
   <string name="Settings.currencySettings">通貨設定</string>
   <!-- Join Early access label -->
   <string name="Settings.earlyAccess">早期アクセスに参加</string>
-  <!-- Are you enjoying ETZ alert message body -->
+  <!-- Are you enjoying EasyETZ alert message body -->
   <string name="Settings.enjoying">ブレッドをお楽しみいただいていますか?</string>
   <!-- Face ID spending limit label -->
   <string name="Settings.faceIdLimit">Face ID使用限度額</string>
@@ -674,7 +675,7 @@
   <string name="TouchIdSettings.spendingLimit">利用限度: %1$s (%2$s)</string>
   <!-- Touch id switch label. -->
   <string name="TouchIdSettings.switchLabel">ブレッドでTouch IDの有効化</string>
-  <!-- Enable fingerprint for this wallet called ETZ -->
+  <!-- Enable fingerprint for this wallet called EasyETZ -->
   <string name="TouchIdSettings.switchLabel.android">指紋認証を有効にする</string>
   <!-- Touch ID settings view title -->
   <string name="TouchIdSettings.title">Touch ID</string>
@@ -724,7 +725,7 @@
   <string name="Transaction.sentTo">%1$sに送金済み</string>
   <!-- eg. Starting balance: $50.00 -->
   <string name="Transaction.starting">期首残高: %1$s</string>
-  <!-- e.g. "[The money you paid was a] Fee for token transfer: ETZ" (ETZ is the token that was transfered) -->
+  <!-- e.g. "[The money you paid was a] Fee for token transfer: EasyETZ" (EasyETZ is the token that was transfered) -->
   <string name="Transaction.tokenTransfer">トークン送金の手数料: %1$s</string>
   <!-- Waiting to be confirmed string -->
   <string name="Transaction.waiting">承認を待っています。トランザクションの完了には承認が必要となる場合があります。推定時間: 1-2時間。</string>
@@ -879,7 +880,7 @@
   <!-- Authorize transaction with touch id message -->
   <string name="VerifyPin.touchIdMessage">このトランザクションを認証する</string>
   <!-- 'No wallet' warning for watch app -->
-  <string name="Watch.noWalletWarning">ETZのiPhoneアプリを開き、ウォレットをセットアップする</string>
+  <string name="Watch.noWalletWarning">EasyETZのiPhoneアプリを開き、ウォレットをセットアップする</string>
   <!-- Dismiss button label -->
   <string name="Webview.dismiss">解除</string>
   <!-- Webview loading error message -->
@@ -887,9 +888,9 @@
   <!-- Updating webview message -->
   <string name="Webview.updating">更新中...</string>
   <!-- Welcome screen text. (?) will be replaced with the help icon users should look for. -->
-  <string name="Welcome.body">ETZwalletは新しい機能や見た目を備えて、ETZという名前に生まれ変わりました。\n\nヘルプをご覧になるには、画面右上にある(?)からお探しください。</string>
+  <string name="Welcome.body">EasyETZwalletは新しい機能や見た目を備えて、EasyETZという名前に生まれ変わりました。\n\nヘルプをご覧になるには、画面右上にある(?)からお探しください。</string>
   <!-- Top title of welcome screen -->
-  <string name="Welcome.title">ETZへようこそ！</string>
+  <string name="Welcome.title">EasyETZへようこそ！</string>
   <!-- Wipe wallet alert message -->
   <string name="WipeWallet.alertMessage">本当にこのウォレットを削除しますか？</string>
   <!-- Wipe wallet alert title -->
@@ -903,7 +904,7 @@
   <!-- Instructions for unlinking the wallet -->
   <string name="WipeWallet.startMessage">ご利用ウォレットのリンクを解除してこの機器から解除してください。このウォレットのリンクが解除されると、この機器で新しいウォレットを起動したり、別のウォレット再び利用できるようになります。</string>
   <!-- Start wipe wallet view warning -->
-  <string name="WipeWallet.startWarning">この端末から現在使用中のETZウォレットへのアクセスはできなくなります。復元する際は復元フレーズが必要になります。</string>
+  <string name="WipeWallet.startWarning">この端末から現在使用中のEasyETZウォレットへのアクセスはできなくなります。復元する際は復元フレーズが必要になります。</string>
   <!-- Unlink this wallet from this device. -->
   <string name="WipeWallet.title">ウォレットのリンクを解除</string>
   <!-- Wipe wallet button title -->

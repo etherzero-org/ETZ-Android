@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <!-- App name -->
-  <string name="About.appName.android">Bread</string>
+  <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">Blogg</string>
   <!-- About screen footer -->
@@ -17,7 +17,7 @@
   <!-- About screen twitter label -->
   <string name="About.twitter">Twitter</string>
   <!-- About screen wallet ID label -->
-  <string name="About.walletID">Belönings-ID för BRD</string>
+  <string name="About.walletID">Belönings-ID för EasyETZ</string>
   <!-- Close modal button accessibility label -->
   <string name="AccessibilityLabels.close">Stäng</string>
   <!-- Support center accessibiliy label -->
@@ -63,11 +63,11 @@
   <!-- Fingerprint was recognized by the scanner -->
   <string name="Alerts.touchIdSucceeded.android">Fingeravtryck bekräftat</string>
   <!-- Tell the user where they can enable permissions to access device storage. -->
-  <string name="Android.allowFileSystemAccess">Vi ber dig att medge lagringstillåtelse i dina enhetsinställningar: \"Inställningar\" &gt; \"Appar\" &gt; \"BRD\" &gt; \"Tillåtelser\".</string>
+  <string name="Android.allowFileSystemAccess">Vi ber dig att medge lagringstillåtelse i dina enhetsinställningar: \"Inställningar\" &gt; \"Appar\" &gt; \"EasyETZ\" &gt; \"Tillåtelser\".</string>
   <!-- The "home" screen is the name of the top level menu for the app. -->
   <string name="Android.BCH.welcome.message">Valfri BCH i din plånbok kan nås via hemskärmen.</string>
-  <string name="Android.BCH.welcome.title">BRD stöder nu Bitcoin Cash!</string>
-  <string name="Android.screenAlteringMessage">BRD fungerar inte korrekt om inte skärmskiftande appar (såsom Twilight) är inaktiverade.</string>
+  <string name="Android.BCH.welcome.title">EasyETZ stöder nu Bitcoin Cash!</string>
+  <string name="Android.screenAlteringMessage">EasyETZ fungerar inte korrekt om inte skärmskiftande appar (såsom Twilight) är inaktiverade.</string>
   <!-- An app that alters the screen ("screen-altering app") has been detected. -->
   <string name="Android.screenAlteringTitle">Skärmskiftande app upptäckt</string>
   <!-- JSON Serialization error message -->
@@ -193,11 +193,11 @@
   <!-- You can customize your Face ID Spending Limit from the [menu] -->
   <string name="FaceIDSettings.customizeText">Du kan anpassa din utgiftsgräns för Face ID från %1$s.</string>
   <!-- Face Id screen label -->
-  <string name="FaceIDSettings.label">Använd ditt ansikte för att låsa upp din BRD och skicka pengar upp till en satt gräns.</string>
+  <string name="FaceIDSettings.label">Använd ditt ansikte för att låsa upp din EasyETZ och skicka pengar upp till en satt gräns.</string>
   <!-- Title of the screen for setting the Face ID Spending Limit -->
   <string name="FaceIDSettings.linkText">Sida för utgiftsgräns för Face ID</string>
-  <!-- Setting to turn on Face ID for BRD -->
-  <string name="FaceIDSettings.switchLabel">Aktivera Face ID för BRD</string>
+  <!-- Setting to turn on Face ID for EasyETZ -->
+  <string name="FaceIDSettings.switchLabel">Aktivera Face ID för EasyETZ</string>
   <!-- Face ID settings view title -->
   <string name="FaceIDSettings.title">Face ID</string>
   <!-- Instructions on how to turn on face id on the iPhone. Please ensure the name of the menu in this string matches the wording Apple uses in the iPhone menu. -->
@@ -474,7 +474,7 @@
   <!-- Security Center Info -->
   <string name="SecurityCenter.info">Aktivera alla säkerhetsfunktioner för maximal säkerhet.</string>
   <!-- Paper Key button description -->
-  <string name="SecurityCenter.paperKeyDescription">Det enda sättet att komma åt dina bitcoin om du förlorar eller uppgraderar din telefon.</string>
+  <string name="SecurityCenter.paperKeyDescription">Det enda sättet att komma åt dina EasyETZ om du förlorar eller uppgraderar din telefon.</string>
   <!-- Paper Key button title -->
   <string name="SecurityCenter.paperKeyTitle">Ordnyckel</string>
   <!-- PIN button description -->
@@ -507,6 +507,8 @@
   <string name="Send.creatTransactionError">Kunde inte skapa transaktion.</string>
   <!-- Description for sending money label -->
   <string name="Send.descriptionLabel">Memo</string>
+
+  <string name="Send.descriptionLabelData">Data(valfri)</string>
   <!-- Emtpy pasteboard error message -->
   <string name="Send.emptyPasteboard">Urklipp är tomt</string>
   <!-- "(you) can't send (to your)self" -->
@@ -628,7 +630,7 @@
   <!-- button label -->
   <string name="StartViewController.createButton">Skapa ny plånbok</string>
   <!-- Start view message -->
-  <string name="StartViewController.message">Det säkraste och tryggaste sättet att använda bitcoin.</string>
+  <string name="StartViewController.message">Det säkraste och tryggaste sättet att använda EasyETZ.</string>
   <!-- Recover your wallet from a backup -->
   <string name="StartViewController.recoverButton">Återställ plånbok</string>
   <!-- Syncing view connectiong state header text -->
@@ -725,7 +727,7 @@
   <string name="Transaction.sentTo">skickat till %1$s</string>
   <!-- eg. Starting balance: $50.00 -->
   <string name="Transaction.starting">Ingående saldo: %1$s</string>
-  <!-- e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) -->
+  <!-- e.g. "[The money you paid was a] Fee for token transfer: EasyETZ" (EasyETZ is the token that was transfered) -->
   <string name="Transaction.tokenTransfer">Avgift för token-överföring: %1$s</string>
   <!-- Waiting to be confirmed string -->
   <string name="Transaction.waiting">Väntar på bekräftelse. Vissa handlare kräver bekräftelse för att slutföra en transaktion. Uppskattad tid: 1-2 timmar.</string>
@@ -844,7 +846,7 @@
   <!-- Wallet unlocked message -->
   <string name="UnlockScreen.unlocked">Plånbok upplåst</string>
   <!-- Update PIN caption text -->
-  <string name="UpdatePin.caption">Kom ihåg PIN-koden. Om du glömmer den, kommer du inte åt dina bitcoin.</string>
+  <string name="UpdatePin.caption">Kom ihåg PIN-koden. Om du glömmer den, kommer du inte åt dina ETZ.</string>
   <!-- PIN creation info. -->
   <string name="UpdatePin.createInstruction">Din PIN-kod används för att låsa upp ditt Bread och skicka pengar</string>
   <!-- Update PIN title -->

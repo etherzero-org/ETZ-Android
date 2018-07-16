@@ -133,7 +133,7 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                         @Override
                         public void run() {
-                            PostAuth.getInstance().onPublishTxAuth(BRActivity.this, null, true, null);
+                            PostAuth.getInstance().onPublishTxAuth(BRActivity.this, null, true, null,null, false);
                         }
                     });
                 }

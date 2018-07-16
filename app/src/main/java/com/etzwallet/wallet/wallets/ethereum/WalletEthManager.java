@@ -484,8 +484,9 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
     }
 
     @Override
-    public CryptoTransaction createTransaction(BigDecimal amount, String address) {
-        BREthereumTransaction tx = mWallet.createTransaction(address, amount.toPlainString(), BREthereumAmount.Unit.ETHER_WEI);
+    public CryptoTransaction createTransaction(BigDecimal amount, String address, String data) {
+        Log.i(TAG, "createTransaction: data==="+data);
+        BREthereumTransaction tx = mWallet.createTransaction(address, amount.toPlainString(), BREthereumAmount.Unit.ETHER_WEI,data);
         return new CryptoTransaction(tx);
     }
 

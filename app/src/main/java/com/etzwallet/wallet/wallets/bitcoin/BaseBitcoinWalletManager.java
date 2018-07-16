@@ -179,7 +179,8 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
         } else {
             CryptoTransaction tx = null;
             if (isAddressValid(address)) {
-                tx = createTransaction(amount, address);
+                final  String d = "bitdata";
+                tx = createTransaction(amount, address, d);
             }
 
             if (tx == null) {
@@ -363,12 +364,12 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
     }
 
     @Override
-    public CryptoTransaction createTransaction(BigDecimal amount, String address) {
+    public CryptoTransaction createTransaction(BigDecimal amount, String address, String data) {
         if (Utils.isNullOrEmpty(address)) {
             Log.e(getTag(), "createTransaction: can't create, address is null");
             return null;
         }
-        BRCoreTransaction tx = getWallet().createTransaction(amount.longValue(), new BRCoreAddress(address));
+        BRCoreTransaction tx = getWallet().createTransaction(amount.longValue(), new BRCoreAddress(address),data);
         return tx == null ? null : new CryptoTransaction(tx);
     }
 

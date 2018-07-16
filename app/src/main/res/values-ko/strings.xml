@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <!-- App name -->
-  <string name="About.appName.android">Bread</string>
+  <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">블로그</string>
   <!-- About screen footer -->
@@ -17,7 +17,7 @@
   <!-- About screen twitter label -->
   <string name="About.twitter">트위터</string>
   <!-- About screen wallet ID label -->
-  <string name="About.walletID">BRD Rewards ID</string>
+  <string name="About.walletID">EasyETZ Rewards ID</string>
   <!-- Close modal button accessibility label -->
   <string name="AccessibilityLabels.close">닫기</string>
   <!-- Support center accessibiliy label -->
@@ -63,11 +63,11 @@
   <!-- Fingerprint was recognized by the scanner -->
   <string name="Alerts.touchIdSucceeded.android">지문 인식됨</string>
   <!-- Tell the user where they can enable permissions to access device storage. -->
-  <string name="Android.allowFileSystemAccess">단말의 \"설정\" &gt; \"앱\" &gt; \"BRD\" &gt; \"권한\"에서 저장소 접근을 허용해 주세요.</string>
+  <string name="Android.allowFileSystemAccess">단말의 \"설정\" &gt; \"앱\" &gt; \"EasyETZ\" &gt; \"권한\"에서 저장소 접근을 허용해 주세요.</string>
   <!-- The "home" screen is the name of the top level menu for the app. -->
   <string name="Android.BCH.welcome.message">홈 화면을 통해 월렛에 있는 모든 BCH에 액세스할 수 있습니다.</string>
-  <string name="Android.BCH.welcome.title">이제 BRD가 Bitcoin Cash를 지원합니다!</string>
-  <string name="Android.screenAlteringMessage">BRD는 (Twilight과 같은) 화면 변경 앱을 비활성화하지 않으면 제대로 동작하지 않습니다.</string>
+  <string name="Android.BCH.welcome.title">이제 EasyETZ가 Bitcoin Cash를 지원합니다!</string>
+  <string name="Android.screenAlteringMessage">EasyETZ는 (Twilight과 같은) 화면 변경 앱을 비활성화하지 않으면 제대로 동작하지 않습니다.</string>
   <!-- An app that alters the screen ("screen-altering app") has been detected. -->
   <string name="Android.screenAlteringTitle">화면 변경 앱이 탐지됨</string>
   <!-- JSON Serialization error message -->
@@ -196,7 +196,7 @@
   <string name="FaceIDSettings.label">얼굴을 사용하여 브레드의 잠금을 해제하고 설정 한도까지 돈을 보내세요.</string>
   <!-- Title of the screen for setting the Face ID Spending Limit -->
   <string name="FaceIDSettings.linkText">페이스 ID 지출 한도 화면</string>
-  <!-- Setting to turn on Face ID for BRD -->
+  <!-- Setting to turn on Face ID for EasyETZ -->
   <string name="FaceIDSettings.switchLabel">브레드에 페이스 ID 사용하기</string>
   <!-- Face ID settings view title -->
   <string name="FaceIDSettings.title">페이스 ID</string>
@@ -507,6 +507,7 @@
   <string name="Send.creatTransactionError">전송할 수 없습니다.</string>
   <!-- Description for sending money label -->
   <string name="Send.descriptionLabel">메모</string>
+  <string name="Send.descriptionLabelData">Data(선택 사항)</string>
   <!-- Emtpy pasteboard error message -->
   <string name="Send.emptyPasteboard">클립보드가 비어 있습니다</string>
   <!-- "(you) can't send (to your)self" -->
@@ -627,7 +628,7 @@
   <!-- button label -->
   <string name="StartViewController.createButton">새 지갑 생성하기</string>
   <!-- Start view message -->
-  <string name="StartViewController.message">비트코인을 사용하는 가장 안정되고 안전한 방법.</string>
+  <string name="StartViewController.message">비트ETZ 사용하는 가장 안정되고 안전한 방법.</string>
   <!-- Recover your wallet from a backup -->
   <string name="StartViewController.recoverButton">지갑 복구하기</string>
   <!-- Syncing view connectiong state header text -->
@@ -724,7 +725,7 @@
   <string name="Transaction.sentTo">%1$s으로 전송되었습니다</string>
   <!-- eg. Starting balance: $50.00 -->
   <string name="Transaction.starting">기초 잔액: %1$s</string>
-  <!-- e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) -->
+  <!-- e.g. "[The money you paid was a] Fee for token transfer: EasyETZ" (EasyETZ is the token that was transfered) -->
   <string name="Transaction.tokenTransfer">토큰 송금 수수료: %1$s</string>
   <!-- Waiting to be confirmed string -->
   <string name="Transaction.waiting">확인 대기 중. 일부 판매자는 트랜잭션을 완료하기 위해 확인을 요구합니다. 예상 소요 시간: 1~2시간.</string>

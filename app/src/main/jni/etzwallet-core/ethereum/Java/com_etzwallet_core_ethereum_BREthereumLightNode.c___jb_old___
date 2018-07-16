@@ -784,7 +784,7 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
             ethereumWalletCreateTransaction(node,
                                             (BREthereumWalletId) wid,
                                             to,
-                                            amount,data);
+                                            amount);
     (*env)->ReleaseStringUTFChars(env, toObject, to);
     return (jlong) tid;
 }

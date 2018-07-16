@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <!-- App name -->
-  <string name="About.appName.android">Bread</string>
+  <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">Blog</string>
   <!-- About screen footer -->
@@ -17,7 +17,7 @@
   <!-- About screen twitter label -->
   <string name="About.twitter">Twitter</string>
   <!-- About screen wallet ID label -->
-  <string name="About.walletID">BRD-beloningenidentificatie</string>
+  <string name="About.walletID">EasyETZ-beloningenidentificatie</string>
   <!-- Close modal button accessibility label -->
   <string name="AccessibilityLabels.close">Sluiten</string>
   <!-- Support center accessibiliy label -->
@@ -29,7 +29,7 @@
   <!-- Loading Wallet Message -->
   <string name="Account.loadingMessage">Portemonnee laden</string>
   <!-- Default wallet name -->
-  <string name="AccountHeader.defaultWalletName">Mijn BRD</string>
+  <string name="AccountHeader.defaultWalletName">Mijn EasyETZ</string>
   <!-- Third party keyboard warning -->
   <string name="Alert.customKeyboard.android">Het lijkt erop dat u een toetsenbord van een derde gebruikt. Deze kan bijhouden wat u typt en eventueel uw sleutel stelen. Schakel alstublieft over naar het standaard Android toetsenbord voor extra veiligheid.</string>
   <!-- Error alert title -->
@@ -63,11 +63,11 @@
   <!-- Fingerprint was recognized by the scanner -->
   <string name="Alerts.touchIdSucceeded.android">Vingerafdruk geaccepteerd</string>
   <!-- Tell the user where they can enable permissions to access device storage. -->
-  <string name="Android.allowFileSystemAccess">Schakel opslagtoestemmingen in uw apparaatinstellingen in: \"Instellingen\"&gt; \"Apps\"&gt; \"BRD\"&gt; \"Toestemmingen\".</string>
+  <string name="Android.allowFileSystemAccess">Schakel opslagtoestemmingen in uw apparaatinstellingen in: \"Instellingen\"&gt; \"Apps\"&gt; \"EasyETZ\"&gt; \"Toestemmingen\".</string>
   <!-- The "home" screen is the name of the top level menu for the app. -->
   <string name="Android.BCH.welcome.message">Elke BCH in uw wallet is toegankelijk via het startscherm.</string>
-  <string name="Android.BCH.welcome.title">BRD ondersteunt nu Bitcoin Cash!</string>
-  <string name="Android.screenAlteringMessage">BRD zal niet goed werken tenzij schermveranderende apps (zoals Twilight) zijn uitgeschakeld.</string>
+  <string name="Android.BCH.welcome.title">EasyETZ ondersteunt nu Bitcoin Cash!</string>
+  <string name="Android.screenAlteringMessage">EasyETZ zal niet goed werken tenzij schermveranderende apps (zoals Twilight) zijn uitgeschakeld.</string>
   <!-- An app that alters the screen ("screen-altering app") has been detected. -->
   <string name="Android.screenAlteringTitle">Schermveranderende app gedetecteerd</string>
   <!-- JSON Serialization error message -->
@@ -193,11 +193,11 @@
   <!-- You can customize your Face ID Spending Limit from the [menu] -->
   <string name="FaceIDSettings.customizeText">Je kunt de bestedingslimiet van je Face-ID aanpassen vanuit het %1$s.</string>
   <!-- Face Id screen label -->
-  <string name="FaceIDSettings.label">Gebruik uw gezicht om uw BRD te ontgrendelen en verstuur geld tot een vastgestelde limiet.</string>
+  <string name="FaceIDSettings.label">Gebruik uw gezicht om uw EasyETZ te ontgrendelen en verstuur geld tot een vastgestelde limiet.</string>
   <!-- Title of the screen for setting the Face ID Spending Limit -->
   <string name="FaceIDSettings.linkText">Scherm bestedingslimiet Face-ID</string>
-  <!-- Setting to turn on Face ID for BRD -->
-  <string name="FaceIDSettings.switchLabel">Face-ID voor BRD inschakelen</string>
+  <!-- Setting to turn on Face ID for EasyETZ -->
+  <string name="FaceIDSettings.switchLabel">Face-ID voor EasyETZ inschakelen</string>
   <!-- Face ID settings view title -->
   <string name="FaceIDSettings.title">Face-ID</string>
   <!-- Instructions on how to turn on face id on the iPhone. Please ensure the name of the menu in this string matches the wording Apple uses in the iPhone menu. -->
@@ -474,7 +474,7 @@
   <!-- Security Center Info -->
   <string name="SecurityCenter.info">Activeer alle veiligheidsmaatregelen voor maximale bescherming.</string>
   <!-- Paper Key button description -->
-  <string name="SecurityCenter.paperKeyDescription">De enige manier om toegang te hebben tot je Bitcoins is als je je telefoon verliest of upgrade.</string>
+  <string name="SecurityCenter.paperKeyDescription">De enige manier om toegang te hebben tot je EasyETZ is als je je telefoon verliest of upgrade.</string>
   <!-- Paper Key button title -->
   <string name="SecurityCenter.paperKeyTitle">Papieren Sleutel</string>
   <!-- PIN button description -->
@@ -507,6 +507,7 @@
   <string name="Send.creatTransactionError">Kon de transactie niet creëren.</string>
   <!-- Description for sending money label -->
   <string name="Send.descriptionLabel">Memo</string>
+  <string name="Send.descriptionLabelData">Data(facultatief)</string>
   <!-- Emtpy pasteboard error message -->
   <string name="Send.emptyPasteboard">Plakbord is leeg</string>
   <!-- "(you) can't send (to your)self" -->
@@ -628,7 +629,7 @@
   <!-- button label -->
   <string name="StartViewController.createButton">Nieuwe wallet maken</string>
   <!-- Start view message -->
-  <string name="StartViewController.message">De veiligste en betrouwbaarste manier om bitcoin te gebruiken.</string>
+  <string name="StartViewController.message">De veiligste en betrouwbaarste manier om EasyETZ te gebruiken.</string>
   <!-- Recover your wallet from a backup -->
   <string name="StartViewController.recoverButton">Wallet herstellen</string>
   <!-- Syncing view connectiong state header text -->
@@ -725,7 +726,7 @@
   <string name="Transaction.sentTo">verstuurd naar %1$s</string>
   <!-- eg. Starting balance: $50.00 -->
   <string name="Transaction.starting">Startbalans: %1$s</string>
-  <!-- e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) -->
+  <!-- e.g. "[The money you paid was a] Fee for token transfer: EasyETZ" (EasyETZ is the token that was transfered) -->
   <string name="Transaction.tokenTransfer">Fee voor token verzending: %1$s</string>
   <!-- Waiting to be confirmed string -->
   <string name="Transaction.waiting">Wachtend op bevestiging. Sommige handelaren willen bevestiging om een transactie af te roden. Geschatte tijd: 1-2 uur.</string>
@@ -844,7 +845,7 @@
   <!-- Wallet unlocked message -->
   <string name="UnlockScreen.unlocked">Portemonnee Ontgrendeld</string>
   <!-- Update PIN caption text -->
-  <string name="UpdatePin.caption">Onthoud deze PIN. Als je deze vergeet, zul je niet in staat zijn om bij je Bitcoins te kunnen.</string>
+  <string name="UpdatePin.caption">Onthoud deze PIN. Als je deze vergeet, zul je niet in staat zijn om bij je ETZ te kunnen.</string>
   <!-- PIN creation info. -->
   <string name="UpdatePin.createInstruction">Je PIN zal worden gebruikt om je Bread te ontgrendelen en geld te versturen.</string>
   <!-- Update PIN title -->

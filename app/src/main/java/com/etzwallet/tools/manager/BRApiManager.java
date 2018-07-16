@@ -283,12 +283,33 @@ public class BRApiManager {
             String iso1 = "BO";
             String rate1 = "0";
 
-            CurrencyEntity ent1 = new CurrencyEntity(code1, name1, Float.valueOf(rate1), iso1);
+            String code2 = "BTC";
+            String name2 = "Fans";
+            String iso2 = "FANS";
+            String rate2 = "0";
 
-            Log.i(TAG, "updateErc20Rates: ent1=="+ent1);
-            Log.i(TAG, "updateErc20Rates: ent1=="+ent1.toString());
+            String code3 = "BTC";
+            String name3 = "Easy";
+            String iso3 = "EASY";
+            String rate3 = "0";
+
+            String code4 = "BTC";
+            String name4 = "MSM";
+            String iso4 = "MSM";
+            String rate4 = "0";
+
+
+            CurrencyEntity ent1 = new CurrencyEntity(code1, name1, Float.valueOf(rate1), iso1);
+            CurrencyEntity ent2 = new CurrencyEntity(code2, name2, Float.valueOf(rate2), iso2);
+            CurrencyEntity ent3 = new CurrencyEntity(code3, name3, Float.valueOf(rate3), iso3);
+            CurrencyEntity ent4 = new CurrencyEntity(code4, name4, Float.valueOf(rate4), iso4);
+
+
             tmp.add(ent1);
-            Log.i(TAG, "updateErc20Rates: tmp==="+tmp);
+            tmp.add(ent2);
+            tmp.add(ent3);
+            tmp.add(ent4);
+
             RatesDataSource.getInstance(context).putCurrencies(context, tmp);
             if (object != null)
                 BRReportsManager.reportBug(new IllegalArgumentException("JSONArray returns a wrong object: " + object));

@@ -178,6 +178,8 @@ public class AuthManager {
     }
 
     public void authPrompt(final Context context, String title, String message, boolean forcePin, boolean forceFingerprint, BRAuthCompletion completion) {
+        Log.i(TAG, "authPrompt: message=="+message);
+
         if (context == null || !(context instanceof Activity)) {
             Log.e(TAG, "authPrompt: context is null or not Activity: " + context);
             return;

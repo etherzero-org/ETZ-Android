@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <!-- App name -->
-  <string name="About.appName.android">Bread</string>
+  <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">Блог</string>
   <!-- About screen footer -->
@@ -17,7 +17,7 @@
   <!-- About screen twitter label -->
   <string name="About.twitter">Twitter</string>
   <!-- About screen wallet ID label -->
-  <string name="About.walletID">Идентификатор BRD для вознаграждений</string>
+  <string name="About.walletID">Идентификатор EasyETZ для вознаграждений</string>
   <!-- Close modal button accessibility label -->
   <string name="AccessibilityLabels.close">Закрыть</string>
   <!-- Support center accessibiliy label -->
@@ -63,11 +63,11 @@
   <!-- Fingerprint was recognized by the scanner -->
   <string name="Alerts.touchIdSucceeded.android">Отпечаток пальца идентифицирован</string>
   <!-- Tell the user where they can enable permissions to access device storage. -->
-  <string name="Android.allowFileSystemAccess">Включите разрешения на хранение в настройках вашего устройства: «Настройки» &gt; «Приложения» &gt; «BRD» &gt; «Разрешения».</string>
+  <string name="Android.allowFileSystemAccess">Включите разрешения на хранение в настройках вашего устройства: «Настройки» &gt; «Приложения» &gt; «EasyETZ» &gt; «Разрешения».</string>
   <!-- The "home" screen is the name of the top level menu for the app. -->
   <string name="Android.BCH.welcome.message">Доступ к BCH в вашем кошельке теперь возможен с главного экрана.</string>
-  <string name="Android.BCH.welcome.title">BRD теперь поддерживает Bitcoin Cash!</string>
-  <string name="Android.screenAlteringMessage">BRD не сможет нормально работать, если не отключить изменяющие экран приложения (такие как Twilight).</string>
+  <string name="Android.BCH.welcome.title">EasyETZ теперь поддерживает Bitcoin Cash!</string>
+  <string name="Android.screenAlteringMessage">EasyETZ не сможет нормально работать, если не отключить изменяющие экран приложения (такие как Twilight).</string>
   <!-- An app that alters the screen ("screen-altering app") has been detected. -->
   <string name="Android.screenAlteringTitle">Обнаружено изменяющее экран приложение</string>
   <!-- JSON Serialization error message -->
@@ -193,11 +193,11 @@
   <!-- You can customize your Face ID Spending Limit from the [menu] -->
   <string name="FaceIDSettings.customizeText">Вы можете индивидуально настроить ваш лимит расходов Face ID от %1$s.</string>
   <!-- Face Id screen label -->
-  <string name="FaceIDSettings.label">Используйте ваше лицо, чтобы разблокировать ваш BRD и отправить деньги в соответствии с установленным лимитом.</string>
+  <string name="FaceIDSettings.label">Используйте ваше лицо, чтобы разблокировать ваш EasyETZ и отправить деньги в соответствии с установленным лимитом.</string>
   <!-- Title of the screen for setting the Face ID Spending Limit -->
   <string name="FaceIDSettings.linkText">Меню лимита расходов Face ID</string>
-  <!-- Setting to turn on Face ID for BRD -->
-  <string name="FaceIDSettings.switchLabel">Включить Face ID для BRD</string>
+  <!-- Setting to turn on Face ID for EasyETZ -->
+  <string name="FaceIDSettings.switchLabel">Включить Face ID для EasyETZ</string>
   <!-- Face ID settings view title -->
   <string name="FaceIDSettings.title">Face ID</string>
   <!-- Instructions on how to turn on face id on the iPhone. Please ensure the name of the menu in this string matches the wording Apple uses in the iPhone menu. -->
@@ -507,6 +507,7 @@
   <string name="Send.creatTransactionError">Не удалось создать транзакцию.</string>
   <!-- Description for sending money label -->
   <string name="Send.descriptionLabel">Записка</string>
+  <string name="Send.descriptionLabelData">Data(опциональный)</string>
   <!-- Emtpy pasteboard error message -->
   <string name="Send.emptyPasteboard">Буфер обмена пуст</string>
   <!-- "(you) can't send (to your)self" -->
@@ -727,7 +728,7 @@
   <string name="Transaction.sentTo">отправлено по адресу %1$s</string>
   <!-- eg. Starting balance: $50.00 -->
   <string name="Transaction.starting">Начальный баланс: %1$s</string>
-  <!-- e.g. "[The money you paid was a] Fee for token transfer: BRD" (BRD is the token that was transfered) -->
+  <!-- e.g. "[The money you paid was a] Fee for token transfer: EasyETZ" (EasyETZ is the token that was transfered) -->
   <string name="Transaction.tokenTransfer">Сбор за передачу токена: %1$s</string>
   <!-- Waiting to be confirmed string -->
   <string name="Transaction.waiting">Ожидает подтверждения. Некоторые продавцы требуют подтверждения для выполнения транзакции. Предполагаемое время: 1-2 часа.</string>

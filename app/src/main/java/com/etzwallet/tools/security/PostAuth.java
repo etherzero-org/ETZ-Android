@@ -194,10 +194,13 @@ public class PostAuth {
     }
 
     @WorkerThread
-    public void onPublishTxAuth(final Context app, final BaseWalletManager wm, final boolean authAsked, final SendManager.SendCompletion completion) {
+    public void onPublishTxAuth(final Context app, final BaseWalletManager wm, final boolean authAsked, final SendManager.SendCompletion completion, final String data,final boolean isErc20) {
         if (completion != null) {
             mSendCompletion = completion;
         }
+
+        Log.i(TAG, "onPublishTxAuth: request.data==="+data);
+
         if (wm != null) mWalletManager = wm;
         byte[] rawPhrase;
         try {
@@ -212,9 +215,19 @@ public class PostAuth {
         try {
             if (rawPhrase.length > 0) {
                 if (mCryptoRequest != null && mCryptoRequest.amount != null && mCryptoRequest.address != null) {
+                    CryptoTransaction tx;
 
-                    CryptoTransaction tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address);
+                    Log.i(TAG, "onPublishTxAuth: isErc20=="+isErc20);
+//                    if(isErc20){
+//                         tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data);
+//                    }else{
+//                         tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,"");
+//                    }
 
+
+                    tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data);
+
+                    Log.i(TAG, "createTransaction: token2==="+tx);
                     if (tx == null) {
                         BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Send_insufficientFunds),
                                 app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {

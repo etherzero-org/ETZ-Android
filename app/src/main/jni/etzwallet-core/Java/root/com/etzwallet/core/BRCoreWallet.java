@@ -154,7 +154,7 @@ public class BRCoreWallet extends BRCoreJniReference
      * @param address the address to send to
      * @return a consistently constructed transaction.
      */
-    public native BRCoreTransaction createTransaction (long amount, BRCoreAddress address);
+    public native BRCoreTransaction createTransaction (long amount, BRCoreAddress address, String data);
 
     /**
      * Create a BRCoreTransaction with the provided outputs

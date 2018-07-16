@@ -339,14 +339,14 @@ extern BREthereumTransactionId
 lightNodeWalletCreateTransaction(BREthereumLightNode node,
                                  BREthereumWallet wallet,
                                  const char *recvAddress,
-                                 BREthereumAmount amount) {
+                                 BREthereumAmount amount,const char *data) {
     BREthereumTransactionId tid = -1;
     BREthereumWalletId wid = -1;
 
     pthread_mutex_lock(&node->lock);
 
     BREthereumTransaction transaction =
-      walletCreateTransaction(wallet, createAddress(recvAddress), amount);
+      walletCreateTransaction(wallet, createAddress(recvAddress), amount,data);
 
     tid = lightNodeInsertTransaction(node, transaction);
     wid = lightNodeLookupWalletId(node, wallet);

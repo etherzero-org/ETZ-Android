@@ -30,7 +30,7 @@
 #include "BRPeerManager.h"
 #include "com_etzwallet_core_BRCoreWallet.h"
 #include "com_etzwallet_core_BRCoreTransaction.h"
-
+#include <android/log.h>
 static BRTransaction *
 JNI_COPY_TRANSACTION (BRTransaction *tx) {
     if (com_etzwallet_core_BRCoreTransaction_JNI_COPIES_TRANSACTIONS && NULL != tx) {
@@ -344,10 +344,12 @@ JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreWallet_getDefaultFeePerKb
  */
 JNIEXPORT jobject JNICALL
 Java_com_etzwallet_core_BRCoreWallet_createTransaction
-        (JNIEnv *env, jobject thisObject, jlong amount, jobject addressObject) {
+        (JNIEnv *env, jobject thisObject, jlong amount, jobject addressObject, jchar data) {
     BRWallet  *wallet  = (BRWallet  *) getJNIReference(env, thisObject);
     BRAddress *address = (BRAddress *) getJNIReference(env, addressObject);
-
+//    char *data1 = (char *) getJNIReference(env, data);
+//    __android_log_print(ANDROID_LOG_INFO, "lclclc", "my name is data%s\n", data);
+//    __android_log_print(ANDROID_LOG_INFO, "lclclc", "my name is data1%s\n", data1);
     // transaction may be NULL - like if the wallet does not have a large enough balance
     // to cover the transaction amount
     BRTransaction *transaction = BRWalletCreateTransaction(wallet,

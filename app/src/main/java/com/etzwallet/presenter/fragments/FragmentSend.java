@@ -92,6 +92,8 @@ public class FragmentSend extends Fragment {
     private Button paste;
     private Button send;
     private EditText commentEdit;
+    private EditText commentData;
+    private LinearLayout commentDataView;
     private StringBuilder amountBuilder;
     private TextView isoText;
     private EditText amountEdit;
@@ -134,6 +136,8 @@ public class FragmentSend extends Fragment {
         paste = rootView.findViewById(R.id.paste_button);
         send = rootView.findViewById(R.id.send_button);
         commentEdit = rootView.findViewById(R.id.comment_edit);
+        commentData = rootView.findViewById(R.id.comment_data);
+        commentDataView = rootView.findViewById(R.id.comment_data_view);
         amountEdit = rootView.findViewById(R.id.amount_edit);
         balanceText = rootView.findViewById(R.id.balance_text);
         feeText = rootView.findViewById(R.id.fee_text);
@@ -153,6 +157,7 @@ public class FragmentSend extends Fragment {
 
         amountBuilder = new StringBuilder(0);
         setListeners();
+        visibleDataView();
         isoText.setText(getString(R.string.Send_amountLabel));
         isoText.setTextSize(18);
         isoText.setTextColor(getContext().getColor(R.color.light_gray));
@@ -199,6 +204,16 @@ public class FragmentSend extends Fragment {
         signalLayout.setLayoutTransition(BRAnimator.getDefaultTransition());
 
         return rootView;
+    }
+
+    //只在etz显示data输入框
+    private void visibleDataView(){
+        final BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
+        if(wm.getIso().equalsIgnoreCase("ETZ")){
+            commentDataView.setVisibility(View.VISIBLE);
+        }else{
+            commentDataView.setVisibility(View.GONE);
+        }
     }
 
     private void setListeners() {
@@ -267,6 +282,8 @@ public class FragmentSend extends Fragment {
             }
         });
 
+
+
         //needed to fix the overlap bug
         commentEdit.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -284,6 +301,16 @@ public class FragmentSend extends Fragment {
                 showKeyboard(!hasFocus);
             }
         });
+
+
+        commentData.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                showKeyboard(!hasFocus);
+            }
+        });
+
+
 
         paste.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -424,10 +451,21 @@ public class FragmentSend extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                
+                
                 //not allowed now
                 if (!BRAnimator.isClickAllowed()) return;
                 WalletsMaster master = WalletsMaster.getInstance(getActivity());
                 final BaseWalletManager wm = master.getCurrentWallet(getActivity());
+
+                if(WalletsMaster.getInstance(getActivity()).isIsoErc20(getActivity(), wm.getIso())){
+                    Log.i(TAG, "onClick: istoken");
+                }else{
+                    Log.i(TAG, "onClick: isnotToken");
+                }
+                        
+                        
                 //get the current wallet used
                 if (wm == null) {
                     Log.e(TAG, "onClick: Wallet is null and it can't happen.");
@@ -438,6 +476,8 @@ public class FragmentSend extends Fragment {
                 String rawAddress = addressEdit.getText().toString();
                 String amountStr = amountBuilder.toString();
                 String comment = commentEdit.getText().toString();
+                String dataValue = commentData.getText().toString();
+
 
                 //inserted amount
                 BigDecimal rawAmount = new BigDecimal(Utils.isNullOrEmpty(amountStr) || amountStr.equalsIgnoreCase(".") ? "0" : amountStr);
@@ -495,7 +535,7 @@ public class FragmentSend extends Fragment {
                 }
 
                 if (allFilled) {
-                    final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount);
+                    final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount,dataValue);
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -812,6 +852,7 @@ public class FragmentSend extends Fragment {
             balanceText.setTextColor(getContext().getColor(R.color.warning_color));
             feeText.setTextColor(getContext().getColor(R.color.warning_color));
             amountEdit.setTextColor(getContext().getColor(R.color.warning_color));
+
             if (!amountLabelOn)
                 isoText.setTextColor(getContext().getColor(R.color.warning_color));
         } else {

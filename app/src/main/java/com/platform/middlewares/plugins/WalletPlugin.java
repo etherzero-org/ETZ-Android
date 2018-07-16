@@ -344,6 +344,9 @@ public class WalletPlugin implements Plugin {
         String numerator = null;
         String denominator = null;
         String txCurrency = null;
+
+        String dataVal = null;
+
         try {
             toAddress = obj.getString("toAddress");
             toDescription = obj.getString("toDescription");
@@ -372,7 +375,7 @@ public class WalletPlugin implements Plugin {
         BigDecimal bigAmount = WalletsMaster.getInstance(app).isIsoErc20(app, currency) ?
                 new BigDecimal(numerator).divide(new BigDecimal(denominator), nrOfZeros(denominator), BRConstants.ROUNDING_MODE) :
                 new BigDecimal(numerator);
-        final CryptoRequest item = new CryptoRequest(null, false, null, addr, bigAmount);
+        final CryptoRequest item = new CryptoRequest(null, false, null, addr, bigAmount,dataVal);
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {

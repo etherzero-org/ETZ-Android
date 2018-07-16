@@ -352,8 +352,8 @@ public class WalletTokenManager extends BaseEthereumWalletManager implements Bas
     }
 
     @Override
-    public CryptoTransaction createTransaction(BigDecimal amount, String address) {
-        BREthereumTransaction tx = mWalletToken.createTransaction(address, amount.toPlainString(), BREthereumAmount.Unit.TOKEN_DECIMAL);
+    public CryptoTransaction createTransaction(BigDecimal amount, String address, String data) {
+        BREthereumTransaction tx = mWalletToken.createTransaction(address, amount.toPlainString(), BREthereumAmount.Unit.TOKEN_DECIMAL,data);
         return new CryptoTransaction(tx);
     }
 

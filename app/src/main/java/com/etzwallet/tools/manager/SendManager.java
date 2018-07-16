@@ -160,6 +160,9 @@ public class SendManager {
             BRReportsManager.reportBug(new RuntimeException("paymentRequest is malformed: " + message), true);
             throw new SomethingWentWrong("wrong parameters: paymentRequest");
         }
+
+        Log.i(TAG, "tryPay: dataValue==="+paymentRequest.data);
+
         BigDecimal balance = walletManager.getCachedBalance(app);
         BigDecimal minOutputAmount = walletManager.getMinOutputAmount(app);
 
@@ -188,7 +191,7 @@ public class SendManager {
         }
 
         // payment successful
-        PostAuth.getInstance().setPaymentItem(paymentRequest);
+        PostAuth.getInstance().setPaymentItem(paymentRequest);//将paymentRequest所有参数传入 PostAuth.java
         confirmPay(app, paymentRequest, walletManager, completion);
 
     }
@@ -246,7 +249,7 @@ public class SendManager {
 
     }
 
-    //输入密码或指纹后  开始转账
+    //点击 转账 （还未输入密码）
     private static void confirmPay(final Context ctx, final CryptoRequest request, final BaseWalletManager wm, final SendCompletion completion) {
         if (ctx == null) {
             Log.e(TAG, "confirmPay: context is null");
@@ -292,7 +295,10 @@ public class SendManager {
             forcePin = true;
         }
 
-        //successfully created the transaction, authenticate user
+
+        final boolean isErc20 = WalletsMaster.getInstance(ctx).isIsoErc20(ctx, wm.getIso());
+
+        //successfully created the transaction, authenticate user  弹出输入支付密码modal
         AuthManager.getInstance().authPrompt(ctx, ctx.getString(R.string.VerifyPin_touchIdMessage), message, forcePin, false, new BRAuthCompletion() {
 
             @Override
@@ -300,7 +306,7 @@ public class SendManager {
                 BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                     @Override
                     public void run() {
-                        PostAuth.getInstance().onPublishTxAuth(ctx, wm, false, completion);
+                        PostAuth.getInstance().onPublishTxAuth(ctx, wm, false, completion, request.data,isErc20);
                         BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                             @Override
                             public void run() {
@@ -392,7 +398,7 @@ public class SendManager {
         String line3 = ctx.getString(R.string.Confirmation_feeLabel) + " " + "0.00" + " (" + formattedFee + ")\n";//网络费用
         String line4 = ctx.getString(R.string.Confirmation_totalLabel) + " " + formattedCryptoTotal + " (" + formattedTotal + ")";//总费用
         String line5 = Utils.isNullOrEmpty(request.message) ? "" : "\n\n" + request.message;
-
+//        String line6 = request.data;
         //formatted text
         return line1 + line2 + line3 + (isErc20 ? "" : line4) + line5;
     }

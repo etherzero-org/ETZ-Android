@@ -31,7 +31,7 @@
 #include "BREthereumAmount.h"
 #include "BREthereumAccount.h"
 #include "BREthereumPrivate.h"
-
+#include <android/log.h>
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 
 // Forward Declarations
@@ -170,7 +170,7 @@ transactionCreate(BREthereumAddress sourceAddress,
                   BREthereumAmount amount,
                   BREthereumGasPrice gasPrice,
                   BREthereumGas gasLimit,
-                  uint64_t nonce) {
+                  uint64_t nonce,const char *data) {
     BREthereumTransaction transaction = calloc (1, sizeof (struct BREthereumTransactionRecord));
 
     transactionStateCreated(&transaction->state);
@@ -182,6 +182,13 @@ transactionCreate(BREthereumAddress sourceAddress,
     transaction->nonce = nonce;
     transaction->chainId = 88;
     transaction->hash = hashCreateEmpty();
+//    transaction->data = data;
+
+//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is1=", "tx_data_is1=%s\n", data );
+//
+//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is3=", "tx_data_is3=%s\n", gasPrice );
+//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is4=", "tx_data_is4=%s\n", sourceAddress );
+    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", data );
 
     provideData(transaction);
     provideGasEstimate(transaction);
@@ -522,7 +529,6 @@ transactionRlpDecodeItem (BRRlpItem item,
 
         BREthereumAddress contractAddr = addressRlpDecode(items[3], coder);
         BREthereumToken token = tokenLookup(addressAsString (contractAddr));
-
         // Confirm `strData` encodes functionERC20Transfer
         BREthereumContractFunction function = contractLookupFunctionForEncoding(contractERC20, strData);
         if (NULL == token || function != functionERC20Transfer) {

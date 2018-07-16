@@ -453,7 +453,7 @@ extern BREthereumTransactionId
 ethereumWalletCreateTransaction(BREthereumLightNode node,
                                 BREthereumWalletId wid,
                                 const char *recvAddress,
-                                BREthereumAmount amount);
+                                BREthereumAmount amount, const char *data);
 
 /**
  * Sign the transaction using the wallet's account (for the sender's address).  The paperKey

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -192,12 +193,11 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
 //                if (!BRAnimator.isClickAllowed()) return;
 //                shareButtonsShown = !shareButtonsShown;
 //                showShareButtons(shareButtonsShown);
-
+//                Log.i(TAG, "onClick: sharebtn"+mReceiveAddress);
                 if (!BRAnimator.isClickAllowed()) return;
                 BaseWalletManager walletManager = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
-                Uri cryptoUri = CryptoUriParser.createCryptoUrl(getActivity(), walletManager,
-                        walletManager.decorateAddress(mReceiveAddress),
-                        BigDecimal.ZERO, null, null, null);
+                Uri cryptoUri = CryptoUriParser.createCryptoUrl(getActivity(), walletManager, walletManager.decorateAddress(mReceiveAddress), BigDecimal.ZERO, null, null, null);
+
                 QRUtils.share("sms:", getActivity(), cryptoUri.toString());
             }
         });

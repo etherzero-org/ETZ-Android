@@ -30,7 +30,7 @@
 #include "BRArray.h"
 #include "BREthereumPrivate.h"
 #include "BREthereumLightNodePrivate.h"
-
+#include <android/log.h>
 
 //
 //
@@ -340,7 +340,7 @@ lightNodeAnnounceTransaction(BREthereumLightNode node,
                                         amount,
                                         gasPrice,
                                         gasLimit,
-                                        nonce);
+                                        nonce,data);
 
         // With a new transaction:
         //
@@ -474,7 +474,9 @@ lightNodeAnnounceLog (BREthereumLightNode node,
         BREthereumGasPrice gasPrice =
         gasPriceCreate(etherCreate(createUInt256Parse(strGasPrice, 0, &status)));
 
-        transaction = transactionCreate(sourceAddr, targetAddr, amount, gasPrice, gasUsed, 0);
+        __android_log_print(ANDROID_LOG_INFO, "tx_data_is_strData=", "tx_data_is_strData=%s\n", strData);
+
+        transaction = transactionCreate(sourceAddr, targetAddr, amount, gasPrice, gasUsed, 0,strData);
 
         // With a new transaction:
         //

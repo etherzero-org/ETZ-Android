@@ -54,6 +54,8 @@ import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import java.util.regex.*;
+
 import static com.etzwallet.wallet.util.CryptoUriParser.parseRequest;
 
 
@@ -477,7 +479,32 @@ public class FragmentSend extends Fragment {
                 String amountStr = amountBuilder.toString();
                 String comment = commentEdit.getText().toString();
                 String dataValue = commentData.getText().toString();
+                dataValue = dataValue.toLowerCase();
+                if(dataValue.length() == 0){
+                    dataValue = "";
+                }
+                if(dataValue.startsWith("0x")){
+                    dataValue = dataValue.substring(2);
+                }
+                String p = "^[a-z0-9]*$";
 
+                final Activity app = getActivity();
+                if(dataValue.length() > 0){
+                    if(!Pattern.matches(p, dataValue)){
+                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),app.getString(R.string.Data_invalid),app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
+                            @Override
+                            public void onClick(BRDialogView brDialogView) {
+                                brDialogView.dismiss();
+                            }
+                        },null,null,0);
+                        return;
+                    }
+                }
+
+
+
+
+                Log.i(TAG, "onClick: dataValue=="+dataValue);
 
                 //inserted amount
                 BigDecimal rawAmount = new BigDecimal(Utils.isNullOrEmpty(amountStr) || amountStr.equalsIgnoreCase(".") ? "0" : amountStr);
@@ -491,7 +518,7 @@ public class FragmentSend extends Fragment {
                     sayInvalidClipboardData();
                     return;
                 }
-                final Activity app = getActivity();
+
                 if (!wm.isAddressValid(req.address)) {
 
                     BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Send_noAddress),
@@ -503,9 +530,7 @@ public class FragmentSend extends Fragment {
                             }, null, null, 0);
                     return;
                 }
-                Log.i(TAG, "onClick: cryptoAmount=="+cryptoAmount);
-                Log.i(TAG, "onClick: BigDecimal.ZERO=="+BigDecimal.ZERO);
-                Log.i(TAG, "onClick: cryptoAmount.compareTo(BigDecimal.ZERO)=="+cryptoAmount.compareTo(BigDecimal.ZERO));
+
                 if (cryptoAmount.compareTo(BigDecimal.ZERO) < 0) {
                     allFilled = false;
                     SpringAnimator.failShakeAnimation(getActivity(), amountEdit);

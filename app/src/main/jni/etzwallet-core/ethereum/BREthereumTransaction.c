@@ -32,11 +32,12 @@
 #include "BREthereumAccount.h"
 #include "BREthereumPrivate.h"
 #include <android/log.h>
+#include <iconv.h>
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 
 // Forward Declarations
 static void
-provideData (BREthereumTransaction transaction);
+provideData (BREthereumTransaction transaction,const char *data);
 
 static void
 provideGasEstimate (BREthereumTransaction transaction);
@@ -190,7 +191,7 @@ transactionCreate(BREthereumAddress sourceAddress,
 //    __android_log_print(ANDROID_LOG_INFO, "tx_data_is4=", "tx_data_is4=%s\n", sourceAddress );
     __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", data );
 
-    provideData(transaction);
+    provideData(transaction,data);
     provideGasEstimate(transaction);
 
     return transaction;
@@ -294,11 +295,11 @@ transactionGetData (BREthereumTransaction transaction) {
 }
 
 static void
-provideData (BREthereumTransaction transaction) {
+provideData (BREthereumTransaction transaction,const char *data) {
     if (NULL == transaction->data) {
         switch (amountGetType (transaction->amount)) {
             case AMOUNT_ETHER:
-                transaction->data = "";
+                transaction->data = (char *) etherEncode(data);
                 break;
             case AMOUNT_TOKEN: {
                 UInt256 value = amountGetTokenQuantity(transaction->amount).valueAsInteger;

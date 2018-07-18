@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+  <!--意大利语-->
+  <string name="Data_invalid">i dati non sono validi</string>
   <!-- App name -->
-  <string name="About.appName.android">EasyEasyETZ</string>
+  <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">Blog</string>
   <!-- About screen footer -->

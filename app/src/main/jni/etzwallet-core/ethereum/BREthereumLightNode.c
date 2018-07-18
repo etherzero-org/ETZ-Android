@@ -38,7 +38,7 @@
 #include "event/BREvent.h"
 #include "BREthereum.h"
 #include "BREthereumLightNode.h"
-
+#include "android/log.h"
 
 //
 // Light Node Client
@@ -344,7 +344,7 @@ lightNodeWalletCreateTransaction(BREthereumLightNode node,
     BREthereumWalletId wid = -1;
 
     pthread_mutex_lock(&node->lock);
-
+    __android_log_print(ANDROID_LOG_INFO, "tx_data_is3=", "tx_data_is3=%s\n", data );
     BREthereumTransaction transaction =
       walletCreateTransaction(wallet, createAddress(recvAddress), amount,data);
 

@@ -88,7 +88,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     private ImageButton mSearchIcon;
     private ConstraintLayout mToolBarConstraintLayout;
 
-    public static final String EXTRA_URL = "com.breadwallet.EXTRA_URL";
+    public static final String EXTRA_URL = "com.etzwallet.EXTRA_URL";
 
     private static final float PRIMARY_TEXT_SIZE = 30;
     private static final float SECONDARY_TEXT_SIZE = 16;

@@ -30,7 +30,7 @@
 #include "BREthereumBlock.h"
 #include "BREthereumWallet.h"
 #include "BREthereumLightNode.h"
-
+#include "android/log.h"
 //
 //
 //
@@ -183,6 +183,7 @@ ethereumWalletCreateTransaction(BREthereumLightNode node,
                                 const char *recvAddress,
                                 BREthereumAmount amount,const char *data) {
     BREthereumWallet wallet = lightNodeLookupWallet(node, wid);
+    __android_log_print(ANDROID_LOG_INFO, "tx_data_is2=", "tx_data_is2=%s\n", data );
     return lightNodeWalletCreateTransaction(node, wallet, recvAddress, amount,data);
 }
 

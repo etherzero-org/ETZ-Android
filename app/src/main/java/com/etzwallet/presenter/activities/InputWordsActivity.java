@@ -38,8 +38,8 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
     private static final int NUMBER_OF_WORDS = 12;
     private static final int LAST_WORD_INDEX = 11;
 
-    public static final String EXTRA_UNLINK = "com.breadwallet.EXTRA_UNLINK";
-    public static final String EXTRA_RESET_PIN = "com.breadwallet.EXTRA_RESET_PIN";
+    public static final String EXTRA_UNLINK = "com.etzwallet.EXTRA_UNLINK";
+    public static final String EXTRA_RESET_PIN = "com.etzwallet.EXTRA_RESET_PIN";
 
     private List<EditText> mEditWords = new ArrayList<>(NUMBER_OF_WORDS);
 

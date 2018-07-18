@@ -765,7 +765,7 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
          jlong amountUnit,jstring data) {
 
 
-    __android_log_print(ANDROID_LOG_INFO, "data value is", "data value is%s\n", data);
+    __android_log_print(ANDROID_LOG_INFO, "tx_data_is1=", "tx_data_is1=%s\n", data );
 
     BREthereumLightNode node = (BREthereumLightNode) getJNIReference(env, thisObject);
     BREthereumToken token = ethereumWalletGetToken(node, wid);
@@ -779,12 +779,24 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
                                                                 &status);
     (*env)->ReleaseStringUTFChars (env, amountObject, amountChars);
 
+
+    //data jstring类型转成 char *类型
+//    JNIEXPORT void JNICALL Java_ClassName_MethodName(JNIEnv *env, jobject obj, jstring javaString)
+//    {
+        const char *nativeData = (*env)->GetStringUTFChars(env, data, 0);
+
+        // use your string
+
+        (*env)->ReleaseStringUTFChars(env, data, nativeData);
+//    }
+
+
     const char *to = (*env)->GetStringUTFChars(env, toObject, 0);
     BREthereumTransactionId tid =
             ethereumWalletCreateTransaction(node,
                                             (BREthereumWalletId) wid,
                                             to,
-                                            amount,data);
+                                            amount,nativeData);
     (*env)->ReleaseStringUTFChars(env, toObject, to);
     return (jlong) tid;
 }

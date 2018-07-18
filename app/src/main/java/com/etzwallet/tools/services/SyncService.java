@@ -43,10 +43,10 @@ import com.etzwallet.wallet.abstracts.BaseWalletManager;
 public class SyncService extends IntentService {
     private static final String TAG = SyncService.class.getSimpleName();
 
-    public static final String ACTION_START_SYNC_PROGRESS_POLLING = "com.breadwallet.tools.services.ACTION_START_SYNC_PROGRESS_POLLING";
-    public static final String ACTION_SYNC_PROGRESS_UPDATE = "com.breadwallet.tools.services.ACTION_SYNC_PROGRESS_UPDATE";
-    public static final String EXTRA_WALLET_ISO = "com.breadwallet.tools.services.EXTRA_WALLET_ISO";
-    public static final String EXTRA_PROGRESS = "com.breadwallet.tools.services.EXTRA_PROGRESS";
+    public static final String ACTION_START_SYNC_PROGRESS_POLLING = "com.etzwallet.tools.services.ACTION_START_SYNC_PROGRESS_POLLING";
+    public static final String ACTION_SYNC_PROGRESS_UPDATE = "com.etzwallet.tools.services.ACTION_SYNC_PROGRESS_UPDATE";
+    public static final String EXTRA_WALLET_ISO = "com.etzwallet.tools.services.EXTRA_WALLET_ISO";
+    public static final String EXTRA_PROGRESS = "com.etzwallet.tools.services.EXTRA_PROGRESS";
 
     private static final int POLLING_INTERVAL = 500; // in milliseconds
 

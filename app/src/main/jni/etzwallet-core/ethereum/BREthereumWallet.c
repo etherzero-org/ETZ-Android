@@ -28,7 +28,7 @@
 #include <assert.h>
 #include "BREthereumPrivate.h"
 #include "BRArray.h"
-
+#include "android/log.h"
 #define DEFAULT_ETHER_GAS_PRICE_NUMBER   500000000 // 0.5 GWEI
 #define DEFAULT_ETHER_GAS_PRICE_UNIT     WEI
 
@@ -241,7 +241,7 @@ walletCreateTransactionDetailed(BREthereumWallet wallet,
     assert (walletGetAmountType(wallet) == amountGetType(amount));
     assert (AMOUNT_ETHER == amountGetType(amount)
             || (wallet->token == tokenQuantityGetToken (amountGetTokenQuantity(amount))));
-    
+    __android_log_print(ANDROID_LOG_INFO, "tx_data_is4=", "tx_data_is4=%s\n", data );
     BREthereumTransaction transaction = transactionCreate(wallet->address,
                                                           recvAddress,
                                                           amount,

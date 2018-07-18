@@ -24,6 +24,8 @@
  */
 package com.etzwallet.core.ethereum;
 
+import android.util.Log;
+
 import com.etzwallet.core.ethereum.BREthereumAmount.Unit;
 
 import java.math.BigDecimal;
@@ -256,10 +258,12 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
      * @param amountUnit
      * @return
      */
+    public static final String TAG = "BREthereumWallet";
     public BREthereumTransaction createTransaction(String targetAddress,
                                                    String amount,
                                                    Unit amountUnit,String data) {
         BREthereumLightNode lightNode = node.get();
+        Log.d(TAG, "tx_data_is0="+data);
 
         // Note: The created transaction's unit will be `amountUnit`.  This unit may differ
         // from the wallet's defaultUnit - which should not be a problem.

@@ -116,7 +116,7 @@ public final class BRConstants {
      * Extra constants
      */
 
-    public static final String EXTRA_URL = "com.breadwallet.EXTRA_URL";
+    public static final String EXTRA_URL = "com.etzwallet.EXTRA_URL";
 
 
     private BRConstants() {

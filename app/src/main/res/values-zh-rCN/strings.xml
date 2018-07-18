@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="Data_invalid">交易数据无效</string>
     <!-- App name -->
-    <string name="About.appName.android">EasyEasyETZ</string>
+    <string name="About.appName.android">EasyETZ</string>
     <!-- About screen blog label -->
     <string name="About.blog">博客</string>
     <!-- About screen footer -->

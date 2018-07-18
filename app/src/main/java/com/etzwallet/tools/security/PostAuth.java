@@ -198,7 +198,7 @@ public class PostAuth {
         if (completion != null) {
             mSendCompletion = completion;
         }
-
+        //没到这一步
         Log.i(TAG, "onPublishTxAuth: request.data==="+data);
 
         if (wm != null) mWalletManager = wm;

@@ -426,6 +426,7 @@
   <string name="RecoverWallet.leftArrow">左矢印</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">次へ</string>
+  <string name="RecoverWallet.nextStep">次のステップ</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">詳しくはこちらをタップしてください。</string>
   <!-- Next button accessibility label -->
@@ -520,9 +521,9 @@
   <!-- Insufficient funds error -->
   <string name="Send.insufficientFunds">残高不足</string>
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-  <string name="Send.insufficientGasMessage">このタイプのトークンを送金するには、ウォレットに%1$s以上保有していなければなりません。今すぐイーサリアムのウォレットに移動しますか?</string>
+  <string name="Send.insufficientGasMessage">このタイプのトークンを送金するには、ウォレットに%1$s以上保有していなければなりません。</string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">イーサリアムの残高不足</string>
+  <string name="Send.insufficientGasTitle">エーテルゼロ残高不足</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">送金先のアドレスが無効な%1$sアドレスです。</string>
   <!-- Invalid address on pasteboard message -->

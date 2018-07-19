@@ -426,6 +426,7 @@
   <string name="RecoverWallet.leftArrow">Стрелка влево</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">Далее</string>
+  <string name="RecoverWallet.nextStep">Следующий шаг</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">Коснитесь здесь для получения подробной информации.</string>
   <!-- Next button accessibility label -->
@@ -447,7 +448,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 минут</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">Если транзакция описывается как \"выполненная\" в биткойн-сети, но не в вашем Bread-кошельке.</string>
+  <string name="ReScan.body2">Если транзакция описывается как \"выполненная\" в биткойн-сети, но не в вашем EasyETZ.</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">Вы несколько раз получили ошибку о том, что транзакция отвергнута.</string>
   <!-- Start Sync button label -->
@@ -520,9 +521,9 @@
   <!-- Insufficient funds error -->
   <string name="Send.insufficientFunds">Недостаточно средств</string>
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-  <string name="Send.insufficientGasMessage">Чтобы передать токен этого типа, у вас в кошельке должно быть хотя бы %1$s. Вы хотите перейти к своему Ethereum-кошельку?</string>
+  <string name="Send.insufficientGasMessage">Чтобы передать токен этого типа, у вас в кошельке должно быть хотя бы %1$s.</string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">Недостаточно Ethereum</string>
+  <string name="Send.insufficientGasTitle">Недостаточно EtherZero</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">Недействительный %1$s-адрес получателя.</string>
   <!-- Invalid address on pasteboard message -->

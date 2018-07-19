@@ -106,7 +106,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
     public BREthereumLightNode node;
 
     private WalletEthManager(final Context app, byte[] ethPubKey, BREthereumNetwork network) {
-        mUiConfig = new WalletUiConfiguration("#5e6fa5", null,
+        mUiConfig = new WalletUiConfiguration("#00BDFF", "#5E7AA3",
                 true, WalletManagerHelper.MAX_DECIMAL_PLACES_FOR_UI);
         mSettingsConfig = new WalletSettingsConfiguration(app, ISO, getFingerprintLimits(app));
 

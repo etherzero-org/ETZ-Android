@@ -23,7 +23,7 @@ public class SetPinActivity extends BRActivity {
     private View dot5;
     private View dot6;
 
-    private ImageButton faq;
+//    private ImageButton faq;
     private StringBuilder pin = new StringBuilder();
     private int pinLimit = 6;
     private boolean startingNextActivity;

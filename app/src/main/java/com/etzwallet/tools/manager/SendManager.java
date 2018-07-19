@@ -105,7 +105,7 @@ public class SendManager {
             BigDecimal fee = walletManager.getEstimatedFee(payment.amount, "");
             if (WalletsMaster.getInstance(app).isIsoErc20(app, walletManager.getIso()) &&
                     fee.compareTo(WalletEthManager.getInstance(app).getCachedBalance(app)) > 0) {
-                sayError(app, app.getString(R.string.Send_insufficientGasTitle), String.format(app.getString(R.string.Send_insufficientGasMessage), CurrencyUtils.getFormattedAmount(app, "ETH", fee)));
+                sayError(app, app.getString(R.string.Send_insufficientGasTitle), String.format(app.getString(R.string.Send_insufficientGasMessage), CurrencyUtils.getFormattedAmount(app, "ETZ", fee)));
             } else
                 sayError(app, app.getString(R.string.Alerts_sendFailure), app.getString(R.string.Send_insufficientFunds));
         } catch (AmountSmallerThanMinException e) {
@@ -340,7 +340,8 @@ public class SendManager {
         }
 
         String iso = BRSharedPrefs.getPreferredFiatIso(ctx);
-        BigDecimal feeForTx = wm.getEstimatedFee(request.amount, request.address);
+//        BigDecimal feeForTx = wm.getEstimatedFee(request.amount, request.address);
+        BigDecimal feeForTx = new BigDecimal("0.00");
         if (feeForTx.compareTo(BigDecimal.ZERO) < 0) {
             BigDecimal maxAmount = wm.getMaxOutputAmount(ctx);
             if (maxAmount != null && maxAmount.compareTo(new BigDecimal(-1)) == 0) {
@@ -389,6 +390,7 @@ public class SendManager {
             BaseWalletManager ethWm = WalletEthManager.getInstance(ctx);
             formattedCryptoFee = CurrencyUtils.getFormattedAmount(ctx, ethWm.getIso(), feeForTx);
             formattedFee = CurrencyUtils.getFormattedAmount(ctx, iso, ethWm.getFiatForSmallestCrypto(ctx, feeForTx, null));
+
         }
 
         String line1 = receiver + "\n\n";

@@ -426,6 +426,7 @@
   <string name="RecoverWallet.leftArrow">左箭頭</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">下一步</string>
+  <string name="RecoverWallet.nextStep">下一步</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">點此了解更多資訊。</string>
   <!-- Next button accessibility label -->
@@ -447,7 +448,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 分鐘</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">如果交易在比特幣網上已經顯示為完成，但沒有出現在您的 EasyETZ 上。</string>
+  <string name="ReScan.body2">如果交易在以太零網上已經顯示為完成，但沒有出現在您的 EasyETZ 上。</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">你不斷收到「交易被拒」的錯誤。</string>
   <!-- Start Sync button label -->
@@ -520,9 +521,9 @@
   <!-- Insufficient funds error -->
   <string name="Send.insufficientFunds">資金不足</string>
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-  <string name="Send.insufficientGasMessage">欲傳送此類代幣，您錢包中至少須有 %1$s。請問您現在要前往以太坊錢包嗎？</string>
+  <string name="Send.insufficientGasMessage">欲傳送此類代幣，您錢包中至少須有 %1$s。</string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">以太坊餘額不足</string>
+  <string name="Send.insufficientGasTitle">以太零餘額不足</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">目的地址不是一個有效的%1$s地址。</string>
   <!-- Invalid address on pasteboard message -->

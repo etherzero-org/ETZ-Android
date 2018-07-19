@@ -155,7 +155,7 @@ public class FragmentSend extends Fragment {
         economy = rootView.findViewById(R.id.right_button);
         close = rootView.findViewById(R.id.close_button);
         BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
-        selectedIso = BRSharedPrefs.isCryptoPreferred(getActivity()) ? wm.getIso() : BRSharedPrefs.getPreferredFiatIso(getContext());
+        selectedIso = BRSharedPrefs.isCryptoPreferred(getActivity()) ? BRSharedPrefs.getPreferredFiatIso(getContext()) : wm.getIso();
 
         amountBuilder = new StringBuilder(0);
         setListeners();
@@ -551,7 +551,8 @@ public class FragmentSend extends Fragment {
                     if (isoFee.compareTo(b) > 0) {
                         if (allFilled) {
                             BigDecimal ethVal = ethWm.getCryptoForSmallestCrypto(app, isoFee);
-                            sayInsufficientEthereumForFee(app, ethVal.setScale(ethWm.getMaxDecimalPlaces(app), BRConstants.ROUNDING_MODE).toPlainString());
+//                            sayInsufficientEthereumForFee(app, ethVal.setScale(ethWm.getMaxDecimalPlaces(app), BRConstants.ROUNDING_MODE).toPlainString());
+                            sayInsufficientEthereumForFee(app, "0.01ETZ");
 
                             allFilled = false;
                         }
@@ -694,9 +695,8 @@ public class FragmentSend extends Fragment {
     }
 
     private void sayInsufficientEthereumForFee(final Activity app, String ethNeeded) {
-        String message = String.format("You must have at least %s Ethereum in your wallet in order to transfer this type of token. " +
-                "Would you like to go to your Ethereum wallet now?", ethNeeded);
-        BRDialog.showCustomDialog(app, "Insufficient Ethereum Balance", message, app.getString(R.string.Button_continueAction),
+        String message = String.format(app.getString(R.string.Send_insufficientGasMessage), ethNeeded);
+        BRDialog.showCustomDialog(app, app.getString(R.string.Send_insufficientGasTitle), message, app.getString(R.string.Button_continueAction),
                 app.getString(R.string.Button_cancel), new BRDialogView.BROnClickListener() {
                     @Override
                     public void onClick(BRDialogView brDialogView) {
@@ -833,6 +833,10 @@ public class FragmentSend extends Fragment {
         if (selectedIso == null)
             selectedIso = wm.getIso();
         //String iso = selectedIso;
+
+        Log.i(TAG, "updateText: selectedIso==="+selectedIso);
+
+
         curBalance = wm.getCachedBalance(app);
         if (!amountLabelOn)
             isoText.setText(CurrencyUtils.getSymbolByIso(app, selectedIso));

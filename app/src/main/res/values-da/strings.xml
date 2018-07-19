@@ -427,6 +427,7 @@
   <string name="RecoverWallet.leftArrow">Venstre pil</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">Næste</string>
+  <string name="RecoverWallet.nextStep">Næste trin</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">Tryk her for flere oplysninger.</string>
   <!-- Next button accessibility label -->
@@ -448,7 +449,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 minutter</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">Hvis en transaktion vises som gennemført i bitcoin netværket, men ikke i dit EasyETZ.</string>
+  <string name="ReScan.body2">Hvis en transaktion vises som gennemført i EtherZero netværket, men ikke i dit EasyETZ.</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">Du modtager gentagne gange en fejlmeddelelse om at din transaktion er blevet afvist.</string>
   <!-- Start Sync button label -->
@@ -521,9 +522,9 @@
   <!-- Insufficient funds error -->
   <string name="Send.insufficientFunds">Utilstrækkelige midler</string>
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-  <string name="Send.insufficientGasMessage">Du skal have mindst %1$s i din pung, for at kunne overføre denne type token. Vil du gå til din Ethereum pung nu?</string>
+  <string name="Send.insufficientGasMessage">Du skal have mindst %1$s i din pung, for at kunne overføre denne type token.</string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">Utilstrækkelig Ethereum balance</string>
+  <string name="Send.insufficientGasTitle">Utilstrækkelig EtherZero balance</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">Modtageradressen er ikke en gyldig %1$s-adresse.</string>
   <!-- Invalid address on pasteboard message -->

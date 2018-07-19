@@ -424,6 +424,7 @@
     <string name="RecoverWallet.leftArrow">Left Arrow</string>
     <!-- Next button label -->
     <string name="RecoverWallet.next">Next</string>
+    <string name="RecoverWallet.nextStep">Next</string>
     <!-- Reset PIN with paper key: more information button. -->
     <string name="RecoverWallet.reset_pin_more_info">Tap here for more information.</string>
     <!-- Next button accessibility label -->
@@ -518,9 +519,9 @@
     <!-- Insufficient funds error -->
     <string name="Send.insufficientFunds">Insufficient Funds</string>
     <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-    <string name="Send.insufficientGasMessage">You must have at least %1$s in your wallet in order to transfer this type of token. Would you like to go to your Ethereum wallet now?</string>
+    <string name="Send.insufficientGasMessage">You must have at least %1$s in your wallet in order to transfer this type of token.</string>
     <!-- Your ethereum balance is insufficient to complete this action. -->
-    <string name="Send.insufficientGasTitle">Insufficient Ethereum Balance</string>
+    <string name="Send.insufficientGasTitle">Insufficient EtherZero Balance</string>
     <!-- e.g. The destination is not a valid (bitcoin) address. -->
     <string name="Send.invalidAddressMessage">The destination address is not a valid %1$s address.</string>
     <!-- Invalid address on pasteboard message -->

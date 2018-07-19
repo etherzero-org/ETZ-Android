@@ -427,6 +427,7 @@
   <string name="RecoverWallet.leftArrow">Linker Pijl</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">Volgende</string>
+  <string name="RecoverWallet.nextStep">Volgende stap</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">Tik hier voor meer informatie.</string>
   <!-- Next button accessibility label -->
@@ -448,7 +449,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 minuten</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">Als een transactie als voltooid staat op het Bitcoin netwerk maar niet in je Bread.</string>
+  <string name="ReScan.body2">Als een transactie als voltooid staat op het EtherZero netwerk maar niet in je EasyETZ.</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">Je kreeg herhaaldelijk een foutmelding die zei dat je transactie werd afgewezen.</string>
   <!-- Start Sync button label -->
@@ -521,9 +522,9 @@
   <!-- Insufficient funds error -->
   <string name="Send.insufficientFunds">Onvoldoende middelen</string>
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-  <string name="Send.insufficientGasMessage">Je moet minstens %1$s in je wallet hebben om dit type token te versturen. Wil je graag nu naar je Ethereum wallet gaan?</string>
+  <string name="Send.insufficientGasMessage">Je moet minstens %1$s in je wallet hebben om dit type token te versturen.</string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">Onvoldoende Ethereum Saldo</string>
+  <string name="Send.insufficientGasTitle">Onvoldoende EtherZero Saldo</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">Het bestemmingsadres is geen geldig %1$s-adres.</string>
   <!-- Invalid address on pasteboard message -->

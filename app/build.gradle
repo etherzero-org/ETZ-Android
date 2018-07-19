@@ -53,10 +53,14 @@ android {
     flavorDimensions "mode"
 
     productFlavors {
-        brd {
+        easyetz {
             applicationId = "com.etzwallet"
             dimension "mode"
-            resValue "string", "app_name", "BRD"
+
+            versionCode 1
+            versionName "1.0-beta"
+
+            resValue "string", "app_name", "ETZ"
             buildConfigField "boolean", "BITCOIN_TESTNET", "false"
 
             externalNativeBuild {
@@ -70,23 +74,23 @@ android {
             }
         }
 
-        brdTestnet {
-            applicationId = "com.breadtestnet"
-            dimension "mode"
-            resValue "string", "app_name", "BRD-testnet"
-            buildConfigField "boolean", "BITCOIN_TESTNET", "true"
-
-            externalNativeBuild {
-                cmake {
-                    // When you specify a version of CMake, as shown below,
-                    // the Android plugin searches for its binary within your
-                    // PATH environmental variable.
-                    cFlags "-DBITCOIN_TESTNET=1"
-                    targets "core"
-                }
-            }
-
-        }
+//        brdTestnet {
+//            applicationId = "com.breadtestnet"
+//            dimension "mode"
+//            resValue "string", "app_name", "BRD-testnet"
+//            buildConfigField "boolean", "BITCOIN_TESTNET", "true"
+//
+//            externalNativeBuild {
+//                cmake {
+//                    // When you specify a version of CMake, as shown below,
+//                    // the Android plugin searches for its binary within your
+//                    // PATH environmental variable.
+//                    cFlags "-DBITCOIN_TESTNET=1"
+//                    targets "core"
+//                }
+//            }
+//
+//        }
 
     }
 

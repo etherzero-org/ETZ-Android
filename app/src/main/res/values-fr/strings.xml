@@ -427,6 +427,7 @@
   <string name="RecoverWallet.leftArrow">Flèche gauche</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">Suivant</string>
+  <string name="RecoverWallet.nextStep">Prochaine étape</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">Cliquez ici pour plus d\'informations.</string>
   <!-- Next button accessibility label -->
@@ -448,7 +449,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 minutes</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">Si une transaction apparaît comme achevée sur le réseau de bitcoin mais pas dans votre EasyETZ.</string>
+  <string name="ReScan.body2">Si une transaction apparaît comme achevée sur le réseau de EtherZero mais pas dans votre EasyETZ.</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">Vous recevez de manière répétée un message d\'erreur vous informant du rejet de votre transaction.</string>
   <!-- Start Sync button label -->
@@ -523,7 +524,7 @@
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
   <string name="Send.insufficientGasMessage">Vous devez avoir au moins %1$s dans votre portefeuille pour transférer ce type de jeton. Souhaitez-vous être redirigé vers votre portefeuille Ethereum maintenant ?</string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">Solde d\'Ethereum insuffisant</string>
+  <string name="Send.insufficientGasTitle">Solde d\'EtherZero insuffisant</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">L\'adresse de destination n\'est pas une adresse %1$s valide.</string>
   <!-- Invalid address on pasteboard message -->

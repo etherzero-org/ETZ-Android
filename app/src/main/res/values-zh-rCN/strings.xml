@@ -162,7 +162,7 @@
     <!-- Confirm paper phrase view label. -->
     <string name="ConfirmPaperPhrase.label">为确保一切均被正确地书写，请在您的助词记输入以下文字。</string>
     <!-- Word label eg. Word #1, Word #2 -->
-    <string name="ConfirmPaperPhrase.word">单词#%1$s</string>
+    <string name="ConfirmPaperPhrase.word">第%1$s个助记词</string>
     <!-- Agree to legal terms button -->
     <string name="Crowdsale.agree">同意</string>
     <!-- As in "(tap here to) buy (some) tokens" -->
@@ -448,7 +448,7 @@
     <!-- extimated time -->
     <string name="ReScan.body1">20-45 分钟</string>
     <!-- Syncing explanation -->
-    <string name="ReScan.body2">如果某次交易在以太坊网络上显示为已完成，却不在您的 EasyETZ 里。</string>
+    <string name="ReScan.body2">如果某次交易在以太零网络上显示为已完成，却不在您的 EasyETZ 里。</string>
     <!-- Syncing explanation -->
     <string name="ReScan.body3">你反复得到交易被拒绝的出错信息。</string>
     <!-- Start Sync button label -->
@@ -521,9 +521,9 @@
     <!-- Insufficient funds error -->
     <string name="Send.insufficientFunds">资金不足</string>
     <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-    <string name="Send.insufficientGasMessage">您的钱包里必须至少有 %1$s 才能够转让此种类型的代币。您现在想前往您的以太坊钱包吗？</string>
+    <string name="Send.insufficientGasMessage">您的钱包里必须至少有 %1$s 才能够转让此种类型的代币</string>
     <!-- Your ethereum balance is insufficient to complete this action. -->
-    <string name="Send.insufficientGasTitle">以太坊余额不足</string>
+    <string name="Send.insufficientGasTitle">以太零余额不足</string>
     <!-- e.g. The destination is not a valid (bitcoin) address. -->
     <string name="Send.invalidAddressMessage">目标地址不是有效的%1$s地址。</string>
     <!-- Invalid address on pasteboard message -->

@@ -427,6 +427,7 @@
   <string name="RecoverWallet.leftArrow">Seta para a Esquerda</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">Seguinte</string>
+  <string name="RecoverWallet.nextStep">Próximo passo</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">Toque aqui para mais informações.</string>
   <!-- Next button accessibility label -->
@@ -448,7 +449,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 minutos</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">Se uma transação aparece como concluída na sua rede bitcoin mas não na sua EasyETZ.</string>
+  <string name="ReScan.body2">Se uma transação aparece como concluída na sua rede EtherZero mas não na sua EasyETZ.</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">Recebe repetidamente uma mensagem de erro dizendo que a sua transação foi rejeitada.</string>
   <!-- Start Sync button label -->
@@ -521,9 +522,9 @@
   <!-- Insufficient funds error -->
   <string name="Send.insufficientFunds">Fundos Insuficientes</string>
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-  <string name="Send.insufficientGasMessage">Tem de ter, no mínimo, %1$s na sua carteira para poder transferir este tipo de token. Gostaria de ir até à sua carteira Ethereum agora?</string>
+  <string name="Send.insufficientGasMessage">Tem de ter, no mínimo, %1$s na sua carteira para poder transferir este tipo de token.</string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">Saldo Ethereum insuficiente</string>
+  <string name="Send.insufficientGasTitle">Saldo EtherZero insuficiente</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">O endereço de destino não é um endereço de %1$s válido.</string>
   <!-- Invalid address on pasteboard message -->

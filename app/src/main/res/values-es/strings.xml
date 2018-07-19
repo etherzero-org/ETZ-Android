@@ -427,6 +427,7 @@
   <string name="RecoverWallet.leftArrow">Flecha izquierda</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">Siguiente</string>
+  <string name="RecoverWallet.nextStep">Siguiente paso</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">Pulsa aquí para obtener más información.</string>
   <!-- Next button accessibility label -->
@@ -448,7 +449,7 @@
   <!-- extimated time -->
   <string name="ReScan.body1">20-45 minutos</string>
   <!-- Syncing explanation -->
-  <string name="ReScan.body2">Si una transacción se muestra como completada en la red de bitcoin pero no en EasyETZ.</string>
+  <string name="ReScan.body2">Si una transacción se muestra como completada en la red de EtherZero pero no en EasyETZ.</string>
   <!-- Syncing explanation -->
   <string name="ReScan.body3">Obtienes un error repetidamente que dice que tu transacción ha sido rechazada.</string>
   <!-- Start Sync button label -->
@@ -521,9 +522,9 @@
   <!-- Insufficient funds error -->
   <string name="Send.insufficientFunds">Fondos insuficientes</string>
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-  <string name="Send.insufficientGasMessage">Debe tener al menos %1$s en su billetera para poder transferir este tipo de token. ¿Le gustaría ir a su billetera de Ethereum ahora?</string>
+  <string name="Send.insufficientGasMessage">Debe tener al menos %1$s en su billetera para poder transferir este tipo de token.</string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">Balance de Ethereum insuficiente</string>
+  <string name="Send.insufficientGasTitle">Balance de EtherZero insuficiente</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">La dirección de destino no es una dirección %1$s válida.</string>
   <!-- Invalid address on pasteboard message -->

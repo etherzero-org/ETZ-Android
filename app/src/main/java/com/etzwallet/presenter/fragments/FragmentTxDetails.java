@@ -239,7 +239,7 @@ public class FragmentTxDetails extends DialogFragment {
                 mFeePrimaryLabel.setText(String.format(getString(R.string.Send_fee), ""));
                 mFeeSecondaryLabel.setText(getString(R.string.Confirmation_totalLabel));
 
-                //erc20s
+                //erc20s代币
                 if (isErc20) {
                     hideTotalCost();
                     mFeePrimary.setText(String.format("%s %s", mTransaction.getFee().stripTrailingZeros().toPlainString(), "gwei"));

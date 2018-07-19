@@ -426,6 +426,7 @@
   <string name="RecoverWallet.leftArrow">왼쪽 화살표</string>
   <!-- Next button label -->
   <string name="RecoverWallet.next">다음</string>
+  <string name="RecoverWallet.nextStep">다음 단계</string>
   <!-- Reset PIN with paper key: more information button. -->
   <string name="RecoverWallet.reset_pin_more_info">자세한 내용을 보려면 여기를 탭하세요.</string>
   <!-- Next button accessibility label -->
@@ -520,9 +521,9 @@
   <!-- Insufficient funds error -->
   <string name="Send.insufficientFunds">자금 부족</string>
   <!-- e,g, "You must have at least $2 in your wallet in order to transfer this type of token." In this case, "token" is an ethereum ERC20 token. -->
-  <string name="Send.insufficientGasMessage">이 종류의 토큰을 전송하려면 지갑에 최소 %1$s가 있어야 합니다. 지금 이더리움 지갑으로 가시겠습니까?</string>
+  <string name="Send.insufficientGasMessage">이 종류의 토큰을 전송하려면 지갑에 최소 %1$s가 있어야 합니다. </string>
   <!-- Your ethereum balance is insufficient to complete this action. -->
-  <string name="Send.insufficientGasTitle">이더리움 잔액이 부족합니다</string>
+  <string name="Send.insufficientGasTitle">에테르 제로 잔액이 부족합니다</string>
   <!-- e.g. The destination is not a valid (bitcoin) address. -->
   <string name="Send.invalidAddressMessage">해당 수취인 주소는 %1$s에서 유효하지 않은 주소입니다.</string>
   <!-- Invalid address on pasteboard message -->

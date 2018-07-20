@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
@@ -75,6 +76,7 @@ public class FragmentPin extends Fragment {
     private String customTitle;
     private String customMessage;
 
+//    Vibrator vibrator;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // The last two arguments ensure LayoutParams are inflated
@@ -83,6 +85,7 @@ public class FragmentPin extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_bread_pin, container, false);
         keyboard = rootView.findViewById(R.id.brkeyboard);
         pinLayout = rootView.findViewById(R.id.pinLayout);
+//        Vibrator vibrator = (Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);//获取震动权限
 
         if (BRKeyStore.getPinCode(getContext()).length() == 4) pinLimit = 4;
 
@@ -220,6 +223,7 @@ public class FragmentPin extends Fragment {
     }
 
     private void handleFail() {
+//        vibrator.vibrate(2000);
         SpringAnimator.failShakeAnimation(getActivity(), pinLayout);
         new Handler().postDelayed(new Runnable() {
             @Override

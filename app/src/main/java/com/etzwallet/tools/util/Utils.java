@@ -99,6 +99,7 @@ public class Utils {
 
     public static boolean isEmulatorOrDebug(Context app) {
         String fing = Build.FINGERPRINT;
+        Log.i(TAG, "isEmulatorOrDebug: fing==="+fing);
         boolean isEmulator = false;
         if (fing != null) {
             isEmulator = fing.contains("vbox") || fing.contains("generic");

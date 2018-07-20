@@ -58,7 +58,7 @@
     <!-- Send failure alert header label (the send failed to happen) -->
     <string name="Alerts.sendFailure">转账失败</string>
     <!-- Send success alert header label (confirmation that the send happened) -->
-    <string name="Alerts.sendSuccess">转账确认</string>
+    <string name="Alerts.sendSuccess">  转账确认</string>
     <!-- Send success alert subheader label (e.g. the money was sent) -->
     <string name="Alerts.sendSuccessSubheader">钱已转账！</string>
     <!-- Fingerprint was recognized by the scanner -->

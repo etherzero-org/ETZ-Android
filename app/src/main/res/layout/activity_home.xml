@@ -161,7 +161,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/prompt_card"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="0dp"
                 android:text="@string/HomeScreen.portfolio"
                 android:textColor="#788f9e" />
 

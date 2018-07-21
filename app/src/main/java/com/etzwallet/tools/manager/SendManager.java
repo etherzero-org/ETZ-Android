@@ -306,7 +306,7 @@ public class SendManager {
                 BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                     @Override
                     public void run() {
-                        PostAuth.getInstance().onPublishTxAuth(ctx, wm, false, completion, request.data,isErc20);
+                        PostAuth.getInstance().onPublishTxAuth(ctx, wm, false, completion, request.data,isErc20, request.gasL, request.gasP);
                         BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                             @Override
                             public void run() {

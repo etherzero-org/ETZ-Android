@@ -172,7 +172,7 @@ public interface BaseWalletManager {
     @WorkerThread
     CryptoAddress getReceiveAddress(Context app);
 
-    CryptoTransaction createTransaction(BigDecimal amount, String address, String data);
+    CryptoTransaction createTransaction(BigDecimal amount, String address, String data, String gasL, String gasP);
 
     //decorate an address to a particular currency, if needed (like BCH address format)
     String decorateAddress(String addr);

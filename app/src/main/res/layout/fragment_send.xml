@@ -101,6 +101,7 @@
                 android:ellipsize="middle"
                 android:ems="10"
                 android:hint="@string/Send.toLabel"
+                android:text="0x1ec79157f606d942ac19ce21231c1572aef8bb5d"
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 />
@@ -247,25 +248,9 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"/>
 
-            <!--
-
-            <ImageView
-                android:id="@+id/edit"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginBottom="0dp"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/edit"
-                android:visibility="invisible"
-                app:layout_constraintBottom_toBottomOf="@+id/fee_text"
-                app:layout_constraintLeft_toRightOf="@+id/fee_text"
-                />
-
-            -->
-
         </android.support.constraint.ConstraintLayout>
 
-        <com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret
+        <!--<com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/fee_buttons_layout"
             android:layout_width="match_parent"
@@ -351,7 +336,7 @@
                 />
 
 
-        </com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret>
+        </com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret>-->
 
         <View
             android:id="@+id/separator2"
@@ -380,32 +365,7 @@
                 android:background="@color/extra_light_gray"
                 />
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/comment_data_view"
-            android:layout_width="match_parent"
-            android:layout_height="70dp">
 
-            <com.etzwallet.presenter.customviews.BREdit
-                android:id="@+id/comment_data"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="16dp"
-                android:layout_marginStart="16dp"
-                android:background="@android:color/transparent"
-                android:hint="@string/Send.descriptionLabelData"
-                android:textSize="@dimen/sub_header"
-                android:inputType="textPersonName"
-                android:maxLength="250"
-                />
-
-        </LinearLayout>
-        <View
-            android:id="@+id/separator_data"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/extra_light_gray"
-            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp">
@@ -432,6 +392,130 @@
             android:layout_height="1dp"
             android:background="@color/extra_light_gray"
             />
+        <!--高级选项-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/adv_btn_view">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/advanced_btn"
+                android:background="@android:color/transparent"
+                android:height="20dp"
+                android:width="50dp"
+                android:text="高级选项"
+                android:textSize="12dp"
+                />
+        </RelativeLayout>
+
+        <!--<ImageView
+            android:id="@+id/edit"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/bread_logo_gradient"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/fee_text"
+            app:layout_constraintLeft_toRightOf="@+id/fee_text"
+            />-->
+
+
+        <LinearLayout
+            android:id="@+id/adv_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <View
+                android:id="@+id/separator7"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/extra_light_gray"
+                />
+            <LinearLayout
+                android:id="@+id/gas_limit_view"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <com.etzwallet.presenter.customviews.BREdit
+                    android:id="@+id/gas_limit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Gas Limit"
+                    android:textSize="@dimen/sub_header"
+                    android:inputType="textPersonName"
+                    android:maxLength="250"
+                    />
+
+            </LinearLayout>
+            <View
+                android:id="@+id/gas_limitseparator_data"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/extra_light_gray"
+                />
+            <LinearLayout
+                android:id="@+id/gas_price_view"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <com.etzwallet.presenter.customviews.BREdit
+                    android:id="@+id/gas_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Gas Price"
+                    android:textSize="@dimen/sub_header"
+                    android:inputType="textPersonName"
+                    android:maxLength="250"
+                    />
+
+            </LinearLayout>
+            <View
+                android:id="@+id/gas_price_separator_data"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/extra_light_gray"
+                />
+            <LinearLayout
+                android:id="@+id/comment_data_view"
+                android:layout_width="match_parent"
+                android:layout_height="70dp">
+
+                <com.etzwallet.presenter.customviews.BREdit
+                    android:id="@+id/comment_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/Send.descriptionLabelData"
+                    android:textSize="@dimen/sub_header"
+                    android:inputType="textPersonName"
+                    android:maxLength="250"
+                    />
+
+            </LinearLayout>
+            <View
+                android:id="@+id/separator_data"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/extra_light_gray"
+                />
+        </LinearLayout>
+
+
+
+
 
         <com.etzwallet.presenter.customviews.BRButton
             android:id="@+id/send_button"

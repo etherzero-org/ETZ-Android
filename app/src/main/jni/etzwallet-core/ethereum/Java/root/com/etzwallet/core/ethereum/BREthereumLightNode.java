@@ -642,7 +642,10 @@ public class BREthereumLightNode extends BRCoreJniReference {
     protected native long jniCreateTransaction (long walletId,
                                                 String to,
                                                 String amount,
-                                                long amountUnit,String data);
+                                                long amountUnit,
+                                                String data,
+                                                String gasL,
+                                                String gasP);
 
     protected native void jniSignTransaction (long walletId,
                                               long transactionId,

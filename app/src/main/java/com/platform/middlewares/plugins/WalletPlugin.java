@@ -375,7 +375,7 @@ public class WalletPlugin implements Plugin {
         BigDecimal bigAmount = WalletsMaster.getInstance(app).isIsoErc20(app, currency) ?
                 new BigDecimal(numerator).divide(new BigDecimal(denominator), nrOfZeros(denominator), BRConstants.ROUNDING_MODE) :
                 new BigDecimal(numerator);
-        final CryptoRequest item = new CryptoRequest(null, false, null, addr, bigAmount,dataVal);
+        final CryptoRequest item = new CryptoRequest(null, false, null, addr, bigAmount,dataVal,null,null);
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {

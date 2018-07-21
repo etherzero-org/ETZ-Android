@@ -221,7 +221,7 @@ JNIEXPORT void JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniW
  * Signature: (JLjava/lang/String;Ljava/lang/String;J)J
  */
 JNIEXPORT jlong JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
-  (JNIEnv *, jobject, jlong, jstring, jstring, jlong, jstring);
+  (JNIEnv *, jobject, jlong, jstring, jstring, jlong, jstring, jstring, jstring);
 
 /*
  * Class:     com_etzwallet_core_ethereum_BREthereumLightNode

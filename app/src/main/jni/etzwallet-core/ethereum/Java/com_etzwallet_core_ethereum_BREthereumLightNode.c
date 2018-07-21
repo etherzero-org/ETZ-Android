@@ -758,11 +758,15 @@ JNIEXPORT void JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniA
  */
 JNIEXPORT jlong JNICALL
 Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
-        (JNIEnv *env, jobject thisObject,
+        (JNIEnv *env,
+         jobject thisObject,
          jlong wid,
          jstring toObject,
          jstring amountObject,
-         jlong amountUnit,jstring data) {
+         jlong amountUnit,
+         jstring data,
+         jstring gasL,
+         jstring gasP) {
 
 
     __android_log_print(ANDROID_LOG_INFO, "tx_data_is1=", "tx_data_is1=%s\n", data );
@@ -781,14 +785,13 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
 
 
     //data jstring类型转成 char *类型
-//    JNIEXPORT void JNICALL Java_ClassName_MethodName(JNIEnv *env, jobject obj, jstring javaString)
-//    {
-        const char *nativeData = (*env)->GetStringUTFChars(env, data, 0);
+    const char *nativeData = (*env)->GetStringUTFChars(env, data, 0);
+//    (*env)->ReleaseStringUTFChars(env, data, nativeData);
+    const char *nativeGasL = (*env)->GetStringUTFChars(env, gasL, 0);
+//    (*env)->ReleaseStringUTFChars(env, gasL, nativeGasL);
+    const char *nativeGasP = (*env)->GetStringUTFChars(env, gasP, 0);
+//    (*env)->ReleaseStringUTFChars(env, gasP, nativeGasP);
 
-        // use your string
-
-        (*env)->ReleaseStringUTFChars(env, data, nativeData);
-//    }
 
 
     const char *to = (*env)->GetStringUTFChars(env, toObject, 0);
@@ -796,7 +799,10 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
             ethereumWalletCreateTransaction(node,
                                             (BREthereumWalletId) wid,
                                             to,
-                                            amount,nativeData);
+                                            amount,
+                                            nativeData,
+                                            nativeGasL,
+                                            nativeGasP);
     (*env)->ReleaseStringUTFChars(env, toObject, to);
     return (jlong) tid;
 }

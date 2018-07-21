@@ -22,7 +22,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -95,26 +97,31 @@ public class FragmentSend extends Fragment {
     private Button send;
     private EditText commentEdit;
     private EditText commentData;
+    private EditText gasLimitIpt;
+    private EditText gasPriceIpt;
     private LinearLayout commentDataView;
     private StringBuilder amountBuilder;
     private TextView isoText;
     private EditText amountEdit;
     private TextView balanceText;
     private TextView feeText;
-//    private ImageView feeEdit;
+    private Button feeEdit;
     private BigDecimal curBalance;
     private String selectedIso;
     private Button isoButton;
     private int keyboardIndex;
     private LinearLayout keyboardLayout;
+    private RelativeLayout advBtnView;
+
     private ImageButton close;
     private ConstraintLayout amountLayout;
-    private BRButton regular;
-    private BRButton economy;
-    private BRLinearLayoutWithCaret feeLayout;
+//    private BRButton regular;
+//    private BRButton economy;
+//    private BRLinearLayoutWithCaret feeLayout;
+    private LinearLayout feeLayout;
     private boolean feeButtonsShown = false;
-    private BRText feeDescription;
-    private BRText warningText;
+//    private BRText feeDescription;
+//    private BRText warningText;
     private boolean amountLabelOn = true;
 
     private static String savedMemo;
@@ -139,27 +146,30 @@ public class FragmentSend extends Fragment {
         send = rootView.findViewById(R.id.send_button);
         commentEdit = rootView.findViewById(R.id.comment_edit);
         commentData = rootView.findViewById(R.id.comment_data);
+        gasLimitIpt = rootView.findViewById(R.id.gas_limit);
+        gasPriceIpt = rootView.findViewById(R.id.gas_price);
         commentDataView = rootView.findViewById(R.id.comment_data_view);
         amountEdit = rootView.findViewById(R.id.amount_edit);
         balanceText = rootView.findViewById(R.id.balance_text);
         feeText = rootView.findViewById(R.id.fee_text);
-//        feeEdit = rootView.findViewById(R.id.edit);
+        feeEdit = rootView.findViewById(R.id.advanced_btn);
         isoButton = rootView.findViewById(R.id.iso_button);
         keyboardLayout = rootView.findViewById(R.id.keyboard_layout);
         amountLayout = rootView.findViewById(R.id.amount_layout);
-        feeLayout = rootView.findViewById(R.id.fee_buttons_layout);
-        feeDescription = rootView.findViewById(R.id.fee_description);
-        warningText = rootView.findViewById(R.id.warning_text);
+        feeLayout = rootView.findViewById(R.id.adv_edit_text);
+        advBtnView = rootView.findViewById(R.id.adv_btn_view);
+//        feeDescription = rootView.findViewById(R.id.fee_description);
+//        warningText = rootView.findViewById(R.id.warning_text);
 
-        regular = rootView.findViewById(R.id.left_button);
-        economy = rootView.findViewById(R.id.right_button);
+//        regular = rootView.findViewById(R.id.left_button);
+//        economy = rootView.findViewById(R.id.right_button);
         close = rootView.findViewById(R.id.close_button);
         BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
         selectedIso = BRSharedPrefs.isCryptoPreferred(getActivity()) ? BRSharedPrefs.getPreferredFiatIso(getContext()) : wm.getIso();
 
         amountBuilder = new StringBuilder(0);
         setListeners();
-        visibleDataView();
+        visibleAdvView();
         isoText.setText(getString(R.string.Send_amountLabel));
         isoText.setTextSize(18);
         isoText.setTextColor(getContext().getColor(R.color.light_gray));
@@ -172,16 +182,18 @@ public class FragmentSend extends Fragment {
             }
         });
 
+        updateText();
 
         showFeeSelectionButtons(feeButtonsShown);
 
-//        feeEdit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                feeButtonsShown = !feeButtonsShown;
-//                showFeeSelectionButtons(feeButtonsShown);
-//            }
-//        });
+        feeEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showKeyboard(false);
+                feeButtonsShown = !feeButtonsShown;
+                showFeeSelectionButtons(feeButtonsShown);
+            }
+        });
         keyboardIndex = signalLayout.indexOfChild(keyboardLayout);
 
 //        ImageButton faq = rootView.findViewById(R.id.faq_button);
@@ -201,7 +213,7 @@ public class FragmentSend extends Fragment {
 //        });
 
         showKeyboard(false);
-        setButton(true);
+//        setButton(true);
 
         signalLayout.setLayoutTransition(BRAnimator.getDefaultTransition());
 
@@ -209,14 +221,37 @@ public class FragmentSend extends Fragment {
     }
 
     //只在etz显示data输入框
-    private void visibleDataView(){
+    private void visibleAdvView(){
         final BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
         if(wm.getIso().equalsIgnoreCase("ETZ")){
             commentDataView.setVisibility(View.VISIBLE);
         }else{
             commentDataView.setVisibility(View.GONE);
         }
+
+        if(wm.getIso().equalsIgnoreCase("BTC")){
+            advBtnView.setVisibility(View.GONE);
+        }else{
+            advBtnView.setVisibility(View.VISIBLE);
+        }
     }
+
+    //needed to fix the overlap bug
+    private void hideShowAdvOption(){
+        commentEdit.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    amountLayout.requestLayout();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+
+
+
 
     private void setListeners() {
         amountEdit.setOnClickListener(new View.OnClickListener() {
@@ -224,12 +259,13 @@ public class FragmentSend extends Fragment {
             public void onClick(View v) {
                 BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
                 showKeyboard(true);
+                hideShowAdvOption();
                 if (amountLabelOn) { //only first time
                     amountLabelOn = false;
                     amountEdit.setHint("0");
                     amountEdit.setTextSize(24);
                     balanceText.setVisibility(View.VISIBLE);
-//                    feeEdit.setVisibility(View.VISIBLE);
+                    feeEdit.setVisibility(View.VISIBLE);
                     feeText.setVisibility(View.VISIBLE);
                     isoText.setTextColor(getContext().getColor(R.color.almost_black));
                     isoText.setText(CurrencyUtils.getSymbolByIso(getActivity(), selectedIso));
@@ -286,16 +322,7 @@ public class FragmentSend extends Fragment {
 
 
 
-        //needed to fix the overlap bug
-        commentEdit.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    amountLayout.requestLayout();
-                    return true;
-                }
-                return false;
-            }
-        });
+
 
         commentEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -313,6 +340,19 @@ public class FragmentSend extends Fragment {
         });
 
 
+        gasLimitIpt.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFous) {
+                showKeyboard(!hasFous);
+            }
+        });
+
+        gasPriceIpt.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View v, boolean hasFous) {
+                showKeyboard(!hasFous);
+            }
+        });
 
         paste.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -453,19 +493,16 @@ public class FragmentSend extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                
-                
                 //not allowed now
                 if (!BRAnimator.isClickAllowed()) return;
                 WalletsMaster master = WalletsMaster.getInstance(getActivity());
                 final BaseWalletManager wm = master.getCurrentWallet(getActivity());
 
-                if(WalletsMaster.getInstance(getActivity()).isIsoErc20(getActivity(), wm.getIso())){
-                    Log.i(TAG, "onClick: istoken");
-                }else{
-                    Log.i(TAG, "onClick: isnotToken");
-                }
+//                if(WalletsMaster.getInstance(getActivity()).isIsoErc20(getActivity(), wm.getIso())){
+//                    Log.i(TAG, "onClick: istoken");
+//                }else{
+//                    Log.i(TAG, "onClick: isnotToken");
+//                }
                         
                         
                 //get the current wallet used
@@ -479,6 +516,11 @@ public class FragmentSend extends Fragment {
                 String amountStr = amountBuilder.toString();
                 String comment = commentEdit.getText().toString();
                 String dataValue = commentData.getText().toString();
+                String gasL = gasLimitIpt.getText().toString();
+                String gasP = gasPriceIpt.getText().toString();
+
+
+
                 dataValue = dataValue.toLowerCase();
                 if(dataValue.length() == 0){
                     dataValue = "";
@@ -487,7 +529,7 @@ public class FragmentSend extends Fragment {
                     dataValue = dataValue.substring(2);
                 }
                 String p = "^[a-z0-9]*$";
-
+                String p1 = "^[0-9]*$";
                 final Activity app = getActivity();
                 if(dataValue.length() > 0){
                     if(!Pattern.matches(p, dataValue)){
@@ -501,10 +543,29 @@ public class FragmentSend extends Fragment {
                     }
                 }
 
-
-
-
-                Log.i(TAG, "onClick: dataValue=="+dataValue);
+//                if(gasLimitValue.length() > 0){
+//                    if(!Pattern.matches(p1,gasLimitValue)){
+//                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),"gasLimit值无效",app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
+//                            @Override
+//                            public void onClick(BRDialogView brDialogView) {
+//                                brDialogView.dismiss();
+//                            }
+//                        },null,null,0);
+//                    }
+//                    return;
+//                }
+//
+//                if(gasPriceValue.length() > 0){
+//                    if(!Pattern.matches(p1,gasPriceValue)){
+//                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),"gasPrice值无效",app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
+//                            @Override
+//                            public void onClick(BRDialogView brDialogView) {
+//                                brDialogView.dismiss();
+//                            }
+//                        },null,null,0);
+//                    }
+//                    return;
+//                }
 
                 //inserted amount
                 BigDecimal rawAmount = new BigDecimal(Utils.isNullOrEmpty(amountStr) || amountStr.equalsIgnoreCase(".") ? "0" : amountStr);
@@ -559,9 +620,8 @@ public class FragmentSend extends Fragment {
                     }
 
                 }
-
                 if (allFilled) {
-                    final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount,dataValue);
+                    final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount,dataValue,gasL,gasP);
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -599,6 +659,8 @@ public class FragmentSend extends Fragment {
                         @Override
                         public void run() {
                             showKeyboard(true);
+                            //键盘弹出  高级选项隐藏
+                            hideShowAdvOption();
                         }
                     }, 500);
 
@@ -621,18 +683,18 @@ public class FragmentSend extends Fragment {
             }
         });
 
-        regular.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButton(true);
-            }
-        });
-        economy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButton(false);
-            }
-        });
+//        regular.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setButton(true);
+//            }
+//        });
+//        economy.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                setButton(false);
+//            }
+//        });
 //        updateText();
 
     }
@@ -971,29 +1033,29 @@ public class FragmentSend extends Fragment {
         amountEdit.setText(newAmount.toString());
     }
 
-    private void setButton(boolean isRegular) {
-        BaseWalletManager wallet = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
-        String iso = wallet.getIso();
-        if (isRegular) {
-            BRSharedPrefs.putFavorStandardFee(getActivity(), iso, true);
-            regular.setTextColor(getContext().getColor(R.color.white));
-            regular.setBackground(getContext().getDrawable(R.drawable.b_half_left_blue));
-            economy.setTextColor(getContext().getColor(R.color.dark_blue));
-            economy.setBackground(getContext().getDrawable(R.drawable.b_half_right_blue_stroke));
-            feeDescription.setText(String.format(getString(R.string.FeeSelector_estimatedDeliver), getString(R.string.FeeSelector_regularTime)));
-            warningText.getLayoutParams().height = 0;
-        } else {
-            BRSharedPrefs.putFavorStandardFee(getActivity(), iso, false);
-            regular.setTextColor(getContext().getColor(R.color.dark_blue));
-            regular.setBackground(getContext().getDrawable(R.drawable.b_half_left_blue_stroke));
-            economy.setTextColor(getContext().getColor(R.color.white));
-            economy.setBackground(getContext().getDrawable(R.drawable.b_half_right_blue));
-            feeDescription.setText(String.format(getString(R.string.FeeSelector_estimatedDeliver), getString(R.string.FeeSelector_economyTime)));
-            warningText.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
-        }
-        warningText.requestLayout();
-        updateText();
-    }
+//    private void setButton(boolean isRegular) {
+//        BaseWalletManager wallet = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
+//        String iso = wallet.getIso();
+//        if (isRegular) {
+//            BRSharedPrefs.putFavorStandardFee(getActivity(), iso, true);
+//            regular.setTextColor(getContext().getColor(R.color.white));
+//            regular.setBackground(getContext().getDrawable(R.drawable.b_half_left_blue));
+//            economy.setTextColor(getContext().getColor(R.color.dark_blue));
+//            economy.setBackground(getContext().getDrawable(R.drawable.b_half_right_blue_stroke));
+////            feeDescription.setText(String.format(getString(R.string.FeeSelector_estimatedDeliver), getString(R.string.FeeSelector_regularTime)));
+////            warningText.getLayoutParams().height = 0;
+//        } else {
+//            BRSharedPrefs.putFavorStandardFee(getActivity(), iso, false);
+//            regular.setTextColor(getContext().getColor(R.color.dark_blue));
+//            regular.setBackground(getContext().getDrawable(R.drawable.b_half_left_blue_stroke));
+//            economy.setTextColor(getContext().getColor(R.color.white));
+//            economy.setBackground(getContext().getDrawable(R.drawable.b_half_right_blue));
+////            feeDescription.setText(String.format(getString(R.string.FeeSelector_estimatedDeliver), getString(R.string.FeeSelector_economyTime)));
+////            warningText.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+//        }
+////        warningText.requestLayout();
+//        updateText();
+//    }
 
     // from the link above
     @Override
@@ -1002,10 +1064,8 @@ public class FragmentSend extends Fragment {
 
         // Checks whether a hardware keyboard is available
         if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO) {
-            Log.e(TAG, "onConfigurationChanged: hidden");
             showKeyboard(true);
         } else if (newConfig.hardKeyboardHidden == Configuration.HARDKEYBOARDHIDDEN_YES) {
-            Log.e(TAG, "onConfigurationChanged: shown");
             showKeyboard(false);
         }
     }

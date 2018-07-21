@@ -181,10 +181,13 @@ extern BREthereumTransactionId
 ethereumWalletCreateTransaction(BREthereumLightNode node,
                                 BREthereumWalletId wid,
                                 const char *recvAddress,
-                                BREthereumAmount amount,const char *data) {
+                                BREthereumAmount amount,
+                                const char *data,
+                                const char *gasL,
+                                const char *gasP) {
     BREthereumWallet wallet = lightNodeLookupWallet(node, wid);
     __android_log_print(ANDROID_LOG_INFO, "tx_data_is2=", "tx_data_is2=%s\n", data );
-    return lightNodeWalletCreateTransaction(node, wallet, recvAddress, amount,data);
+    return lightNodeWalletCreateTransaction(node, wallet, recvAddress, amount, data, gasL, gasP);
 }
 
 extern void // status, error

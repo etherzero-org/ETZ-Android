@@ -37,7 +37,7 @@
 
 // Forward Declarations
 static void
-provideData (BREthereumTransaction transaction,const char *data);
+provideData (BREthereumTransaction transaction,const char *data,const char *gasL,const char *gasP);
 
 static void
 provideGasEstimate (BREthereumTransaction transaction);
@@ -143,7 +143,8 @@ struct BREthereumTransactionRecord {
      *
      */
     char *data;
-
+    char *gasL;
+    char *gasP;
     /**
      * The transaction's hash.   This will be 'empty' until the transaction is submitted.
      */
@@ -171,7 +172,7 @@ transactionCreate(BREthereumAddress sourceAddress,
                   BREthereumAmount amount,
                   BREthereumGasPrice gasPrice,
                   BREthereumGas gasLimit,
-                  uint64_t nonce,const char *data) {
+                  uint64_t nonce,const char *data,const char *gasL, const char *gasP) {
     BREthereumTransaction transaction = calloc (1, sizeof (struct BREthereumTransactionRecord));
 
     transactionStateCreated(&transaction->state);
@@ -183,6 +184,9 @@ transactionCreate(BREthereumAddress sourceAddress,
     transaction->nonce = nonce;
     transaction->chainId = 88;
     transaction->hash = hashCreateEmpty();
+
+    transaction->gasL = gasL;
+    transaction->gasP = gasP;
 //    transaction->data = data;
 
 //    __android_log_print(ANDROID_LOG_INFO, "tx_data_is1=", "tx_data_is1=%s\n", data );
@@ -190,8 +194,9 @@ transactionCreate(BREthereumAddress sourceAddress,
 //    __android_log_print(ANDROID_LOG_INFO, "tx_data_is3=", "tx_data_is3=%s\n", gasPrice );
 //    __android_log_print(ANDROID_LOG_INFO, "tx_data_is4=", "tx_data_is4=%s\n", sourceAddress );
     __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", data );
-
-    provideData(transaction,data);
+    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", gasL );
+    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", gasP );
+    provideData(transaction,data,gasL,gasP);
     provideGasEstimate(transaction);
 
     return transaction;
@@ -295,7 +300,7 @@ transactionGetData (BREthereumTransaction transaction) {
 }
 
 static void
-provideData (BREthereumTransaction transaction,const char *data) {
+provideData (BREthereumTransaction transaction,const char *data,const char *gasL,const char *gasP) {
     if (NULL == transaction->data) {
         switch (amountGetType (transaction->amount)) {
             case AMOUNT_ETHER:

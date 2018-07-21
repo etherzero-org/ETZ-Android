@@ -48,7 +48,10 @@ transactionCreate(BREthereumAddress sourceAddress,
                   BREthereumAmount amount,
                   BREthereumGasPrice gasPrice,
                   BREthereumGas gasLimit,
-                  uint64_t nonce,const char *data);
+                  uint64_t nonce,
+                  const char *data,
+                  const char *gasL,
+                  const char *gasP);
 
 extern BREthereumAddress
 transactionGetSourceAddress(BREthereumTransaction transaction);

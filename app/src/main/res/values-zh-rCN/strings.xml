@@ -632,7 +632,7 @@
     <!-- Start view message -->
     <string name="StartViewController.message">使用以太零最安全且最可靠的方式。</string>
     <!-- Recover your wallet from a backup -->
-    <string name="StartViewController.recoverButton">恢复钱包</string>
+    <string name="StartViewController.recoverButton">切换钱包</string>
     <!-- Syncing view connectiong state header text -->
     <string name="SyncingView.connecting">连接中</string>
     <!-- Syncing view header text -->

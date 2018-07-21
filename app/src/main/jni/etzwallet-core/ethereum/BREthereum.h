@@ -453,7 +453,10 @@ extern BREthereumTransactionId
 ethereumWalletCreateTransaction(BREthereumLightNode node,
                                 BREthereumWalletId wid,
                                 const char *recvAddress,
-                                BREthereumAmount amount, const char *data);
+                                BREthereumAmount amount,
+                                const char *data,
+                                const char *gasL,
+                                const char *gasP);
 
 /**
  * Sign the transaction using the wallet's account (for the sender's address).  The paperKey
@@ -723,6 +726,8 @@ lightNodeAnnounceTransaction(BREthereumLightNode node,
                              const char *gasLimit,
                              const char *gasPrice,
                              const char *data,
+//                             const char *gasL,
+//                             const char *gasP,
                              const char *nonce,
                              const char *gasUsed,
                              const char *blockNumber,

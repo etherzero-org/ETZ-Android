@@ -194,7 +194,7 @@ public class PostAuth {
     }
 
     @WorkerThread
-    public void onPublishTxAuth(final Context app, final BaseWalletManager wm, final boolean authAsked, final SendManager.SendCompletion completion, final String data,final boolean isErc20) {
+    public void onPublishTxAuth(final Context app, final BaseWalletManager wm, final boolean authAsked, final SendManager.SendCompletion completion, final String data,final boolean isErc20, final String gasL, final String gasP) {
         if (completion != null) {
             mSendCompletion = completion;
         }
@@ -223,8 +223,9 @@ public class PostAuth {
 //                         tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,"");
 //                    }
 
-
-                    tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data);
+//                    Log.i(TAG, "onPublishTxAuth: gasLimit="+gasLimit);
+//                    Log.i(TAG, "onPublishTxAuth: gasPrice="+gasPrice);
+                    tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data, gasL, gasP);
 
                     Log.i(TAG, "createTransaction: token2==="+tx);
                     if (tx == null) {

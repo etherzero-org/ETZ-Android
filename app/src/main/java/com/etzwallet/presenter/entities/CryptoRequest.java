@@ -44,6 +44,8 @@ public class CryptoRequest {
     public String r;
     public BigDecimal amount;
     public String data;
+    public String gasL;
+    public String gasP;
     public String label;
     public String message;
     public String req;
@@ -52,14 +54,15 @@ public class CryptoRequest {
     public String cn;
     public boolean isAmountRequested;
 
-    public CryptoRequest(String certificationName, boolean isAmountRequested, String message, String address, BigDecimal amount,String data) {
+    public CryptoRequest(String certificationName, boolean isAmountRequested, String message, String address, BigDecimal amount,String data, String gasL, String gasP) {
         this.isAmountRequested = isAmountRequested;
         this.cn = certificationName;
         this.address = address;
         this.amount = amount;
         this.value = amount;
         this.message = message;
-
+        this.gasL = gasL;
+        this.gasP = gasP;
         this.data = data;
     }
 

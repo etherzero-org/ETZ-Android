@@ -266,6 +266,8 @@ lightNodeAnnounceTransaction(BREthereumLightNode node,
                              const char *gasLimitString,
                              const char *gasPriceString,
                              const char *data,
+//                             const char *gasL,
+//                             const char *gasP,
                              const char *strNonce,
                              const char *strGasUsed,
                              const char *blockNumber,
@@ -335,12 +337,15 @@ lightNodeAnnounceTransaction(BREthereumLightNode node,
         gasCreate(strtoull(gasLimitString, NULL, 0));
 
         // Finally, get ourselves a transaction.
+        char gasL[] = "";
+        char gasP[] = "";
         transaction = transactionCreate(sourceAddr,
                                         targetAddr,
                                         amount,
                                         gasPrice,
                                         gasLimit,
-                                        nonce,data);
+                                        nonce,
+                                        data,gasL,gasP);
 
         // With a new transaction:
         //
@@ -420,6 +425,8 @@ lightNodeAnnounceLog (BREthereumLightNode node,
                       int topicCount,
                       const char **arrayTopics,
                       const char *strData,
+//                      const char *gasL,
+//                      const char *gasP,
                       const char *strGasPrice,
                       const char *strGasUsed,
                       const char *strLogIndex,
@@ -476,7 +483,9 @@ lightNodeAnnounceLog (BREthereumLightNode node,
 
         __android_log_print(ANDROID_LOG_INFO, "tx_data_is_strData=", "tx_data_is_strData=%s\n", strData);
 
-        transaction = transactionCreate(sourceAddr, targetAddr, amount, gasPrice, gasUsed, 0,strData);
+        char gasL[] = "";
+        char gasP[] = "";
+        transaction = transactionCreate(sourceAddr, targetAddr, amount, gasPrice, gasUsed, 0,strData,gasL,gasP);
 
         // With a new transaction:
         //

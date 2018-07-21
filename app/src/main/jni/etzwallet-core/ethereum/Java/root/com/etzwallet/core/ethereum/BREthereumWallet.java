@@ -261,7 +261,10 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
     public static final String TAG = "BREthereumWallet";
     public BREthereumTransaction createTransaction(String targetAddress,
                                                    String amount,
-                                                   Unit amountUnit,String data) {
+                                                   Unit amountUnit,
+                                                   String data,
+                                                   String gasL,
+                                                   String gasP) {
         BREthereumLightNode lightNode = node.get();
         Log.d(TAG, "tx_data_is0="+data);
 
@@ -271,7 +274,10 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
                 lightNode.jniCreateTransaction(identifier,
                         targetAddress,
                         amount,
-                        amountUnit.jniValue,data),
+                        amountUnit.jniValue,
+                        data,
+                        gasL,
+                        gasP),
                 amountUnit);
     }
 

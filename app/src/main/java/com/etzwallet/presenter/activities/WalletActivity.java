@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.etzwallet.R;
@@ -55,6 +56,8 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
+import static java.lang.Math.*;
+
 /**
  * Created by byfieldj on 1/16/18.
  * <p>
@@ -80,6 +83,8 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     private BRButton mReceiveButton;
 //    private BRButton mBuyButton;
 //    private BRButton mSellButton;
+//    private TextView powerTextKey;
+//    private TextView powerTextValue;
     private LinearLayout mProgressLayout;
     private BRText mSyncStatusLabel;
     private BRText mProgressLabel;
@@ -115,6 +120,11 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         mBalancePrimary = findViewById(R.id.balance_primary);
         mBalanceSecondary = findViewById(R.id.balance_secondary);
         mToolbar = findViewById(R.id.bread_bar);
+
+//        powerTextKey = findViewById(R.id.power_text_key);
+//        powerTextValue = findViewById(R.id.power_text_value);
+
+
         mBackButton = findViewById(R.id.back_icon);
         mSendButton = findViewById(R.id.send_button);
         mReceiveButton = findViewById(R.id.receive_button);
@@ -131,6 +141,9 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         startSyncLoggerIfNeeded();
 
         setUpBarFlipper();
+
+//        setPowerMax();
+
         mBalancePrimary.setTextSize(TypedValue.COMPLEX_UNIT_SP, PRIMARY_TEXT_SIZE);
         mBalanceSecondary.setTextSize(TypedValue.COMPLEX_UNIT_SP, SECONDARY_TEXT_SIZE);
 
@@ -170,6 +183,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
                 mSearchBar.onShow(true);
             }
         });
+
 
 //        mBuyButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -227,6 +241,13 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         setPriceTags(cryptoPreferred, false);
 
     }
+
+//    private void setPowerMax(){
+//        //设置power max value
+//        final int balance = 1;
+//        String powerMax = String.valueOf(exp(-1/(balance*50)*10000) * 10000000 + 200000);
+//        powerTextValue.setText(powerMax);
+//    }
 
     private void startWebActivity(String action) {
         Intent intent = new Intent(this, WebViewActivity.class);
@@ -293,6 +314,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
                     new int[]{Color.parseColor(startColor), Color.parseColor(endColor)});
             gd.setCornerRadius(0f);
             mToolbar.setBackground(gd);
+            mToolbar.setMinimumHeight(260);
             mSendButton.setColor(Color.parseColor(endColor)); //end color if gradient
             mReceiveButton.setColor(Color.parseColor(endColor));
 //            mBuyButton.setColor(Color.parseColor(endColor));

@@ -98,10 +98,8 @@
                 android:layout_marginStart="16dp"
                 android:layout_weight="0.6"
                 android:background="@android:color/transparent"
-                android:ellipsize="middle"
                 android:ems="10"
                 android:hint="@string/Send.toLabel"
-                android:text="0x1ec79157f606d942ac19ce21231c1572aef8bb5d"
                 android:inputType="textPersonName"
                 android:maxLines="1"
                 />
@@ -403,9 +401,12 @@
                 android:id="@+id/advanced_btn"
                 android:background="@android:color/transparent"
                 android:height="20dp"
-                android:width="50dp"
-                android:text="高级选项"
+                android:width="150dp"
+                android:gravity="center_vertical|right"
+                android:text="@string/advanced_options"
                 android:textSize="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentRight="true"
                 />
         </RelativeLayout>
 
@@ -446,10 +447,11 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:background="@android:color/transparent"
-                    android:hint="Gas Limit"
+                    android:hint="@string/gas_limit_text"
                     android:textSize="@dimen/sub_header"
                     android:inputType="textPersonName"
                     android:maxLength="250"
+                    android:digits="1234567890."
                     />
 
             </LinearLayout>
@@ -462,21 +464,32 @@
             <LinearLayout
                 android:id="@+id/gas_price_view"
                 android:layout_width="match_parent"
-                android:layout_height="70dp">
+                android:layout_height="70dp"
+                android:orientation="horizontal">
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/gas_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:background="@android:color/transparent"
-                    android:hint="Gas Price"
+                    android:hint="@string/gas_price_text"
                     android:textSize="@dimen/sub_header"
                     android:inputType="textPersonName"
-                    android:maxLength="250"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_weight="0.6"
+                    android:maxLines="1"
+                    android:digits="1234567890."
+
                     />
+                <TextView
+                   android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="gwei"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="8dp"/>
 
             </LinearLayout>
             <View
@@ -505,12 +518,7 @@
                     />
 
             </LinearLayout>
-            <View
-                android:id="@+id/separator_data"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/extra_light_gray"
-                />
+
         </LinearLayout>
 
 

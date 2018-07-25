@@ -2,6 +2,7 @@ package com.etzwallet.presenter.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -105,7 +106,7 @@ public class FragmentSend extends Fragment {
     private EditText amountEdit;
     private TextView balanceText;
     private TextView feeText;
-    private Button feeEdit;
+    private Button advancedBtn;
     private BigDecimal curBalance;
     private String selectedIso;
     private Button isoButton;
@@ -152,7 +153,7 @@ public class FragmentSend extends Fragment {
         amountEdit = rootView.findViewById(R.id.amount_edit);
         balanceText = rootView.findViewById(R.id.balance_text);
         feeText = rootView.findViewById(R.id.fee_text);
-        feeEdit = rootView.findViewById(R.id.advanced_btn);
+        advancedBtn = rootView.findViewById(R.id.advanced_btn);
         isoButton = rootView.findViewById(R.id.iso_button);
         keyboardLayout = rootView.findViewById(R.id.keyboard_layout);
         amountLayout = rootView.findViewById(R.id.amount_layout);
@@ -185,8 +186,8 @@ public class FragmentSend extends Fragment {
         updateText();
 
         showFeeSelectionButtons(feeButtonsShown);
-
-        feeEdit.setOnClickListener(new View.OnClickListener() {
+        //弹出高级选项
+        advancedBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showKeyboard(false);
@@ -259,13 +260,14 @@ public class FragmentSend extends Fragment {
             public void onClick(View v) {
                 BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
                 showKeyboard(true);
+                showFeeSelectionButtons(false);
                 hideShowAdvOption();
                 if (amountLabelOn) { //only first time
                     amountLabelOn = false;
                     amountEdit.setHint("0");
                     amountEdit.setTextSize(24);
                     balanceText.setVisibility(View.VISIBLE);
-                    feeEdit.setVisibility(View.VISIBLE);
+                    advancedBtn.setVisibility(View.VISIBLE);
                     feeText.setVisibility(View.VISIBLE);
                     isoText.setTextColor(getContext().getColor(R.color.almost_black));
                     isoText.setText(CurrencyUtils.getSymbolByIso(getActivity(), selectedIso));
@@ -346,6 +348,7 @@ public class FragmentSend extends Fragment {
                 showKeyboard(!hasFous);
             }
         });
+        gasLimitIpt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 
         gasPriceIpt.setOnFocusChangeListener(new View.OnFocusChangeListener(){
             @Override
@@ -353,6 +356,8 @@ public class FragmentSend extends Fragment {
                 showKeyboard(!hasFous);
             }
         });
+        gasPriceIpt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+
 
         paste.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -531,6 +536,32 @@ public class FragmentSend extends Fragment {
                 String p = "^[a-z0-9]*$";
                 String p1 = "^[0-9]*$";
                 final Activity app = getActivity();
+
+//                if(gasL.length() > 0){
+//                    if(!Pattern.matches(p1,gasL)){
+//                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),app.getString(R.string.GasLimit_invalid),app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
+//                            @Override
+//                            public void onClick(BRDialogView brDialogView) {
+//                                brDialogView.dismiss();
+//                            }
+//                        },null,null,0);
+//                    }
+//                    return;
+//                }
+////
+//                if(gasP.length() > 0){
+//                    if(!Pattern.matches(p1,gasP)){
+//                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),app.getString(R.string.GasPrice_invalid),app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
+//                            @Override
+//                            public void onClick(BRDialogView brDialogView) {
+//                                brDialogView.dismiss();
+//                            }
+//                        },null,null,0);
+//                    }
+//                    return;
+//                }
+
+
                 if(dataValue.length() > 0){
                     if(!Pattern.matches(p, dataValue)){
                         BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),app.getString(R.string.Data_invalid),app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
@@ -542,31 +573,6 @@ public class FragmentSend extends Fragment {
                         return;
                     }
                 }
-
-//                if(gasLimitValue.length() > 0){
-//                    if(!Pattern.matches(p1,gasLimitValue)){
-//                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),"gasLimit值无效",app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
-//                            @Override
-//                            public void onClick(BRDialogView brDialogView) {
-//                                brDialogView.dismiss();
-//                            }
-//                        },null,null,0);
-//                    }
-//                    return;
-//                }
-//
-//                if(gasPriceValue.length() > 0){
-//                    if(!Pattern.matches(p1,gasPriceValue)){
-//                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),"gasPrice值无效",app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
-//                            @Override
-//                            public void onClick(BRDialogView brDialogView) {
-//                                brDialogView.dismiss();
-//                            }
-//                        },null,null,0);
-//                    }
-//                    return;
-//                }
-
                 //inserted amount
                 BigDecimal rawAmount = new BigDecimal(Utils.isNullOrEmpty(amountStr) || amountStr.equalsIgnoreCase(".") ? "0" : amountStr);
                 //is the chosen ISO a crypto (could be a fiat currency)

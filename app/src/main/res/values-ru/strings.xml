@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <string name="Data_invalid">данные недействительны</string>
+  <string name="GasLimit_invalid">недействительный gasLimit</string>
+  <string name="GasPrice_invalid">недействительный gasPrice</string>
+  <string name="advanced_options">Дополнительные параметры</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

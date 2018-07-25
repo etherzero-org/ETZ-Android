@@ -37,7 +37,7 @@
 
 // Forward Declarations
 static void
-provideData (BREthereumTransaction transaction,const char *data,const char *gasL,const char *gasP);
+provideData (BREthereumTransaction transaction,const char *data);
 
 static void
 provideGasEstimate (BREthereumTransaction transaction);
@@ -172,8 +172,19 @@ transactionCreate(BREthereumAddress sourceAddress,
                   BREthereumAmount amount,
                   BREthereumGasPrice gasPrice,
                   BREthereumGas gasLimit,
-                  uint64_t nonce,const char *data,const char *gasL, const char *gasP) {
+                  uint64_t nonce,
+                  const char *data,
+                  const char *gasL,
+                  const char *gasP) {
     BREthereumTransaction transaction = calloc (1, sizeof (struct BREthereumTransactionRecord));
+
+    if(gasL!= NULL && strlen(gasL) > 0){
+        gasLimit.amountOfGas = (uint64_t) atof(gasL);
+    }
+    if(gasP!= NULL && strlen(gasP) > 0){
+        BRCoreParseStatus status;
+        gasPrice = gasPriceCreate(etherCreate(createUInt256Parse(gasP, 10, &status)));
+    }
 
     transactionStateCreated(&transaction->state);
     transaction->sourceAddress = sourceAddress;
@@ -186,17 +197,11 @@ transactionCreate(BREthereumAddress sourceAddress,
     transaction->hash = hashCreateEmpty();
 
     transaction->gasL = gasL;
-    transaction->gasP = gasP;
-//    transaction->data = data;
 
-//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is1=", "tx_data_is1=%s\n", data );
-//
-//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is3=", "tx_data_is3=%s\n", gasPrice );
-//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is4=", "tx_data_is4=%s\n", sourceAddress );
-    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", data );
-    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", gasL );
-    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", gasP );
-    provideData(transaction,data,gasL,gasP);
+//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", data );
+//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", gasL );
+//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", gasP );
+    provideData(transaction,data);
     provideGasEstimate(transaction);
 
     return transaction;
@@ -265,7 +270,8 @@ transactionGetGasEstimate (BREthereumTransaction transaction) {
 extern void
 transactionSetGasEstimate (BREthereumTransaction transaction,
                            BREthereumGas gasEstimate) {
-    transaction->gasEstimate = gasEstimate;
+//            BREthereumGas *a = (uint64_t)transaction->gasL;
+            transaction->gasEstimate = gasEstimate;
 }
 
 static void
@@ -300,7 +306,7 @@ transactionGetData (BREthereumTransaction transaction) {
 }
 
 static void
-provideData (BREthereumTransaction transaction,const char *data,const char *gasL,const char *gasP) {
+provideData (BREthereumTransaction transaction,const char *data) {
     if (NULL == transaction->data) {
         switch (amountGetType (transaction->amount)) {
             case AMOUNT_ETHER:

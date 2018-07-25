@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/wallet_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.etzwallet.presenter.customviews.BRText
+
+            android:id="@+id/power_max_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/sync_toolbar_text"
+            android:textSize="14sp"
+            app:customTFont="CircularPro-Book.otf"
+            android:text="最大Power"/>
+        <TextView
+            android:id="@+id/power_max_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000"
+            android:textSize="14sp"
+            android:textColor="@color/trans_white"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/wallet_view_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.etzwallet.presenter.customviews.BRText
+            android:id="@+id/current_power_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/sync_toolbar_text"
+            android:textSize="14sp"
+            app:customTFont="CircularPro-Book.otf"
+            android:text="当前Power"/>
+        <TextView
+            android:id="@+id/current_power_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1111"
+            android:textSize="14sp"
+            android:textColor="@color/trans_white"
+            />
+
+    </LinearLayout>
+
+</LinearLayout>

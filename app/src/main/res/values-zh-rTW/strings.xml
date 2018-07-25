@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
   <string name="Data_invalid">交易數據無效</string>
+  <string name="GasLimit_invalid">gasLimit無效</string>
+  <string name="GasPrice_invalid">gasPrice無效</string>
+  <string name="advanced_options">高級選項</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

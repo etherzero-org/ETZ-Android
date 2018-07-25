@@ -215,17 +215,14 @@ public class PostAuth {
             if (rawPhrase.length > 0) {
                 if (mCryptoRequest != null && mCryptoRequest.amount != null && mCryptoRequest.address != null) {
                     CryptoTransaction tx;
+                    String newGasPrice;
+                    int a = Integer.parseInt(gasP);
+                    double b = Math.pow(10,9) * a;
+                    long c = (long)b;
+                    newGasPrice = String.valueOf(c);
 
-                    Log.i(TAG, "onPublishTxAuth: isErc20=="+isErc20);
-//                    if(isErc20){
-//                         tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data);
-//                    }else{
-//                         tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,"");
-//                    }
-
-//                    Log.i(TAG, "onPublishTxAuth: gasLimit="+gasLimit);
-//                    Log.i(TAG, "onPublishTxAuth: gasPrice="+gasPrice);
-                    tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data, gasL, gasP);
+                    Log.i(TAG, "onPublishTxAuth: newGasPrice==="+newGasPrice);
+                    tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data, gasL, newGasPrice);
 
                     Log.i(TAG, "createTransaction: token2==="+tx);
                     if (tx == null) {

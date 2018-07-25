@@ -2,6 +2,9 @@
 <resources>
   <!--德语-->
   <string name="Data_invalid">Daten sind ungültig</string>
+  <string name="GasLimit_invalid">Ungültig gasLimit</string>
+  <string name="GasPrice_invalid">Ungültig gasPrice</string>
+  <string name="advanced_options">Erweiterte Optionen</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

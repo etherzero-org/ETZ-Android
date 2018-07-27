@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.WorkerThread;
 
 import com.etzwallet.BuildConfig;
+import com.etzwallet.wallet.wallets.CryptoAddress;
 import com.platform.APIClient;
 
 import org.json.JSONObject;
@@ -100,6 +101,10 @@ public class JsonRpcHelper {
         return PROTOCOL + "://" + "openetz.org/etzq/api/v1/gettokenBlance?address=" + address + "&contractaddress=" + contractAddress;
 //
     }
+
+    //power 模拟器ip http://10.0.3.2:8080
+//    public static String getPowerValue(CryptoAddress address) { return "http://10.0.3.2:8080/api/v1/getPower?address=" + address; }
+    public static String getPowerValue(CryptoAddress address) { return PROTOCOL + "://" + "openetz.org/etzq/api/v1/getPower?address=" + address; }
 
     //代币列表
 

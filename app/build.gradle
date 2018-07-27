@@ -10,8 +10,8 @@ android {
         applicationId = 'com.etzwallet'
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0-beta"
+        versionCode 2
+        versionName "1.0-gamma"
         multiDexEnabled true
 
         // Similar to other properties in the defaultConfig block,
@@ -56,10 +56,6 @@ android {
         easyetz {
             applicationId = "com.etzwallet"
             dimension "mode"
-
-            versionCode 1
-            versionName "1.0-beta"
-
             resValue "string", "app_name", "ETZ"
             buildConfigField "boolean", "BITCOIN_TESTNET", "false"
 
@@ -175,6 +171,7 @@ dependencies {
     implementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'tools.fastlane:screengrab:1.1.0'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
+    compile 'com.google.code.gson:gson:2.7'
 }
 
 apply plugin: 'com.google.gms.google-services'

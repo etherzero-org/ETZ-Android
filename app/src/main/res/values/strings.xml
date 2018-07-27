@@ -6,7 +6,8 @@
     <string name="advanced_options">Advanced options</string>
     <string name="gas_limit_text">Gas Limit</string>
     <string name="gas_price_text">Gas Price</string>
-
+    <string name="Max.power">Max Power</string>
+    <string name="Available.power">Available Power</string>
     <!-- App name -->
     <string name="About.appName.android">EasyETZ</string>
     <!-- About screen blog label -->

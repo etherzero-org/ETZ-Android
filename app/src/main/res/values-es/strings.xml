@@ -5,6 +5,8 @@
   <string name="GasLimit_invalid">Inválido gasLimit</string>
   <string name="GasPrice_invalid">Inválido gasPrice</string>
   <string name="advanced_options">Opciones avanzadas</string>
+  <string name="max_power">Energía máxima</string>
+  <string name="available_power">Energía disponible</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

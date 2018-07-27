@@ -117,7 +117,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word1"
-                    android:text="turn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -155,7 +154,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word2"
-                    android:text="glide"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -191,7 +189,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word3"
-                    android:text="region"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -235,7 +232,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word4"
-                    android:text="ramp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -271,7 +267,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word5"
-                    android:text="imitate"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -307,7 +302,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word6"
-                    android:text="perfect"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -351,7 +345,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word7"
-                    android:text="broccoli"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -387,7 +380,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word8"
-                    android:text="lake"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -423,7 +415,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word9"
-                    android:text="better"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -469,7 +460,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word10"
-                    android:text="immune"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -506,7 +496,6 @@
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word11"
-                    android:text="blade"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -538,12 +527,10 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:weightSum="2"
-
                 >
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word12"
-                    android:text="impact"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"

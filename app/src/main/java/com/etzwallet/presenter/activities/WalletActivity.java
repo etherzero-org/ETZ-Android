@@ -6,11 +6,14 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
+import android.support.annotation.WorkerThread;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.Toolbar;
@@ -23,8 +26,10 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.settings.WebViewActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
@@ -49,12 +54,28 @@ import com.etzwallet.wallet.abstracts.OnBalanceChangedListener;
 import com.etzwallet.wallet.abstracts.OnTxListModified;
 import com.etzwallet.wallet.abstracts.SyncListener;
 import com.etzwallet.wallet.util.CryptoUriParser;
+import com.etzwallet.wallet.util.HttpUtils;
+import com.etzwallet.wallet.util.JsonRpcHelper;
+import com.etzwallet.wallet.util.PowerResponse;
+import com.etzwallet.wallet.wallets.CryptoAddress;
 import com.etzwallet.wallet.wallets.bitcoin.BaseBitcoinWalletManager;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONException;
+import com.google.gson.Gson;
+
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 import static java.lang.Math.*;
 
@@ -79,12 +100,16 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     private BRText mBalanceSecondary;
     private Toolbar mToolbar;
     private ImageButton mBackButton;
+
     private BRButton mSendButton;
     private BRButton mReceiveButton;
-//    private BRButton mBuyButton;
-//    private BRButton mSellButton;
-//    private TextView powerTextKey;
-//    private TextView powerTextValue;
+
+    private BRText maxPowerValue;
+    private BRText availablePowerValue;
+    private LinearLayout powerContainer;
+    private Toolbar breadBar;
+
+
     private LinearLayout mProgressLayout;
     private BRText mSyncStatusLabel;
     private BRText mProgressLabel;
@@ -118,11 +143,17 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         mCurrencyTitle = findViewById(R.id.currency_label);
         mCurrencyPriceUsd = findViewById(R.id.currency_usd_price);
         mBalancePrimary = findViewById(R.id.balance_primary);
+
+        //power
+        maxPowerValue = findViewById(R.id.max_power_value);
+        powerContainer = findViewById(R.id.power_container);
+        breadBar = findViewById(R.id.bread_bar);
+        availablePowerValue = findViewById(R.id.available_power_value);
+
+
         mBalanceSecondary = findViewById(R.id.balance_secondary);
         mToolbar = findViewById(R.id.bread_bar);
 
-//        powerTextKey = findViewById(R.id.power_text_key);
-//        powerTextValue = findViewById(R.id.power_text_value);
 
 
         mBackButton = findViewById(R.id.back_icon);
@@ -218,6 +249,12 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         onConnectionChanged(InternetManager.getInstance().isConnected(this));
 
         updateUi();
+        //获取power
+//        final BaseWalletManager wm = WalletsMaster.getInstance(this).getCurrentWallet(this);
+//        CryptoAddress addr = wm.getReceiveAddress(this);
+//        getPower(addr);
+
+
 
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override
@@ -281,12 +318,89 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         }
     }
 
+    private void getPower(CryptoAddress receiveAddr){
+        String powerUrl = "https://openetz.org/etzq/api/v1/getPower?address="+receiveAddr;
+
+        HttpUtils.sendOkHttpRequest(powerUrl, new Callback() {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String responseText = response.body().string();
+                try{
+                    JSONObject resObject = new JSONObject(responseText);
+
+                    final String PowerValue = resObject.getString("result");
+                    runOnUiThread(new Runnable() {
+                    @Override
+                        public void run() {
+                            availablePowerValue.setText(PowerValue);
+                        }
+                    });
+
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(WalletActivity.this, "getPower失败", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+    }
+
+//    private void getPower(CryptoAddress receiveAddr){
+//        //得到power
+//        final CryptoAddress a = receiveAddr;
+//        final JSONObject payload = new JSONObject();
+////        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+////
+////        });
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                String ethRpcUrl = JsonRpcHelper.getPowerValue(a);
+//                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+//                    @Override
+//                    public void onRpcRequestCompleted(String jsonResult) {
+//                        try {
+//                            if (!Utils.isNullOrEmpty(jsonResult)) {
+//                                Log.i(TAG, "onRpcRequestCompleted: jsonResult==="+jsonResult);
+//                                JSONObject responseObject = new JSONObject(jsonResult);
+//
+//                                if (responseObject.has(JsonRpcHelper.RESULT)) {
+//                                    String power = responseObject.getString(JsonRpcHelper.RESULT);
+//                                    Log.i(TAG, "onRpcRequestCompleted: power===="+power);
+//                                    availablePowerValue.setText("this is Power loc");
+//                                } else {
+//                                    Log.e(TAG, "getPower出错");
+//                                }
+//                            }
+//                        } catch (JSONException je) {
+//                            je.printStackTrace();
+//                        }
+//
+//                    }
+//                });
+//            }
+//        }.start();
+//
+//    }
+
     private void updateUi() {
         final BaseWalletManager wm = WalletsMaster.getInstance(this).getCurrentWallet(this);
         if (wm == null) {
             Log.e(TAG, "updateUi: wallet is null");
             return;
         }
+
+        CryptoAddress addr = wm.getReceiveAddress(this);
 
         String fiatExchangeRate = CurrencyUtils.getFormattedAmount(this, BRSharedPrefs.getPreferredFiatIso(this), wm.getFiatExchangeRate(this));
         String fiatBalance = CurrencyUtils.getFormattedAmount(this, BRSharedPrefs.getPreferredFiatIso(this), wm.getFiatBalance(this));
@@ -295,11 +409,27 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         mCurrencyTitle.setText(wm.getName());
         mCurrencyPriceUsd.setText(String.format("%s per %s", fiatExchangeRate, wm.getIso()));
 
-//        if(wm.getIso().equalsIgnoreCase("BO")){
-//            mBalancePrimary.setText("0.00");
-//        }else{
-//            mBalancePrimary.setText(fiatBalance);
-//        }
+        //只在etz显示power 值
+        if(!wm.getIso().equalsIgnoreCase("ETZ")){
+            powerContainer.setVisibility(View.GONE);
+//            breadBar 设置高度 160dp  etz 200dp
+
+        }else{
+            getPower(addr);
+            powerContainer.setVisibility(View.VISIBLE);
+
+            int b = cryptoBalance.length();
+            String c = cryptoBalance.substring(0,b-3);
+            float d = Double.valueOf(c).floatValue();
+            int e = (int)Math.exp(-1/(d*50)*10000) *10000000 + 200000;
+            String f = Integer.toString(e);
+            maxPowerValue.setText(f);
+
+
+
+
+        }
+
 
         mBalancePrimary.setText(fiatBalance);
         mBalanceSecondary.setText(cryptoBalance);
@@ -399,6 +529,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         mBalancePrimary.setTypeface(FontManager.get(this, !cryptoPreferred ? "CircularPro-Bold.otf" : "CircularPro-Book.otf"));
 
         updateUi();
+
     }
 
     @Override
@@ -440,7 +571,6 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         SyncService.startService(this.getApplicationContext(), SyncService.ACTION_START_SYNC_PROGRESS_POLLING, mCurrentWalletIso);
 
         handleUrlClickIfNeeded(getIntent());
-
     }
 
     @Override

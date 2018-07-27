@@ -4,6 +4,8 @@
   <string name="GasLimit_invalid">무효 gasLimit</string>
   <string name="GasPrice_invalid">무효 gasPrice</string>
   <string name="advanced_options">고급 옵션</string>
+  <string name="max_power">최대 에너지</string>
+  <string name="available_power">사용 가능한 에너지</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

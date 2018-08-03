@@ -320,7 +320,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     }
 
     private void getPower(CryptoAddress receiveAddr){
-        String powerUrl = "https://openetz.org/etzq/api/v1/getPower?address="+receiveAddr;
+        String powerUrl = "https://easyetz.io/etzq/api/v1/getPower?address="+receiveAddr;
 
         HttpUtils.sendOkHttpRequest(powerUrl, new Callback() {
             @Override

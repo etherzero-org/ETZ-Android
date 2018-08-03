@@ -193,7 +193,7 @@ transactionCreate(BREthereumAddress sourceAddress,
     transaction->gasPrice = gasPrice;
     transaction->gasLimit = gasLimit;
     transaction->nonce = nonce;
-    transaction->chainId = 100;
+    transaction->chainId = 90;
     transaction->hash = hashCreateEmpty();
 
     transaction->gasL = gasL;

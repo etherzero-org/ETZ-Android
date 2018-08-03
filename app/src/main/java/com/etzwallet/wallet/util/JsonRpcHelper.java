@@ -79,6 +79,7 @@ public class JsonRpcHelper {
     public static final String DATA = "data";
     public static final String TRANSACTION_HASH = "transactionHash";
 
+    public static final String EASY_HOME = "easyetz.io/etzq/";
     private JsonRpcHelper() {
     }
 
@@ -99,13 +100,13 @@ public class JsonRpcHelper {
 //        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT + "query?" + "module=account&action=tokenbalance"
 //                + "&address=" + address + "&contractaddress=" + contractAddress;
 
-        return PROTOCOL + "://" + "openetz.org/etzq/api/v1/gettokenBlance?address=" + address + "&contractaddress=" + contractAddress;
+        return PROTOCOL + "://" + EASY_HOME + "api/v1/gettokenBlance?address=" + address + "&contractaddress=" + contractAddress;
 //
     }
 
     //power 模拟器ip http://10.0.3.2:8080
 //    public static String getPowerValue(CryptoAddress address) { return "http://10.0.3.2:8080/api/v1/getPower?address=" + address; }
-    public static String getPowerValue(CryptoAddress address) { return PROTOCOL + "://" + "openetz.org/etzq/api/v1/getPower?address=" + address; }
+    public static String getPowerValue(CryptoAddress address) { return PROTOCOL + "://" + EASY_HOME + "api/v1/getPower?address=" + address; }
 
     //代币列表
 
@@ -118,7 +119,7 @@ public class JsonRpcHelper {
     public static String createEthereumTransactionsUrl(String address) {
 //        return PROTOCOL + "://" + BreadApp.HOST + BRD_ETH_TX_ENDPOINT
 //                + "query?module=account&action=txlist&address=" + address;
-        return PROTOCOL + "://" + "openetz.org/etzq/api/v1/getEtzTxlist?address="+address;
+        return PROTOCOL + "://" + EASY_HOME +"api/v1/getEtzTxlist?address="+address;
     }
     //代币交易记录
     public static String createLogsUrl(String address, String contract, String event) {
@@ -133,7 +134,7 @@ public class JsonRpcHelper {
 //                + "&topic2=" + address;
 
 //        https://openetz.org/etzq/api/v1/gettokenLogs?address=0x86d105D5FA67F3eEf986F75b7e63C6664f88319A&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic1=0x000000000000000000000000c158bae8a8bb67fb095eec9aa72e641004e2597e
-        return PROTOCOL + "://" + "openetz.org/etzq/api/v1/gettokenLogs?" + (null == contract ? "" : ("&address=" + contract)) + "&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" + "&topic1=" + address;
+        return PROTOCOL + "://" + EASY_HOME + "etzq/api/v1/gettokenLogs?" + (null == contract ? "" : ("&address=" + contract)) + "&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" + "&topic1=" + address;
     }
 
     @WorkerThread

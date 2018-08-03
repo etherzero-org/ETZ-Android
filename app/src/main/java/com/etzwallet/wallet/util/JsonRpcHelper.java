@@ -89,7 +89,8 @@ public class JsonRpcHelper {
 
     public static String getEthereumRpcUrl() {
 //        return PROTOCOL + "://" + BreadApp.HOST + JsonRpcHelper.BRD_ETH_RPC_ENDPOINT;
-        return PROTOCOL + "://" + "rpc.etherzero.org:443";
+        return PROTOCOL + "://" + "www.etzrpc.org:443";
+
     }
 
 

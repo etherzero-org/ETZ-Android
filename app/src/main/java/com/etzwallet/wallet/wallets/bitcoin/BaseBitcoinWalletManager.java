@@ -897,7 +897,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
             BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(app, "syncStarted " + getIso(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(app, "syncStarted " + getIso(), Toast.LENGTH_LONG).show();
                 }
             });
         }
@@ -922,7 +922,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
             BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(context, "SyncStopped " + getIso() + " err(" + error + ") ", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(context, "SyncStopped " + getIso() + " err(" + error + ") ", Toast.LENGTH_LONG).show();
                 }
             });
 
@@ -947,7 +947,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(context, "Syncing failed, retried " + SYNC_MAX_RETRY + " times.", Toast.LENGTH_LONG).show();
+//                        Toast.makeText(context, "Syncing failed, retried " + SYNC_MAX_RETRY + " times.", Toast.LENGTH_LONG).show();
                     }
                 });
             }

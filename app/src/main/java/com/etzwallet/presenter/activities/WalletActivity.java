@@ -69,6 +69,7 @@ import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 
@@ -332,7 +333,12 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
                     runOnUiThread(new Runnable() {
                     @Override
                         public void run() {
-                            availablePowerValue.setText(PowerValue);
+
+                            BigDecimal bg = new BigDecimal(PowerValue);
+                            double e = bg.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
+
+
+                            availablePowerValue.setText(Double.toString(e));
                         }
                     });
 
@@ -348,7 +354,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(WalletActivity.this, "getPower失败", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(WalletActivity.this, "getPower失败", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -417,16 +423,23 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         }else{
             getPower(addr);
             powerContainer.setVisibility(View.VISIBLE);
+            //(Math.exp(-1/(4*50)*10000) *10000000 + 200000)*18*Math.pow(10,9)/Math.pow(10,18)
 
             int b = cryptoBalance.length();
             String c = cryptoBalance.substring(0,b-3);
-            float d = Double.valueOf(c).floatValue();
-            int e = (int)Math.exp(-1/(d*50)*10000) *10000000 + 200000;
-            String f = Integer.toString(e);
-            maxPowerValue.setText(f);
+            DecimalFormat df = new DecimalFormat("0.00");//保留小数点后2位
+            double d = Double.valueOf(c).floatValue();
+            String d1 = df.format(d);
+            float d2 = Double.valueOf(d1).floatValue();
 
+            double e1  = (double)-1/(d2*50);
+            double e2 = e1*10000;
+            double e3 = ( Math.exp(e2) *10000000 + 200000)*18*Math.pow(10,9)/Math.pow(10,18);
 
+            BigDecimal bg = new BigDecimal(e3);
+            double e4 = bg.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
 
+            maxPowerValue.setText(Double.toString(e4));
 
         }
 

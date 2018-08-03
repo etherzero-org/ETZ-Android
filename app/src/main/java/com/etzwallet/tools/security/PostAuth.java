@@ -216,12 +216,17 @@ public class PostAuth {
                 if (mCryptoRequest != null && mCryptoRequest.amount != null && mCryptoRequest.address != null) {
                     CryptoTransaction tx;
                     String newGasPrice;
-                    int a = Integer.parseInt(gasP);
-                    double b = Math.pow(10,9) * a;
-                    long c = (long)b;
-                    newGasPrice = String.valueOf(c);
 
-                    Log.i(TAG, "onPublishTxAuth: newGasPrice==="+newGasPrice);
+                    if(gasP.length()==0) {
+                        newGasPrice = "";
+                    }else {
+                        long newGasp = Integer.parseInt(gasP);
+                        long b = (long)Math.pow(10,9) * newGasp;
+                        newGasPrice = String.valueOf(b);
+                    }
+
+
+
                     tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data, gasL, newGasPrice);
 
                     Log.i(TAG, "createTransaction: token2==="+tx);

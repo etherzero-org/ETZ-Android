@@ -298,17 +298,22 @@ public class BRApiManager {
             String iso4 = "MSM";
             String rate4 = "0";
 
+            String code5 = "BTC";
+            String name5 = "SQB";
+            String iso5 = "SQB";
+            String rate5 = "0";
 
             CurrencyEntity ent1 = new CurrencyEntity(code1, name1, Float.valueOf(rate1), iso1);
             CurrencyEntity ent2 = new CurrencyEntity(code2, name2, Float.valueOf(rate2), iso2);
             CurrencyEntity ent3 = new CurrencyEntity(code3, name3, Float.valueOf(rate3), iso3);
             CurrencyEntity ent4 = new CurrencyEntity(code4, name4, Float.valueOf(rate4), iso4);
-
+            CurrencyEntity ent5 = new CurrencyEntity(code5, name5, Float.valueOf(rate5), iso5);
 
             tmp.add(ent1);
             tmp.add(ent2);
             tmp.add(ent3);
             tmp.add(ent4);
+            tmp.add(ent5);
 
             RatesDataSource.getInstance(context).putCurrencies(context, tmp);
             if (object != null)

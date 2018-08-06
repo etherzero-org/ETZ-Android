@@ -17,6 +17,7 @@ import android.support.annotation.WorkerThread;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -250,10 +251,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         onConnectionChanged(InternetManager.getInstance().isConnected(this));
 
         updateUi();
-        //获取power
-//        final BaseWalletManager wm = WalletsMaster.getInstance(this).getCurrentWallet(this);
-//        CryptoAddress addr = wm.getReceiveAddress(this);
-//        getPower(addr);
+
 
 
 
@@ -361,43 +359,19 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         });
     }
 
-//    private void getPower(CryptoAddress receiveAddr){
-//        //得到power
-//        final CryptoAddress a = receiveAddr;
-//        final JSONObject payload = new JSONObject();
-////        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-////
-////        });
-//        new Thread(){
-//            @Override
-//            public void run() {
-//                String ethRpcUrl = JsonRpcHelper.getPowerValue(a);
-//                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
-//                    @Override
-//                    public void onRpcRequestCompleted(String jsonResult) {
-//                        try {
-//                            if (!Utils.isNullOrEmpty(jsonResult)) {
-//                                Log.i(TAG, "onRpcRequestCompleted: jsonResult==="+jsonResult);
-//                                JSONObject responseObject = new JSONObject(jsonResult);
-//
-//                                if (responseObject.has(JsonRpcHelper.RESULT)) {
-//                                    String power = responseObject.getString(JsonRpcHelper.RESULT);
-//                                    Log.i(TAG, "onRpcRequestCompleted: power===="+power);
-//                                    availablePowerValue.setText("this is Power loc");
-//                                } else {
-//                                    Log.e(TAG, "getPower出错");
-//                                }
-//                            }
-//                        } catch (JSONException je) {
-//                            je.printStackTrace();
-//                        }
-//
-//                    }
-//                });
-//            }
-//        }.start();
-//
-//    }
+    //把String转化为double
+    public static double convertToDouble(String number, double defaultValue) {
+        if (TextUtils.isEmpty(number)) {
+            return defaultValue;
+        }
+        try {
+            return Double.parseDouble(number);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+
+    }
+
 
     private void updateUi() {
         final BaseWalletManager wm = WalletsMaster.getInstance(this).getCurrentWallet(this);
@@ -423,13 +397,17 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
         }else{
             getPower(addr);
             powerContainer.setVisibility(View.VISIBLE);
-            //(Math.exp(-1/(4*50)*10000) *10000000 + 200000)*18*Math.pow(10,9)/Math.pow(10,18)
 
             int b = cryptoBalance.length();
-            String c = cryptoBalance.substring(0,b-3);
-            DecimalFormat df = new DecimalFormat("0.00");//保留小数点后2位
-            double d = Double.valueOf(c).floatValue();
+
+            String c = cryptoBalance.substring(0,b-3).trim();
+
+            DecimalFormat df = new DecimalFormat("#.00");//保留小数点后2位
+
+            double d = convertToDouble(c,0);
+
             String d1 = df.format(d);
+
             float d2 = Double.valueOf(d1).floatValue();
 
             double e1  = (double)-1/(d2*50);

@@ -3,7 +3,7 @@ package com.etzwallet.presenter.activities.intro;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
+//import android.widget.ImageButton;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
@@ -26,13 +26,13 @@ public class WriteDownActivity extends BRActivity {
         setContentView(R.layout.activity_write_down);
 
         Button writeButton = findViewById(R.id.button_write_down);
-        ImageButton close = findViewById(R.id.close_button);
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                close();
-            }
-        });
+//        ImageButton close = findViewById(R.id.close_button);
+//        close.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                close();
+//            }
+//        });
 //        ImageButton faq = findViewById(R.id.faq_button);
 //        faq.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -72,7 +72,7 @@ public class WriteDownActivity extends BRActivity {
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() == 0) {
-            close();
+//            close();
         } else {
             getFragmentManager().popBackStack();
         }

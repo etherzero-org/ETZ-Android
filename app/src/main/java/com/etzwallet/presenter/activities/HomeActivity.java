@@ -31,6 +31,7 @@ import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.CurrencyUtils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -70,7 +71,6 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        Log.e(TAG, "onCreate: 1");
 //        getTokenList();
         mWalletRecycler = findViewById(R.id.rv_wallet_list);
         mFiatTotal = findViewById(R.id.total_assets_usd);

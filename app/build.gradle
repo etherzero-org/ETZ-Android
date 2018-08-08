@@ -3,15 +3,15 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion = 27
-    buildToolsVersion = '27.0.3'
+    buildToolsVersion = '27.0.3'//oppo手機無法正常安裝 27.0.2
 
     defaultConfig {
         testInstrumentationRunner = 'android.support.test.runner.AndroidJUnitRunner'
         applicationId = 'com.etzwallet'
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 4
-        versionName "1.0.1"
+        versionCode 5
+        versionName "1.0.2"
         multiDexEnabled true
 
         // Similar to other properties in the defaultConfig block,
@@ -171,7 +171,10 @@ dependencies {
     implementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'tools.fastlane:screengrab:1.1.0'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
-    compile 'com.google.code.gson:gson:2.7'
+    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    implementation 'com.allenliu.versionchecklib:library:2.0.5'//檢查版本更新
 }
 
 apply plugin: 'com.google.gms.google-services'

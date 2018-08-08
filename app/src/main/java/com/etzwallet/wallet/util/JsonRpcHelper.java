@@ -94,6 +94,12 @@ public class JsonRpcHelper {
 
     }
 
+    //請求版本更新
+    public static String versionCheekUrl(String versionName,int versionCode){
+//        return PROTOCOL + "://" + EASY_HOME + "api/v1/versionCheck?versionName=" + versionName + "&versionCode=" + versionCode;
+        return "http://10.0.3.2:8080/api/v1/versionCheck?versionName=" + versionName + "&versionCode=" + versionCode;
+    }
+
 
     //代币余额
     public static String createTokenTransactionsUrl(String address, String contractAddress) {

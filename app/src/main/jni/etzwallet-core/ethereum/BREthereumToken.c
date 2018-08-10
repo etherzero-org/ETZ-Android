@@ -288,7 +288,7 @@ static struct BREthereumTokenRecord tokens[] = {
 //        1
 //    },
         {
-                "0x86d105D5FA67F3eEf986F75b7e63C6664f88319A",
+                "0xfddb863dbff0632d57571a5af38482966e722ab4",
                 "BO",
                 "BlockOptions",
                 "",
@@ -299,18 +299,18 @@ static struct BREthereumTokenRecord tokens[] = {
                 {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
                 1
         },
-        {
-                "0x01d5ba5698e62983866e4beb9c5485fa5634fa69",
-                "FANS",
-                "FansToken",
-                "",
-                18,
-                "#ed2249",
-                "#ed1868",
-                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
-                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-                1
-        },
+//        {
+//                "0x01d5ba5698e62983866e4beb9c5485fa5634fa69",
+//                "FANS",
+//                "FansToken",
+//                "",
+//                18,
+//                "#ed2249",
+//                "#ed1868",
+//                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
+//                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
+//                1
+//        },
         {
                 "0x0f078ac34a827c16dd1af5fb6d1549cda74e856e",
                 "MSM",
@@ -335,18 +335,18 @@ static struct BREthereumTokenRecord tokens[] = {
                 {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
                 1
         },
-        {
-                "0x9d3cda9140657a8e8f75988828fb3c90d395f2fd",
-                "EASY",
-                "Easy",
-                "",
-                18,
-                "#242424",
-                "#343434",
-                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
-                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-                1
-        },
+//        {
+//                "0x9d3cda9140657a8e8f75988828fb3c90d395f2fd",
+//                "EASY",
+//                "Easy",
+//                "",
+//                18,
+//                "#242424",
+//                "#343434",
+//                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
+//                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
+//                1
+//        },
 
 
 //

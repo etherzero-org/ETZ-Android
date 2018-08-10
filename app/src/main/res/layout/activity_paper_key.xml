@@ -36,6 +36,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
+        <!--
 
         <ImageButton
             android:id="@+id/close_button"
@@ -50,6 +51,8 @@
             app:layout_constraintBottom_toBottomOf="@+id/title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/title"/>
+
+        -->
 
         <com.etzwallet.presenter.customviews.BRText
             android:id="@+id/description"

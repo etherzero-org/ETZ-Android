@@ -39,7 +39,7 @@ public class PaperKeyActivity extends BRActivity {
     private SparseArray<String> wordMap;
     public static boolean appVisible = false;
     private static PaperKeyActivity app;
-    private ImageButton close;
+//    private ImageButton close;
 
     public static PaperKeyActivity getApp() {
         return app;
@@ -72,7 +72,7 @@ public class PaperKeyActivity extends BRActivity {
 
         nextButton = findViewById(R.id.send_button);
         previousButton = findViewById(R.id.button_previous);
-        close = findViewById(R.id.close_button);
+//        close = findViewById(R.id.close_button);
         itemIndexText = findViewById(R.id.item_index_text);
         buttonsLayout = findViewById(R.id.buttons_layout);
 
@@ -83,14 +83,14 @@ public class PaperKeyActivity extends BRActivity {
             }
         });
 
-        close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!BRAnimator.isClickAllowed()) return;
-                BRAnimator.startBreadActivity(PaperKeyActivity.this, false);
-                if (!isDestroyed()) finish();
-            }
-        });
+//        close.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (!BRAnimator.isClickAllowed()) return;
+//                BRAnimator.startBreadActivity(PaperKeyActivity.this, false);
+//                if (!isDestroyed()) finish();
+//            }
+//        });
         previousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

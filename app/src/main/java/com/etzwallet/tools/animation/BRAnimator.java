@@ -92,7 +92,7 @@ public class BRAnimator {
         transaction.add(android.R.id.content, mFragmentSignal, mFragmentSignal.getClass().getName());
         transaction.addToBackStack(null);
         if (!activity.isDestroyed())
-            transaction.commit();
+            transaction.commitAllowingStateLoss();
     }
 
     public static void showSendFragment(Activity app, final CryptoRequest request) {
@@ -113,7 +113,7 @@ public class BRAnimator {
             app.getFragmentManager().beginTransaction()
                     .setCustomAnimations(0, 0, 0, R.animator.plain_300)
                     .add(android.R.id.content, fragmentSend, FragmentSend.class.getName())
-                    .addToBackStack(FragmentSend.class.getName()).commit();
+                    .addToBackStack(FragmentSend.class.getName()).commitAllowingStateLoss();
         } finally {
 
         }
@@ -146,7 +146,7 @@ public class BRAnimator {
             app.getFragmentManager().beginTransaction()
                     .setCustomAnimations(0, 0, 0, R.animator.plain_300)
                     .add(android.R.id.content, fragmentSupport, FragmentSend.class.getName())
-                    .addToBackStack(FragmentSend.class.getName()).commit();
+                    .addToBackStack(FragmentSend.class.getName()).commitAllowingStateLoss();
 
         } finally {
 
@@ -261,7 +261,7 @@ public class BRAnimator {
         app.getFragmentManager().beginTransaction()
                 .setCustomAnimations(0, 0, 0, R.animator.plain_300)
                 .add(android.R.id.content, fragmentRequestAmount, FragmentRequestAmount.class.getName())
-                .addToBackStack(FragmentRequestAmount.class.getName()).commit();
+                .addToBackStack(FragmentRequestAmount.class.getName()).commitAllowingStateLoss();
 
     }
 
@@ -282,7 +282,7 @@ public class BRAnimator {
         app.getFragmentManager().beginTransaction()
                 .setCustomAnimations(0, 0, 0, R.animator.plain_300)
                 .add(android.R.id.content, fragmentReceive, FragmentReceive.class.getName())
-                .addToBackStack(FragmentReceive.class.getName()).commit();
+                .addToBackStack(FragmentReceive.class.getName()).commitAllowingStateLoss();
 
     }
 
@@ -295,7 +295,7 @@ public class BRAnimator {
         transaction.setCustomAnimations(0, 0, 0, R.animator.plain_300);
         transaction.add(android.R.id.content, new FragmentGreetings(), FragmentGreetings.class.getName());
         transaction.addToBackStack(FragmentGreetings.class.getName());
-        transaction.commit();
+        transaction.commitAllowingStateLoss();
 
     }
 

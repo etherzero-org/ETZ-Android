@@ -61,7 +61,7 @@ import com.etzwallet.wallet.util.PowerResponse;
 import com.etzwallet.wallet.wallets.CryptoAddress;
 import com.etzwallet.wallet.wallets.bitcoin.BaseBitcoinWalletManager;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
-
+import  java.lang.Double;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -398,8 +398,11 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
             getPower(addr);
             powerContainer.setVisibility(View.VISIBLE);
 
+            Log.i(TAG, "updateUi: cryptoBalance==="+cryptoBalance);
+
             int b = cryptoBalance.length();
 
+            Log.i(TAG, "updateUi: b==="+b);
             String c = cryptoBalance.substring(0,b-3).trim();
 
             DecimalFormat df = new DecimalFormat("#.00");//保留小数点后2位
@@ -408,8 +411,8 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
 
             String d1 = df.format(d);
 
-            float d2 = Double.valueOf(d1).floatValue();
-
+            double d2 = convertToDouble(d1,0);
+//            float d2 = Double.valueOf(d1).floatValue();//数字格式异常。当试图将一个String转换为指定的数字类型，而该字符串确不满足数字类型要求的格式时，抛出该异常
             double e1  = (double)-1/(d2*50);
             double e2 = e1*10000;
             double e3 = ( Math.exp(e2) *10000000 + 200000)*18*Math.pow(10,9)/Math.pow(10,18);

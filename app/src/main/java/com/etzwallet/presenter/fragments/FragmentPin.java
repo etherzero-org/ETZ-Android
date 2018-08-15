@@ -97,7 +97,7 @@ public class FragmentPin extends Fragment {
         mainLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getFragmentManager().beginTransaction().remove(FragmentPin.this).commit();
+                getActivity().getFragmentManager().beginTransaction().remove(FragmentPin.this).commitAllowingStateLoss();
             }
         });
 
@@ -250,7 +250,7 @@ public class FragmentPin extends Fragment {
             @Override
             public void run() {
                 if (getActivity() != null)
-                    getActivity().getFragmentManager().beginTransaction().remove(FragmentPin.this).commit();
+                    getActivity().getFragmentManager().beginTransaction().remove(FragmentPin.this).commitAllowingStateLoss();
             }
         }, 1000);
 

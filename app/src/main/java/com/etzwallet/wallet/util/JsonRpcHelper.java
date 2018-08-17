@@ -140,40 +140,19 @@ public class JsonRpcHelper {
 //                + "&topic2=" + address;
 
 //        https://openetz.org/etzq/api/v1/gettokenLogs?address=0x86d105D5FA67F3eEf986F75b7e63C6664f88319A&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic1=0x000000000000000000000000c158bae8a8bb67fb095eec9aa72e641004e2597e
-        return PROTOCOL + "://" + EASY_HOME + "etzq/api/v1/gettokenLogs?" + (null == contract ? "" : ("&address=" + contract)) + "&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" + "&topic1=" + address;
+        return PROTOCOL + "://" + EASY_HOME + "api/v1/gettokenLogs?" + (null == contract ? "" : ("&address=" + contract)) + "&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" + "&topic1=" + address;
     }
 
     @WorkerThread
     public static void makeRpcRequestGet(Context app, String url, JSONObject payload, JsonRpcRequestListener listener) {
-        final MediaType JSON
-                = MediaType.parse("application/json; charset=utf-8");
-
-        RequestBody requestBody = RequestBody.create(JSON, payload.toString());
-        Request request = new Request.Builder()
-                .url(url)
-                .header("Content-Type", "application/json; charset=utf-8")
-                .header("Accept", "application/json")
-                .get().build();
-
-
-        APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, true);
-        String responseString = resp.getBodyText();
-
-        if (listener != null) {
-            listener.onRpcRequestCompleted(responseString);
-        }
-
-    }
-
-    @WorkerThread
-    public static void makeRpcRequest1(Context app, String url, JSONObject payload, JsonRpcRequestListener listener) {
-
-
-
 
         Request request = new Request.Builder()
                 .url(url)
+//                .header("Content-Type", "application/json; charset=utf-8")
+//                .header("Accept", "application/json")
+                .method("GET",null)
                 .build();
+//                .get().build();
 
 
         APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, true);

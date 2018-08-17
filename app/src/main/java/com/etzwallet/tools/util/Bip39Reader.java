@@ -2,6 +2,7 @@ package com.etzwallet.tools.util;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.security.SmartValidator;
@@ -101,12 +102,14 @@ public class Bip39Reader {
 
 
     public static List<String> detectWords(Context app, String paperKey) {
+        Log.i(TAG, "lookupWords: paperKey==22=="+paperKey);
         if (Utils.isNullOrEmpty(paperKey)) {
             return null;
         }
         String cleanPaperKey = SmartValidator.cleanPaperKey(app, paperKey);
+        Log.i(TAG, "lookupWords: paperKey==44=="+cleanPaperKey);
         String firstWord = cleanPaperKey.split(" ")[0];
-
+        Log.i(TAG, "lookupWords: paperKey==55=="+firstWord);
         for (String s : LANGS) {
             List<String> words = getList(app, s);
             if (words.contains(firstWord)) {
@@ -117,6 +120,7 @@ public class Bip39Reader {
     }
 
     public static String cleanWord(String word) {
+//        Log.i(TAG, "lookupWords: paperKey==33=="+word);
         String w = Normalizer.normalize(word.trim().replace("　", "")
                 .replace(" ", ""), Normalizer.Form.NFKD);
         return w;

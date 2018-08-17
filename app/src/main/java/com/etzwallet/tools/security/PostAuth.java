@@ -126,6 +126,7 @@ public class PostAuth {
         String cleanPhrase;
         try {
             cleanPhrase = new String(BRKeyStore.getPhrase(app, BRConstants.PROVE_PHRASE_REQUEST));
+
         } catch (UserNotAuthenticatedException e) {
             if (authAsked) {
                 Log.e(TAG, "onPhraseProveAuth: WARNING!!!! LOOP");
@@ -134,6 +135,7 @@ public class PostAuth {
             return;
         }
         Intent intent = new Intent(app, PaperKeyProveActivity.class);
+        Log.i(TAG, "onPhraseProveAuth: cleanPhrase=="+cleanPhrase);
         intent.putExtra("phrase", cleanPhrase);
         app.startActivity(intent);
         app.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);

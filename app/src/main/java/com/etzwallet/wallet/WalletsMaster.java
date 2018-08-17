@@ -179,7 +179,7 @@ public class WalletsMaster {
         }
         return totalBalance;
     }
-
+    //创建钱包生成种子
     public synchronized boolean generateRandomSeed(final Context ctx) {
         SecureRandom sr = new SecureRandom();
         final String[] words;

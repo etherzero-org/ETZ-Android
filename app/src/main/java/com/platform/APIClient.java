@@ -420,6 +420,9 @@ public class APIClient {
                 return createBrResponse(newResponse);
             }
             return createBrResponse(response);
+        }catch (Exception e) {
+            BRReportsManager.reportBug(e);
+            return null;
         }
 
     }

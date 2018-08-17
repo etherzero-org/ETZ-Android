@@ -3,15 +3,15 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion = 27
-    buildToolsVersion = '27.0.3'//oppo手機無法正常安裝 27.0.2
+    buildToolsVersion = '27.0.3'
 
     defaultConfig {
         testInstrumentationRunner = 'android.support.test.runner.AndroidJUnitRunner'
         applicationId = 'com.etzwallet'
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 7
-        versionName "1.0.3.1"
+        versionCode 8
+        versionName "1.0.3.2"
         multiDexEnabled true
 
         // Similar to other properties in the defaultConfig block,
@@ -69,24 +69,6 @@ android {
                 }
             }
         }
-
-//        brdTestnet {
-//            applicationId = "com.breadtestnet"
-//            dimension "mode"
-//            resValue "string", "app_name", "BRD-testnet"
-//            buildConfigField "boolean", "BITCOIN_TESTNET", "true"
-//
-//            externalNativeBuild {
-//                cmake {
-//                    // When you specify a version of CMake, as shown below,
-//                    // the Android plugin searches for its binary within your
-//                    // PATH environmental variable.
-//                    cFlags "-DBITCOIN_TESTNET=1"
-//                    targets "core"
-//                }
-//            }
-//
-//        }
 
     }
 

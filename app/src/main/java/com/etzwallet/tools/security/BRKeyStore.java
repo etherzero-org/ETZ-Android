@@ -355,6 +355,7 @@ public class BRKeyStore {
             encryptedData = inCipher.doFinal(result);
             //store the new data
             storeEncryptedData(context, encryptedData, alias);
+            Log.i(TAG, "onPhraseProveAuth: result=="+result);
             return result;
 
         } catch (InvalidKeyException e) {

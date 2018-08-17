@@ -192,7 +192,6 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
 
     private String[] lookupWords(Context app, String paperKey, String l) {
         //ignore l since it can be english but the phrase in other language.
-
         List<String> list = Bip39Reader.detectWords(app, paperKey);
         if (Utils.isNullOrEmpty(list) || (list.size() % Bip39Reader.WORD_LIST_SIZE != 0)) {
             String message = "lookupWords: " + "Failed: " + list + ", size: " + (list == null ? "null" : list.size());
@@ -745,8 +744,8 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                             if (!Utils.isNullOrEmpty(jsonResult)) {
                                 JSONObject responseObject = new JSONObject(jsonResult);
 
-                                Log.i(TAG, "onRpcRequestCompleted: responseObject==="+responseObject);
-                                Log.i(TAG, "onRpcRequestCompleted: responseObject==="+responseObject.toString());
+                                Log.i(TAG, "onRpcRequestCompleted: responseObject=11=="+responseObject);
+
 
 
 
@@ -983,7 +982,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                 JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
-                        Log.i(TAG, "交易记录==="+jsonResult);
+                        Log.i(TAG, "onRpcRequestCompleted: responseObject=222=="+jsonResult);
                         if (!Utils.isNullOrEmpty(jsonResult)) {
                             try {
                                 // Convert response into JsonArray of transactions
@@ -1145,8 +1144,9 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
         BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
-                final String ethRpcUtl = JsonRpcHelper.createLogsUrl(address, contract, event);
-                Log.i(TAG, "createLogsUrlgetLogs: " + ethRpcUtl);
+                final String ethRpcUrl = JsonRpcHelper.createLogsUrl(address, contract, event);
+                Log.i(TAG, "run: ethRpcUrl=token==="+ethRpcUrl);
+
                 final JSONObject payload = new JSONObject();
                 try {
                     payload.put(JsonRpcHelper.ID, String.valueOf(rid));
@@ -1155,7 +1155,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUtl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
 
@@ -1163,7 +1163,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                             try {
                                 // Convert response into JsonArray of logs
                                 JSONObject logs = new JSONObject(jsonResult);
-                                Log.i(TAG, "onRpcRequestCompleted: logs===="+logs);
+                                Log.i(TAG, "run: ethRpcUrl=logs==="+logs);
                                 JSONArray logsArray = logs.getJSONArray(JsonRpcHelper.RESULT);
 
                                 // Iterate through the list of transactions and call node.announceTransaction()

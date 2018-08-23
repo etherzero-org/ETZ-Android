@@ -27,7 +27,7 @@
 #include "BRInt.h"
 #include <string.h>
 #include <assert.h>
-
+#include <android/log.h>
 // returns number of bytes written to phrase including NULL terminator, or phraseLen needed if phrase is NULL
 size_t BRBIP39Encode(char *phrase, size_t phraseLen, const char *wordList[], const uint8_t *data, size_t dataLen)
 {
@@ -123,8 +123,10 @@ int BRBIP39PhraseIsValid(const char *wordList[], const char *phrase)
 // BUG: does not currently support passphrases containing NULL characters
 void BRBIP39DeriveKey(void *key64, const char *phrase, const char *passphrase)
 {
+    __android_log_print(ANDROID_LOG_INFO, "phrase===1=", "phrase===1=%s\n", phrase );
+    __android_log_print(ANDROID_LOG_INFO, "phrase===2=", "phrase===2=%s\n", passphrase );
+    __android_log_print(ANDROID_LOG_INFO, "phrase===3=", "phrase===3=%s\n", key64 );
     char salt[strlen("mnemonic") + (passphrase ? strlen(passphrase) : 0) + 1];
-
     assert(key64 != NULL);
     assert(phrase != NULL);
     

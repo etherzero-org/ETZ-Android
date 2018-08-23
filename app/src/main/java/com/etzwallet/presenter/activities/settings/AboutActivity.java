@@ -60,43 +60,43 @@ public class AboutActivity extends BaseSettingsActivity {
 
         infoText.setText(String.format(Locale.getDefault(), getString(R.string.About_footer), versionName, versionCode));
 
-        ImageView redditShare = findViewById(R.id.reddit_share_button);
-        ImageView twitterShare = findViewById(R.id.twitter_share_button);
-        ImageView blogShare = findViewById(R.id.blog_share_button);
+//        ImageView redditShare = findViewById(R.id.reddit_share_button);
+//        ImageView twitterShare = findViewById(R.id.twitter_share_button);
+//        ImageView blogShare = findViewById(R.id.blog_share_button);
         mRewardsId = findViewById(R.id.brd_rewards_id);
         mCopy = findViewById(R.id.brd_copy);
 
-        redditShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://reddit.com/r/breadwallet/"));
-                startActivity(browserIntent);
-                app.overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
-            }
-        });
-
-        twitterShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/breadapp"));
-                startActivity(browserIntent);
-                app.overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
-            }
-        });
-        blogShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://breadapp.com/blog/"));
-                startActivity(browserIntent);
-                app.overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
-            }
-        });
+//        redditShare.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://reddit.com/r/breadwallet/"));
+//                startActivity(browserIntent);
+//                app.overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
+//            }
+//        });
+//
+//        twitterShare.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/breadapp"));
+//                startActivity(browserIntent);
+//                app.overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
+//            }
+//        });
+//        blogShare.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://breadapp.com/blog/"));
+//                startActivity(browserIntent);
+//                app.overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
+//            }
+//        });
         policyText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://breadapp.com/privacy-policy"));
-                startActivity(browserIntent);
-                app.overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://breadapp.com/privacy-policy"));
+//                startActivity(browserIntent);
+//                app.overridePendingTransition(R.anim.enter_from_bottom, R.anim.empty_300);
             }
         });
 

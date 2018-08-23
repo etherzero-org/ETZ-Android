@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.WorkerThread;
 
 import com.etzwallet.BuildConfig;
+import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.wallets.CryptoAddress;
 import com.platform.APIClient;
 
@@ -156,8 +157,14 @@ public class JsonRpcHelper {
 
 
         APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, true);
-        String responseString = resp.getBodyText();
 
+        String responseString;
+
+        try{
+            responseString  = resp.getBodyText();
+        }catch (Exception e){
+            responseString = "";
+        }
         if (listener != null) {
             listener.onRpcRequestCompleted(responseString);
         }
@@ -179,7 +186,13 @@ public class JsonRpcHelper {
 
 
         APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, true);
-        String responseString = resp.getBodyText();
+        String responseString;
+
+        try{
+            responseString  = resp.getBodyText();
+        }catch (Exception e){
+            responseString = "";
+        }
 
         if (listener != null) {
             listener.onRpcRequestCompleted(responseString);

@@ -28,7 +28,7 @@
 #include "BRBIP32Sequence.h"
 #include "BRCoreJni.h"
 #include "com_etzwallet_core_BRCoreMasterPubKey.h"
-
+#include <android/log.h>
 /*
  * Class:     com_etzwallet_core_BRCoreMasterPubKey
  * Method:    serialize
@@ -86,7 +86,6 @@ JNIEXPORT jlong JNICALL
 Java_com_etzwallet_core_BRCoreMasterPubKey_createJniCoreMasterPubKeyFromPhrase
         (JNIEnv *env, jclass thisClass,
          jbyteArray phrase) {
-
     // Get the phraseBytes
     jsize phraseLength = (*env)->GetArrayLength (env, phrase);
     jbyte *phraseBytes = (*env)->GetByteArrayElements (env, phrase, 0);

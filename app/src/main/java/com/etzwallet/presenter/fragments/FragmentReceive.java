@@ -321,15 +321,17 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
                     @Override
                     public void run() {
                         String walletIso;
-
+                        Log.i(TAG, "run: isReceive===1"+isReceive);
                         if (isReceive) {
                             walletIso = BRSharedPrefs.getReceiveAddress(ctx, wm.getIso());
                         } else {
                             WalletBitcoinManager btcWm = WalletBitcoinManager.getInstance(ctx);
                             walletIso = BRSharedPrefs.getReceiveAddress(ctx, btcWm.getIso());
                         }
+                        Log.i(TAG, "run: decorated===1"+walletIso);
                         mReceiveAddress = walletIso;
                         String decorated = wm.decorateAddress(mReceiveAddress);
+                        Log.i(TAG, "run: decorated===2"+decorated);
                         mAddress.setText(decorated);
                         Utils.correctTextSizeIfNeeded(mAddress);
                         Uri uri = CryptoUriParser.createCryptoUrl(ctx, wm, decorated, BigDecimal.ZERO, null, null, null);

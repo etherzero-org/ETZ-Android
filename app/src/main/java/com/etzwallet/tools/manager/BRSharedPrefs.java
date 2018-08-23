@@ -98,6 +98,8 @@ public class BRSharedPrefs {
     }
 
     public static void putReceiveAddress(Context ctx, String tmpAddr, String iso) {
+        Log.i(TAG, "putReceiveAddress: tmpAddr==="+tmpAddr);
+        Log.i(TAG, "putReceiveAddress: iso==="+iso);
         SharedPreferences.Editor editor = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
         editor.putString("receive_address" + iso.toUpperCase(), tmpAddr);
         editor.apply();

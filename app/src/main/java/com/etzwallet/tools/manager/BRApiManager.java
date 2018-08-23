@@ -404,7 +404,12 @@ public class BRApiManager {
         APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, false);
 
         try {
-            bodyText = resp.getBodyText();
+            try{
+                bodyText = resp.getBodyText();
+            }catch(Exception e){
+                bodyText = null;
+            }
+
             String strDate = resp.getHeaders().get("date");
             if (strDate == null) {
                 Log.e(TAG, "urlGET: strDate is null!");

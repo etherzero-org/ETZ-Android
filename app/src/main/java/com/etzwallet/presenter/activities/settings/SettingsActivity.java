@@ -186,14 +186,14 @@ public class SettingsActivity extends BaseSettingsActivity {
 //            }
 //        }, false, R.drawable.arrow_leave));
 
-//        items.add(new BRSettingsItem(getString(R.string.About_title), "", new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
-//                startActivity(intent);
-//                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-//            }
-//        }, false, R.drawable.chevron_right_light));
+        items.add(new BRSettingsItem(getString(R.string.About_title), "", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SettingsActivity.this, AboutActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        }, false, R.drawable.chevron_right_light));
 
         items.add(new BRSettingsItem(getString(R.string.Settings_advancedTitle), "", new View.OnClickListener() {
             @Override

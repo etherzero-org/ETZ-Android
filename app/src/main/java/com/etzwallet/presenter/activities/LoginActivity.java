@@ -172,7 +172,7 @@ public class LoginActivity extends BRActivity implements BreadApp.OnAppBackgroun
                 WalletsMaster.getInstance(LoginActivity.this).initLastWallet(LoginActivity.this);
             }
         });
-        APIClient.getInstance(this).updatePlatform(this);
+//        APIClient.getInstance(this).updatePlatform(this);
     }
 
     @Override

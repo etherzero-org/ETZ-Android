@@ -167,7 +167,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                             clearWords();
 
                             if (mIsRestoring) {
-
+                                //切换钱包
                                 BRDialog.showCustomDialog(InputWordsActivity.this, getString(R.string.WipeWallet_alertTitle),
                                         getString(R.string.WipeWallet_alertMessage), getString(R.string.WipeWallet_wipe), getString(R.string.Button_cancel), new BRDialogView.BROnClickListener() {
                                             @Override
@@ -260,12 +260,16 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                 paperKeyStringBuilder.append(' ');
             }
         }
+        Log.i(TAG, "getPhrase: paperKeyStringBuilder=="+paperKeyStringBuilder.length());
         //remove the last space
-        paperKeyStringBuilder.setLength(paperKeyStringBuilder.length() - 1);
+        if(paperKeyStringBuilder.length() == 0 ){
+            return null;
+        }else{
+            paperKeyStringBuilder.setLength(paperKeyStringBuilder.length() - 1);
+        }
 
 
         String paperKey = paperKeyStringBuilder.toString();
-
         if (!success) {
             return null;
         }

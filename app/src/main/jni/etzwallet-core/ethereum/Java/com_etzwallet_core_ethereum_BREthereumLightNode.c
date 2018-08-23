@@ -341,7 +341,9 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniGetAccountPrimaryAddress
 
     char *addressChars = ethereumGetAccountPrimaryAddress(node);
     jstring addressObject = (*env)->NewStringUTF(env, addressChars);
+    __android_log_print(ANDROID_LOG_INFO, "addressObject=2==", "addressObject=2==%s\n", addressChars );
     free(addressChars);
+
 
     return addressObject;
 }

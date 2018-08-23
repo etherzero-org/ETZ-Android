@@ -29,6 +29,7 @@
 #include <BRBIP39Mnemonic.h>
 #include <BRBIP38Key.h>
 #include <BRBIP32Sequence.h>
+#include <android/log.h>
 #include "com_etzwallet_core_BRCoreKey.h"
 
 /*
@@ -36,6 +37,7 @@
  * Method:    getSecret
  * Signature: ()[B
  */
+
 JNIEXPORT jbyteArray JNICALL
 Java_com_etzwallet_core_BRCoreKey_getSecret
         (JNIEnv *env, jobject thisObject) {
@@ -131,10 +133,11 @@ Java_com_etzwallet_core_BRCoreKey_getBase58EncodedPublicKey
 JNIEXPORT jbyteArray JNICALL
 Java_com_etzwallet_core_BRCoreKey_getSeedFromPhrase
         (JNIEnv *env, jclass thisClass, jbyteArray phrase) {
-
+    __android_log_print(ANDROID_LOG_INFO, "phrase===100=", "phrase===100=%s\n", phrase );
     jbyte *bytePhrase = (*env)->GetByteArrayElements(env, phrase, 0);
     UInt512 key = UINT512_ZERO;
     char *charPhrase = (char *) bytePhrase;
+    __android_log_print(ANDROID_LOG_INFO, "phrase===200=", "phrase===200=%s\n", charPhrase  );
     BRBIP39DeriveKey(key.u8, charPhrase, NULL);
 
     jbyteArray result = (*env)->NewByteArray(env, (jsize) sizeof(key));

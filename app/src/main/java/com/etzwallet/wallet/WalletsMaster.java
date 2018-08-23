@@ -215,6 +215,10 @@ public class WalletsMaster {
         byte[] phrase;
         try {
             phrase = BRKeyStore.getPhrase(ctx, 0);
+            String a = phrase.toString();
+
+            Log.i(TAG, "phrase===gen="+a.getBytes());
+
         } catch (UserNotAuthenticatedException e) {
             throw new RuntimeException("Failed to retrieve the phrase even though at this point the system auth was asked for sure.");
         }
@@ -255,12 +259,18 @@ public class WalletsMaster {
 
     public boolean isIsoErc20(Context app, String iso) {
         if (Utils.isNullOrEmpty(iso)) return false;
-        BREthereumToken[] tokens = WalletEthManager.getInstance(app).node.tokens;
-        for (BREthereumToken token : tokens) {
-            if (token.getSymbol().equalsIgnoreCase(iso)) {
-                return true;
+        try{
+            BREthereumToken[] tokens = WalletEthManager.getInstance(app).node.tokens;
+            for (BREthereumToken token : tokens) {
+                if (token.getSymbol().equalsIgnoreCase(iso)) {
+                    return true;
+                }
             }
+        }catch(Exception e){
+            return false;
         }
+
+
         return false;
     }
 

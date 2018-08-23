@@ -47,6 +47,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.math.BigDecimal;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,7 +133,10 @@ public class WalletEthManager extends BaseEthereumWalletManager implements BaseW
                 return;
             }
 
-            node = new BREthereumLightNode(this, network, paperKey, words);
+            String normalizedPhrase = Normalizer.normalize(paperKey.trim(), Normalizer.Form.NFKD);//paper 为NFKD格式
+
+            Log.i(TAG, "WalletEthManager: paperKey==="+paperKey);
+            node = new BREthereumLightNode(this, network, normalizedPhrase, words);
             node.addListener(this);
 
             mWallet = node.getWallet();

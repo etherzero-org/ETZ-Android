@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.net.Uri;
 import android.os.NetworkOnMainThreadException;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.etzwallet.BreadApp;
@@ -551,12 +552,15 @@ public class APIClient {
             byte[] body;
             BRResponse response = sendRequest(request, false);
             Log.d(TAG, bundleFile + ": updateBundle: Downloaded, took: " + (System.currentTimeMillis() - startTime));
-            body = writeBundleToFile(response.getBody());
-            if (Utils.isNullOrEmpty(body)) {
-                Log.e(TAG, "updateBundle: body is null, returning.");
-                return;
-            }
+            try{
+                body = writeBundleToFile(response.getBody());
+                if (Utils.isNullOrEmpty(body)) {
+                    Log.e(TAG, "updateBundle: body is null, returning.");
+                    return;
+                }
+            }catch (Exception e){
 
+            }
             boolean b = tryExtractTar();
             if (!b) {
                 Log.e(TAG, "updateBundle: Failed to extract tar");
@@ -577,14 +581,17 @@ public class APIClient {
                 .build();
 
         BRResponse response = sendRequest(request, false);
-
         try {
-            JSONObject versionsJson = new JSONObject(response.getBodyText());
-            JSONArray jsonArray = versionsJson.getJSONArray("versions");
-            if (jsonArray.length() == 0) {
+            if (TextUtils.isEmpty(response.getBodyText())) {
                 return null;
+            }else{
+                JSONObject versionsJson = new JSONObject(response.getBodyText());
+                JSONArray jsonArray = versionsJson.getJSONArray("versions");
+                if (jsonArray.length() == 0) {
+                    return null;
+                }
+                latestVersion = (String) jsonArray.get(jsonArray.length() - 1);
             }
-            latestVersion = (String) jsonArray.get(jsonArray.length() - 1);
 
         } catch (JSONException e) {
             e.printStackTrace();

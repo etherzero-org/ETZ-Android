@@ -155,6 +155,13 @@ public class PostAuth {
         try {
             boolean success = false;
             try {
+                Log.i(TAG, "phrase===-1= "+mCachedPaperKey);
+
+                byte[] by = mCachedPaperKey.getBytes();
+                for(int i=0;i<by.length;i++) {
+                    Log.i(TAG, "phrase===0= "+by[i]);
+                }
+
                 success = BRKeyStore.putPhrase(mCachedPaperKey.getBytes(),
                         app, BRConstants.PUT_PHRASE_RECOVERY_WALLET_REQUEST_CODE);
             } catch (UserNotAuthenticatedException e) {
@@ -218,17 +225,18 @@ public class PostAuth {
                 if (mCryptoRequest != null && mCryptoRequest.amount != null && mCryptoRequest.address != null) {
                     CryptoTransaction tx;
                     String newGasPrice;
-
-                    if(gasP.length()==0) {
+                    try{
+                        if(gasP.length()==0) {
+                            newGasPrice = "";
+                        }else {
+                            long newGasp = Integer.parseInt(gasP);
+                            long b = (long)Math.pow(10,9) * newGasp;
+                            newGasPrice = String.valueOf(b);
+                        }
+                    }catch(Exception e){
                         newGasPrice = "";
-                    }else {
-                        long newGasp = Integer.parseInt(gasP);
-                        long b = (long)Math.pow(10,9) * newGasp;
-                        newGasPrice = String.valueOf(b);
                     }
-
-
-
+                    Log.i(TAG, "onPublishTxAuth: newGasPrice=="+newGasPrice);
                     tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data, gasL, newGasPrice);
 
                     Log.i(TAG, "createTransaction: token2==="+tx);

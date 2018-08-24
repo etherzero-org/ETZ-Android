@@ -6,6 +6,9 @@
   <string name="advanced_options">Дополнительные параметры</string>
   <string name="max_power">Максимальная энергия</string>
   <string name="available_power">Доступная энергия</string>
+  <string name="current.version">текущая версия:</string>
+  <string name="update.content">обновить контент:</string>
+  <string name="download.latest.version">обновление новой версии</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

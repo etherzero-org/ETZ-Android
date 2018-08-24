@@ -1,6 +1,7 @@
 
 package com.etzwallet.presenter.activities.intro;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.allenliu.versionchecklib.core.http.HttpRequestMethod;
 import com.allenliu.versionchecklib.v2.AllenVersionChecker;
 import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
@@ -30,9 +32,12 @@ import com.etzwallet.wallet.util.JsonRpcHelper;
 import com.platform.APIClient;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONStringer;
+
 import java.io.Serializable;
 
-import static io.fabric.sdk.android.services.common.IdManager.DEFAULT_VERSION_NAME;
 
 
 /**
@@ -82,8 +87,6 @@ public class IntroActivity extends BRActivity implements Serializable {
         super.onCreate(savedInstanceState);
         CrashReport.initCrashReport(getApplicationContext(), "2f6ebc529a", false);
 
-//        checkVersionUpdate();//檢查版本更新
-
         setContentView(R.layout.activity_intro);
         newWalletButton = findViewById(R.id.button_new_wallet);
         recoverWalletButton = findViewById(R.id.button_recover_wallet);
@@ -131,47 +134,8 @@ public class IntroActivity extends BRActivity implements Serializable {
 
     }
 
-    private static final int DEFAULT_VERSION_CODE = 0;
-    private static final String DEFAULT_VERSION_NAME = "0";
-
-    private void checkVersionUpdate(){
 
 
-
-        PackageInfo packageInfo = null;
-        try {
-            packageInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        int versionCode = packageInfo != null ? packageInfo.versionCode : DEFAULT_VERSION_CODE;
-        String versionName = packageInfo != null ? packageInfo.versionName : DEFAULT_VERSION_NAME;
-
-        Log.i(TAG, "checkVersionUpdate: versionCode=="+versionCode);
-        Log.d(TAG, "checkVersionUpdate: versionName==="+versionName);
-
-        AllenVersionChecker
-                .getInstance()
-                .requestVersion()
-                .setRequestUrl(JsonRpcHelper.versionCheekUrl(versionName,versionCode))
-                .request(new RequestVersionListener() {
-                    @Nullable
-                    @Override
-                    public UIData onRequestVersionSuccess(String result) {
-                        //拿到服务器返回的数据，解析，拿到downloadUrl和一些其他的UI数据
-                        Log.i(TAG, "onRequestVersionSuccess: "+result);
-                        //如果是最新版本直接return null
-                        return UIData.create().setDownloadUrl("aa");
-                    }
-
-                    @Override
-                    public void onRequestVersionFailure(String message) {
-
-                    }
-                })
-                .excuteMission(this);
-    }
 
     private void updateBundles() {
         BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {

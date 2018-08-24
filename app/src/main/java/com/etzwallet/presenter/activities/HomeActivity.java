@@ -1,7 +1,10 @@
 package com.etzwallet.presenter.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +16,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
+import com.allenliu.versionchecklib.core.http.HttpRequestMethod;
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.settings.SecurityCenterActivity;
 import com.etzwallet.presenter.activities.settings.SettingsActivity;
@@ -29,9 +36,13 @@ import com.etzwallet.tools.manager.PromptManager;
 import com.etzwallet.tools.sqlite.RatesDataSource;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.CurrencyUtils;
+import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
+import com.etzwallet.wallet.util.JsonRpcHelper;
 import com.tencent.bugly.crashreport.CrashReport;
+
+import org.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -72,6 +83,8 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 //        getTokenList();
+        //检查新版本
+        checkVersionUpdate();
         mWalletRecycler = findViewById(R.id.rv_wallet_list);
         mFiatTotal = findViewById(R.id.total_assets_usd);
 
@@ -165,6 +178,83 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     }
 
+    public String getVersionCode() {
+        Context ctx = this.getApplicationContext();
+        PackageManager packageManager = ctx.getPackageManager();
+        PackageInfo packageInfo;
+        String versionCode = "";
+        try {
+            packageInfo = packageManager.getPackageInfo(ctx.getPackageName(), 0);
+            versionCode = packageInfo.versionCode + "";
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionCode;
+    }
+
+    public void checkVersionUpdate(){
+        Context ctx = this.getApplicationContext();
+        AllenVersionChecker
+                .getInstance()
+                .requestVersion()
+                .setRequestMethod(HttpRequestMethod.GET)
+                .setRequestUrl(JsonRpcHelper.versionCheekUrl())
+                .request(new RequestVersionListener() {
+                    @Nullable
+                    @Override
+                    public UIData onRequestVersionSuccess(String result) {
+
+                        try{
+                            if (Utils.isNullOrEmpty(result)) {
+                                Log.i(TAG, "onRequestVersionSuccess: 获取新版本失败1");
+                            }
+                            JSONObject json = new JSONObject(result);
+                            Log.i(TAG, "onRequestVersionSuccess: json=="+json);
+                            JSONObject json1 = new JSONObject(json.getString("result"));
+
+                            String dlUrl = json1.getString("url");
+                            String dlContent = json1.getString("content");
+                            String versionCode = json1.getString("versionCode");
+                            String versionName = json1.getString("version");
+
+
+                            StringBuilder stringBuilder = new StringBuilder();
+
+                            stringBuilder.append(app.getString(R.string.current_version));
+                            stringBuilder.append(versionName);
+                            stringBuilder.append("\n");
+                            stringBuilder.append(app.getString(R.string.update_content));
+                            stringBuilder.append(dlContent);
+
+                            String finalString = stringBuilder.toString();
+
+                            if(Integer.parseInt(versionCode) > Integer.parseInt(getVersionCode())){
+                                UIData uiData = UIData
+                                        .create()
+                                        .setDownloadUrl(dlUrl)
+                                        .setTitle(app.getString(R.string.download_latest_version))
+                                        .setContent(finalString);
+                                return uiData;
+                            }else{
+                                return null;
+                            }
+
+                        }catch (Exception e){
+                            Log.i(TAG, "onRequestVersionSuccess: 获取新版本失败2");
+                        }
+
+                        return null;
+                    }
+
+                    @Override
+                    public void onRequestVersionFailure(String message) {
+
+                    }
+                })
+                .excuteMission(ctx);
+
+    }
+
 //    public void getTokenList(){
 //        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
 //            @Override
@@ -184,6 +274,9 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 //            }
 //        });
 //    }
+    private  static Context context;
+
+
 
     public void hidePrompt() {
         mPromptCard.setVisibility(View.GONE);

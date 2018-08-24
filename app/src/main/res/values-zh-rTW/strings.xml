@@ -6,6 +6,9 @@
   <string name="advanced_options">高級選項</string>
   <string name="max_power">最大能量</string>
   <string name="available_power">可用能量</string>
+  <string name="current.version">當前版本:</string>
+  <string name="update.content">更新內容:</string>
+  <string name="download.latest.version">版本更新:</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

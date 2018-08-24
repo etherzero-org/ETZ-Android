@@ -6,6 +6,9 @@
   <string name="advanced_options">고급 옵션</string>
   <string name="max_power">최대 에너지</string>
   <string name="available_power">사용 가능한 에너지</string>
+  <string name="current.version">현재 버전:</string>
+  <string name="update.content">내용 업데이트:</string>
+  <string name="download.latest.version">새 버전 업데이트</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

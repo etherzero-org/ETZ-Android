@@ -7,7 +7,10 @@
     <string name="gas_limit_text">Gas Limit</string>
     <string name="gas_price_text">Gas Price</string>
     <string name="Max.power">Max Power</string>
-    <string name="Available.power">Available Power</string>
+    <string name="Available.power">Available power</string>
+    <string name="current.version">Current version:</string>
+    <string name="update.content">Update content:</string>
+    <string name="download.latest.version">Download latest version:</string>
     <!-- App name -->
     <string name="About.appName.android">EasyETZ</string>
     <!-- About screen blog label -->

@@ -7,6 +7,9 @@
   <string name="advanced_options">Avancerade alternativ</string>
   <string name="max_power">Maximal energi</string>
   <string name="available_power">Tillgänglig energi</string>
+  <string name="current.version">aktuell version:</string>
+  <string name="update.content">uppdatera innehåll:</string>
+  <string name="download.latest.version">ny version uppdatering</string>
   <!-- App name -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->

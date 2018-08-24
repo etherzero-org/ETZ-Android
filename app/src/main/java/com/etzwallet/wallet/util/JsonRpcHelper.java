@@ -81,6 +81,8 @@ public class JsonRpcHelper {
     public static final String TRANSACTION_HASH = "transactionHash";
 
     public static final String EASY_HOME = "easyetz.io/etzq/";
+    public static final String VERSION_PATH = "easyetz.io/airdropapi/";
+
     private JsonRpcHelper() {
     }
 
@@ -96,9 +98,10 @@ public class JsonRpcHelper {
     }
 
     //請求版本更新
-    public static String versionCheekUrl(String versionName,int versionCode){
-//        return PROTOCOL + "://" + EASY_HOME + "api/v1/versionCheck?versionName=" + versionName + "&versionCode=" + versionCode;
-        return "http://10.0.3.2:8080/api/v1/versionCheck?versionName=" + versionName + "&versionCode=" + versionCode;
+    public static String versionCheekUrl(){
+        return PROTOCOL + "://" + VERSION_PATH + "api/v1/versionCheck";
+//        return "http://10.0.3.2:8080/api/v1/versionCheck";
+        //模拟器 10.0.3.2  真机 10.0.2.2
     }
 
 

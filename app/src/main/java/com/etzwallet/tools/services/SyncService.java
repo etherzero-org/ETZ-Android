@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.wallet.WalletsMaster;
@@ -146,23 +147,30 @@ public class SyncService extends IntentService {
      */
     private void startSyncPolling(Context context, String walletIso) {
         final BaseWalletManager walletManager = WalletsMaster.getInstance(context).getWalletByIso(context, walletIso);
-        final double progress = walletManager.getSyncProgress(BRSharedPrefs.getStartHeight(context,
-                BRSharedPrefs.getCurrentWalletIso(context)));
-        Log.e(TAG, "startSyncPolling: Progress:" + progress + " Wallet: " + walletIso);
+        try{
+            final double progress = walletManager.getSyncProgress(BRSharedPrefs.getStartHeight(context,
+                    BRSharedPrefs.getCurrentWalletIso(context)));
+            Log.e(TAG, "startSyncPolling: Progress:" + progress + " Wallet: " + walletIso);
+            if (progress > PROGRESS_START && progress < PROGRESS_FINISH) {
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                PendingIntent pendingIntent = PendingIntent.getService(context,
+                        0, /* request code not used */
+                        createIntent(context, ACTION_START_SYNC_PROGRESS_POLLING, walletIso),
+                        PendingIntent.FLAG_UPDATE_CURRENT);
 
-        if (progress > PROGRESS_START && progress < PROGRESS_FINISH) {
-            AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            PendingIntent pendingIntent = PendingIntent.getService(context,
-                    0, /* request code not used */
-                    createIntent(context, ACTION_START_SYNC_PROGRESS_POLLING, walletIso),
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager.set(AlarmManager.RTC,
+                        System.currentTimeMillis() + POLLING_INTERVAL,
+                        pendingIntent);
+            }
 
-            alarmManager.set(AlarmManager.RTC,
-                    System.currentTimeMillis() + POLLING_INTERVAL,
-                    pendingIntent);
+            broadcastSyncProgressUpdate(context, walletManager.getIso(), progress);
+
+        }catch(Exception e){
+            BRReportsManager.reportBug(new NullPointerException("startSyncPolling出错"), true);
         }
 
-        broadcastSyncProgressUpdate(context, walletManager.getIso(), progress);
+
+
     }
 
     /**

@@ -398,11 +398,8 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
             getPower(addr);
             powerContainer.setVisibility(View.VISIBLE);
 
-            Log.i(TAG, "updateUi: cryptoBalance==="+cryptoBalance);
-
             int b = cryptoBalance.length();
 
-            Log.i(TAG, "updateUi: b==="+b);
             String c = cryptoBalance.substring(0,b-3).trim();
 
             DecimalFormat df = new DecimalFormat("#.00");//保留小数点后2位

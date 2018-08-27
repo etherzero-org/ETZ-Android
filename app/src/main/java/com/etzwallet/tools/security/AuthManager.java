@@ -245,7 +245,7 @@ public class AuthManager {
 
     private void sayNoScreenLock(final Activity app) {
         BRDialog.showCustomDialog(app,
-                "",
+                app.getString(R.string.JailbreakWarnings_title),
                 app.getString(R.string.Prompts_NoScreenLock_body_android),
                 app.getString(R.string.AccessibilityLabels_close),
                 null,

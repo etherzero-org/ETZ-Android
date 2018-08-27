@@ -162,9 +162,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         });
 
         mPromptContinue.setColor(Color.parseColor("#4b77f3"));
-        mPromptContinue.setOnClickListener(new View.OnClickListener()
-
-        {
+        mPromptContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PromptManager.PromptInfo info = PromptManager.getInstance().promptInfo(app, mCurrentPrompt);
@@ -295,6 +293,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     private void showNextPromptIfNeeded() {
         PromptManager.PromptItem toShow = PromptManager.getInstance().nextPrompt(this);
+        Log.i(TAG, "showNextPromptIfNeeded: toShow==="+toShow);
         if (toShow != null) {
             mCurrentPrompt = toShow;
 //            Log.d(TAG, "showNextPrompt: " + toShow);

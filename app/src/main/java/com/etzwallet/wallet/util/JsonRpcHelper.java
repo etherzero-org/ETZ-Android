@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.WorkerThread;
 
 import com.etzwallet.BuildConfig;
+import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.wallets.CryptoAddress;
 import com.platform.APIClient;
@@ -167,6 +168,7 @@ public class JsonRpcHelper {
             responseString  = resp.getBodyText();
         }catch (Exception e){
             responseString = "";
+            BRReportsManager.reportBug(new NullPointerException("resp.getBodyText()出错"), true);
         }
         if (listener != null) {
             listener.onRpcRequestCompleted(responseString);
@@ -195,6 +197,7 @@ public class JsonRpcHelper {
             responseString  = resp.getBodyText();
         }catch (Exception e){
             responseString = "";
+            BRReportsManager.reportBug(new NullPointerException("resp.getBodyText()出错"), true);
         }
 
         if (listener != null) {

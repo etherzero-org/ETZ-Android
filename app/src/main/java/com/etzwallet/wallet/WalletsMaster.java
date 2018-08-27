@@ -215,9 +215,6 @@ public class WalletsMaster {
         byte[] phrase;
         try {
             phrase = BRKeyStore.getPhrase(ctx, 0);
-            String a = phrase.toString();
-
-            Log.i(TAG, "phrase===gen="+a.getBytes());
 
         } catch (UserNotAuthenticatedException e) {
             throw new RuntimeException("Failed to retrieve the phrase even though at this point the system auth was asked for sure.");
@@ -267,7 +264,9 @@ public class WalletsMaster {
                 }
             }
         }catch(Exception e){
+            BRReportsManager.reportBug(new NullPointerException("isIsoErc20出错"), true);
             return false;
+
         }
 
 

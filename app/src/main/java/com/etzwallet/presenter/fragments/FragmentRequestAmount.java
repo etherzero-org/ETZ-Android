@@ -331,8 +331,7 @@ public class FragmentRequestAmount extends Fragment {
                 final BaseWalletManager wallet = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
 
                 wallet.refreshAddress(getActivity());
-                mReceiveAddress = BRSharedPrefs.getReceiveAddress(getActivity(), wallet.getIso());
-
+                mReceiveAddress = wallet.getAddress();
                 BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                     @Override
                     public void run() {

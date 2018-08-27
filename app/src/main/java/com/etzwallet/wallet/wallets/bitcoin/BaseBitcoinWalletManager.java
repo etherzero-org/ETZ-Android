@@ -78,7 +78,6 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
     private static final String TAG = BaseBitcoinWalletManager.class.getSimpleName();
 
     public static final int ONE_BITCOIN_IN_SATOSHIS = 100000000; // 1 Bitcoin in satoshis, 100 millions
-    public static final int ONE_BITCOIN_IN_BITS = 1000000; // 1 Bitcoin in bits, 1 millions
     private static final long MAXIMUM_AMOUNT = 21000000; // Maximum number of coins available
     private static final int SYNC_MAX_RETRY = 3;
 
@@ -566,7 +565,10 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
     public BREthereumAmount.Unit getUnit() {
         throw new RuntimeException("stub");
     }
-
+    @Override
+    public String getAddress() {
+        return BRSharedPrefs.getReceiveAddress(BreadApp.getBreadContext(), getIso());
+    }
     @Override
     public boolean isAddressValid(String address) {
         return !Utils.isNullOrEmpty(address) && new BRCoreAddress(address).isValid();
@@ -847,20 +849,10 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
 
     public void balanceChanged(final long balance) {
         super.balanceChanged(balance);
-        BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
-            @Override
-            public void run() {
-                final Context app = BreadApp.getBreadContext();
-                setCachedBalance(app, new BigDecimal(balance));
-                onTxListModified(null);
-                BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        refreshAddress(app);
-                    }
-                });
-            }
-        });
+        final Context app = BreadApp.getBreadContext();
+        setCachedBalance(app, new BigDecimal(balance));
+        onBalanceChanged(new BigDecimal(balance));
+        refreshAddress(app);
     }
 
     public void txStatusUpdate() {

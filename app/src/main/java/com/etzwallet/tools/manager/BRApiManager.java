@@ -408,6 +408,7 @@ public class BRApiManager {
                 bodyText = resp.getBodyText();
             }catch(Exception e){
                 bodyText = null;
+                BRReportsManager.reportBug(new NullPointerException("urlGET出错"), true);
             }
 
             String strDate = resp.getHeaders().get("date");

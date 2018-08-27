@@ -6,6 +6,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.etzwallet.tools.manager.BRReportsManager;
+
 /**
  * BreadWallet
  * <p/>
@@ -57,7 +59,8 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
                         mListener.onLongItemClick(child, recyclerView.getChildAdapterPosition(child));
                     }
                 }catch(Exception err){
-                    
+                    BRReportsManager.reportBug(new NullPointerException("onLongPress出错"), true);
+
                 }
             }
         });

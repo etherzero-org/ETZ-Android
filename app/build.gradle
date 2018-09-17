@@ -155,6 +155,20 @@ dependencies {
     //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
     implementation 'com.allenliu.versionchecklib:library:2.0.5'
     //檢查版本更新
+
+    //助记词生成地址
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'org.web3j:core:3.3.1-android'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation 'io.github.novacrypto:BIP44:0.0.3'
+    implementation 'io.github.novacrypto:BIP39:0.1.9'
+    implementation 'com.orhanobut:logger:2.1.1'
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    implementation 'com.lambdaworks:scrypt:1.4.0'
+    implementation 'com.lhalcyon:bip32:1.0.0'
+
 }
 
 apply plugin: 'com.google.gms.google-services'

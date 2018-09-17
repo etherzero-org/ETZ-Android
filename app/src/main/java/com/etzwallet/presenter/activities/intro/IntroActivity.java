@@ -35,9 +35,16 @@ import com.tencent.bugly.crashreport.CrashReport;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Keys;
 
 import java.io.Serializable;
 
+import io.github.novacrypto.bip32.ExtendedPrivateKey;
+import io.github.novacrypto.bip32.networks.Bitcoin;
+import io.github.novacrypto.bip39.SeedCalculator;
+import io.github.novacrypto.bip44.AddressIndex;
+import io.github.novacrypto.bip44.BIP44;
 
 
 /**
@@ -160,6 +167,9 @@ public class IntroActivity extends BRActivity implements Serializable {
                 startActivity(intent);
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                 if (bApp != null) bApp.finish();
+
+
+//                generateKeyPair();
             }
         });
 
@@ -175,6 +185,48 @@ public class IntroActivity extends BRActivity implements Serializable {
                 if (bApp != null) bApp.finish();
             }
         });
+    }
+
+    /**
+     * generate key pair to create eth wallet
+     * 生成KeyPair , 用于创建钱包
+     */
+    public ECKeyPair generateKeyPair() {
+        String TAG = "AAA";
+        // 1. we just need eth wallet for now
+        AddressIndex addressIndex = BIP44
+                .m()
+                .purpose44()
+                .coinType(60)
+                .account(0)
+                .external()
+                .address(0);
+        // 2. calculate seed from mnemonics , then get master/root key ; Note that the bip39 passphrase we set "" for common
+        String mn = "april cruise index artist wonder sell original cloth film sword actress own";
+        ExtendedPrivateKey rootKey = ExtendedPrivateKey.fromSeed(new SeedCalculator().calculateSeed(mn, ""), Bitcoin.MAIN_NET);
+//        Logger.i("generateKeyPair===mnemonics:" + mnemonics);
+        String extendedBase58 = rootKey.extendedBase58();
+//        Logger.i("generateKeyPair===extendedBase58:" + extendedBase58);
+
+        // 3. get child private key deriving from master/root key
+        ExtendedPrivateKey childPrivateKey = rootKey.derive(addressIndex, AddressIndex.DERIVATION);
+        String childExtendedBase58 = childPrivateKey.extendedBase58();
+//        Logger.i("generateKeyPair===childExtendedBase58:" + childExtendedBase58);
+
+        // 4. get key pair
+        byte[] privateKeyBytes = childPrivateKey.getKey();
+        ECKeyPair keyPair = ECKeyPair.create(privateKeyBytes);
+
+        // we 've gotten what we need
+        String privateKey = childPrivateKey.getPrivateKey();
+        String publicKey = childPrivateKey.neuter().getPublicKey();
+        String address = Keys.getAddress(keyPair);
+
+        Log.i(TAG,"generateKeyPair===privateKey:" + privateKey);
+//        Logger.i("generateKeyPair===publicKey:" + publicKey);
+        Log.i(TAG,"generateKeyPair===address:" + address);
+
+        return keyPair;
     }
 
     @Override

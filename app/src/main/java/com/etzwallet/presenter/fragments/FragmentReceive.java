@@ -325,6 +325,7 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
                         } else {
                             mReceiveAddress = WalletBitcoinManager.getInstance(ctx).getAddress();
                         }
+                        Log.i(TAG, "run: mReceiveAddress==="+mReceiveAddress);
                         String decorated = wm.decorateAddress(mReceiveAddress);
                         Log.i(TAG, "run: decorated===2"+decorated);
                         mAddress.setText(decorated);

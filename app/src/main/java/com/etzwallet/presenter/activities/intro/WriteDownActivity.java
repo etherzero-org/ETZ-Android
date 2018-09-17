@@ -1,21 +1,29 @@
 package com.etzwallet.presenter.activities.intro;
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 //import android.widget.ImageButton;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.security.AuthManager;
 import com.etzwallet.tools.security.PostAuth;
+import com.etzwallet.wallet.WalletsMaster;
+import com.etzwallet.wallet.abstracts.BaseWalletManager;
+
+import static java.security.AccessController.getContext;
 
 public class WriteDownActivity extends BRActivity {
     private static final String TAG = WriteDownActivity.class.getName();
     private static WriteDownActivity app;
-
+    private String storeAddress;
     public static WriteDownActivity getApp() {
         return app;
     }
@@ -25,24 +33,10 @@ public class WriteDownActivity extends BRActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_down);
 
+        confirmTheAddressIsTure();
+
         Button writeButton = findViewById(R.id.button_write_down);
-//        ImageButton close = findViewById(R.id.close_button);
-//        close.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                close();
-//            }
-//        });
-//        ImageButton faq = findViewById(R.id.faq_button);
-//        faq.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!BRAnimator.isClickAllowed()) return;
-//                BaseWalletManager wm = WalletsMaster.getInstance(WriteDownActivity.this).getCurrentWallet(WriteDownActivity.this);
-//                BRAnimator.showSupportFragment(WriteDownActivity.this, BRConstants.FAQ_PAPER_KEY, wm);
-//
-//            }
-//        });
+
         writeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,12 +49,19 @@ public class WriteDownActivity extends BRActivity {
 
                     @Override
                     public void onCancel() {
-
+    
                     }
                 });
 
             }
         });
+    }
+    //判断地址是否正确
+    private void confirmTheAddressIsTure(){
+        final Context ctx = BreadApp.getBreadContext();
+        final BaseWalletManager wm = WalletsMaster.getInstance(ctx).getCurrentWallet(ctx);
+        storeAddress = wm.getAddress();
+        Log.i(TAG, "run: storeAddress==="+storeAddress);
     }
 
     @Override

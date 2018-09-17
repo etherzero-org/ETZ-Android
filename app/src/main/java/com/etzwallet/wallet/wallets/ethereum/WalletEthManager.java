@@ -400,8 +400,13 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public void refreshCachedBalance(final Context app) {
-        final BigDecimal balance = new BigDecimal(mWallet.getBalance(getUnit()));
-        BRSharedPrefs.putCachedBalance(app, getIso(), balance);
+        if(mWallet != null){
+            final BigDecimal balance = new BigDecimal(mWallet.getBalance(getUnit()));
+            BRSharedPrefs.putCachedBalance(app, getIso(), balance);
+        }else{
+            final BigDecimal b = new BigDecimal('0');
+            BRSharedPrefs.putCachedBalance(app, getIso(), b);
+        }
     }
 
     @Override
@@ -644,7 +649,6 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public void getBalance(final int wid, final String address, final int rid) {
-
         BREthereumWallet wallet = this.node.getWalletByIdentifier(wid);
         BREthereumToken token = wallet.getToken();
         if (null == token)

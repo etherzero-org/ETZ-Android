@@ -303,17 +303,25 @@ public class BRApiManager {
             String iso5 = "SQB";
             String rate5 = "0";
 
+            String code6 = "BTC";
+            String name6 = "ABountifulCompany"; //全名
+            String iso6 = "ABC";
+            String rate6 = "0";
+
+
             CurrencyEntity ent1 = new CurrencyEntity(code1, name1, Float.valueOf(rate1), iso1);
 //            CurrencyEntity ent2 = new CurrencyEntity(code2, name2, Float.valueOf(rate2), iso2);
 //            CurrencyEntity ent3 = new CurrencyEntity(code3, name3, Float.valueOf(rate3), iso3);
             CurrencyEntity ent4 = new CurrencyEntity(code4, name4, Float.valueOf(rate4), iso4);
             CurrencyEntity ent5 = new CurrencyEntity(code5, name5, Float.valueOf(rate5), iso5);
+            CurrencyEntity ent6 = new CurrencyEntity(code6, name6, Float.valueOf(rate6), iso6);
 
             tmp.add(ent1);
 //            tmp.add(ent2);
 //            tmp.add(ent3);
             tmp.add(ent4);
             tmp.add(ent5);
+            tmp.add(ent6);
 
             RatesDataSource.getInstance(context).putCurrencies(context, tmp);
             if (object != null)
@@ -404,22 +412,21 @@ public class BRApiManager {
         APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, false);
 
         try {
-            try{
+            if(resp != null){
                 bodyText = resp.getBodyText();
-            }catch(Exception e){
+                String strDate = resp.getHeaders().get("date");
+                if (strDate == null) {
+                    Log.e(TAG, "urlGET: strDate is null!");
+                    return bodyText;
+                }
+                SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
+                Date date = formatter.parse(strDate);
+                long timeStamp = date.getTime();
+                BRSharedPrefs.putSecureTime(app, timeStamp);
+            }else{
                 bodyText = null;
-                BRReportsManager.reportBug(new NullPointerException("urlGET出错"), true);
             }
 
-            String strDate = resp.getHeaders().get("date");
-            if (strDate == null) {
-                Log.e(TAG, "urlGET: strDate is null!");
-                return bodyText;
-            }
-            SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);
-            Date date = formatter.parse(strDate);
-            long timeStamp = date.getTime();
-            BRSharedPrefs.putSecureTime(app, timeStamp);
         } catch (ParseException e) {
             e.printStackTrace();
         }

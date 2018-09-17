@@ -169,7 +169,14 @@ public class Utils {
     public static boolean isFingerprintEnrolled(Context app) {
         FingerprintManager fingerprintManager = (FingerprintManager) app.getSystemService(FINGERPRINT_SERVICE);
         // Device doesn't support fingerprint authentication
+
+        if (fingerprintManager == null) return false;
+        if (!fingerprintManager.isHardwareDetected()) {
+            Toast.makeText(app, "Device doesn't support fingerprint authentication", Toast.LENGTH_LONG).show();
+            return false;
+        }
         return ActivityCompat.checkSelfPermission(app, Manifest.permission.USE_FINGERPRINT) == PackageManager.PERMISSION_GRANTED && fingerprintManager.isHardwareDetected() && fingerprintManager.hasEnrolledFingerprints();
+
     }
 
     public static boolean isFingerprintAvailable(Context app) {

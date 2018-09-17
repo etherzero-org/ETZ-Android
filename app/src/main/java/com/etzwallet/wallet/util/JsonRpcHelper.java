@@ -164,12 +164,12 @@ public class JsonRpcHelper {
 
         String responseString;
 
-        try{
+        if(resp != null){
             responseString  = resp.getBodyText();
-        }catch (Exception e){
+        }else{
             responseString = "";
-            BRReportsManager.reportBug(new NullPointerException("resp.getBodyText()出错"), true);
         }
+
         if (listener != null) {
             listener.onRpcRequestCompleted(responseString);
         }
@@ -193,11 +193,10 @@ public class JsonRpcHelper {
         APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, true);
         String responseString;
 
-        try{
+        if(resp != null){
             responseString  = resp.getBodyText();
-        }catch (Exception e){
+        }else{
             responseString = "";
-            BRReportsManager.reportBug(new NullPointerException("resp.getBodyText()出错"), true);
         }
 
         if (listener != null) {

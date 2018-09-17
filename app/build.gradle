@@ -4,14 +4,13 @@ apply plugin: 'io.fabric'
 android {
     compileSdkVersion = 27
     buildToolsVersion = '27.0.3'
-
     defaultConfig {
         testInstrumentationRunner = 'android.support.test.runner.AndroidJUnitRunner'
         applicationId = 'com.etzwallet'
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 14
-        versionName "1.0.6"
+        versionCode 18
+        versionName "1.0.6.4"
         multiDexEnabled true
 
         // Similar to other properties in the defaultConfig block,
@@ -30,15 +29,12 @@ android {
         }
 
     }
-
     testOptions {
         unitTests.returnDefaultValues = true
     }
-
     packagingOptions {
         pickFirst 'protobuf.meta'
     }
-
     externalNativeBuild {
         cmake {
             // When you specify a version of CMake, as shown below,
@@ -48,10 +44,8 @@ android {
 
         }
     }
-
     // Specifies two flavor dimensions.
     flavorDimensions "mode"
-
     productFlavors {
         easyetz {
             applicationId = "com.etzwallet"
@@ -71,7 +65,6 @@ android {
         }
 
     }
-
     lintOptions {
         // set to true to turn off analysis progress reporting by lint
         quiet false
@@ -86,7 +79,6 @@ android {
 
         disable 'MissingTranslation'
     }
-
     buildTypes {
         release {
             minifyEnabled = false
@@ -131,9 +123,12 @@ repositories {
 
 dependencies {
     implementation 'commons-io:commons-io:2.4'
-    implementation 'org.eclipse.jetty:jetty-webapp:9.2.19.v20160908' //do not update
-    implementation 'org.eclipse.jetty.websocket:websocket-server:9.2.19.v20160908' //do not update
-    implementation 'org.eclipse.jetty:jetty-continuation:9.2.19.v20160908' //do not update
+    implementation 'org.eclipse.jetty:jetty-webapp:9.2.19.v20160908'
+    //do not update
+    implementation 'org.eclipse.jetty.websocket:websocket-server:9.2.19.v20160908'
+    //do not update
+    implementation 'org.eclipse.jetty:jetty-continuation:9.2.19.v20160908'
+    //do not update
     implementation 'org.slf4j:slf4j-api:1.7.22'
     implementation 'com.android.support:appcompat-v7:27.1.1'
     implementation 'com.android.support:design:27.1.1'
@@ -154,10 +149,12 @@ dependencies {
     implementation 'tools.fastlane:screengrab:1.1.0'
     implementation 'android.arch.lifecycle:extensions:1.1.1'
     implementation 'com.google.code.gson:gson:2.7'
-    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
-    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
-    implementation 'com.allenliu.versionchecklib:library:2.0.5'//檢查版本更新
-
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.1.9
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
+    implementation 'com.allenliu.versionchecklib:library:2.0.5'
+    //檢查版本更新
 }
 
 apply plugin: 'com.google.gms.google-services'

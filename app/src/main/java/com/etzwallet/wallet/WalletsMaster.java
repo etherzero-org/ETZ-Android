@@ -187,7 +187,12 @@ public class WalletsMaster {
         String languageCode = Locale.getDefault().getLanguage();
         if (languageCode == null) languageCode = "en";
         list = Bip39Reader.bip39List(ctx, languageCode);
+        Log.i(TAG, "generateRandomSeed: list==="+list);
         words = list.toArray(new String[list.size()]);
+        final String[] words1 = list.toArray(new String[20]);
+        Log.i(TAG, "generateRandomSeed: words==="+words);//設置完pin密碼生成一次  輸完lock 密碼生成一次
+        Log.i(TAG, "generateRandomSeed: words1==="+words1);
+
         final byte[] randomSeed = sr.generateSeed(16);
         if (words.length != 2048) {
             BRReportsManager.reportBug(new IllegalArgumentException("the list is wrong, size: " + words.length), true);

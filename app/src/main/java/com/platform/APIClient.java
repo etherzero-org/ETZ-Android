@@ -553,14 +553,15 @@ public class APIClient {
             byte[] body;
             BRResponse response = sendRequest(request, false);
             Log.d(TAG, bundleFile + ": updateBundle: Downloaded, took: " + (System.currentTimeMillis() - startTime));
-            try{
+            if(response != null){
                 body = writeBundleToFile(response.getBody());
                 if (Utils.isNullOrEmpty(body)) {
                     Log.e(TAG, "updateBundle: body is null, returning.");
                     return;
                 }
-            }catch (Exception e){
-                BRReportsManager.reportBug(new NullPointerException("updateBundle getBody()出错"), true);
+            }else{
+                Log.e(TAG, "updateBundle: response is null, returning.");
+                return;
             }
             boolean b = tryExtractTar();
             if (!b) {
@@ -583,16 +584,16 @@ public class APIClient {
 
         BRResponse response = sendRequest(request, false);
         try {
-            if (TextUtils.isEmpty(response.getBodyText())) {
-                BRReportsManager.reportBug(new NullPointerException("getLatestVersion出错"), true);
-                return null;
-            }else{
+            if(response != null){
                 JSONObject versionsJson = new JSONObject(response.getBodyText());
                 JSONArray jsonArray = versionsJson.getJSONArray("versions");
                 if (jsonArray.length() == 0) {
                     return null;
                 }
                 latestVersion = (String) jsonArray.get(jsonArray.length() - 1);
+
+            }else{
+                return null;
             }
 
         } catch (JSONException e) {

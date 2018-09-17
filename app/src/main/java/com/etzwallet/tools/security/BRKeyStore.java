@@ -178,7 +178,7 @@ public class BRKeyStore {
 
     private synchronized static boolean _setData(Context context, byte[] data, String alias, String alias_file, String alias_iv,
                                                  int request_code, boolean auth_required) throws UserNotAuthenticatedException {
-//        Log.e(TAG, "_setData: " + alias);
+        Log.i(TAG, "generateRandomSeed: alias=====" + alias);
         validateSet(data, alias, alias_file, alias_iv, auth_required);
 
         KeyStore keyStore = null;
@@ -188,16 +188,18 @@ public class BRKeyStore {
             keyStore.load(null);
             SecretKey secretKey = (SecretKey) keyStore.getKey(alias, null);
             Cipher inCipher = Cipher.getInstance(NEW_CIPHER_ALGORITHM);
-
-            if (secretKey == null) {
-                //create key if not present
-                secretKey = createKeys(alias, auth_required);
-                inCipher.init(Cipher.ENCRYPT_MODE, secretKey);
-            } else {
+            Log.i(TAG, "generateRandomSeed: secretKey==="+secretKey);
+//            if (secretKey == null) {
+//                //create key if not present
+//                secretKey = createKeys(alias, auth_required);
+//                inCipher.init(Cipher.ENCRYPT_MODE, secretKey);
+//            } else {
                 //see if the key is old format, create a new one if it is
                 try {
+                    Log.i(TAG, "generateRandomSeed: 出錯了11===");
                     inCipher.init(Cipher.ENCRYPT_MODE, secretKey);
                 } catch (InvalidKeyException ignored) {
+                    Log.i(TAG, "generateRandomSeed: 出錯了22===");
                     if (ignored instanceof UserNotAuthenticatedException) {
                         throw ignored;
                     }
@@ -206,14 +208,14 @@ public class BRKeyStore {
                     secretKey = createKeys(alias, auth_required);
                     inCipher.init(Cipher.ENCRYPT_MODE, secretKey);
                 }
-            }
+//            }
 
             //the key cannot still be null
-            if (secretKey == null) {
-                BRKeystoreErrorException ex = new BRKeystoreErrorException("secret is null on _setData: " + alias);
-                BRReportsManager.reportBug(ex);
-                return false;
-            }
+//            if (secretKey == null) {
+//                BRKeystoreErrorException ex = new BRKeystoreErrorException("secret is null on _setData: " + alias);
+//                BRReportsManager.reportBug(ex);
+//                return false;
+//            }
 
 
             byte[] iv = inCipher.getIV();

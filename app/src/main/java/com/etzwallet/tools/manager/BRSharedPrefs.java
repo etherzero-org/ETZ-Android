@@ -99,7 +99,6 @@ public class BRSharedPrefs {
 
     public static void putReceiveAddress(Context ctx, String tmpAddr, String iso) {
         Log.i(TAG, "putReceiveAddress: tmpAddr==="+tmpAddr);
-        Log.i(TAG, "putReceiveAddress: iso==="+iso);
         SharedPreferences.Editor editor = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
         editor.putString("receive_address" + iso.toUpperCase(), tmpAddr);
         editor.apply();
@@ -111,12 +110,34 @@ public class BRSharedPrefs {
     }
 
     public static void putFirstAddress(Context context, String firstAddress) {
+        Log.i(TAG, "putReceiveAddress: firstAddress==="+firstAddress);//比特币地址
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("firstAddress", firstAddress);
         editor.apply();
     }
+    public static Boolean getAddressError(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean("addrStatus", true);
+    }
 
+    public static void putAddressError(Context context,Boolean status){
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("addrStatus",status);
+        editor.apply();
+    }
+    //第一次创建
+    public static void putFirstCreate(Context context,Boolean status){
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("firstCreate",status);
+        editor.apply();
+    }
+    public static Boolean getFristCreate(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean("firstCreate", true);
+    }
     public static BigDecimal getFeeRate(Context context, String iso) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         return new BigDecimal(prefs.getString("feeRate" + iso.toUpperCase(), "0"));
@@ -298,7 +319,6 @@ public class BRSharedPrefs {
     }
     //设置当前的iso
     public static void putCurrentWalletIso(Context activity, String iso) {
-
         if (iso == null) throw new NullPointerException("cannot be null");
         String currentIos;
 

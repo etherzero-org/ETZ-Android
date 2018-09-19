@@ -2,6 +2,7 @@ package com.etzwallet.tools.security;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.WorkerThread;
@@ -151,7 +152,6 @@ public class PostAuth {
             BRReportsManager.reportBug(new NullPointerException("onRecoverWalletAuth: phraseForKeyStore is or empty"));
             return;
         }
-
         try {
             boolean success = false;
             try {

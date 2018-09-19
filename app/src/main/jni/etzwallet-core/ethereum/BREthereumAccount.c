@@ -36,7 +36,7 @@
 
 #include "BRUtil.h"
 #include "BREthereumAccount.h"
-
+#include <android/log.h>
 // BIP39 test vectors
 // https://github.com/trezor/python-mnemonic/blob/master/vectors.json
 
@@ -439,6 +439,7 @@ accountFree (BREthereumAccount account) {
 
 extern BREthereumAddress
 accountGetPrimaryAddress (BREthereumAccount account) {
+    __android_log_print(ANDROID_LOG_INFO, "account->primaryAddress=", "account->primaryAddress=%s\n", account->primaryAddress );
     return account->primaryAddress;
 }
 

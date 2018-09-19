@@ -33,8 +33,6 @@ public class WriteDownActivity extends BRActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_down);
 
-        confirmTheAddressIsTure();
-
         Button writeButton = findViewById(R.id.button_write_down);
 
         writeButton.setOnClickListener(new View.OnClickListener() {
@@ -49,19 +47,12 @@ public class WriteDownActivity extends BRActivity {
 
                     @Override
                     public void onCancel() {
-    
+
                     }
                 });
 
             }
         });
-    }
-    //判断地址是否正确
-    private void confirmTheAddressIsTure(){
-        final Context ctx = BreadApp.getBreadContext();
-        final BaseWalletManager wm = WalletsMaster.getInstance(ctx).getCurrentWallet(ctx);
-        storeAddress = wm.getAddress();
-        Log.i(TAG, "run: storeAddress==="+storeAddress);
     }
 
     @Override

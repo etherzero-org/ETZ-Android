@@ -1,7 +1,9 @@
 package com.etzwallet.wallet.wallets.ethereum;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Log;
 
@@ -16,6 +18,7 @@ import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.core.ethereum.BREthereumTransaction;
 import com.etzwallet.core.ethereum.BREthereumBlock;
 import com.etzwallet.core.ethereum.BREthereumWallet;
+import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.entities.CurrencyEntity;
 import com.etzwallet.presenter.entities.TxUiHolder;
 import com.etzwallet.presenter.interfaces.BROnSignalCompletion;
@@ -45,6 +48,8 @@ import com.etzwallet.wallet.wallets.WalletManagerHelper;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.web3j.crypto.ECKeyPair;
+import org.web3j.crypto.Keys;
 
 import java.math.BigDecimal;
 import java.text.Normalizer;
@@ -53,6 +58,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import io.github.novacrypto.bip32.ExtendedPrivateKey;
+import io.github.novacrypto.bip32.networks.Bitcoin;
+import io.github.novacrypto.bip39.SeedCalculator;
+import io.github.novacrypto.bip44.AddressIndex;
+import io.github.novacrypto.bip44.BIP44;
 
 import static com.etzwallet.tools.util.BRConstants.ROUNDING_MODE;
 
@@ -104,7 +115,8 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     private BREthereumWallet mWallet;
     public BREthereumLightNode node;
-
+    public String getAddress = "";
+    public String pKey = null;
     private WalletEthManager(final Context app, byte[] ethPubKey, BREthereumNetwork network) {
         mUiConfig = new WalletUiConfiguration("#00BDFF", "#5E7AA3",
                 true, WalletManagerHelper.MAX_DECIMAL_PLACES_FOR_UI);
@@ -115,6 +127,9 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             String paperKey = null;
             try {
                 paperKey = new String(BRKeyStore.getPhrase(app, 0));
+                pKey = paperKey;
+
+
             } catch (UserNotAuthenticatedException e) {
                 e.printStackTrace();
                 return;
@@ -134,7 +149,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
             String normalizedPhrase = Normalizer.normalize(paperKey.trim(), Normalizer.Form.NFKD);//paper 为NFKD格式
 
-            Log.i(TAG, "WalletEthManager: paperKey==="+paperKey);
+
             node = new BREthereumLightNode(this, network, normalizedPhrase, words);
             node.addListener(this);
 
@@ -161,6 +176,18 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         }
 
         mAddress = getReceiveAddress(app).stringify();
+
+        final Activity app1 = (Activity) app;
+
+        Boolean isFirst = BRSharedPrefs.getFristCreate(app);
+        Log.i(TAG, "WalletEthManager: isFirst=="+isFirst);
+        if(isFirst){
+            confirmAddress(app1,pKey,mAddress);
+        }else{
+            BRSharedPrefs.putFirstCreate(app, false);
+        }
+
+
         if (Utils.isNullOrEmpty(mAddress)) {
             BRReportsManager.reportBug(new IllegalArgumentException("Eth address missing!"), true);
         }
@@ -173,6 +200,54 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         node.connect();
 
     }
+    private void confirmAddress(final Activity app, String mn,String addr){
+        Log.i(TAG, "WalletEthManager: addr=="+addr);
+        AddressIndex addressIndex = BIP44
+                .m()
+                .purpose44()
+                .coinType(60)
+                .account(0)
+                .external()
+                .address(0);
+        ExtendedPrivateKey rootKey = ExtendedPrivateKey.fromSeed(new SeedCalculator().calculateSeed(mn, ""), Bitcoin.MAIN_NET);
+//        String extendedBase58 = rootKey.extendedBase58();
+        ExtendedPrivateKey childPrivateKey = rootKey.derive(addressIndex, AddressIndex.DERIVATION);
+//        String childExtendedBase58 = childPrivateKey.extendedBase58();
+        byte[] privateKeyBytes = childPrivateKey.getKey();
+        ECKeyPair keyPair = ECKeyPair.create(privateKeyBytes);
+//        String privateKey = childPrivateKey.getPrivateKey();
+//        String publicKey = childPrivateKey.neuter().getPublicKey();
+        String address = Keys.getAddress(keyPair);
+        String fullAddress = "0x" + address;
+
+
+        if(fullAddress.equals(addr.toLowerCase())){
+
+            Log.i(TAG, "WalletEthManager: mAddress=1000==地址一致");
+        }else{
+            BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
+                    app.getString(R.string.Alert_keystore_generic_android_bug),
+                    app.getString(R.string.Button_ok),
+                    null,
+                    new BRDialogView.BROnClickListener() {
+                        @Override
+                        public void onClick(BRDialogView brDialogView) {
+                            app.finish();
+                        }
+                    }, null, new DialogInterface.OnDismissListener(){
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            app.finish();
+                        }
+                    }, 0);
+
+            BRSharedPrefs.putAddressError(app, false);
+        }
+        BRSharedPrefs.putFirstCreate(app, false);
+        Log.i(TAG, "WalletEthManager: mAddress=1000=="+addr.toLowerCase());
+        Log.i(TAG, "WalletEthManager: mAddress==2000="+fullAddress);
+    }
+
 
     public static synchronized WalletEthManager getInstance(Context app) {
         if (mInstance == null) {
@@ -649,6 +724,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public void getBalance(final int wid, final String address, final int rid) {
+        Log.i(TAG, "getBalance: address==="+address);
         BREthereumWallet wallet = this.node.getWalletByIdentifier(wid);
         BREthereumToken token = wallet.getToken();
         if (null == token)

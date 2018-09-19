@@ -47,6 +47,7 @@
     <string name="Alert.error">Error</string>
     <!-- Keystore error -->
     <string name="Alert.keystore.generic.android">There is a problem with your Android OS keystore, please contact support@etherzero.org</string>
+    <string name="Alert.keystore.generic.android.bug">Your Android operation system has generated a key error,please UNINSTALL THE APP and REINSTALL!!!</string>
     <!-- KeyStore error, keys are invalidated -->
     <string name="Alert.keystore.invalidated.android">Your EasyETZ encrypted data was recently invalidated because your Android lock screen was disabled.</string>
     <!-- Keystore error title -->

@@ -2,6 +2,7 @@ package com.etzwallet.presenter.activities;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -25,9 +26,11 @@ import com.etzwallet.presenter.activities.settings.SecurityCenterActivity;
 import com.etzwallet.presenter.activities.settings.SettingsActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRButton;
+import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.BRNotificationBar;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.tools.adapter.WalletListAdapter;
+import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.listeners.RecyclerItemClickListener;
 import com.etzwallet.tools.manager.BREventManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
@@ -85,6 +88,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 //        getTokenList();
         //检查新版本
         checkVersionUpdate();
+//        alertDialog();
         mWalletRecycler = findViewById(R.id.rv_wallet_list);
         mFiatTotal = findViewById(R.id.total_assets_usd);
 
@@ -176,6 +180,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     }
 
+
     public String getVersionCode() {
         Context ctx = this.getApplicationContext();
         PackageManager packageManager = ctx.getPackageManager();
@@ -189,7 +194,30 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         }
         return versionCode;
     }
-
+//    public void alertDialog(){
+//        Boolean addErr = BRSharedPrefs.getAddressError(app);
+//        Log.i(TAG, "onRecoverWalletAuth: adderr==="+addErr);
+//        if(addErr){
+//
+//        }else{
+//            BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
+//                    app.getString(R.string.Alert_keystore_generic_android_bug),
+//                    app.getString(R.string.Button_ok),
+//                    null,
+//                    new BRDialogView.BROnClickListener() {
+//                        @Override
+//                        public void onClick(BRDialogView brDialogView) {
+//                            app.finish();
+//                        }
+//                    }, null, new DialogInterface.OnDismissListener(){
+//                        @Override
+//                        public void onDismiss(DialogInterface dialog) {
+//                            app.finish();
+//                        }
+//                    }, 0);
+//            BRSharedPrefs.putAddressError(app, false);
+//        }
+//    }
     public void checkVersionUpdate(){
         Context ctx = this.getApplicationContext();
         AllenVersionChecker

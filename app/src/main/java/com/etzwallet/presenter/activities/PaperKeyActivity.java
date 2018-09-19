@@ -6,25 +6,26 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
+
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.etzwallet.R;
+
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.fragments.FragmentPhraseWord;
-import com.etzwallet.tools.animation.BRAnimator;
+
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.security.PostAuth;
 import com.etzwallet.tools.util.Utils;
+
 
 import java.util.Locale;
 
@@ -99,6 +100,10 @@ public class PaperKeyActivity extends BRActivity {
             }
         });
         String cleanPhrase = getIntent().getExtras() == null ? null : getIntent().getStringExtra("phrase");
+//        Log.i(TAG, "onCreate: wordMap==cleanPhrase="+cleanPhrase);
+
+
+
         wordMap = new SparseArray<>();
 
         if (Utils.isNullOrEmpty(cleanPhrase)) {
@@ -125,6 +130,7 @@ public class PaperKeyActivity extends BRActivity {
             wordViewPager.setAdapter(adapter);
             for (int i = 0; i < wordArray.length; i++) {
                 wordMap.append(i, wordArray[i]);
+
             }
             updateItemIndexText();
         }

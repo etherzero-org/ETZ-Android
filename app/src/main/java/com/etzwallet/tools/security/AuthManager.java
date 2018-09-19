@@ -207,7 +207,6 @@ public class AuthManager {
 
         FragmentFingerprint fingerprintFragment;
         FragmentPin breadPin;
-
         if (keyguardManager.isKeyguardSecure()) {
             if (useFingerPrint) {
                 fingerprintFragment = new FragmentFingerprint();

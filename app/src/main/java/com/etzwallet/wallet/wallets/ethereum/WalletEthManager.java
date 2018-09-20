@@ -181,6 +181,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
         Boolean isFirst = BRSharedPrefs.getFristCreate(app);
         Log.i(TAG, "WalletEthManager: isFirst=="+isFirst);
+//        String m = "fjskalfjasklfasdfasf";
         if(isFirst){
             confirmAddress(app1,pKey,mAddress);
         }else{

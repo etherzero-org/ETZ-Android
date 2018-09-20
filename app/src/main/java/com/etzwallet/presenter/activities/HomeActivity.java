@@ -88,7 +88,6 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 //        getTokenList();
         //检查新版本
         checkVersionUpdate();
-//        alertDialog();
         mWalletRecycler = findViewById(R.id.rv_wallet_list);
         mFiatTotal = findViewById(R.id.total_assets_usd);
 
@@ -194,30 +193,28 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         }
         return versionCode;
     }
-//    public void alertDialog(){
-//        Boolean addErr = BRSharedPrefs.getAddressError(app);
-//        Log.i(TAG, "onRecoverWalletAuth: adderr==="+addErr);
-//        if(addErr){
-//
-//        }else{
-//            BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
-//                    app.getString(R.string.Alert_keystore_generic_android_bug),
-//                    app.getString(R.string.Button_ok),
-//                    null,
-//                    new BRDialogView.BROnClickListener() {
-//                        @Override
-//                        public void onClick(BRDialogView brDialogView) {
-//                            app.finish();
-//                        }
-//                    }, null, new DialogInterface.OnDismissListener(){
-//                        @Override
-//                        public void onDismiss(DialogInterface dialog) {
-//                            app.finish();
-//                        }
-//                    }, 0);
-//            BRSharedPrefs.putAddressError(app, false);
-//        }
-//    }
+    private void alertDialog(){
+        Boolean addErr = BRSharedPrefs.getAddressError(app);
+        Log.i(TAG, "onRecoverWalletAuth: adderr==="+addErr);
+        if(!addErr){
+            BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
+                    app.getString(R.string.Alert_keystore_generic_android_bug),
+                    app.getString(R.string.Button_ok),
+                    null,
+                    new BRDialogView.BROnClickListener() {
+                        @Override
+                        public void onClick(BRDialogView brDialogView) {
+                            app.finish();
+                        }
+                    }, null, new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            app.finish();
+                        }
+                    }, 0);
+            BRSharedPrefs.putAddressError(app, false);
+        }
+    }
     public void checkVersionUpdate(){
         Context ctx = this.getApplicationContext();
         AllenVersionChecker
@@ -356,6 +353,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         InternetManager.registerConnectionReceiver(this, this);
 
         updateUi();
+        alertDialog();
         RatesDataSource.getInstance(this).addOnDataChangedListener(this);
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override

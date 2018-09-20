@@ -41,7 +41,7 @@ import java.util.UUID;
  * THE SOFTWARE.
  */
 
-public class BRSharedPrefs {
+    public class BRSharedPrefs {
     public static final String TAG = BRSharedPrefs.class.getName();
 
     public static final String PREFS_NAME = "MyPrefsFile";

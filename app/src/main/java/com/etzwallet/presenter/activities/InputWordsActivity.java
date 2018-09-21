@@ -16,6 +16,7 @@ import com.etzwallet.R;
 import com.etzwallet.presenter.activities.intro.IntroActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.interfaces.BROnSignalCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.animation.SpringAnimator;
@@ -48,7 +49,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
     //will be true if this screen was called from the restore screen
     private boolean mIsRestoring = false;
     private boolean mIsResettingPin = false;
-
+    private int fromCrate = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +67,8 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
         }
 
         mNextButton = findViewById(R.id.send_button);
+        fromCrate = getIntent().getIntExtra("from",0);
+
 
         if (Utils.isUsingCustomInputMethod(this)) {
             BRDialog.showCustomDialog(this, getString(R.string.JailbreakWarnings_title), getString(R.string.Alert_customKeyboard_android),
@@ -121,16 +124,20 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
             mIsResettingPin = extras.getBoolean(EXTRA_RESET_PIN);
         }
 
-        if (mIsRestoring) {
-            //change the labels
-            title.setText(getString(R.string.MenuViewController_recoverButton));
-            description.setText(getString(R.string.WipeWallet_instruction));
-        } else if (mIsResettingPin) {
-            //change the labels
-            title.setText(getString(R.string.RecoverWallet_header_reset_pin));
-            description.setText(getString(R.string.RecoverWallet_subheader_reset_pin));
+        if(fromCrate==1){
+            title.setText(getString(R.string.SecurityCenter_paperKeyTitle));
+            description.setText(getString(R.string.ConfirmPaperPhrase_label));
+        }else{
+            if (mIsRestoring) {
+                //change the labels
+                title.setText(getString(R.string.MenuViewController_recoverButton));
+                description.setText(getString(R.string.WipeWallet_instruction));
+            } else if (mIsResettingPin) {
+                //change the labels
+                title.setText(getString(R.string.RecoverWallet_header_reset_pin));
+                description.setText(getString(R.string.RecoverWallet_subheader_reset_pin));
+            }
         }
-
 
         mEditWords.get(LAST_WORD_INDEX).setOnEditorActionListener(new TextView.OnEditorActionListener() {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -155,47 +162,30 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                     return;
                 }
                 String cleanPhrase = SmartValidator.cleanPaperKey(app, phraseToCheck);
+                Log.i(TAG, "phrase==cleanPhrase="+cleanPhrase);
+                Log.i(TAG, "phrase==fromCrate=="+fromCrate);
                 if (Utils.isNullOrEmpty(cleanPhrase)) {
                     BRReportsManager.reportBug(new NullPointerException("cleanPhrase is null or empty!"));
                     return;
                 }
                 if (SmartValidator.isPaperKeyValid(app, cleanPhrase)) {
-
-                    if (mIsRestoring || mIsResettingPin) {
-                        if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {
-                            Utils.hideKeyboard(app);
-                            clearWords();
-
-                            if (mIsRestoring) {
-                                //切换钱包
-                                BRDialog.showCustomDialog(InputWordsActivity.this, getString(R.string.WipeWallet_alertTitle),
-                                        getString(R.string.WipeWallet_alertMessage), getString(R.string.WipeWallet_wipe), getString(R.string.Button_cancel), new BRDialogView.BROnClickListener() {
-                                            @Override
-                                            public void onClick(BRDialogView brDialogView) {
-                                                brDialogView.dismissWithAnimation();
-                                                WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
-                                                m.wipeWalletButKeystore(app);
-                                                m.wipeKeyStore(app);
-                                                Intent intent = new Intent(app, IntroActivity.class);
-                                                finalizeIntent(intent);
-                                            }
-                                        }, new BRDialogView.BROnClickListener() {
-                                            @Override
-                                            public void onClick(BRDialogView brDialogView) {
-                                                brDialogView.dismissWithAnimation();
-                                            }
-                                        }, null, 0);
-
-                            } else {
-                                Log.i(TAG, "onClick: next step22222");
-                                AuthManager.getInstance().setPinCode("", InputWordsActivity.this);
-                                Intent intent = new Intent(app, SetPinActivity.class);
-                                intent.putExtra("noPin", true);
-                                finalizeIntent(intent);
-                            }
-
-
-                        } else {
+                    //创建钱包  验证助记词  输入助记词
+                    Utils.hideKeyboard(app);
+                    clearWords();
+                    if(fromCrate == 1){
+                        if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {//验证创建的助记词
+                            BRSharedPrefs.putPhraseWroteDown(InputWordsActivity.this, true);
+                            BRAnimator.showBreadSignal(InputWordsActivity.this, getString(R.string.Alerts_paperKeySet), getString(R.string.Alerts_paperKeySetSubheader), R.drawable.ic_check_mark_white, new BROnSignalCompletion() {
+                                @Override
+                                public void onComplete() {
+                                    BRAnimator.startBreadActivity(InputWordsActivity.this, false);
+                                    overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+                                    finishAffinity();
+                                }
+                            });
+                            BRSharedPrefs.putFirstCreate(app, false);
+                        }else{
+                            //助记词无效
                             BRDialog.showCustomDialog(app, "", getString(R.string.RecoverWallet_invalid),
                                     getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
                                         @Override
@@ -204,18 +194,63 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                                         }
                                     }, null, null, 0);
                         }
+                    }else{
+                        if (mIsRestoring || mIsResettingPin) {
+                            if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {
+                                if (mIsRestoring) {
+                                    //切换钱包  输入助记词
+                                    BRDialog.showCustomDialog(InputWordsActivity.this, getString(R.string.WipeWallet_alertTitle),
+                                            getString(R.string.WipeWallet_alertMessage), getString(R.string.WipeWallet_wipe), getString(R.string.Button_cancel), new BRDialogView.BROnClickListener() {
+                                                @Override
+                                                public void onClick(BRDialogView brDialogView) {
+                                                    brDialogView.dismissWithAnimation();
+                                                    WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
+                                                    m.wipeWalletButKeystore(app);
+                                                    m.wipeKeyStore(app);
+                                                    Intent intent = new Intent(app, IntroActivity.class);
+                                                    finalizeIntent(intent);
+                                                }
+                                            }, new BRDialogView.BROnClickListener() {
+                                                @Override
+                                                public void onClick(BRDialogView brDialogView) {
+                                                    brDialogView.dismissWithAnimation();
+                                                }
+                                            }, null, 0);
 
-                    } else {
-                        Utils.hideKeyboard(app);
-                        WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
-                        m.wipeAll(InputWordsActivity.this);
-                        PostAuth.getInstance().setCachedPaperKey(cleanPhrase);
-                        //Disallow BTC and BCH sending.
-                        BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
-                        BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
+                                } else {
+                                    //导入钱包输入助记词
+                                    Log.i(TAG, "onClick: next step22222");
+                                    AuthManager.getInstance().setPinCode("", InputWordsActivity.this);
+                                    Intent intent = new Intent(app, SetPinActivity.class);
+                                    intent.putExtra("noPin", true);
+                                    finalizeIntent(intent);
+                                }
 
-                        PostAuth.getInstance().onRecoverWalletAuth(app, false);
+
+                            } else {
+                                BRDialog.showCustomDialog(app, "", getString(R.string.RecoverWallet_invalid),
+                                        getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
+                                            @Override
+                                            public void onClick(BRDialogView brDialogView) {
+                                                brDialogView.dismissWithAnimation();
+                                            }
+                                        }, null, null, 0);
+                            }
+
+                        } else {
+                            Utils.hideKeyboard(app);
+                            WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
+                            m.wipeAll(InputWordsActivity.this);
+                            PostAuth.getInstance().setCachedPaperKey(cleanPhrase);
+                            //Disallow BTC and BCH sending.
+                            BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
+                            BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
+
+                            PostAuth.getInstance().onRecoverWalletAuth(app, false);
+                        }
+
                     }
+
 
                 } else {
                     BRDialog.showCustomDialog(app, "", getResources().getString(R.string.RecoverWallet_invalid),
@@ -270,6 +305,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 
 
         String paperKey = paperKeyStringBuilder.toString();
+        Log.i(TAG, "phrase==paperKey="+paperKey);
         if (!success) {
             return null;
         }

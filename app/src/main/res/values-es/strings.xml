@@ -169,7 +169,7 @@
   <!-- Confirm paper phrase error message -->
   <string name="ConfirmPaperPhrase.error">Las palabras introducidas no coinciden con tu clave en papel. Inténtalo de nuevo.</string>
   <!-- Confirm paper phrase view label. -->
-  <string name="ConfirmPaperPhrase.label">Para asegurarte de que todo se ha guardado de forma correcta, introduce las palabras a continuación de la clave en papel.</string>
+  <string name="ConfirmPaperPhrase.label">Por favor ingrese el mnemónico en el orden de transcripción.</string>
   <!-- Word label eg. Word #1, Word #2 -->
   <string name="ConfirmPaperPhrase.word">Palabra #%1$s</string>
   <!-- Agree to legal terms button -->

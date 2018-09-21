@@ -169,7 +169,7 @@
   <!-- Confirm paper phrase error message -->
   <string name="ConfirmPaperPhrase.error">Orden som angivits matchar inte din pappersnyckel. Försök igen.</string>
   <!-- Confirm paper phrase view label. -->
-  <string name="ConfirmPaperPhrase.label">Ange följande ord från din ordnyckel, för att vara säker på att allt skrevs korrekt.</string>
+  <string name="ConfirmPaperPhrase.label">Var god ange mnemonic i transkriptionsordningen.</string>
   <!-- Word label eg. Word #1, Word #2 -->
   <string name="ConfirmPaperPhrase.word">Ord #%1$s</string>
   <!-- Agree to legal terms button -->

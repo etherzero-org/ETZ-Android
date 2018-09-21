@@ -11,6 +11,7 @@ import android.util.Log;
 import com.etzwallet.R;
 import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.core.BRCoreMasterPubKey;
+import com.etzwallet.presenter.activities.InputWordsActivity;
 import com.etzwallet.presenter.activities.SetPinActivity;
 import com.etzwallet.presenter.activities.PaperKeyActivity;
 import com.etzwallet.presenter.activities.PaperKeyProveActivity;
@@ -135,9 +136,11 @@ public class PostAuth {
             }
             return;
         }
-        Intent intent = new Intent(app, PaperKeyProveActivity.class);
+//        Intent intent = new Intent(app, PaperKeyProveActivity.class);
+        Intent intent = new Intent(app, InputWordsActivity.class);
         Log.i(TAG, "onPhraseProveAuth: cleanPhrase=="+cleanPhrase);
         intent.putExtra("phrase", cleanPhrase);
+        intent.putExtra("from", 1);
         app.startActivity(intent);
         app.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
     }

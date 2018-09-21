@@ -54,10 +54,8 @@ import org.web3j.crypto.Keys;
 import java.math.BigDecimal;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import io.github.novacrypto.bip32.ExtendedPrivateKey;
 import io.github.novacrypto.bip32.networks.Bitcoin;
@@ -181,7 +179,6 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
         Boolean isFirst = BRSharedPrefs.getFristCreate(app);
         Log.i(TAG, "WalletEthManager: isFirst=="+isFirst);
-//        String m = "fjskalfjasklfasdfasf";
         if(isFirst){
             confirmAddress(app1,pKey,mAddress);
         }else{

@@ -170,7 +170,7 @@
     <!-- Confirm paper phrase error message -->
     <string name="ConfirmPaperPhrase.error">您输入的单词与纸密钥 (Paper Key) 不匹配。请重试。</string>
     <!-- Confirm paper phrase view label. -->
-    <string name="ConfirmPaperPhrase.label">为确保一切均被正确地书写，请在您的助词记输入以下文字。</string>
+    <string name="ConfirmPaperPhrase.label">请按抄写顺序输入助记词。</string>
     <!-- Word label eg. Word #1, Word #2 -->
     <string name="ConfirmPaperPhrase.word">第%1$s个助记词</string>
     <!-- Agree to legal terms button -->

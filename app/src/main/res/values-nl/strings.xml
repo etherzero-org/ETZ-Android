@@ -169,7 +169,7 @@
   <!-- Confirm paper phrase error message -->
   <string name="ConfirmPaperPhrase.error">De ingevulde woorden komen niet overeen met uw paper key. Probeer het opnieuw.</string>
   <!-- Confirm paper phrase view label. -->
-  <string name="ConfirmPaperPhrase.label">Voer de volgende woorden in van je papieren sleutel om te verzekeren dat alles correct is opgeschreven.</string>
+  <string name="ConfirmPaperPhrase.label">Voer het mnemonisch in de volgorde van transcriptie in.</string>
   <!-- Word label eg. Word #1, Word #2 -->
   <string name="ConfirmPaperPhrase.word">Woord #%1$s</string>
   <!-- Agree to legal terms button -->

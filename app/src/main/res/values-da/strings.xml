@@ -169,7 +169,7 @@
   <!-- Confirm paper phrase error message -->
   <string name="ConfirmPaperPhrase.error">Ordene du har indtastet matcher ikke din papirnøgle. Prøv venligst igen.</string>
   <!-- Confirm paper phrase view label. -->
-  <string name="ConfirmPaperPhrase.label">For at sørge for, at alt blev skrevet korrekt, bedes du indtaste følgende ord fra din paper key.</string>
+  <string name="ConfirmPaperPhrase.label">Idatzi mnemoteknia transkripzioaren ordenan.</string>
   <!-- Word label eg. Word #1, Word #2 -->
   <string name="ConfirmPaperPhrase.word">Ord #%1$s</string>
   <!-- Agree to legal terms button -->

@@ -168,7 +168,7 @@
   <!-- Confirm paper phrase error message -->
   <string name="ConfirmPaperPhrase.error">入力された言葉がお客様のペーパーキーと一致しません。もう一度お試し下さい。</string>
   <!-- Confirm paper phrase view label. -->
-  <string name="ConfirmPaperPhrase.label">全て正しく書き留められていることを確認するため、復元フレーズの中から下記の単語を入力してください。</string>
+  <string name="ConfirmPaperPhrase.label">転記の順にニーモニックを入力してください。</string>
   <!-- Word label eg. Word #1, Word #2 -->
   <string name="ConfirmPaperPhrase.word">フレーズ #%1$s</string>
   <!-- Agree to legal terms button -->

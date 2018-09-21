@@ -171,7 +171,7 @@
     <!-- Confirm paper phrase error message -->
     <string name="ConfirmPaperPhrase.error">The words entered do not match your paper key. Please try again.</string>
     <!-- Confirm paper phrase view label. -->
-    <string name="ConfirmPaperPhrase.label">To make sure everything was written down correctly, please enter the following words from your paper key.</string>
+    <string name="ConfirmPaperPhrase.label">Please enter the mnemonic phrase in the correct orde.</string>
     <!-- Word label eg. Word #1, Word #2 -->
     <string name="ConfirmPaperPhrase.word">Word #%1$s</string>
     <!-- Agree to legal terms button -->

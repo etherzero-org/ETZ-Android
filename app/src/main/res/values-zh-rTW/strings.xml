@@ -168,7 +168,7 @@
   <!-- Confirm paper phrase error message -->
   <string name="ConfirmPaperPhrase.error">輸入之文字與您的紙金鑰不符，請再試一次</string>
   <!-- Confirm paper phrase view label. -->
-  <string name="ConfirmPaperPhrase.label">要確保每項資料都正確寫下，請從紙上金鑰輸入下列字組。</string>
+  <string name="ConfirmPaperPhrase.label">請按抄寫順序輸入助記詞。</string>
   <!-- Word label eg. Word #1, Word #2 -->
   <string name="ConfirmPaperPhrase.word">字組 #%1$s</string>
   <!-- Agree to legal terms button -->

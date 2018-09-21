@@ -168,7 +168,7 @@
   <!-- Confirm paper phrase error message -->
   <string name="ConfirmPaperPhrase.error">Введенные слова не совпадают с вашим бумажным ключом. Повторите попытку.</string>
   <!-- Confirm paper phrase view label. -->
-  <string name="ConfirmPaperPhrase.label">Чтобы убедиться, что всё записано корректно, пожалуйста, введите следующие слова с вашего бумажного ключа.</string>
+  <string name="ConfirmPaperPhrase.label">Введите мнемонику в порядке транскрипции.</string>
   <!-- Word label eg. Word #1, Word #2 -->
   <string name="ConfirmPaperPhrase.word">Слово #%1$s</string>
   <!-- Agree to legal terms button -->

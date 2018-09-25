@@ -9,8 +9,8 @@ android {
         applicationId = 'com.etzwallet'
         minSdkVersion 23
         targetSdkVersion 27
-        versionCode 21
-        versionName "1.0.8"
+        versionCode 22
+        versionName "1.0.9"
         multiDexEnabled true
 
         // Similar to other properties in the defaultConfig block,

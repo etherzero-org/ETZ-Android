@@ -133,6 +133,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 return;
             }
             if (Utils.isNullOrEmpty(paperKey)) {
+                alertDialog(app,"助记词为空！没有创建钱包！");
                 Log.e(TAG, "WalletEthManager: paper key is empty too, no wallet!");
                 return;
             }
@@ -140,6 +141,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             String[] words = lookupWords(app, paperKey, Locale.getDefault().getLanguage());
 
             if (null == words) {
+                alertDialog(app,"BIP39钱包地址是无效的!");
                 Log.e(TAG, "WalletEthManager: paper key does not validate with BIP39 Words for: "
                         + Locale.getDefault().getLanguage());
                 return;
@@ -154,6 +156,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             mWallet = node.getWallet();
 
             if (null == mWallet) {
+                alertDialog(app,"使用助记词创建ETZ钱包失败！");
                 Log.e(TAG, "WalletEthManager: failed to create the ETH wallet using paperKey.");
                 return;
             }
@@ -168,6 +171,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             mWallet = node.getWallet();
 
             if (null == mWallet) {
+                alertDialog(app,"使用保存的公钥创建ETZ钱包失败！");
                 Log.e(TAG, "WalletEthManager: failed to create the ETH wallet using saved publicKey.");
                 return;
             }
@@ -219,34 +223,34 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         String fullAddress = "0x" + address;
 
 
-        if(fullAddress.equals(addr.toLowerCase())){
-
-            Log.i(TAG, "WalletEthManager: mAddress=1000==地址一致");
-        }else{
-            BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
-                    app.getString(R.string.Alert_keystore_generic_android_bug),
-                    app.getString(R.string.Button_ok),
-                    null,
-                    new BRDialogView.BROnClickListener() {
-                        @Override
-                        public void onClick(BRDialogView brDialogView) {
-                            app.finish();
-                        }
-                    }, null, new DialogInterface.OnDismissListener(){
-                        @Override
-                        public void onDismiss(DialogInterface dialog) {
-                            app.finish();
-                        }
-                    }, 0);
-
-            BRSharedPrefs.putAddressError(app, false);
+        if(!fullAddress.equals(addr.toLowerCase())){
+            alertDialog(app,app.getString(R.string.Alert_keystore_generic_android_bug));
+            Log.i(TAG, "WalletEthManager: mAddress=1000==地址不一致");
         }
         BRSharedPrefs.putFirstCreate(app, false);
         Log.i(TAG, "WalletEthManager: mAddress=1000=="+addr.toLowerCase());
         Log.i(TAG, "WalletEthManager: mAddress==2000="+fullAddress);
     }
 
-
+    private void alertDialog(Context app,String dialogContent){
+        final Activity app2 = (Activity) app;
+        BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
+                dialogContent,
+                app.getString(R.string.Button_ok),
+                null,
+                new BRDialogView.BROnClickListener() {
+                    @Override
+                    public void onClick(BRDialogView brDialogView) {
+                        app2.finish();
+                    }
+                }, null, new DialogInterface.OnDismissListener(){
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        app2.finish();
+                    }
+                }, 0);
+        BRSharedPrefs.putAddressError(app, false);
+    }
     public static synchronized WalletEthManager getInstance(Context app) {
         if (mInstance == null) {
             byte[] rawPubKey = BRKeyStore.getMasterPublicKey(app);

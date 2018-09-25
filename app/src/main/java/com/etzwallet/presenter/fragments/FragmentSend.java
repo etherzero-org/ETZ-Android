@@ -166,7 +166,7 @@ public class FragmentSend extends Fragment {
 //        economy = rootView.findViewById(R.id.right_button);
         close = rootView.findViewById(R.id.close_button);
         BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
-        selectedIso = BRSharedPrefs.isCryptoPreferred(getActivity()) ? BRSharedPrefs.getPreferredFiatIso(getContext()) : wm.getIso();
+        selectedIso = BRSharedPrefs.isCryptoPreferred(getActivity()) ? wm.getIso() : BRSharedPrefs.getPreferredFiatIso(getContext());
 
         amountBuilder = new StringBuilder(0);
         setListeners();

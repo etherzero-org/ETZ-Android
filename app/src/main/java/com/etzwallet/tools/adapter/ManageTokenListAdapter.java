@@ -95,6 +95,7 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
 
         BigDecimal tokenBalance;
         String iso = item.symbol.toUpperCase();
+        Log.i("-----------------", "CryptoRequest");
         WalletEthManager ethManager = WalletEthManager.getInstance(mContext);
         WalletTokenManager tokenManager = WalletTokenManager.getTokenWalletByIso(mContext, ethManager, item.symbol);
 

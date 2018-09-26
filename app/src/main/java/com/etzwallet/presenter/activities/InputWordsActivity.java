@@ -29,6 +29,7 @@ import com.etzwallet.tools.security.SmartValidator;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.wallets.bitcoin.BaseBitcoinWalletManager;
+import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -235,7 +236,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 
                                 } else {
                                     //导入钱包输入助记词
-                                    Log.i(TAG, "onClick: next step22222");
+                                    Log.i("-----------", "onClick: next step22222");
                                     AuthManager.getInstance().setPinCode("", InputWordsActivity.this);
                                     Intent intent = new Intent(app, SetPinActivity.class);
                                     intent.putExtra("noPin", true);
@@ -262,6 +263,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
                             PostAuth.getInstance().onRecoverWalletAuth(app, false,false);
+                            WalletEthManager.setmInstance(null);//设为空重新获取新的地址
                         }
 
                     }

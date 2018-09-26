@@ -157,7 +157,7 @@ public class IntroActivity extends BRActivity implements Serializable {
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
                 HomeActivity bApp = HomeActivity.getApp();
-                WalletEthManager.setmInstance(null);//设为空重新获取新的地址
+//                WalletEthManager.setmInstance(null);//设为空重新获取新的地址
                 if (bApp != null) bApp.finish();
                 Intent intent = new Intent(IntroActivity.this, RecoverActivity.class);
                 startActivity(intent);

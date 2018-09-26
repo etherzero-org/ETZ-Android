@@ -101,6 +101,7 @@ public class CryptoRequest {
 
         if (isErc20) {
             BigDecimal feeForTx = walletManager.getEstimatedFee(amount, null);
+            Log.i("-----------------", "ManageWalletsActivity");
             return amount.compareTo(balance) > 0 || feeForTx.compareTo(WalletEthManager.getInstance(app).getCachedBalance(app)) > 0;
         } else {
             BigDecimal minAmount = walletManager.getMinOutputAmount(app);

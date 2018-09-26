@@ -138,7 +138,7 @@ public class PostAuth {
         }
 //        Intent intent = new Intent(app, PaperKeyProveActivity.class);
         Intent intent = new Intent(app, InputWordsActivity.class);
-        Log.i(TAG, "onPhraseProveAuth: cleanPhrase=="+cleanPhrase);
+        Log.i(TAG, "onPhraseProveAuth: cleanPhrase==" + cleanPhrase);
         intent.putExtra("phrase", cleanPhrase);
         intent.putExtra("from", 1);
         app.startActivity(intent);
@@ -149,7 +149,7 @@ public class PostAuth {
         BRBitId.completeBitID(app, authenticated);
     }
 
-    public void onRecoverWalletAuth(Activity app, boolean authAsked) {
+    public void onRecoverWalletAuth(Activity app, boolean authAsked, boolean ishuifu) {
         if (Utils.isNullOrEmpty(mCachedPaperKey)) {
             Log.e(TAG, "onRecoverWalletAuth: phraseForKeyStore is null or empty");
             BRReportsManager.reportBug(new NullPointerException("onRecoverWalletAuth: phraseForKeyStore is or empty"));
@@ -158,11 +158,11 @@ public class PostAuth {
         try {
             boolean success = false;
             try {
-                Log.i(TAG, "phrase===-1= "+mCachedPaperKey);
+                Log.i(TAG, "phrase===-1= " + mCachedPaperKey);
 
                 byte[] by = mCachedPaperKey.getBytes();
-                for(int i=0;i<by.length;i++) {
-                    Log.i(TAG, "phrase===0= "+by[i]);
+                for (int i = 0; i < by.length; i++) {
+                    Log.i(TAG, "phrase===0= " + by[i]);
                 }
 
                 success = BRKeyStore.putPhrase(mCachedPaperKey.getBytes(),
@@ -188,11 +188,14 @@ public class PostAuth {
                     BRCoreMasterPubKey mpk = new BRCoreMasterPubKey(mCachedPaperKey.getBytes(), true);
                     BRKeyStore.putMasterPublicKey(mpk.serialize(), app);
                     app.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                    Intent intent = new Intent(app, SetPinActivity.class);
-                    intent.putExtra("noPin", true);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    app.startActivity(intent);
-                    if (!app.isDestroyed()) app.finish();
+                    if (!ishuifu) {
+                        Intent intent = new Intent(app, SetPinActivity.class);
+                        intent.putExtra("noPin", true);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        app.startActivity(intent);
+                        if (!app.isDestroyed()) app.finish();
+                    }
+
                     mCachedPaperKey = null;
                 }
 
@@ -206,11 +209,11 @@ public class PostAuth {
     }
 
     @WorkerThread
-    public void onPublishTxAuth(final Context app, final BaseWalletManager wm, final boolean authAsked, final SendManager.SendCompletion completion, final String data,final boolean isErc20, final String gasL, final String gasP) {
+    public void onPublishTxAuth(final Context app, final BaseWalletManager wm, final boolean authAsked, final SendManager.SendCompletion completion, final String data, final boolean isErc20, final String gasL, final String gasP) {
         if (completion != null) {
             mSendCompletion = completion;
         }
-        Log.i(TAG, "onPublishTxAuth: request.data==="+data);
+        Log.i(TAG, "onPublishTxAuth: request.data===" + data);
 
         if (wm != null) mWalletManager = wm;
         byte[] rawPhrase;
@@ -228,21 +231,21 @@ public class PostAuth {
                 if (mCryptoRequest != null && mCryptoRequest.amount != null && mCryptoRequest.address != null) {
                     CryptoTransaction tx;
                     String newGasPrice;
-                    try{
-                        if(gasP.length()==0) {
+                    try {
+                        if (gasP.length() == 0) {
                             newGasPrice = "";
-                        }else {
+                        } else {
                             long newGasp = Integer.parseInt(gasP);
-                            long b = (long)Math.pow(10,9) * newGasp;
+                            long b = (long) Math.pow(10, 9) * newGasp;
                             newGasPrice = String.valueOf(b);
                         }
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         newGasPrice = "";
                     }
-                    Log.i(TAG, "onPublishTxAuth: newGasPrice=="+newGasPrice);
-                    tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address,data, gasL, newGasPrice);
+                    Log.i(TAG, "onPublishTxAuth: newGasPrice==" + newGasPrice);
+                    tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address, data, gasL, newGasPrice);
 
-                    Log.i(TAG, "createTransaction: token2==="+tx);
+                    Log.i(TAG, "createTransaction: token2===" + tx);
                     if (tx == null) {
                         BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Send_insufficientFunds),
                                 app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {

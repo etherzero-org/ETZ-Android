@@ -3,6 +3,7 @@ package com.etzwallet.presenter.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -31,6 +32,7 @@ import com.etzwallet.wallet.wallets.bitcoin.BaseBitcoinWalletManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class InputWordsActivity extends BRActivity implements View.OnFocusChangeListener {
     private static final String TAG = InputWordsActivity.class.getName();
@@ -54,8 +56,8 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_words);
-
-        if (Utils.isEmulatorOrDebug(this)) {
+        String languageCode = Locale.getDefault().getLanguage();//手机语言
+//        if (Utils.isEmulatorOrDebug(this)) {
 //            mDebugPhrase = "こせき　ぎじにってい　けっこん　せつぞく　うんどう　ふこう　にっすう　こせい　きさま　なまみ　たきび　はかい";//japanese
 //            mDebugPhrase = "video tiger report bid suspect taxi mail argue naive layer metal surface";//english
 //            mDebugPhrase = "vocation triage capsule marchand onduler tibia illicite entier fureur minorer amateur lubie";//french
@@ -64,11 +66,11 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 //            mDebugPhrase = "aim lawn sniff tenant coffee smoke meat hockey glow try also angle";
 //            mDebugPhrase = "oído largo pensar grúa vampiro nación tomar agitar mano azote tarea miedo";
 
-        }
+//        }
 
         mNextButton = findViewById(R.id.send_button);
         fromCrate = getIntent().getIntExtra("from",0);
-
+        Log.i("********", "fromCrate="+fromCrate);
 
         if (Utils.isUsingCustomInputMethod(this)) {
             BRDialog.showCustomDialog(this, getString(R.string.JailbreakWarnings_title), getString(R.string.Alert_customKeyboard_android),
@@ -116,6 +118,9 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 
         for (EditText editText : mEditWords) {
             editText.setOnFocusChangeListener(this);
+            if(languageCode.equals("zh")){
+                editText.setInputType(InputType.TYPE_TEXT_VARIATION_PHONETIC);
+            }
         }
 
         Bundle extras = getIntent().getExtras();
@@ -154,7 +159,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                 Log.i(TAG, "onClick: next step1111");
                 if (!BRAnimator.isClickAllowed()) return;
                 final Activity app = InputWordsActivity.this;
-                String phraseToCheck = getPhrase();
+                String phraseToCheck = getPhrase();//返回助记词的字符串
                 if (Utils.isEmulatorOrDebug(app) && !Utils.isNullOrEmpty(mDebugPhrase)) {
                     phraseToCheck = mDebugPhrase;
                 }
@@ -174,16 +179,27 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                     clearWords();
                     if(fromCrate == 1){
                         if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {//验证创建的助记词
+                            //执行恢复钱包代码
+                            WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
+//                            m.wipeAll(InputWordsActivity.this);
+                            PostAuth.getInstance().setCachedPaperKey(cleanPhrase);
+                            //Disallow BTC and BCH sending.
+                            BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
+                            BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
+                            PostAuth.getInstance().onRecoverWalletAuth(app, false,true);
+//
+
                             BRSharedPrefs.putPhraseWroteDown(InputWordsActivity.this, true);
                             BRAnimator.showBreadSignal(InputWordsActivity.this, getString(R.string.Alerts_paperKeySet), getString(R.string.Alerts_paperKeySetSubheader), R.drawable.ic_check_mark_white, new BROnSignalCompletion() {
                                 @Override
                                 public void onComplete() {
                                     BRAnimator.startBreadActivity(InputWordsActivity.this, false);
                                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                                    finishAffinity();
+//
                                 }
                             });
                             BRSharedPrefs.putFirstCreate(app, false);
+//                            finishAffinity();
                         }else{
                             //助记词无效
                             BRDialog.showCustomDialog(app, "", getString(R.string.RecoverWallet_invalid),
@@ -245,8 +261,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                             //Disallow BTC and BCH sending.
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
-
-                            PostAuth.getInstance().onRecoverWalletAuth(app, false);
+                            PostAuth.getInstance().onRecoverWalletAuth(app, false,false);
                         }
 
                     }

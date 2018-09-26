@@ -200,7 +200,7 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                         @Override
                         public void run() {
-                            PostAuth.getInstance().onRecoverWalletAuth(BRActivity.this, true);
+                            PostAuth.getInstance().onRecoverWalletAuth(BRActivity.this, true,false);
                         }
                     });
                 } else {

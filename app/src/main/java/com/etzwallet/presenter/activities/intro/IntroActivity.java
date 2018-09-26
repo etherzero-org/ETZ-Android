@@ -14,13 +14,14 @@ import com.etzwallet.presenter.activities.HomeActivity;
 import com.etzwallet.presenter.activities.SetPinActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.tools.animation.BRAnimator;
+import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.BRKeyStore;
 import com.etzwallet.tools.security.PostAuth;
 import com.etzwallet.tools.security.SmartValidator;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
-import com.etzwallet.wallet.util.JsonRpcHelper;
+import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import com.platform.APIClient;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -143,6 +144,7 @@ public class IntroActivity extends BRActivity implements Serializable {
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
                 HomeActivity bApp = HomeActivity.getApp();
+               WalletEthManager.setmInstance(null);//设为空重新获取新的地址
                 Intent intent = new Intent(IntroActivity.this, SetPinActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
@@ -155,6 +157,7 @@ public class IntroActivity extends BRActivity implements Serializable {
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
                 HomeActivity bApp = HomeActivity.getApp();
+                WalletEthManager.setmInstance(null);//设为空重新获取新的地址
                 if (bApp != null) bApp.finish();
                 Intent intent = new Intent(IntroActivity.this, RecoverActivity.class);
                 startActivity(intent);

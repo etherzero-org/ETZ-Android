@@ -113,7 +113,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     private BREthereumWallet mWallet;
     public BREthereumLightNode node;
-    public String getAddress = "";
+//    public String getAddress = "";
     public String pKey = null;
     private WalletEthManager(final Context app, byte[] ethPubKey, BREthereumNetwork network) {
         mUiConfig = new WalletUiConfiguration("#00BDFF", "#5E7AA3",
@@ -174,16 +174,17 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         }
 
         mAddress = getReceiveAddress(app).stringify();
-
+        Log.i("*********************", ""+mAddress);
         final Activity app1 = (Activity) app;
 
         Boolean isFirst = BRSharedPrefs.getFristCreate(app);
         Log.i(TAG, "WalletEthManager: isFirst=="+isFirst);
         if(isFirst){
             confirmAddress(app1,pKey,mAddress);
-        }else{
-            BRSharedPrefs.putFirstCreate(app, false);
         }
+//        else{
+//            BRSharedPrefs.putFirstCreate(app, false);
+//        }
 
 
         if (Utils.isNullOrEmpty(mAddress)) {
@@ -246,7 +247,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         Log.i(TAG, "WalletEthManager: mAddress==2000="+fullAddress);
     }
 
-
+public static void setmInstance(WalletEthManager instance){ mInstance=instance;}
     public static synchronized WalletEthManager getInstance(Context app) {
         if (mInstance == null) {
             byte[] rawPubKey = BRKeyStore.getMasterPublicKey(app);

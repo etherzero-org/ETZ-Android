@@ -86,7 +86,7 @@ public class ReEnterPinActivity extends BRActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateDots();
+//        updateDots();
         appVisible = true;
         app = this;
         isPressAllowed = true;
@@ -159,15 +159,17 @@ public class ReEnterPinActivity extends BRActivity {
             AuthManager.getInstance().authSuccess(this);
 //            Log.e(TAG, "verifyPin: SUCCESS");
             isPressAllowed = false;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    pin = new StringBuilder("");
-                    updateDots();
-                }
-            }, 200);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    pin = new StringBuilder("");
+//                    updateDots();
+//                }
+//            }, 200);
             AuthManager.getInstance().setPinCode(pin.toString(), this);
+            Log.i("---------------", "noPin="+getIntent().getBooleanExtra("noPin", false));
             if (getIntent().getBooleanExtra("noPin", false)) {
+
                 BRAnimator.startBreadActivity(this, false);
             } else {
                 BRAnimator.showBreadSignal(this, getString(R.string.Alerts_pinSet),

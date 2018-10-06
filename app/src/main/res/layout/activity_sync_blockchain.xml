@@ -109,6 +109,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="16dp"
         android:lineSpacingMultiplier="1.1"
+        android:textColor="@color/gray"
         android:text="@string/ReScan.footer"
         android:textSize="@dimen/sub_header"
         app:layout_constraintBottom_toBottomOf="parent"

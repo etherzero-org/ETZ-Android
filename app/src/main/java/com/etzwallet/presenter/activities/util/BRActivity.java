@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.etzwallet.BreadApp;
@@ -68,6 +69,16 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
             Log.d(TAG, "Native code library failed to load.\\n\" + " + e);
             Log.d(TAG, "Installer Package Name -> " + (PACKAGE_NAME == null ? "null" : BreadApp.getBreadContext().getPackageManager().getInstallerPackageName(PACKAGE_NAME)));
         }
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if ((getIntent().getFlags()&Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)!=0){
+            finish();
+            return;
+        }
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override

@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * BreadWallet
@@ -44,7 +45,7 @@ public class Bip39Reader {
 
     private static final String TAG = Bip39Reader.class.getName();
     public static final int WORD_LIST_SIZE = 2048;
-    public static String[] LANGS = {"en", "es", "fr", "ja", "zh"};
+    public static String[] LANGS = {"en", "es", "fr", "ja", "zh", "zhTW"};
 
     //if lang is null then all the lists
     public static List<String> bip39List(Context app, String lang) {
@@ -102,20 +103,49 @@ public class Bip39Reader {
 
 
     public static List<String> detectWords(Context app, String paperKey) {
-        Log.i(TAG, "lookupWords: paperKey==22=="+paperKey);
+        Log.i("**********", "lookupWords: paperKey==22==" + paperKey);
         if (Utils.isNullOrEmpty(paperKey)) {
             return null;
         }
         String cleanPaperKey = SmartValidator.cleanPaperKey(app, paperKey);
-        Log.i(TAG, "lookupWords: paperKey==44=="+cleanPaperKey);
+        Log.i("**********", "lookupWords: paperKey==44==" + cleanPaperKey);
         String firstWord = cleanPaperKey.split(" ")[0];
-        Log.i(TAG, "lookupWords: paperKey==55=="+firstWord);
+        Log.i("**********", "lookupWords: paperKey==55==" + firstWord);
+
+        String[] paper = cleanPaperKey.split(" ");
+
+//        List<String> words = bip39List(app, lang);
+//        if (words.contains(firstWord)) {
+//            return words;
+//        }
         for (String s : LANGS) {
             List<String> words = getList(app, s);
-            if (words.contains(firstWord)) {
-                return words;
+            Log.i("**********", "s==" + s);
+            if (s.equals("zh") || s.equals("zhTW")) {
+                int x = 0;
+                for (String aPaper : paper) {
+                    Log.i("**********", paper.length+"----apaper=" + aPaper);
+                    if (!aPaper.equals("")) {
+                        if (words.contains(aPaper)) {
+                            ++x;
+                            if (x == 12) {
+                                Log.i("**********", "----x=" + x);
+                                return words;
+                            }
+                        } else {
+                            break;
+                        }
+                    }
+                }
+
+            } else {
+                if (words.contains(firstWord)) {
+                    return words;
+                }
             }
+
         }
+
         return null;
     }
 

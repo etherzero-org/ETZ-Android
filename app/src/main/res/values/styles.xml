@@ -28,5 +28,12 @@
         <item name="android:textColor">@color/dark_blue</item>
 
     </style>
+    <style name="SplashTheme" parent="AppTheme">
+
+        <item name="android:windowBackground">@drawable/layout_list_start_pic</item>
+
+        <item name="android:windowFullscreen">true</item>
+
+    </style>
 
 </resources>

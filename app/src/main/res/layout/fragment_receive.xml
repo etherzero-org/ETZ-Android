@@ -1,16 +1,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/background_layout"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/black_trans"
-              android:filterTouchesWhenObscured="true"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/background_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_trans"
+    android:filterTouchesWhenObscured="true">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/signal_layout"
@@ -19,8 +17,7 @@
             android:layout_gravity="bottom"
             android:background="@drawable/receive_layout"
             android:orientation="vertical"
-            android:padding="0dp"
-            >
+            android:padding="0dp">
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -43,7 +40,7 @@
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"/>
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <View
                     android:id="@+id/view"
@@ -54,7 +51,7 @@
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title"/>
+                    app:layout_constraintTop_toBottomOf="@+id/title" />
                 <!--
                      <ImageButton
                     android:id="@+id/faq_button"
@@ -78,7 +75,7 @@
                     android:background="@drawable/ic_close_black_24dp"
                     app:layout_constraintBottom_toBottomOf="@+id/title"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/title"/>
+                    app:layout_constraintTop_toTopOf="@+id/title" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -86,8 +83,7 @@
                 android:id="@+id/amount_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:id="@+id/iso_text"
@@ -96,8 +92,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/bread_margin"
                     android:text="$"
-                    android:textSize="28sp"
-                    />
+                    android:textColor="@color/gray"
+                    android:textSize="28sp" />
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/amount_edit"
@@ -115,9 +111,10 @@
                     android:focusableInTouchMode="false"
                     android:hint="0"
                     android:inputType="numberDecimal"
+                    android:textColor="@color/black_trans"
+                    android:textColorHint="@color/hint_color"
                     android:textIsSelectable="false"
-                    android:textSize="24sp"
-                    />
+                    android:textSize="24sp" />
 
                 <com.etzwallet.presenter.customviews.BRButton
                     android:id="@+id/iso_button"
@@ -132,8 +129,7 @@
                     android:textColor="@color/light_gray"
                     android:textSize="18sp"
                     app:buttonType="2"
-                    app:isBreadButton="true"
-                    />
+                    app:isBreadButton="true" />
 
             </RelativeLayout>
 
@@ -148,16 +144,14 @@
                     android:id="@+id/separator5"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/extra_light_gray"
-                    />
+                    android:background="@color/extra_light_gray" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/cur_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:layout_gravity="center_vertical"
-                    android:background="@color/button_secondary"
-                    />
+                    android:background="@color/button_secondary" />
 
             </LinearLayout>
 
@@ -165,8 +159,7 @@
                 android:id="@+id/separator2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/extra_light_gray"
-                />
+                android:background="@color/extra_light_gray" />
 
             <LinearLayout
                 android:id="@+id/keyboard_layout"
@@ -179,15 +172,13 @@
                     android:id="@+id/keyboard"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/extra_light_gray"
-                    />
+                    android:background="@color/extra_light_gray" />
 
                 <View
                     android:id="@+id/separator3"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/extra_light_gray"
-                    />
+                    android:background="@color/extra_light_gray" />
             </LinearLayout>
 
             <ImageView
@@ -197,8 +188,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
-                android:src="@drawable/ic_check_mark_grey"
-                />
+                android:src="@drawable/ic_check_mark_grey" />
 
             <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/address_text"
@@ -210,12 +200,11 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:layout_marginStart="8dp"
-                android:singleLine="true"
                 android:ellipsize="middle"
+                android:singleLine="true"
                 android:text="----------------------------------"
                 android:textColor="@color/light_gray"
-                android:textSize="14sp"
-                />
+                android:textSize="14sp" />
 
             <com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret
                 android:id="@+id/copied_layout"
@@ -235,82 +224,84 @@
                     android:gravity="center"
                     android:text="@string/Receive.copied"
                     android:textColor="@color/white"
-                    android:textSize="@dimen/paragraph"/>
+                    android:textSize="@dimen/paragraph" />
             </com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret>
-        <LinearLayout
-            android:id="@+id/bottom_toolbar_layout1"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_alignParentBottom="true"
 
-            android:background="@color/extra_light_blue_background"
-            android:elevation="0dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-            <com.etzwallet.presenter.customviews.BRButton
-                android:id="@+id/copy_button"
-                android:layout_width="0dp"
-                android:layout_height="65dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="22dp"
-                android:layout_weight="1"
-                android:background="@color/currency_buttons_color"
-                android:text="@string/Receive.copy"
-                android:textColor="@color/light_gray"
-                android:textSize="14sp"
-                app:buttonType="2"
-                app:customTFont="CircularPro-Bold.otf"
-                app:hasShadow="false"
-                app:isBreadButton="true"/>
-
-
-            <com.etzwallet.presenter.customviews.BRButton
-                android:id="@+id/share_button"
-                android:layout_width="0dp"
-                android:layout_height="65dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="22dp"
-                android:layout_weight="1"
-                android:background="@color/currency_buttons_color"
-                android:text="@string/Receive.share"
-                android:textColor="@color/light_gray"
-                android:textSize="14sp"
-                app:buttonType="2"
-                app:customTFont="CircularPro-Bold.otf"
-                app:hasShadow="false"
-                app:isBreadButton="true"/>
-
-            <!--
-
-                   <com.breadwallet.presenter.customviews.BRButton
-                android:id="@+id/share_button"
+            <LinearLayout
+                android:id="@+id/bottom_toolbar_layout1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="72dp"
-                android:layout_marginStart="72dp"
-                android:drawableStart="@drawable/ic_share_vertical_gray"
-                android:paddingBottom="12dp"
-                android:paddingLeft="48dp"
-                android:paddingRight="48dp"
-                android:paddingTop="12dp"
-                android:text="@string/Receive.share"
-                android:textColor="@color/light_gray"
-                android:textSize="18sp"
-                app:buttonType="2"
-                app:isBreadButton="true"
-                />
-            -->
+                android:layout_height="70dp"
+                android:layout_alignParentBottom="true"
+
+                android:background="@color/extra_light_blue_background"
+                android:elevation="0dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <com.etzwallet.presenter.customviews.BRButton
+                    android:id="@+id/copy_button"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_weight="1"
+                    android:background="@color/currency_buttons_color"
+                    android:text="@string/Receive.copy"
+                    android:textColor="@color/light_gray"
+                    android:textSize="14sp"
+                    app:buttonType="2"
+                    app:customTFont="CircularPro-Bold.otf"
+                    app:hasShadow="false"
+                    app:isBreadButton="true" />
 
 
-        </LinearLayout>
-            <com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+                <com.etzwallet.presenter.customviews.BRButton
+                    android:id="@+id/share_button"
+                    android:layout_width="0dp"
+                    android:layout_height="65dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="22dp"
+                    android:layout_weight="1"
+                    android:background="@color/currency_buttons_color"
+                    android:text="@string/Receive.share"
+                    android:textColor="@color/light_gray"
+                    android:textSize="14sp"
+                    app:buttonType="2"
+                    app:customTFont="CircularPro-Bold.otf"
+                    app:hasShadow="false"
+                    app:isBreadButton="true" />
+
+                <!--
+
+                       <com.breadwallet.presenter.customviews.BRButton
+                    android:id="@+id/share_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="72dp"
+                    android:layout_marginStart="72dp"
+                    android:drawableStart="@drawable/ic_share_vertical_gray"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="48dp"
+                    android:paddingRight="48dp"
+                    android:paddingTop="12dp"
+                    android:text="@string/Receive.share"
+                    android:textColor="@color/light_gray"
+                    android:textSize="18sp"
+                    app:buttonType="2"
+                    app:isBreadButton="true"
+                    />
+                -->
+
+
+            </LinearLayout>
+
+            <com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/share_buttons_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -366,7 +357,7 @@
                 android:id="@+id/separator"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/separator_gray"/>
+                android:background="@color/separator_gray" />
 
             <com.etzwallet.presenter.customviews.BRButton
                 android:id="@+id/request_button"
@@ -383,7 +374,7 @@
                 android:textColor="@color/almost_black"
                 android:textSize="18sp"
                 app:buttonType="2"
-                app:isBreadButton="true"/>
+                app:isBreadButton="true" />
 
         </LinearLayout>
 

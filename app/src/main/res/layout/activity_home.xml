@@ -99,6 +99,7 @@
                         android:layout_below="@id/prompt_title"
                         android:layout_marginEnd="16dp"
                         android:layout_marginStart="16dp"
+                        android:textColor="@color/gray"
                         android:text="Your Paper Key must be saved in case you ever loose your phone."
                         android:textSize="14sp" />
 
@@ -210,7 +211,7 @@
                     android:layout_marginTop="16dp"
                     android:clickable="false"
                     android:drawablePadding="8dp"
-
+                    android:textColor="@color/gray"
                     android:drawableStart="@drawable/ic_settings_cog"
                     android:focusable="false"
                     android:paddingBottom="4dp"
@@ -253,7 +254,7 @@
                     android:layout_marginTop="16dp"
                     android:clickable="false"
                     android:drawablePadding="8dp"
-
+                    android:textColor="@color/gray"
                     android:drawableStart="@drawable/ic_security"
                     android:focusable="false"
                     android:paddingBottom="4dp"

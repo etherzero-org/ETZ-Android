@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/wallet_card"
     android:layout_width="match_parent"
@@ -12,8 +11,7 @@
 -->
 
 
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/wallet_card"
     android:layout_width="match_parent"
     android:layout_height="50dp"
@@ -23,25 +21,25 @@
 
     <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/add_wallets"
-        android:text="@string/TokenList.addTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginStart="22dp"
-        android:textSize="16sp"
-        android:drawablePadding="5dp"
         android:drawableLeft="@drawable/ic_wallets_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
+        android:drawablePadding="5dp"
+        android:text="@string/TokenList.addTitle"
+        android:textColor="@color/gray"
+        android:textSize="16sp" />
 
 
     <ImageButton
         android:id="@+id/chevron"
-        android:background="@drawable/ic_chevron_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="12sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:background="@drawable/ic_chevron_right" />
 
 
 </RelativeLayout>

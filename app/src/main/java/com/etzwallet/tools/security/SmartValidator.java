@@ -46,7 +46,7 @@ public class SmartValidator {
     public static boolean isPaperKeyValid(Context ctx, String paperKey) {
         String languageCode = Locale.getDefault().getLanguage();
         if (!isValid(ctx, paperKey, languageCode)) {
-            //try all langs
+            //            //try all langs
             for (String lang : Bip39Reader.LANGS) {
                 if (isValid(ctx, paperKey, lang)) {
                     return true;

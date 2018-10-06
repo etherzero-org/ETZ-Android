@@ -89,6 +89,7 @@ public class PostAuth {
         Log.e(TAG, "onCreateWalletAuth: " + authAsked);
         long start = System.currentTimeMillis();
         boolean success = WalletsMaster.getInstance(app).generateRandomSeed(app);
+        Log.e("---------------", "创建钱包是否成功------- " + success);
         if (success) {
             Intent intent = new Intent(app, WriteDownActivity.class);
             app.startActivity(intent);

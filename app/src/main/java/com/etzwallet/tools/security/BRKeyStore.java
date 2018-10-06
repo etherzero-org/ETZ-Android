@@ -447,7 +447,7 @@ public class BRKeyStore {
             throw new UserNotAuthenticatedException();
         }
         AliasObject obj = aliasObjectMap.get(PHRASE_ALIAS);
-        return !(strToStore == null || strToStore.length == 0) && _setData(context, strToStore, obj.alias, obj.datafileName, obj.ivFileName, requestCode, true);
+        return !(strToStore == null || strToStore.length == 0) && _setData(context, strToStore, obj.alias, obj.datafileName, obj.ivFileName, requestCode, false);
     }
 
     public  static byte[] getPhrase(final Context context, int requestCode) throws UserNotAuthenticatedException {
@@ -916,7 +916,7 @@ public class BRKeyStore {
                         KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
                         .setBlockModes(BLOCK_MODE)
                         .setKeySize(256)
-                        .setUserAuthenticationRequired(auth_required)
+                        .setUserAuthenticationRequired(false)
                         .setUserAuthenticationValidityDurationSeconds(AUTH_DURATION_SEC)
                         .setRandomizedEncryptionRequired(true)
                         .setEncryptionPaddings(PADDING)

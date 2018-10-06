@@ -36,9 +36,9 @@
  */
 JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreMasterPubKey_serialize
         (JNIEnv *env, jobject thisObject) {
-    BRMasterPubKey *key = (BRMasterPubKey *) getJNIReference (env, thisObject);
+    BRMasterPubKey *key = (BRMasterPubKey *) getJNIReference(env, thisObject);
 
-    jbyteArray result = (*env)->NewByteArray (env, (jsize) sizeof(BRMasterPubKey));
+    jbyteArray result = (*env)->NewByteArray(env, (jsize) sizeof(BRMasterPubKey));
     (*env)->SetByteArrayRegion(env, result, 0, (jsize) sizeof(BRMasterPubKey), (jbyte *) key);
 
     return result;
@@ -52,11 +52,11 @@ JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreMasterPubKey_serializ
  */
 JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreMasterPubKey_getPubKey
         (JNIEnv *env, jobject thisObject) {
-    BRMasterPubKey *key = (BRMasterPubKey *) getJNIReference (env, thisObject);
+    BRMasterPubKey *key = (BRMasterPubKey *) getJNIReference(env, thisObject);
 
-    jsize      pubKeyLen = sizeof(key->pubKey);
-    jbyteArray pubKey    = (*env)->NewByteArray (env, pubKeyLen);
-    (*env)->SetByteArrayRegion (env, pubKey, 0, pubKeyLen, (const jbyte *) key->pubKey);
+    jsize pubKeyLen = sizeof(key->pubKey);
+    jbyteArray pubKey = (*env)->NewByteArray(env, pubKeyLen);
+    (*env)->SetByteArrayRegion(env, pubKey, 0, pubKeyLen, (const jbyte *) key->pubKey);
 
     return pubKey;
 }
@@ -69,14 +69,14 @@ JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreMasterPubKey_getPubKe
 JNIEXPORT jlong JNICALL
 Java_com_etzwallet_core_BRCoreMasterPubKey_createPubKey
         (JNIEnv *env, jobject thisObject) {
-    BRMasterPubKey *mpk = (BRMasterPubKey *) getJNIReference (env, thisObject);
+    BRMasterPubKey *mpk = (BRMasterPubKey *) getJNIReference(env, thisObject);
 
     // Fill pubKey from MPK
     uint8_t pubKey[33];
-    BRBIP32PubKey (pubKey, sizeof(pubKey), *mpk, 0, 0);
+    BRBIP32PubKey(pubKey, sizeof(pubKey), *mpk, 0, 0);
 
     // Allocate and fill BRKey
-    BRKey *key = (BRKey *) calloc (1, sizeof (BRKey));
+    BRKey *key = (BRKey *) calloc(1, sizeof(BRKey));
     BRKeySetPubKey(key, pubKey, sizeof(pubKey));
 
     return (jlong) key;
@@ -87,8 +87,8 @@ Java_com_etzwallet_core_BRCoreMasterPubKey_createJniCoreMasterPubKeyFromPhrase
         (JNIEnv *env, jclass thisClass,
          jbyteArray phrase) {
     // Get the phraseBytes
-    jsize phraseLength = (*env)->GetArrayLength (env, phrase);
-    jbyte *phraseBytes = (*env)->GetByteArrayElements (env, phrase, 0);
+    jsize phraseLength = (*env)->GetArrayLength(env, phrase);
+    jbyte *phraseBytes = (*env)->GetByteArrayElements(env, phrase, 0);
 
     // The upcoming call to BRBIP39DeriveKey() calls strlen() on the phrase; THUS, a proper
     // zero terminated C-string is required!  There will certainly be trouble if the byte[]
@@ -98,7 +98,7 @@ Java_com_etzwallet_core_BRCoreMasterPubKey_createJniCoreMasterPubKeyFromPhrase
     // This conversion might not be required if `phrase` is a 'null-terminated byte array'.  But
     // that is a dangerous assumption if violated (buffer overflow errors).
     char phraseString[1 + phraseLength];
-    memcpy (phraseString, phraseBytes, phraseLength);
+    memcpy(phraseString, phraseBytes, phraseLength);
     phraseString[phraseLength] = '\0';
 
     // UInt512 seed = UINT512_ZERO;
@@ -134,7 +134,7 @@ Java_com_etzwallet_core_BRCoreMasterPubKey_createJniCoreMasterPubKeyFromPhrase
     BRMasterPubKey pubKey = BRBIP32MasterPubKey(&seed, sizeof(seed));
 
     // Allocate, then fill, our BRMasterPubKey result with the computed pubKey
-    BRMasterPubKey *resKey = (BRMasterPubKey *) calloc (1, sizeof (BRMasterPubKey));
+    BRMasterPubKey *resKey = (BRMasterPubKey *) calloc(1, sizeof(BRMasterPubKey));
     *resKey = pubKey;
 
     return (jlong) resKey;
@@ -149,11 +149,11 @@ JNIEXPORT jlong JNICALL
 Java_com_etzwallet_core_BRCoreMasterPubKey_createJniCoreMasterPubKeyFromSerialization
         (JNIEnv *env, jclass thisClass,
          jbyteArray serialization) {
-    jsize serializationLength = (*env)->GetArrayLength (env, serialization);
-    jbyte *serializationBytes = (*env)->GetByteArrayElements (env, serialization, 0);
+    jsize serializationLength = (*env)->GetArrayLength(env, serialization);
+    jbyte *serializationBytes = (*env)->GetByteArrayElements(env, serialization, 0);
     assert (serializationLength == sizeof(BRMasterPubKey));
 
-    BRMasterPubKey *key = (BRMasterPubKey *) calloc (1, sizeof (BRMasterPubKey));
+    BRMasterPubKey *key = (BRMasterPubKey *) calloc(1, sizeof(BRMasterPubKey));
     memcpy(key, serializationBytes, sizeof(BRMasterPubKey));
 
     return (jlong) key;
@@ -207,9 +207,7 @@ Java_com_etzwallet_core_BRCoreMasterPubKey_validateRecoveryPhrase
 
     const char *str = (*env)->GetStringUTFChars(env, jPhrase, NULL);
     int result = BRBIP39PhraseIsValid((const char **) wordList, str);
-
     (*env)->ReleaseStringUTFChars(env, jPhrase, str);
-
     return (jboolean) (result ? JNI_TRUE : JNI_FALSE);
 }
 
@@ -224,7 +222,7 @@ Java_com_etzwallet_core_BRCoreMasterPubKey_generatePaperKey
 
     int wordsCount = (*env)->GetArrayLength(env, stringArray);
     int seedLength = (*env)->GetArrayLength(env, seed);
-    const char **wordList = (const char **) calloc (wordsCount, sizeof (char*));
+    const char **wordList = (const char **) calloc(wordsCount, sizeof(char *));
     assert(seedLength == 16);
     assert(wordsCount == 2048);
 
@@ -252,7 +250,7 @@ Java_com_etzwallet_core_BRCoreMasterPubKey_generatePaperKey
         (*env)->DeleteLocalRef(env, string);
     }
 
-    if (NULL != wordList) free (wordList);
+    if (NULL != wordList) free(wordList);
 
     // Return byte[] of 'result'
     jbyteArray bytePhrase = NULL;

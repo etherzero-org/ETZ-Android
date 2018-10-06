@@ -1,12 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/main_layout"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:background="@drawable/bread_dialog_rounded"
-              android:filterTouchesWhenObscured="true"
-              android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/bread_dialog_rounded"
+    android:filterTouchesWhenObscured="true"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/dialog_header"
@@ -46,30 +46,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:text="This is some title"
         android:textAlignment="center"
+        android:textColor="@color/gray"
         android:textSize="18sp"
         app:customTFont="CircularPro-Bold.otf"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dialog_header"/>
+        app:layout_constraintTop_toBottomOf="@id/dialog_header" />
 
     <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/dialog_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:gravity="center_horizontal|center_vertical"
         android:text="this is some message"
+        android:textColor="@color/gray"
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dialog_title"/>
+        app:layout_constraintTop_toBottomOf="@+id/dialog_title" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -99,7 +101,7 @@
             app:buttonType="4"
             app:customTFont="CircularPro-Bold.otf"
             app:hasShadow="false"
-            app:isBreadButton="true"/>
+            app:isBreadButton="true" />
 
         <com.etzwallet.presenter.customviews.BRButton
             android:id="@+id/pos_button"
@@ -113,7 +115,7 @@
             app:buttonType="4"
             app:customTFont="CircularPro-Bold.otf"
             app:hasShadow="false"
-            app:isBreadButton="true"/>
+            app:isBreadButton="true" />
 
     </LinearLayout>
 

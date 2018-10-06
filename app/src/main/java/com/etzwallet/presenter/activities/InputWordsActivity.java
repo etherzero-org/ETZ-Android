@@ -53,6 +53,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
     private boolean mIsRestoring = false;
     private boolean mIsResettingPin = false;
     private int fromCrate = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,8 +71,8 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 //        }
 
         mNextButton = findViewById(R.id.send_button);
-        fromCrate = getIntent().getIntExtra("from",0);
-        Log.i("********", "fromCrate="+fromCrate);
+        fromCrate = getIntent().getIntExtra("from", 0);
+        Log.i("********", "fromCrate=" + fromCrate);
 
         if (Utils.isUsingCustomInputMethod(this)) {
             BRDialog.showCustomDialog(this, getString(R.string.JailbreakWarnings_title), getString(R.string.Alert_customKeyboard_android),
@@ -119,7 +120,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 
         for (EditText editText : mEditWords) {
             editText.setOnFocusChangeListener(this);
-            if(languageCode.equals("zh")){
+            if (languageCode.equals("zh")) {
                 editText.setInputType(InputType.TYPE_TEXT_VARIATION_PHONETIC);
             }
         }
@@ -130,10 +131,10 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
             mIsResettingPin = extras.getBoolean(EXTRA_RESET_PIN);
         }
 
-        if(fromCrate==1){
+        if (fromCrate == 1) {
             title.setText(getString(R.string.SecurityCenter_paperKeyTitle));
             description.setText(getString(R.string.ConfirmPaperPhrase_label));
-        }else{
+        } else {
             if (mIsRestoring) {
                 //change the labels
                 title.setText(getString(R.string.MenuViewController_recoverButton));
@@ -168,8 +169,8 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                     return;
                 }
                 String cleanPhrase = SmartValidator.cleanPaperKey(app, phraseToCheck);
-                Log.i(TAG, "phrase==cleanPhrase="+cleanPhrase);
-                Log.i(TAG, "phrase==fromCrate=="+fromCrate);
+                Log.i(TAG, "phrase==cleanPhrase=" + cleanPhrase);
+                Log.i(TAG, "phrase==fromCrate==" + fromCrate);
                 if (Utils.isNullOrEmpty(cleanPhrase)) {
                     BRReportsManager.reportBug(new NullPointerException("cleanPhrase is null or empty!"));
                     return;
@@ -178,7 +179,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                     //创建钱包  验证助记词  输入助记词
                     Utils.hideKeyboard(app);
                     clearWords();
-                    if(fromCrate == 1){
+                    if (fromCrate == 1) {
                         if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {//验证创建的助记词
                             //执行恢复钱包代码
                             WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
@@ -187,9 +188,9 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                             //Disallow BTC and BCH sending.
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
-                            PostAuth.getInstance().onRecoverWalletAuth(app, false,true);
+                            PostAuth.getInstance().onRecoverWalletAuth(app, false, true);
+                            WalletEthManager.setmInstance(null);//设为空重新获取新的地址
 //
-
                             BRSharedPrefs.putPhraseWroteDown(InputWordsActivity.this, true);
                             BRAnimator.showBreadSignal(InputWordsActivity.this, getString(R.string.Alerts_paperKeySet), getString(R.string.Alerts_paperKeySetSubheader), R.drawable.ic_check_mark_white, new BROnSignalCompletion() {
                                 @Override
@@ -201,7 +202,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                             });
                             BRSharedPrefs.putFirstCreate(app, false);
 //                            finishAffinity();
-                        }else{
+                        } else {
                             //助记词无效
                             BRDialog.showCustomDialog(app, "", getString(R.string.RecoverWallet_invalid),
                                     getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
@@ -211,13 +212,13 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                                         }
                                     }, null, null, 0);
                         }
-                    }else{
+                    } else {
                         if (mIsRestoring || mIsResettingPin) {
                             if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {
                                 if (mIsRestoring) {
                                     //切换钱包  输入助记词
-                                    BRDialog.showCustomDialog(InputWordsActivity.this, getString(R.string.WipeWallet_alertTitle),
-                                            getString(R.string.WipeWallet_alertMessage), getString(R.string.WipeWallet_wipe), getString(R.string.Button_cancel), new BRDialogView.BROnClickListener() {
+                                    BRDialog.showCustomDialog(InputWordsActivity.this, getResources().getString(R.string.WipeWallet_alertTitle),
+                                            getResources().getString(R.string.WipeWallet_alertMessage), getResources().getString(R.string.WipeWallet_wipe), getResources().getString(R.string.Button_cancel), new BRDialogView.BROnClickListener() {
                                                 @Override
                                                 public void onClick(BRDialogView brDialogView) {
                                                     brDialogView.dismissWithAnimation();
@@ -225,7 +226,9 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                                                     m.wipeWalletButKeystore(app);
                                                     m.wipeKeyStore(app);
                                                     Intent intent = new Intent(app, IntroActivity.class);
+                                                    BRSharedPrefs.putFirstAddress(app,"");
                                                     finalizeIntent(intent);
+
                                                 }
                                             }, new BRDialogView.BROnClickListener() {
                                                 @Override
@@ -236,7 +239,6 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 
                                 } else {
                                     //导入钱包输入助记词
-                                    Log.i("-----------", "onClick: next step22222");
                                     AuthManager.getInstance().setPinCode("", InputWordsActivity.this);
                                     Intent intent = new Intent(app, SetPinActivity.class);
                                     intent.putExtra("noPin", true);
@@ -262,7 +264,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                             //Disallow BTC and BCH sending.
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
-                            PostAuth.getInstance().onRecoverWalletAuth(app, false,false);
+                            PostAuth.getInstance().onRecoverWalletAuth(app, false, false);
                             WalletEthManager.setmInstance(null);//设为空重新获取新的地址
                         }
 
@@ -312,17 +314,17 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                 paperKeyStringBuilder.append(' ');
             }
         }
-        Log.i(TAG, "getPhrase: paperKeyStringBuilder=="+paperKeyStringBuilder.length());
+        Log.i(TAG, "getPhrase: paperKeyStringBuilder==" + paperKeyStringBuilder.length());
         //remove the last space
-        if(paperKeyStringBuilder.length() == 0 ){
+        if (paperKeyStringBuilder.length() == 0) {
             return null;
-        }else{
+        } else {
             paperKeyStringBuilder.setLength(paperKeyStringBuilder.length() - 1);
         }
 
 
         String paperKey = paperKeyStringBuilder.toString();
-        Log.i(TAG, "phrase==paperKey="+paperKey);
+        Log.i(TAG, "phrase==paperKey=" + paperKey);
         if (!success) {
             return null;
         }

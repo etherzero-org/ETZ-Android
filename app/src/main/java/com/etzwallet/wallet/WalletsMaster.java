@@ -118,12 +118,12 @@ public class WalletsMaster {
             } else if (enabled.symbol.equalsIgnoreCase("ETZ") && !isHidden) {
                 //ETH wallet
                 mWallets.add(ethWallet);
-            } else if(enabled.symbol.equalsIgnoreCase("BRD") && !isHidden){
+            } else if (enabled.symbol.equalsIgnoreCase("BRD") && !isHidden) {
                 //home页不显示代币 brd
-                Log.i(TAG, "updateWallets: enabled.symbol11==="+enabled.symbol);
-            }else{
+                Log.i(TAG, "updateWallets: enabled.symbol11===" + enabled.symbol);
+            } else {
                 //其他代币
-                Log.i(TAG, "updateWallets: enabled.symbol222==="+enabled.symbol);
+                Log.i(TAG, "updateWallets: enabled.symbol222===" + enabled.symbol);
                 WalletTokenManager tokenWallet = WalletTokenManager.getTokenWalletByIso(app, ethWallet, enabled.symbol);
                 if (tokenWallet != null && !isHidden) mWallets.add(tokenWallet);
 
@@ -143,10 +143,10 @@ public class WalletsMaster {
     //return the needed wallet for the iso
     public BaseWalletManager getWalletByIso(Context app, String iso) {
 
-        if(iso=="ETH"){
+        if (iso == "ETH") {
             iso = "ETZ";
-            Log.i(TAG, "getWalletByIso: iso=="+iso);
-            Log.i(TAG, "getWalletByIso: +++"+iso.equalsIgnoreCase("ETZ"));
+            Log.i(TAG, "getWalletByIso: iso==" + iso);
+            Log.i(TAG, "getWalletByIso: +++" + iso.equalsIgnoreCase("ETZ"));
         }
         if (Utils.isNullOrEmpty(iso))
             throw new RuntimeException("getWalletByIso with iso = null, Cannot happen!");
@@ -156,7 +156,6 @@ public class WalletsMaster {
             return WalletBchManager.getInstance(app);
         if (iso.equalsIgnoreCase("ETZ"))
             return WalletEthManager.getInstance(app);
-
         else if (isIsoErc20(app, iso)) {
             return WalletTokenManager.getTokenWalletByIso(app, WalletEthManager.getInstance(app), iso);
         }
@@ -179,25 +178,33 @@ public class WalletsMaster {
         }
         return totalBalance;
     }
+
     //创建钱包生成种子
     public synchronized boolean generateRandomSeed(final Context ctx) {
         SecureRandom sr = new SecureRandom();
         final String[] words;
         List<String> list;
         String languageCode = Locale.getDefault().getLanguage();
+        Log.i("------------", "glanguageCode===" + ctx.getResources().getConfiguration().locale.getCountry());
         if (languageCode == null) languageCode = "en";
-        list = Bip39Reader.bip39List(ctx, languageCode);
-        Log.i(TAG, "generateRandomSeed: list==="+list);
+        if (ctx.getResources().getConfiguration().locale.getCountry().equals("TW")) {
+            list = Bip39Reader.bip39List(ctx, "zhTW");
+        } else {
+            list = Bip39Reader.bip39List(ctx, languageCode);
+        }
+
+        Log.i(TAG, "generateRandomSeed: list===" + list);
         words = list.toArray(new String[list.size()]);
-        final String[] words1 = list.toArray(new String[20]);
-        Log.i(TAG, "generateRandomSeed: words==="+words);//設置完pin密碼生成一次  輸完lock 密碼生成一次
-        Log.i(TAG, "generateRandomSeed: words1==="+words1);
+//        final String[] words1 = list.toArray(new String[20]);
+        Log.i(TAG, "generateRandomSeed: words===" + words);//設置完pin密碼生成一次  輸完lock 密碼生成一次
+//        Log.i(TAG, "generateRandomSeed: words1===" + words1);
 
         final byte[] randomSeed = sr.generateSeed(16);
         if (words.length != 2048) {
             BRReportsManager.reportBug(new IllegalArgumentException("the list is wrong, size: " + words.length), true);
             return false;
         }
+        Log.i("----------", "randomSeed.length=" + randomSeed.length);//
         if (randomSeed.length != 16)
             throw new NullPointerException("failed to create the seed, seed length is not 128: " + randomSeed.length);
         byte[] paperKeyBytes = BRCoreMasterPubKey.generatePaperKey(randomSeed, words);
@@ -206,6 +213,7 @@ public class WalletsMaster {
             return false;
         }
         String[] splitPhrase = new String(paperKeyBytes).split(" ");
+        Log.i("----------", "splitPhrase.length=" + splitPhrase.length);//
         if (splitPhrase.length != 12) {
             BRReportsManager.reportBug(new NullPointerException("phrase does not have 12 words:" + splitPhrase.length + ", lang: " + languageCode), true);
             return false;
@@ -216,6 +224,7 @@ public class WalletsMaster {
         } catch (UserNotAuthenticatedException e) {
             return false;
         }
+        Log.i("----------", "success=" + success);//
         if (!success) return false;
         byte[] phrase;
         try {
@@ -226,7 +235,7 @@ public class WalletsMaster {
         }
         if (Utils.isNullOrEmpty(phrase)) throw new NullPointerException("phrase is null!!");
         if (phrase.length == 0) throw new RuntimeException("phrase is empty");
-        Log.d(TAG, "generateRandomSeed: phrase==="+phrase);
+        Log.d(TAG, "generateRandomSeed: phrase===" + phrase);
         byte[] seed = BRCoreKey.getSeedFromPhrase(phrase);
         if (seed == null || seed.length == 0) throw new RuntimeException("seed is null");
         byte[] authKey = BRCoreKey.getAuthPrivKeyForAPI(seed);
@@ -262,14 +271,14 @@ public class WalletsMaster {
 
     public boolean isIsoErc20(Context app, String iso) {
         if (Utils.isNullOrEmpty(iso)) return false;
-        try{
+        try {
             BREthereumToken[] tokens = WalletEthManager.getInstance(app).node.tokens;
             for (BREthereumToken token : tokens) {
-                if (token.getSymbol().equalsIgnoreCase(iso)) {
+                if (token.getSymbol().equals(iso)) {
                     return true;
                 }
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             BRReportsManager.reportBug(new NullPointerException("isIsoErc20出错"), true);
             return false;
 

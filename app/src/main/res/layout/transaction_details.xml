@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@android:color/transparent">
 
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                                        android:id="@+id/tx_details_card"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:minWidth="330dp"
-                                        app:cardCornerRadius="4dp">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tx_details_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minWidth="330dp"
+        app:cardCornerRadius="4dp">
 
         <RelativeLayout
             android:id="@+id/details_parent"
@@ -29,7 +28,7 @@
                 android:text="Sent"
                 android:textColor="@color/total_assets_usd_color"
                 android:textSize="16sp"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
 
             <ImageButton
@@ -39,7 +38,7 @@
                 android:layout_above="@+id/tx_amount"
                 android:layout_alignEnd="@id/tx_date"
                 android:layout_marginEnd="10dp"
-                android:background="@drawable/ic_close_light_grey"/>
+                android:background="@drawable/ic_close_light_grey" />
 
 
             <com.etzwallet.presenter.customviews.BRText
@@ -52,7 +51,7 @@
                 android:text="-0.10965 BTC"
                 android:textColor="@color/total_assets_usd_color"
                 android:textSize="26sp"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
             <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/amount_when_sent"
@@ -62,7 +61,7 @@
                 android:layout_marginStart="60dp"
                 android:text="X"
                 android:textColor="@color/settings_chevron_right"
-                app:customTFont="CircularPro-Bold.otf"/>
+                app:customTFont="CircularPro-Bold.otf" />
 
             <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/label_when_sent"
@@ -72,7 +71,7 @@
                 android:layout_toEndOf="@+id/amount_when_sent"
                 android:text=" when sent"
                 android:textColor="@color/settings_chevron_right"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
             <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/amount_now"
@@ -83,7 +82,7 @@
                 android:layout_toEndOf="@id/label_when_sent"
                 android:text="X"
                 android:textColor="@color/settings_chevron_right"
-                app:customTFont="CircularPro-Bold.otf"/>
+                app:customTFont="CircularPro-Bold.otf" />
 
             <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/label_now"
@@ -94,7 +93,7 @@
                 android:layout_toEndOf="@id/amount_now"
                 android:text=" now"
                 android:textColor="@color/settings_chevron_right"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
 
             <View
@@ -103,7 +102,7 @@
                 android:layout_height="1px"
                 android:layout_below="@id/amount_when_sent"
                 android:layout_marginTop="14dp"
-                android:background="@color/light_gray"/>
+                android:background="@color/light_gray" />
 
 
             <com.etzwallet.presenter.customviews.BRText
@@ -113,11 +112,11 @@
                 android:layout_below="@id/divider1"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="14dp"
-                android:drawableStart="@drawable/checkmark_circled"
                 android:drawablePadding="5dp"
+                android:drawableStart="@drawable/checkmark_circled"
                 android:text="Complete"
                 android:textColor="@color/settings_chevron_right"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
 
             <com.etzwallet.presenter.customviews.BRText
@@ -130,7 +129,8 @@
                 android:paddingEnd="20dp"
                 android:paddingStart="20dp"
                 android:text="Yesterday at 12:53 PM"
-                app:customTFont="CircularPro-Book.otf"/>
+                android:textColor="@color/gray"
+                app:customTFont="CircularPro-Book.otf" />
 
             <View
                 android:id="@+id/divider2"
@@ -138,7 +138,7 @@
                 android:layout_height="1px"
                 android:layout_below="@id/tx_date"
                 android:layout_marginTop="14dp"
-                android:background="@color/light_gray"/>
+                android:background="@color/light_gray" />
 
 
             <com.etzwallet.presenter.customviews.BRText
@@ -151,7 +151,7 @@
                 android:layout_marginTop="14dp"
                 android:text="To"
                 android:textColor="@color/settings_chevron_right"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
             <com.etzwallet.presenter.customviews.BRText
                 android:id="@+id/tx_to_from_address"
@@ -166,8 +166,9 @@
                 android:paddingStart="16dp"
                 android:singleLine="true"
                 android:text=""
+                android:textColor="@color/gray"
                 android:textSize="12sp"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
             <View
                 android:id="@+id/divider3"
@@ -175,7 +176,7 @@
                 android:layout_height="1px"
                 android:layout_below="@id/tx_to_from_address"
                 android:layout_marginTop="14dp"
-                android:background="@color/light_gray"/>
+                android:background="@color/light_gray" />
 
 
             <com.etzwallet.presenter.customviews.BRText
@@ -186,9 +187,8 @@
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="14dp"
                 android:text="Memo"
-
                 android:textColor="@color/settings_chevron_right"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
             <com.etzwallet.presenter.customviews.BREdit
                 android:id="@+id/memo"
@@ -198,17 +198,17 @@
                 android:layout_below="@id/divider3"
                 android:layout_marginTop="14dp"
                 android:layout_toEndOf="@id/memo_label"
-                android:gravity="end"
+                android:background="@android:color/transparent"
                 android:cursorVisible="false"
+                android:gravity="end"
+                android:hint="@string/TransactionDetails.commentsPlaceholder"
+                android:imeOptions="actionDone"
+                android:inputType="text"
                 android:paddingEnd="16dp"
                 android:paddingStart="16dp"
-                android:background="@android:color/transparent"
-                android:hint="@string/TransactionDetails.commentsPlaceholder"
-                android:inputType="text"
-                android:imeOptions="actionDone"
                 android:text="Sample transaction memo would go here. Some things are truly better left unsaid"
                 android:textSize="12sp"
-                app:customTFont="CircularPro-Book.otf"/>
+                app:customTFont="CircularPro-Book.otf" />
 
 
             <View
@@ -217,7 +217,7 @@
                 android:layout_height="1px"
                 android:layout_below="@id/memo"
                 android:layout_marginTop="14dp"
-                android:background="@color/light_gray"/>
+                android:background="@color/light_gray" />
 
 
             <LinearLayout
@@ -247,7 +247,7 @@
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/gas_price"
@@ -256,10 +256,11 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:text=""
+                        android:textColor="@color/gray"
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="@+id/gas_price_label"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/gas_price_label"/>
+                        app:layout_constraintTop_toTopOf="@+id/gas_price_label" />
                 </android.support.constraint.ConstraintLayout>
 
                 <View
@@ -267,7 +268,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@id/exchange_rate"
-                    android:background="@color/light_gray"/>
+                    android:background="@color/light_gray" />
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/gas_limit_container"
@@ -286,7 +287,7 @@
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/gas_limit"
@@ -295,10 +296,11 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:text=""
+                        android:textColor="@color/gray"
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="@+id/gas_limit_label"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/gas_limit_label"/>
+                        app:layout_constraintTop_toTopOf="@+id/gas_limit_label" />
                 </android.support.constraint.ConstraintLayout>
 
                 <View
@@ -306,7 +308,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@id/exchange_rate"
-                    android:background="@color/light_gray"/>
+                    android:background="@color/light_gray" />
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/fee_primary_container"
@@ -325,7 +327,7 @@
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/fee_primary"
@@ -334,10 +336,11 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:text=""
+                        android:textColor="@color/gray"
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="@+id/fee_primary_label"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/fee_primary_label"/>
+                        app:layout_constraintTop_toTopOf="@+id/fee_primary_label" />
                 </android.support.constraint.ConstraintLayout>
 
                 <View
@@ -345,7 +348,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@id/exchange_rate"
-                    android:background="@color/light_gray"/>
+                    android:background="@color/light_gray" />
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/fee_secondary_container"
@@ -364,7 +367,7 @@
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/fee_secondary"
@@ -373,17 +376,18 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:text=""
+                        android:textColor="@color/gray"
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="@+id/fee_secondary_label"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/fee_secondary_label"/>
+                        app:layout_constraintTop_toTopOf="@+id/fee_secondary_label" />
                 </android.support.constraint.ConstraintLayout>
 
                 <View
                     android:id="@+id/fee_secondary_divider"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/light_gray"/>
+                    android:background="@color/light_gray" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -401,7 +405,7 @@
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/exchange_rate"
@@ -410,17 +414,18 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:text=""
+                        android:textColor="@color/gray"
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="@+id/exchange_rate_label"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/exchange_rate_label"/>
+                        app:layout_constraintTop_toTopOf="@+id/exchange_rate_label" />
                 </android.support.constraint.ConstraintLayout>
 
                 <View
                     android:id="@+id/divider6"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/light_gray"/>
+                    android:background="@color/light_gray" />
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/confirmed_container"
@@ -439,7 +444,7 @@
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/confirmed_in_block_number"
@@ -448,10 +453,11 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginEnd="16dp"
                         android:text="549293"
+                        android:textColor="@color/gray"
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="@+id/confirmed_in_block_label"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/confirmed_in_block_label"/>
+                        app:layout_constraintTop_toTopOf="@+id/confirmed_in_block_label" />
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -461,7 +467,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@id/confirmed_in_block_label"
-                    android:background="@color/light_gray"/>
+                    android:background="@color/light_gray" />
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
@@ -479,7 +485,7 @@
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.etzwallet.presenter.customviews.BRText
                         android:id="@+id/transaction_id"
@@ -490,20 +496,21 @@
                         android:layout_marginStart="8dp"
                         android:ellipsize="middle"
                         android:singleLine="true"
+                        android:textColor="@color/gray"
                         android:textSize="12sp"
                         app:customTFont="CircularPro-Book.otf"
                         app:layout_constraintBottom_toBottomOf="@+id/transaction_id_label"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toEndOf="@+id/transaction_id_label"
-                        app:layout_constraintTop_toTopOf="@+id/transaction_id_label"/>
+                        app:layout_constraintTop_toTopOf="@+id/transaction_id_label" />
                 </android.support.constraint.ConstraintLayout>
 
                 <View
                     android:id="@+id/divider8"
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:background="@color/light_gray"/>
+                    android:background="@color/light_gray" />
 
 
             </LinearLayout>
@@ -514,10 +521,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/details_container"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="26dp"
                 android:layout_marginBottom="20dp"
+                android:layout_marginTop="26dp"
                 android:text="Show Details"
-                android:textColor="@color/blue"/>
+                android:textColor="@color/blue" />
 
         </RelativeLayout>
 

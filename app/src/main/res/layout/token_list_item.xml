@@ -19,6 +19,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="6dp"
         android:layout_toEndOf="@id/token_icon"
+        android:textColor="@color/gray"
         android:textSize="20sp"
         app:customTFont="CircularPro-Bold.otf" />
 
@@ -30,6 +31,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="-5dp"
         android:layout_toEndOf="@id/token_icon"
+        android:textColor="@color/gray"
         android:textSize="18sp"
         app:customTFont="CircularPro-Book.otf" />
 
@@ -40,11 +42,10 @@
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="12dp"
+        android:background="@drawable/add_wallet_button"
         android:text="@string/MenuButton.addWallet"
         android:textColor="@color/dialog_button_positive"
-        android:textSize="14sp"
-        android:background="@drawable/add_wallet_button"
-         />
+        android:textSize="14sp" />
 
     <View
         android:layout_width="match_parent"

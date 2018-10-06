@@ -299,6 +299,10 @@ public class BRAnimator {
 
     }
 
+    /**
+     * 休眠300毫秒
+     * @return
+     */
     public static boolean isClickAllowed() {
         if (clickAllowed) {
             clickAllowed = false;

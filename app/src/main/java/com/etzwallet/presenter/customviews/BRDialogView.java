@@ -86,12 +86,14 @@ public class BRDialogView extends DialogFragment {
 //        helpButton = view.findViewById(R.id.help_icon);
 
         //assuming that is the last text to bet set.
+        Log.i("----------", "showSimpleDialog=="+title+"---"+message);
         if (Utils.isNullOrEmpty(title))
             mainLayout.removeView(titleText);
         if (Utils.isNullOrEmpty(message))
             mainLayout.removeView(messageText);
 
         // Resize the title text if it is greater than 4 lines
+
         titleText.setText(title);
         if (titleText.getLineCount() > 4) {
             titleText.setTextSize(16);

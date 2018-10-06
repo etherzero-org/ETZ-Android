@@ -74,7 +74,6 @@ public class IntroActivity extends BRActivity implements Serializable {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CrashReport.initCrashReport(getApplicationContext(), "2f6ebc529a", false);
-
         setContentView(R.layout.activity_intro);
         newWalletButton = findViewById(R.id.button_new_wallet);
         recoverWalletButton = findViewById(R.id.button_recover_wallet);
@@ -117,12 +116,7 @@ public class IntroActivity extends BRActivity implements Serializable {
         }, DateUtils.SECOND_IN_MILLIS);
 
 
-
-
-
     }
-
-
 
 
     private void updateBundles() {
@@ -144,11 +138,12 @@ public class IntroActivity extends BRActivity implements Serializable {
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
                 HomeActivity bApp = HomeActivity.getApp();
-               WalletEthManager.setmInstance(null);//设为空重新获取新的地址
+//               WalletEthManager.setmInstance(null);//设为空重新获取新的地址
                 Intent intent = new Intent(IntroActivity.this, SetPinActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                 if (bApp != null) bApp.finish();
+                IntroActivity.this.finish();
             }
         });
 
@@ -163,6 +158,7 @@ public class IntroActivity extends BRActivity implements Serializable {
                 startActivity(intent);
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                 if (bApp != null) bApp.finish();
+                IntroActivity.this.finish();
             }
         });
     }

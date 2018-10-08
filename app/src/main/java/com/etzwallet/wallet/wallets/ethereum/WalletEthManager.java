@@ -184,6 +184,13 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         Boolean isFirst = BRSharedPrefs.getFristCreate(app);
         Log.i(TAG, "WalletEthManager: isFirst==" + isFirst);
         if (isFirst) {
+            if (pKey==null||pKey.equals("")){
+                try {
+                    pKey=new String(BRKeyStore.getPhrase(app, 0));
+                } catch (UserNotAuthenticatedException e) {
+                    e.printStackTrace();
+                }
+            }
             confirmAddress(app1, pKey, mAddress);
         }
 //        else{
@@ -272,6 +279,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     return null;
                 }
             }
+
             mInstance = new WalletEthManager(app, ethPubKey, BuildConfig.BITCOIN_TESTNET ? BREthereumNetwork.testnet : BREthereumNetwork.mainnet);
 
         }

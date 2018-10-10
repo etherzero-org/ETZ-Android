@@ -347,18 +347,18 @@ static struct BREthereumTokenRecord tokens[] = {
                 {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
                 1
         },
-//        {
-//                "0x9d3cda9140657a8e8f75988828fb3c90d395f2fd",
-//                "EASY",
-//                "Easy",
-//                "",
-//                18,
-//                "#242424",
-//                "#343434",
-//                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
-//                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-//                1
-//        },
+        {
+                "0xb85581c73afbf7f899abacb84d795202abe5033d",
+                "JOX",
+                "JoxCoin",
+                "",
+                18,
+                "#ffb54d",
+                "#ffa14d",
+                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
+                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
+                1
+        },
 
 
 //

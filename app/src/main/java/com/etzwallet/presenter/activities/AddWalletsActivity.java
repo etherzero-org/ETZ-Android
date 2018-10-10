@@ -98,7 +98,7 @@ public class AddWalletsActivity extends BRActivity {
                     Log.i(TAG, "run: token===="+token);
                     TokenItem tokenItem = new TokenItem(token.getAddress(), token.getSymbol(), token.getName(), null);
 
-                    if (!md.isCurrencyEnabled(tokenItem.symbol))
+                    if (md!=null&&!md.isCurrencyEnabled(tokenItem.symbol))
 
                         tokenItems.add(tokenItem);
                 }

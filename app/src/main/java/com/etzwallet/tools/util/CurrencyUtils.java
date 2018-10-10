@@ -53,7 +53,8 @@ public class CurrencyUtils {
      * @return - the formatted amount e.g. $535.50 or b5000
      */
     public static String getFormattedAmount(Context app, String iso, BigDecimal amount, int maxDecimalPlacesForCrypto) {
-        if (amount == null) return "---"; //to be able to detect in a bug
+//        if (amount == null) return "---"; //to be able to detect in a bug
+        if (amount == null) amount= BigDecimal.valueOf(0.00); //to be able to detect in a bug
         if (Utils.isNullOrEmpty(iso)) throw new RuntimeException("need iso for formatting!");
         DecimalFormat currencyFormat;
         // This formats currency values as the user expects to read them (default locale).

@@ -97,6 +97,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
             WalletItem item = mWalletItems.get(position);
             final BaseWalletManager wallet = item.walletManager;
+
             String name = wallet.getName();
             String iso = wallet.getIso();
 

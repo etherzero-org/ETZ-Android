@@ -361,19 +361,19 @@ static struct BREthereumTokenRecord tokens[] = {
         },
 
 
-//
-//    {
-//        "0xb98d4c97425d9908e66e53a6fdf673acca0be986",
-//        "ABT",
-//        "ArcBlock",
-//        "",
-//        18,
-//        "#3effff",
-//        "#3effff",
-//        { TOKEN_BRD_DEFAULT_GAS_LIMIT },
-//        { { { .u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-//        1
-//    },
+
+    {
+        "0x77d0578e94ee5c8aa75cf578170ab063a095c450",
+        "EBT",
+        "EBT",
+        "",
+        8,
+        "#2cadd1",
+        "#41d9ae",
+        { TOKEN_BRD_DEFAULT_GAS_LIMIT },
+        { { { .u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
+        1
+    },
 //
 //    {
 //        "0xD0D6D6C5Fe4a677D343cC433536BB717bAe167dD",

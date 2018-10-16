@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRKeyboard;
+import com.etzwallet.tools.security.BRKeyStore;
 
 public class SetPinActivity extends BRActivity {
     private static final String TAG = SetPinActivity.class.getName();
@@ -73,6 +74,10 @@ public class SetPinActivity extends BRActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        if (!BRKeyStore.getPinCode(SetPinActivity.this).isEmpty()){
+            startActivity(new Intent(SetPinActivity.this,LoginActivity.class));
+            finish();
+        }
         updateDots();
         introSetPitActivity = this;
         appVisible = true;

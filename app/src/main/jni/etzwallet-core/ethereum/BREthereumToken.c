@@ -230,63 +230,6 @@ console.log (result)
 //
 //
 static struct BREthereumTokenRecord tokens[] = {
-
-//    {
-//        // BRD first... so we can find it.
-//        "0x558ec3152e2eb2174905cd19aea4e34a23de9ad6",
-//        "BRD",
-//        "BRD Token",
-//        "",
-//        18,
-//        "#ff5193",
-//        "#f9a43a",
-//        {TOKEN_BRD_DEFAULT_GAS_LIMIT},
-//        {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-//        1
-//    },
-//    {
-//            "0x86d105D5FA67F3eEf986F75b7e63C6664f88319A",
-//            "BO",
-//            "BlockOptions",
-//            "",
-//            8,
-//            "#ff5193",
-//            "#f9a43a",
-//            {TOKEN_BRD_DEFAULT_GAS_LIMIT},
-//            {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-//            1
-//    },
-//#if defined (BITCOIN_DEBUG)
-//    {
-        // (Optional) TST next... so we can find it too.
-//#if defined (BITCOIN_TESTNET) && 1 == BITCOIN_TESTNET
-//        "0x722dd3f80bac40c951b51bdd28dd19d435762180", // testnet,
-//#else
-//        "0x3efd578b271d034a69499e4a2d933c631d44b9ad", // mainnet
-//#endif
-//        "TST",
-//        "Test Standard Token",
-//        "TeST Standard Token (TST) for TeSTing (TST)",
-//        18,
-//        "#bfbfbf",
-//        "#bfbfbf",
-//        {TOKEN_BRD_DEFAULT_GAS_LIMIT},
-//        {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-//        1
-//    },
-//#endif // defined (BITCOIN_DEBUG)
-//    {
-//        "0xAf30D2a7E90d7DC361c8C4585e9BB7D2F6f15bc7",
-//        "1ST",
-//        "FirstBlood",
-//        "",
-//        18,
-//        "#f15a22",
-//        "#f15a22",
-//        { TOKEN_BRD_DEFAULT_GAS_LIMIT },
-//        { { { .u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-//        1
-//    },
         {
                 "0xfddb863dbff0632d57571a5af38482966e722ab4",
                 "BO",
@@ -299,18 +242,7 @@ static struct BREthereumTokenRecord tokens[] = {
                 {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
                 1
         },
-//        {
-//                "0x01d5ba5698e62983866e4beb9c5485fa5634fa69",
-//                "FANS",
-//                "FansToken",
-//                "",
-//                18,
-//                "#ed2249",
-//                "#ed1868",
-//                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
-//                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-//                1
-//        },
+
         {
                 "0x0f078ac34a827c16dd1af5fb6d1549cda74e856e",
                 "MSM",
@@ -359,21 +291,18 @@ static struct BREthereumTokenRecord tokens[] = {
                 {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
                 1
         },
-
-
-
-    {
-        "0x77d0578e94ee5c8aa75cf578170ab063a095c450",
-        "EBT",
-        "EBT",
-        "",
-        8,
-        "#2cadd1",
-        "#41d9ae",
-        { TOKEN_BRD_DEFAULT_GAS_LIMIT },
-        { { { .u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
-        1
-    },
+        {
+                "0xe9dd82f9c111e405e6ccf853e33a57b406dee7a3",
+                "WINE",
+                "winechain",
+                "",
+                6,
+                "#ad0036",
+                "#990030",
+                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
+                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
+                1
+        },
 //
 //    {
 //        "0xD0D6D6C5Fe4a677D343cC433536BB717bAe167dD",

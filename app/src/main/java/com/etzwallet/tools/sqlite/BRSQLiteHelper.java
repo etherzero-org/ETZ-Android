@@ -6,9 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import com.etzwallet.BuildConfig;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.BRTransactionEntity;
 
 import java.util.ArrayList;
@@ -132,10 +132,10 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase database) {
         //drop peers table due to multiple changes
 
-        Log.e(TAG, "onCreate: " + MB_DATABASE_CREATE);
-        Log.e(TAG, "onCreate: " + TX_DATABASE_CREATE);
-        Log.e(TAG, "onCreate: " + PEER_DATABASE_CREATE);
-        Log.e(TAG, "onCreate: " + CURRENCY_DATABASE_CREATE);
+        MyLog.e( "onCreate: " + MB_DATABASE_CREATE);
+        MyLog.e( "onCreate: " + TX_DATABASE_CREATE);
+        MyLog.e( "onCreate: " + PEER_DATABASE_CREATE);
+        MyLog.e( "onCreate: " + CURRENCY_DATABASE_CREATE);
         database.execSQL(MB_DATABASE_CREATE);
         database.execSQL(TX_DATABASE_CREATE);
         database.execSQL(PEER_DATABASE_CREATE);
@@ -186,11 +186,11 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
             copyTxsForBch(db);
 
             db.setTransactionSuccessful();
-            Log.e(TAG, "migrateDatabases: SUCCESS");
+            MyLog.e( "migrateDatabases: SUCCESS");
         } catch (SQLiteException ex) {
 
         } finally {
-            Log.e(TAG, "migrateDatabases: ENDED");
+            MyLog.e( "migrateDatabases: ENDED");
             db.endTransaction();
         }
     }
@@ -238,7 +238,7 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
                 count++;
 
             }
-            Log.e(TAG, "copyTxsForBch: copied: " + count);
+            MyLog.e( "copyTxsForBch: copied: " + count);
             db.setTransactionSuccessful();
 
         } finally {
@@ -249,7 +249,7 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
     }
 
     public void printTableStructures(SQLiteDatabase db, String tableName) {
-        Log.e(TAG, "printTableStructures: " + tableName);
+        MyLog.e( "printTableStructures: " + tableName);
         String tableString = String.format("Table %s:\n", tableName);
         Cursor allRows = db.rawQuery("SELECT * FROM " + tableName, null);
         if (allRows.moveToFirst()) {
@@ -264,7 +264,7 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
             } while (allRows.moveToNext());
         }
 
-        Log.e(TAG, "SQL:" + tableString);
+        MyLog.e( "SQL:" + tableString);
     }
 
 }

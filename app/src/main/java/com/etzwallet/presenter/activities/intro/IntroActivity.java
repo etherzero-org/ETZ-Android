@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -13,6 +12,7 @@ import com.etzwallet.R;
 import com.etzwallet.presenter.activities.HomeActivity;
 import com.etzwallet.presenter.activities.SetPinActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.BRKeyStore;
@@ -127,7 +127,7 @@ public class IntroActivity extends BRActivity implements Serializable {
                 APIClient apiClient = APIClient.getInstance(IntroActivity.this);
                 apiClient.updateBundle();
                 long endTime = System.currentTimeMillis();
-                Log.d(TAG, "updateBundle DONE in " + (endTime - startTime) + "ms");
+                MyLog.d( "updateBundle DONE in " + (endTime - startTime) + "ms");
             }
         });
     }
@@ -138,7 +138,6 @@ public class IntroActivity extends BRActivity implements Serializable {
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
                 HomeActivity bApp = HomeActivity.getApp();
-//               WalletEthManager.setmInstance(null);//设为空重新获取新的地址
                 Intent intent = new Intent(IntroActivity.this, SetPinActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
@@ -152,7 +151,6 @@ public class IntroActivity extends BRActivity implements Serializable {
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
                 HomeActivity bApp = HomeActivity.getApp();
-//                WalletEthManager.setmInstance(null);//设为空重新获取新的地址
                 if (bApp != null) bApp.finish();
                 Intent intent = new Intent(IntroActivity.this, RecoverActivity.class);
                 startActivity(intent);

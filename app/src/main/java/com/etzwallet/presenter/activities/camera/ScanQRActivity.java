@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v13.app.ActivityCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.SpringAnimator;
 import com.etzwallet.tools.qrcode.QRCodeReaderView;
 import com.etzwallet.wallet.WalletsMaster;
@@ -86,7 +86,7 @@ public class ScanQRActivity extends BRActivity implements ActivityCompat.OnReque
             initQRCodeReaderView();
         } else {
 //            requestCameraPermission();
-            Log.e(TAG, "onCreate: Permissions needed? HUH?");
+            MyLog.e( "onCreate: Permissions needed? HUH?");
         }
 
         new Handler().postDelayed(new Runnable() {
@@ -177,7 +177,7 @@ public class ScanQRActivity extends BRActivity implements ActivityCompat.OnReque
         if (handlingCode) return;
         handlingCode = true;
         if (CryptoUriParser.isCryptoUrl(this, text) || BRBitId.isBitId(text)) {
-            Log.e(TAG, "onQRCodeRead: isCrypto");
+            MyLog.e("onQRCodeRead: isCrypto");
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -195,7 +195,7 @@ public class ScanQRActivity extends BRActivity implements ActivityCompat.OnReque
                 }
             });
         } else {
-            Log.e(TAG, "onQRCodeRead: not a crypto url");
+            MyLog.e( "onQRCodeRead: not a crypto url");
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

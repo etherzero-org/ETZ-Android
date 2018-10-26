@@ -1,8 +1,8 @@
 package com.etzwallet.tools.util;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
@@ -66,7 +66,7 @@ public class SyncTestLogger extends Thread {
 
             }
             if (needsLog)
-                Log.e(TAG, "testLog: " + builder.toString());
+                MyLog.e("testLog: " + builder.toString());
 
             try {
                 Thread.sleep(3000);

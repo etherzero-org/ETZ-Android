@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.settings.WebViewActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.tools.util.Utils;
@@ -54,12 +54,12 @@ public class LinkPlugin implements Plugin {
     @Override
     public boolean handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) {
         if (target.startsWith("/_open_url")) {
-            Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+            MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
             String url = request.getParameter("url");
 
             Context app = BreadApp.getBreadContext();
             if (app == null) {
-                Log.e(TAG, "handle: context is null: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: context is null: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(500, "context is null", baseRequest, response);
             }
 
@@ -67,22 +67,22 @@ public class LinkPlugin implements Plugin {
                 Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.replace("/", "")));
                 app.startActivity(intent);
             } else {
-                Log.e(TAG, "handle: could not handle url: " + url);
+                MyLog.e( "handle: could not handle url: " + url);
                 BRReportsManager.reportBug(new RuntimeException("could not handle url: " + url));
             }
             APIClient.BRResponse resp = new APIClient.BRResponse(null, 204);
             return BRHTTPHelper.handleSuccess(resp, baseRequest, response);
         } else if (target.startsWith("/_open_maps")) {
-            Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+            MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
             Context app = BreadApp.getBreadContext();
             if (app == null) {
-                Log.e(TAG, "handle: context is null: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: context is null: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(500, "context is null", baseRequest, response);
             }
             String address = baseRequest.getParameter("address");
             String fromPoint = baseRequest.getParameter("from_point");
             if (address == null || fromPoint == null) {
-                Log.e(TAG, "handle: bad request: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: bad request: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(500, "bad request", baseRequest, response);
             }
             String uri = "http://maps.google.com/maps?q=" + fromPoint + "&daddr=" + address + "&mode=driving";
@@ -94,13 +94,13 @@ public class LinkPlugin implements Plugin {
         } else if (target.startsWith("/_browser")) {
             Context app = BreadApp.getBreadContext();
             if (app == null) {
-                Log.e(TAG, "handle: context is null: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: context is null: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(500, "context is null", baseRequest, response);
             }
             switch (request.getMethod()) {
                 case "GET":
                     // opens the in-app browser for the provided URL
-                    Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+                    MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
 
                     if (hasBrowser)
                         return BRHTTPHelper.handleError(409, "Conflict", baseRequest, response);
@@ -137,7 +137,7 @@ public class LinkPlugin implements Plugin {
                     // if the browser navigates to this exact URL. It is useful for oauth redirects
                     // and the like
 
-                    Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+                    MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
 
                     if (hasBrowser)
                         return BRHTTPHelper.handleError(409, "Conflict", baseRequest, response);
@@ -152,7 +152,7 @@ public class LinkPlugin implements Plugin {
                         json = new JSONObject(new String(body)); //just check for validity
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e(TAG, "handle: the json is not valid:" + target + " " + baseRequest.getMethod());
+                        MyLog.e( "handle: the json is not valid:" + target + " " + baseRequest.getMethod());
                         return BRHTTPHelper.handleError(400, "could not deserialize json object ", baseRequest, response);
                     }
 

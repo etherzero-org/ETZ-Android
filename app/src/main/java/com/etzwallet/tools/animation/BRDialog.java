@@ -5,10 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
-import android.util.Log;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 
 /**
@@ -48,7 +48,7 @@ public class BRDialog {
                                         @NonNull final String posButton, final String negButton, final BRDialogView.BROnClickListener posListener,
                                         final BRDialogView.BROnClickListener negListener, final DialogInterface.OnDismissListener dismissListener, final int iconRes) {
         if (((Activity) app).isDestroyed()) {
-            Log.e(TAG, "showCustomDialog: FAILED, context is destroyed");
+            MyLog.e("showCustomDialog: FAILED, context is destroyed");
             return;
         }
         BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
@@ -73,7 +73,7 @@ public class BRDialog {
     public static void showHelpDialog(@NonNull final Context app, @NonNull final String title, @NonNull final String message, @NonNull final String posButton, @NonNull final String negButton, final BRDialogView.BROnClickListener posListener, final BRDialogView.BROnClickListener negListener, final BRDialogView.BROnClickListener helpListener) {
 
         if (((Activity) app).isDestroyed()) {
-            Log.e(TAG, "showCustomDialog: FAILED, context is destroyed");
+            MyLog.e( "showCustomDialog: FAILED, context is destroyed");
             return;
         }
 
@@ -109,7 +109,7 @@ public class BRDialog {
                                         @NonNull final String posButton, final String negButton, final BRDialogView.BROnClickListener posListener,
                                         final BRDialogView.BROnClickListener negListener, final DialogInterface.OnDismissListener dismissListener, final int iconRes) {
         if (((Activity) app).isDestroyed()) {
-            Log.e(TAG, "showCustomDialog: FAILED, context is destroyed");
+            MyLog.e( "showCustomDialog: FAILED, context is destroyed");
             return;
         }
 

@@ -34,7 +34,6 @@ import android.support.annotation.NonNull;
 import android.support.v13.app.ActivityCompat;
 import android.support.v13.app.FragmentCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
@@ -45,6 +44,7 @@ import android.widget.Toast;
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.platform.middlewares.plugins.CameraPlugin;
 
@@ -413,7 +413,7 @@ public class CameraActivity extends BRActivity implements View.OnClickListener, 
         } else if (notBigEnough.size() > 0) {
             return Collections.max(notBigEnough, new CompareSizesByArea());
         } else {
-            Log.e(TAG, "Couldn't find any suitable preview size");
+            MyLog.e( "Couldn't find any suitable preview size");
             return choices[0];
         }
     }
@@ -495,7 +495,7 @@ public class CameraActivity extends BRActivity implements View.OnClickListener, 
                         }
                         break;
                     default:
-                        Log.e(TAG, "Display rotation is invalid: " + displayRotation);
+                        MyLog.e("Display rotation is invalid: " + displayRotation);
                 }
 
                 Point displaySize = new Point();
@@ -883,7 +883,7 @@ public class CameraActivity extends BRActivity implements View.OnClickListener, 
 
         @Override
         public void run() {
-            Log.e(TAG, "run: ");
+            MyLog.e("run: ");
             ByteBuffer buffer = mImage.getPlanes()[0].getBuffer();
             final byte[] bytes = new byte[buffer.remaining()];
             buffer.get(bytes);

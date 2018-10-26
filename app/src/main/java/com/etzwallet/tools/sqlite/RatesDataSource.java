@@ -29,8 +29,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CurrencyEntity;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.util.BRConstants;
@@ -70,7 +70,7 @@ public class RatesDataSource implements BRDataSourceInterface {
 
     public void putCurrencies(Context app, Collection<CurrencyEntity> currencyEntities) {
         if (currencyEntities == null || currencyEntities.size() <= 0) {
-            Log.e(TAG, "putCurrencies: failed: " + currencyEntities);
+            MyLog.e( "putCurrencies: failed: " + currencyEntities);
             return;
         }
 
@@ -89,15 +89,15 @@ public class RatesDataSource implements BRDataSourceInterface {
                 values.put(BRSQLiteHelper.CURRENCY_NAME, c.name);
                 values.put(BRSQLiteHelper.CURRENCY_RATE, c.rate);
                 values.put(BRSQLiteHelper.CURRENCY_ISO, c.iso);
-                Log.i(TAG, "putCurrencies: c.iso===="+c.iso);
+                MyLog.i( "putCurrencies: iso="+c.iso+";code="+c.code+";name="+c.name+";rate="+c.rate);
                 database.insertWithOnConflict(BRSQLiteHelper.CURRENCY_TABLE_NAME, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
             }
-            if (failed != 0) Log.e(TAG, "putCurrencies: failed:" + failed);
+            if (failed != 0) MyLog.e( "putCurrencies: failed:" + failed);
             database.setTransactionSuccessful();
             for (OnDataChanged list : onDataChangedListeners) if (list != null) list.onChanged();
         } catch (Exception ex) {
-            Log.e(TAG, "putCurrencies: failed: ", ex);
+            MyLog.e( "putCurrencies: failed: "+ ex);
             BRReportsManager.reportBug(ex);
 
             //Error in between database transaction
@@ -140,7 +140,7 @@ public class RatesDataSource implements BRDataSourceInterface {
                 cursor.close();
             closeDatabase();
         }
-        Log.e(TAG, "getAllCurrencies: size:" + currencies.size());
+        MyLog.e( "getAllCurrencies: size:" + currencies.size());
         return currencies;
     }
 
@@ -176,7 +176,7 @@ public class RatesDataSource implements BRDataSourceInterface {
         try {
             database = openDatabase();
 //            printTest();
-//            Log.e(TAG, "getCurrencyByCode: code: " + code + ", iso: " + walletManager.getIso(app));
+//            MyLog.e( "getCurrencyByCode: code: " + code + ", iso: " + walletManager.getIso(app));
             cursor = database.query(BRSQLiteHelper.CURRENCY_TABLE_NAME,
                     allColumns, BRSQLiteHelper.CURRENCY_CODE + " = ? AND " + BRSQLiteHelper.CURRENCY_ISO + " = ? COLLATE NOCASE",
                     new String[]{code, iso.toUpperCase()}, null, null, null);
@@ -209,7 +209,7 @@ public class RatesDataSource implements BRDataSourceInterface {
                 builder.append("Name: " + ent.name + ", code: " + ent.code + ", rate: " + ent.rate + ", iso: " + ent.iso + "\n");
                 cursor.moveToNext();
             }
-            Log.e(TAG, "printTest: " + builder.toString());
+            MyLog.e( "printTest: " + builder.toString());
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -229,7 +229,7 @@ public class RatesDataSource implements BRDataSourceInterface {
             database = dbHelper.getWritableDatabase();
         dbHelper.setWriteAheadLoggingEnabled(BRConstants.WRITE_AHEAD_LOGGING);
 //        }
-//        Log.d("Database open counter: ",  String.valueOf(mOpenCounter.get()));
+//        MyLog.d("Database open counter: ",  String.valueOf(mOpenCounter.get()));
         return database;
     }
 
@@ -240,7 +240,7 @@ public class RatesDataSource implements BRDataSourceInterface {
 //        database.close();
 //
 //        }
-//        Log.d("Database open counter: " , String.valueOf(mOpenCounter.get()));
+//        MyLog.d("Database open counter: " , String.valueOf(mOpenCounter.get()));
     }
 
     public void addOnDataChangedListener(OnDataChanged list) {

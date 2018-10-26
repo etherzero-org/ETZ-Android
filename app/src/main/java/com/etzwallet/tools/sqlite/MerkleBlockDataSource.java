@@ -29,7 +29,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
+import com.etzwallet.presenter.customviews.MyLog;
 
 import com.etzwallet.presenter.entities.BRMerkleBlockEntity;
 import com.etzwallet.presenter.entities.BlockEntity;
@@ -79,7 +79,7 @@ public class MerkleBlockDataSource implements BRDataSourceInterface {
             database.setTransactionSuccessful();
         } catch (Exception ex) {
             BRReportsManager.reportBug(ex);
-            Log.e(TAG, "Error inserting into SQLite", ex);
+            MyLog.e( "Error inserting into SQLite"+ ex);
             //Error in between database transaction
         } finally {
             database.endTransaction();
@@ -100,7 +100,7 @@ public class MerkleBlockDataSource implements BRDataSourceInterface {
         try {
             database = openDatabase();
             long id = merkleBlock.getId();
-            Log.e(TAG, "MerkleBlock deleted with id: " + id);
+            MyLog.e( "MerkleBlock deleted with id: " + id);
             database.delete(BRSQLiteHelper.MB_TABLE_NAME, BRSQLiteHelper.MB_COLUMN_ID
                     + " = ? AND " + BRSQLiteHelper.MB_ISO + " = ?", new String[]{String.valueOf(id), iso.toUpperCase()});
         } finally {
@@ -124,7 +124,7 @@ public class MerkleBlockDataSource implements BRDataSourceInterface {
                 merkleBlocks.add(merkleBlockEntity);
                 cursor.moveToNext();
             }
-            Log.e(TAG, "merkleBlocks: " + merkleBlocks.size());
+            MyLog.e( "merkleBlocks: " + merkleBlocks.size());
             // make sure to close the cursor
 
         } finally {
@@ -149,7 +149,7 @@ public class MerkleBlockDataSource implements BRDataSourceInterface {
             database = dbHelper.getWritableDatabase();
         dbHelper.setWriteAheadLoggingEnabled(BRConstants.WRITE_AHEAD_LOGGING);
 //        }
-//        Log.d("Database open counter: ",  String.valueOf(mOpenCounter.get()));
+//        MyLog.d("Database open counter: ",  String.valueOf(mOpenCounter.get()));
         return database;
     }
 
@@ -160,6 +160,6 @@ public class MerkleBlockDataSource implements BRDataSourceInterface {
 //            database.close();
 //
 //        }
-//        Log.d("Database open counter: " , String.valueOf(mOpenCounter.get()));
+//        MyLog.d("Database open counter: " , String.valueOf(mOpenCounter.get()));
     }
 }

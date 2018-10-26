@@ -1,6 +1,7 @@
 package com.etzwallet.tools.util;
 
-import android.util.Log;
+
+import com.etzwallet.presenter.customviews.MyLog;
 
 /**
  * BreadWallet
@@ -41,7 +42,7 @@ public class CustomLogger {
             }
             if(i % 4 == 0) strToLog.append("\n");
         }
-        Log.e(TAG, strToLog.toString());
+        MyLog.e(strToLog.toString());
     }
 
 }

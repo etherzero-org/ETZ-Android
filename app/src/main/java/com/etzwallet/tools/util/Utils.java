@@ -13,7 +13,6 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
@@ -22,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.etzwallet.presenter.activities.intro.IntroActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -86,20 +86,20 @@ public class Utils {
     @SuppressWarnings("deprecation")
     public static void printPhoneSpecs() {
         String specsTag = "PHONE SPECS";
-        Log.e(specsTag, "");
-        Log.e(specsTag, "***************************PHONE SPECS***************************");
-        Log.e(specsTag, "* screen X: " + IntroActivity.screenParametersPoint.x + " , screen Y: " + IntroActivity.screenParametersPoint.y);
-        Log.e(specsTag, "* Build.CPU_ABI: " + Build.CPU_ABI);
+        MyLog.e(specsTag);
+        MyLog.e(specsTag+"***************************PHONE SPECS***************************");
+        MyLog.e(specsTag+"* screen X: " + IntroActivity.screenParametersPoint.x + " , screen Y: " + IntroActivity.screenParametersPoint.y);
+        MyLog.e(specsTag+"* Build.CPU_ABI: " + Build.CPU_ABI);
         Runtime rt = Runtime.getRuntime();
         long maxMemory = rt.maxMemory();
-        Log.e(specsTag, "* maxMemory:" + Long.toString(maxMemory));
-        Log.e(specsTag, "----------------------------PHONE SPECS----------------------------");
-        Log.e(specsTag, "");
+        MyLog.e(specsTag+"* maxMemory:" + Long.toString(maxMemory));
+        MyLog.e(specsTag+"----------------------------PHONE SPECS----------------------------");
+        MyLog.e(specsTag+"");
     }
 
     public static boolean isEmulatorOrDebug(Context app) {
         String fing = Build.FINGERPRINT;
-        Log.i(TAG, "isEmulatorOrDebug: fing==="+fing);
+        MyLog.i( "isEmulatorOrDebug: fing==="+fing);
         boolean isEmulator = false;
         if (fing != null) {
             isEmulator = fing.contains("vbox") || fing.contains("generic");
@@ -243,7 +243,7 @@ public class Utils {
             // Get a list of running tasks, we are only interested in the last one,
             // the top most so we give a 1 as parameter so we only get the topmost.
             List<ActivityManager.RunningAppProcessInfo> processes = manager.getRunningAppProcesses();
-            Log.d(TAG, "Process list count -> " + processes.size());
+            MyLog.d( "Process list count -> " + processes.size());
 
 
             String processName = "";
@@ -251,7 +251,7 @@ public class Utils {
 
                 // Get the info we need for comparison.
                 processName = processInfo.processName;
-                Log.d(TAG, "Process package name -> " + processName);
+                MyLog.d( "Process package name -> " + processName);
 
                 // Check if it matches our package name
                 if (processName.equals(packageName)) return true;
@@ -297,7 +297,7 @@ public class Utils {
             v.setTextSize(TypedValue.COMPLEX_UNIT_PX, px);
             lines = v.getLineCount();
             if (limit <= 0) {
-                Log.e(TAG, "correctTextSizeIfNeeded: Failed to rescale, limit reached, final: " + px);
+                MyLog.e( "correctTextSizeIfNeeded: Failed to rescale, limit reached, final: " + px);
                 break;
             }
         }

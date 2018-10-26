@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -86,7 +85,7 @@ public class BRDialogView extends DialogFragment {
 //        helpButton = view.findViewById(R.id.help_icon);
 
         //assuming that is the last text to bet set.
-        Log.i("----------", "showSimpleDialog=="+title+"---"+message);
+        MyLog.i( "showSimpleDialog=="+title+"---"+message);
         if (Utils.isNullOrEmpty(title))
             mainLayout.removeView(titleText);
         if (Utils.isNullOrEmpty(message))
@@ -122,7 +121,7 @@ public class BRDialogView extends DialogFragment {
             }
         });
         if (Utils.isNullOrEmpty(negButton)) {
-            Log.e(TAG, "onCreateDialog: removing negative button");
+            MyLog.e( "onCreateDialog: removing negative button");
             buttonsLayout.removeView(negativeButton);
             buttonsLayout.requestLayout();
 

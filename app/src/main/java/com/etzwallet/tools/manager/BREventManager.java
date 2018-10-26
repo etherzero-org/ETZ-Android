@@ -3,9 +3,9 @@ package com.etzwallet.tools.manager;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.Utils;
 import com.platform.APIClient;
 
@@ -70,26 +70,26 @@ public class BREventManager implements BreadApp.OnAppBackgrounded {
     }
 
     public void pushEvent(String eventName, Map<String, String> attributes) {
-        Log.d(TAG, "pushEvent: " + eventName);
+        MyLog.d( "pushEvent: " + eventName);
         Event event = new Event(sessionId, System.currentTimeMillis() * 1000, eventName, attributes);
         events.add(event);
     }
 
     public void pushEvent(String eventName) {
-        Log.d(TAG, "pushEvent: " + eventName);
+        MyLog.d( "pushEvent: " + eventName);
         Event event = new Event(sessionId, System.currentTimeMillis() * 1000, eventName, null);
         events.add(event);
     }
 
     @Override
     public void onBackgrounded() {
-        Log.e(TAG, "onBackgrounded: ");
+        MyLog.e( "onBackgrounded: ");
         saveEvents();
 //        pushToServer();
     }
 
     private void saveEvents() {
-//        Log.d(TAG, "saveEvents: ");
+//        MyLog.d( "saveEvents: ");
         JSONArray array = new JSONArray();
         for (Event event : events) {
             JSONObject obj = new JSONObject();
@@ -108,7 +108,7 @@ public class BREventManager implements BreadApp.OnAppBackgrounded {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-//            Log.e(TAG, "saveEvents: insert json to array: " + obj);
+//            MyLog.e( "saveEvents: insert json to array: " + obj);
             array.put(obj);
         }
         Context app = BreadApp.getBreadContext();
@@ -116,24 +116,24 @@ public class BREventManager implements BreadApp.OnAppBackgrounded {
             String fileName = app.getFilesDir().getAbsolutePath() + "/events/" + UUID.randomUUID().toString();
             writeEventsToDisk(fileName, array.toString());
         } else {
-            Log.e(TAG, "saveEvents: FAILED TO WRITE EVENTS TO FILE: app is null");
+            MyLog.e( "saveEvents: FAILED TO WRITE EVENTS TO FILE: app is null");
         }
     }
 
     private void pushToServer() {
-        Log.d(TAG, "pushToServer()");
+        MyLog.d( "pushToServer()");
         Context app = BreadApp.getBreadContext();
-        Log.d(TAG, "BREventManager TEST -1 -> ");
+        MyLog.d( "BREventManager TEST -1 -> ");
 
         if (app != null) {
-            Log.d(TAG, "BREventManager TEST 0 -> ");
+            MyLog.d( "BREventManager TEST 0 -> ");
 
             List<JSONArray> arrs = getEventsFromDisk(app);
             int fails = 0;
             for (JSONArray arr : arrs) {
                 JSONObject obj = new JSONObject();
                 try {
-                    Log.d(TAG, "BREventManager TEST 1 -> ");
+                    MyLog.d( "BREventManager TEST 1 -> ");
 
                     obj.put("deviceType", 1);
                     int verCode = -1;
@@ -156,16 +156,16 @@ public class BREventManager implements BreadApp.OnAppBackgrounded {
                             .header("Accept", "application/json")
                             .post(requestBody).build();
                     String strResponse = null;
-                    Log.d(TAG, "BREventManager TEST  2 -> ");
+                    MyLog.d( "BREventManager TEST  2 -> ");
 
-                    Log.d(TAG, "Making request to -> " + strUtl);
+                    MyLog.d( "Making request to -> " + strUtl);
 
                     APIClient.BRResponse response = APIClient.getInstance(app).sendRequest(request, true);
                     if (response != null)
                         strResponse = response.getBodyText();
-                    Log.d(TAG, "Events response -> " + strResponse);
+                    MyLog.d( "Events response -> " + strResponse);
                     if (Utils.isNullOrEmpty(strResponse)) {
-                        Log.e(TAG, "pushToServer: response is empty");
+                        MyLog.e( "pushToServer: response is empty");
                         fails++;
                     }
 
@@ -183,18 +183,18 @@ public class BREventManager implements BreadApp.OnAppBackgrounded {
                         new File(dir, children[i]).delete();
                     }
                 } else {
-                    Log.e(TAG, "pushToServer:  HUH?");
+                    MyLog.e( "pushToServer:  HUH?");
                 }
             } else {
-                Log.e(TAG, "pushToServer: FAILED with:" + fails + " fails");
+                MyLog.e( "pushToServer: FAILED with:" + fails + " fails");
             }
         } else {
-            Log.e(TAG, "pushToServer: Failed to push, app is null");
+            MyLog.e( "pushToServer: Failed to push, app is null");
         }
     }
 
     private boolean writeEventsToDisk(String fileName, String json) {
-        Log.e(TAG, "saveEvents: eventsFile: " + fileName + ", \njson: " + json);
+        MyLog.e( "saveEvents: eventsFile: " + fileName + ", \njson: " + json);
         try {
             FileWriter file = new FileWriter(fileName);
             file.write(json);
@@ -202,21 +202,21 @@ public class BREventManager implements BreadApp.OnAppBackgrounded {
             file.close();
             return true;
         } catch (IOException e) {
-            Log.e("TAG", "Error in Writing: " + e.getLocalizedMessage());
+            MyLog.e( "IOException: " + e.getLocalizedMessage());
         }
         return false;
     }
 
     //returns the list of JSONArray which consist of Event arrays
     private static List<JSONArray> getEventsFromDisk(Context context) {
-        Log.d(TAG, "getEventsFromDisk()");
+        MyLog.d( "getEventsFromDisk()");
         List<JSONArray> result = new ArrayList<>();
         File dir = new File(context.getFilesDir().getAbsolutePath() + "/events/");
         if (dir.listFiles() == null) return result;
         for (File f : dir.listFiles()) {
             if (f.isFile()) {
                 String name = f.getName();
-                Log.e(TAG, "getEventsFromDisk: name:" + name);
+                MyLog.e( "getEventsFromDisk: name:" + name);
                 try {
                     JSONArray arr = new JSONArray(readFile(name));
                     result.add(arr);
@@ -224,11 +224,11 @@ public class BREventManager implements BreadApp.OnAppBackgrounded {
                     e.printStackTrace();
                 }
             } else {
-                Log.e(TAG, "getEventsFromDisk: Unexpected directory where file is expected: " + f.getName());
+                MyLog.e( "getEventsFromDisk: Unexpected directory where file is expected: " + f.getName());
             }
         }
 
-        Log.d(TAG, "getEventsFromDisk result - > " + result);
+        MyLog.d( "getEventsFromDisk result - > " + result);
         return result;
     }
 
@@ -243,7 +243,7 @@ public class BREventManager implements BreadApp.OnAppBackgrounded {
             is.close();
             return new String(buffer);
         } catch (IOException e) {
-            Log.e("TAG", "Error in Reading: " + e.getLocalizedMessage());
+            MyLog.e( "Error in Reading: " + e.getLocalizedMessage());
             return null;
         }
     }

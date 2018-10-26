@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,7 @@ import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRButton;
 import com.etzwallet.presenter.customviews.BRKeyboard;
 import com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.SlideDetector;
 import com.etzwallet.tools.manager.BRClipboardManager;
@@ -131,7 +131,7 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
 //                if (!BRAnimator.isClickAllowed()) return;
 //                Activity app = getActivity();
 //                if (app == null) {
-//                    Log.e(TAG, "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
+//                    MyLog.e( "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
 //                    return;
 //                }
 //
@@ -193,7 +193,7 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
 //                if (!BRAnimator.isClickAllowed()) return;
 //                shareButtonsShown = !shareButtonsShown;
 //                showShareButtons(shareButtonsShown);
-//                Log.i(TAG, "onClick: sharebtn"+mReceiveAddress);
+//                MyLog.i( "onClick: sharebtn"+mReceiveAddress);
                 if (!BRAnimator.isClickAllowed()) return;
                 BaseWalletManager walletManager = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
                 Uri cryptoUri = CryptoUriParser.createCryptoUrl(getActivity(), walletManager, walletManager.decorateAddress(mReceiveAddress), BigDecimal.ZERO, null, null, null);
@@ -325,9 +325,9 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
                         } else {
                             mReceiveAddress = WalletBitcoinManager.getInstance(ctx).getAddress();
                         }
-                        Log.i(TAG, "run: mReceiveAddress==="+mReceiveAddress);
+                        MyLog.i( "run: mReceiveAddress==="+mReceiveAddress);
                         String decorated = wm.decorateAddress(mReceiveAddress);
-                        Log.i(TAG, "run: decorated===2"+decorated);
+                        MyLog.i( "run: decorated===2"+decorated);
                         mAddress.setText(decorated);
                         Utils.correctTextSizeIfNeeded(mAddress);
                         Uri uri = CryptoUriParser.createCryptoUrl(ctx, wm, decorated, BigDecimal.ZERO, null, null, null);

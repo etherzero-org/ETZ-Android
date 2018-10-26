@@ -1,9 +1,9 @@
 package com.platform.middlewares.plugins;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.platform.APIClient;
 import com.platform.BRHTTPHelper;
 import com.platform.interfaces.Plugin;
@@ -52,15 +52,15 @@ public class KVStorePlugin implements Plugin {
     @Override
     public boolean handle(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) {
         if (target.startsWith("/_kv/")) {
-            Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+            MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
             String key = target.replace("/_kv/", "");
             Context app = BreadApp.getBreadContext();
             if (app == null) {
-                Log.e(TAG, "handle: context is null: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: context is null: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(500, "context is null", baseRequest, response);
             }
             if (key.isEmpty()) {
-                Log.e(TAG, "handle: missing key argument: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: missing key argument: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(400, null, baseRequest, response);
             }
 
@@ -68,48 +68,48 @@ public class KVStorePlugin implements Plugin {
             ReplicatedKVStore store = ReplicatedKVStore.getInstance(app, remote);
             switch (request.getMethod()) {
                 case "GET":
-                    Log.i(TAG, "handle: " + target + " " + baseRequest.getMethod() + ", key: " + key);
+                    MyLog.i( "handle: " + target + " " + baseRequest.getMethod() + ", key: " + key);
                     CompletionObject getObj = store.get(getKey(key), 0);
                     KVItem kv = getObj.kv;
 
                     if (kv == null || kv.deleted > 0) {
-                        Log.w(TAG, "handle: kv store does not contain the kv: " + key);
+                        MyLog.w( "handle: kv store does not contain the kv: " + key);
                         return BRHTTPHelper.handleError(404, null, baseRequest, decorateResponse(0, 0, response));
                     }
                     try {
                         JSONObject test = new JSONObject(new String(kv.value)); //just check for validity
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e(TAG, "handle: the json is not valid: for key: " + key + ", " + target + " " + baseRequest.getMethod());
+                        MyLog.e( "handle: the json is not valid: for key: " + key + ", " + target + " " + baseRequest.getMethod());
                         store.delete(getKey(key), kv.version);
                         return BRHTTPHelper.handleError(404, null, baseRequest, decorateResponse(kv.version, kv.time, response));
                     }
 
                     if (kv.deleted > 0) {
-                        Log.w(TAG, "handle: the key is gone: " + target + " " + baseRequest.getMethod());
+                        MyLog.w( "handle: the key is gone: " + target + " " + baseRequest.getMethod());
                         return BRHTTPHelper.handleError(410, "Gone", baseRequest, decorateResponse(kv.version, kv.time, response));
                     }
                     APIClient.BRResponse resp = new APIClient.BRResponse(kv.value, 200, "application/json");
 
                     return BRHTTPHelper.handleSuccess(resp, baseRequest, decorateResponse(kv.version, kv.time, response));
                 case "PUT":
-                    Log.i(TAG, "handle:" + target + " " + baseRequest.getMethod() + ", key: " + key);
+                    MyLog.i( "handle:" + target + " " + baseRequest.getMethod() + ", key: " + key);
                     // Read from request
                     byte[] rawData = BRHTTPHelper.getBody(request);
 
                     if (rawData == null) {
-                        Log.e(TAG, "handle: missing request body: " + target + " " + baseRequest.getMethod());
+                        MyLog.e( "handle: missing request body: " + target + " " + baseRequest.getMethod());
                         return BRHTTPHelper.handleError(400, null, baseRequest, response);
                     }
 
                     String strVersion = request.getHeader("if-none-match");
                     if (strVersion == null) {
-                        Log.e(TAG, "handle: missing If-None-Match header, set to `0` if creating a new key: " + target + " " + baseRequest.getMethod());
+                        MyLog.e( "handle: missing If-None-Match header, set to `0` if creating a new key: " + target + " " + baseRequest.getMethod());
                         return BRHTTPHelper.handleError(400, null, baseRequest, response);
                     }
                     String ct = request.getHeader("content-type");
                     if (ct == null || !ct.equalsIgnoreCase("application/json")) {
-                        Log.e(TAG, "handle: can only set application/json request bodies: " + target + " " + baseRequest.getMethod());
+                        MyLog.e( "handle: can only set application/json request bodies: " + target + " " + baseRequest.getMethod());
                         return BRHTTPHelper.handleError(400, null, baseRequest, response);
                     }
 
@@ -117,19 +117,19 @@ public class KVStorePlugin implements Plugin {
 
                     CompletionObject setObj = store.set(new KVItem(version, 0, getKey(key), rawData, System.currentTimeMillis(), 0));
                     if (setObj.err != null) {
-                        Log.e(TAG, "handle: error setting the key: " + key + ", err: " + setObj.err);
+                        MyLog.e( "handle: error setting the key: " + key + ", err: " + setObj.err);
                         int errCode = transformErrorToResponseCode(setObj.err);
                         return BRHTTPHelper.handleError(errCode, null, baseRequest, response);
                     }
                     resp = new APIClient.BRResponse(null, 204, null);
                     return BRHTTPHelper.handleSuccess(resp, baseRequest, decorateResponse(setObj.version, setObj.time, response));
                 case "DELETE":
-                    Log.i(TAG, "handle: : " + target + " " + baseRequest.getMethod() + ", key: " + key);
+                    MyLog.i( "handle: : " + target + " " + baseRequest.getMethod() + ", key: " + key);
                     strVersion = request.getHeader("if-none-match");
-                    Log.e(TAG, "handle: missing If-None-Match header: " + target + " " + baseRequest.getMethod());
+                    MyLog.e( "handle: missing If-None-Match header: " + target + " " + baseRequest.getMethod());
 
                     if (strVersion == null) {
-                        Log.e(TAG, "handle: if-none-match is missing, sending 400");
+                        MyLog.e( "handle: if-none-match is missing, sending 400");
                         return BRHTTPHelper.handleError(400, null, baseRequest, response);
                     }
 
@@ -144,10 +144,10 @@ public class KVStorePlugin implements Plugin {
                         int err = 500;
 
                         if (delObj != null) {
-                            Log.e(TAG, "handle: error deleting key: " + key + ", err: " + delObj.err);
+                            MyLog.e( "handle: error deleting key: " + key + ", err: " + delObj.err);
                             err = transformErrorToResponseCode(delObj.err);
                         } else {
-                            Log.e(TAG, "handle: error deleting key: " + key + ", delObj is null");
+                            MyLog.e( "handle: error deleting key: " + key + ", delObj is null");
                         }
                         return BRHTTPHelper.handleError(err, null, baseRequest, response);
                     }
@@ -180,7 +180,7 @@ public class KVStorePlugin implements Plugin {
     }
 
     private String getKey(String key) {
-        if (key == null) Log.e(TAG, "getKey: key is null");
+        if (key == null) MyLog.e( "getKey: key is null");
         return "plat-" + key;
     }
 
@@ -191,7 +191,7 @@ public class KVStorePlugin implements Plugin {
             case conflict:
                 return 409;
             default:
-                Log.e(TAG, "transformErrorToResponseCode: unexpected error: " + err.name());
+                MyLog.e( "transformErrorToResponseCode: unexpected error: " + err.name());
                 return 500;
         }
     }

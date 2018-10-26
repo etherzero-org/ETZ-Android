@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 
 import com.etzwallet.R;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.SlideDetector;
 import com.etzwallet.tools.util.Utils;
@@ -82,7 +82,7 @@ public class FragmentSupport extends Fragment {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                Log.d(TAG, "shouldOverrideUrlLoading: " + request.getUrl() + " | " + request.getMethod());
+                MyLog.d( "shouldOverrideUrlLoading: " + request.getUrl() + " | " + request.getMethod());
                 if (onCloseUrl != null && request.getUrl().toString().equalsIgnoreCase(onCloseUrl)) {
                     getActivity().getFragmentManager().popBackStack();
                     onCloseUrl = null;
@@ -97,7 +97,7 @@ public class FragmentSupport extends Fragment {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                Log.d(TAG, "onPageStarted: " + url);
+                MyLog.d( "onPageStarted: " + url);
                 super.onPageStarted(view, url, favicon);
             }
         });
@@ -120,7 +120,7 @@ public class FragmentSupport extends Fragment {
         if (!Utils.isNullOrEmpty(articleId))
             theUrl = theUrl + "/article?slug=" + articleId + "&currency=" + walletIso.toLowerCase();
 
-        Log.d(TAG, "onCreate: theUrl: " + theUrl + ", articleId: " + articleId);
+        MyLog.d( "onCreate: theUrl: " + theUrl + ", articleId: " + articleId);
         webView.loadUrl(theUrl);
 
         return rootView;
@@ -167,13 +167,13 @@ public class FragmentSupport extends Fragment {
     private class BRWebChromeClient extends WebChromeClient {
         @Override
         public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
-            Log.e(TAG, "onConsoleMessage: consoleMessage: " + consoleMessage.message());
+            MyLog.e( "onConsoleMessage: consoleMessage: " + consoleMessage.message());
             return super.onConsoleMessage(consoleMessage);
         }
 
         @Override
         public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-            Log.e(TAG, "onJsAlert: " + message + ", url: " + url);
+            MyLog.e( "onJsAlert: " + message + ", url: " + url);
             return super.onJsAlert(view, url, message, result);
         }
     }

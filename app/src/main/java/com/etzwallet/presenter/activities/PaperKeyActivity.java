@@ -100,7 +100,6 @@ public class PaperKeyActivity extends BRActivity {
             }
         });
         String cleanPhrase = getIntent().getExtras() == null ? null : getIntent().getStringExtra("phrase");
-//        Log.i(TAG, "onCreate: wordMap==cleanPhrase="+cleanPhrase);
 
 
 

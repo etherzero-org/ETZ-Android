@@ -2,7 +2,6 @@ package com.etzwallet.presenter.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +11,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.transition.AutoTransition;
 import android.support.transition.TransitionManager;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +34,7 @@ import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.BRKeyboard;
 import com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret;
 import com.etzwallet.presenter.customviews.BRText;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
@@ -205,7 +204,7 @@ public class FragmentSend extends Fragment {
 //                if (!BRAnimator.isClickAllowed()) return;
 //                Activity app = getActivity();
 //                if (app == null) {
-//                    Log.e(TAG, "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
+//                    MyLog.e( "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
 //                    return;
 //                }
 //                BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
@@ -384,9 +383,9 @@ public class FragmentSend extends Fragment {
                     return;
                 }
                 if (Utils.isEmulatorOrDebug(getActivity())) {
-                    Log.d(TAG, "Send Address -> " + obj.address);
-                    Log.d(TAG, "Send Value -> " + obj.value);
-                    Log.d(TAG, "Send Amount -> " + obj.amount);
+                    MyLog.d( "Send Address -> " + obj.address);
+                    MyLog.d( "Send Value -> " + obj.value);
+                    MyLog.d( "Send Amount -> " + obj.amount);
                 }
 
                 if (obj.iso != null && !obj.iso.equalsIgnoreCase(wm.getIso())) {
@@ -398,7 +397,7 @@ public class FragmentSend extends Fragment {
                 if (wm.isAddressValid(obj.address)) {
                     final Activity app = getActivity();
                     if (app == null) {
-                        Log.e(TAG, "paste onClick: app is null");
+                        MyLog.e( "paste onClick: app is null");
                         return;
                     }
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
@@ -444,7 +443,7 @@ public class FragmentSend extends Fragment {
                                 app.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Log.e(TAG, "run: " + wm.getIso());
+                                        MyLog.e( "run: " + wm.getIso());
                                         addressEdit.setText(wm.decorateAddress(obj.address));
 
                                     }
@@ -504,15 +503,15 @@ public class FragmentSend extends Fragment {
                 final BaseWalletManager wm = master.getCurrentWallet(getActivity());
 
 //                if(WalletsMaster.getInstance(getActivity()).isIsoErc20(getActivity(), wm.getIso())){
-//                    Log.i(TAG, "onClick: istoken");
+//                    MyLog.i( "onClick: istoken");
 //                }else{
-//                    Log.i(TAG, "onClick: isnotToken");
+//                    MyLog.i( "onClick: isnotToken");
 //                }
                         
                         
                 //get the current wallet used
                 if (wm == null) {
-                    Log.e(TAG, "onClick: Wallet is null and it can't happen.");
+                    MyLog.e( "onClick: Wallet is null and it can't happen.");
                     BRReportsManager.reportBug(new NullPointerException("Wallet is null and it can't happen."), true);
                     return;
                 }
@@ -846,7 +845,7 @@ public class FragmentSend extends Fragment {
 
     private void handleClick(String key) {
         if (key == null) {
-            Log.e(TAG, "handleClick: key is null! ");
+            MyLog.e( "handleClick: key is null! ");
             return;
         }
 
@@ -902,7 +901,7 @@ public class FragmentSend extends Fragment {
             selectedIso = wm.getIso();
         //String iso = selectedIso;
 
-        Log.i(TAG, "updateText: selectedIso==="+selectedIso);
+        MyLog.i( "updateText: selectedIso==="+selectedIso);
 
 
         curBalance = wm.getCachedBalance(app);
@@ -913,9 +912,9 @@ public class FragmentSend extends Fragment {
         //is the chosen ISO a crypto (could be also a fiat currency)
         boolean isIsoCrypto = WalletsMaster.getInstance(app).isIsoCrypto(app, selectedIso);
         //对象的getInstance方法 --对于方法的引用
-        Log.i(TAG, "updateTextBTC=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "BTC"));
-        Log.i(TAG, "updateTextETZ=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "ETZ"));
-        Log.i(TAG, "updateTextETH=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "ETH"));
+        MyLog.i( "updateTextBTC=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "BTC"));
+        MyLog.i( "updateTextETZ=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "ETZ"));
+        MyLog.i( "updateTextETH=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "ETH"));
 
         boolean isWalletErc20 = WalletsMaster.getInstance(app).isIsoErc20(app, wm.getIso());
         BigDecimal inputAmount = new BigDecimal(Utils.isNullOrEmpty(stringAmount) || stringAmount.equalsIgnoreCase(".") ? "0" : stringAmount);
@@ -925,7 +924,7 @@ public class FragmentSend extends Fragment {
 
         //wallet's balance for the selected ISO
         BigDecimal isoBalance = isIsoCrypto ? wm.getCryptoForSmallestCrypto(app, curBalance) : wm.getFiatForSmallestCrypto(app, curBalance, null);
-        Log.i(TAG, "updateText isoBalance=="+isoBalance);
+        MyLog.i( "updateText isoBalance=="+isoBalance);
 
         if (isoBalance == null) isoBalance = BigDecimal.ZERO;
 
@@ -976,12 +975,12 @@ public class FragmentSend extends Fragment {
             @Override
             public void run() {
                 if (obj == null) {
-                    Log.e(TAG, "setCryptoObject: obj is null");
+                    MyLog.e( "setCryptoObject: obj is null");
                     return;
                 }
                 Activity app = getActivity();
                 if (app == null) {
-                    Log.e(TAG, "setCryptoObject: app is null");
+                    MyLog.e( "setCryptoObject: app is null");
                     return;
                 }
                 BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);

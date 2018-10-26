@@ -1,8 +1,8 @@
 package com.etzwallet.tools.security;
 
-import android.util.Log;
 
 import com.etzwallet.core.BRCorePaymentProtocolRequest;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.exceptions.CertificateChainNotFound;
 
 import java.io.IOException;
@@ -64,7 +64,7 @@ public class X509CertificateValidator {
             throw new CertificateChainNotFound("no certificates supplied");
         }
         try {
-//            Log.e(TAG, "The size of certList is: " + certList.size());
+//            MyLog.e( "The size of certList is: " + certList.size());
             TrustManagerFactory tmf = TrustManagerFactory.getInstance("X509");
             tmf.init((KeyStore) null);
             X509Certificate[] certListArray = new X509Certificate[certList.size()];
@@ -74,7 +74,7 @@ public class X509CertificateValidator {
             TrustManager[] tms = tmf.getTrustManagers();
             for (TrustManager m : tms) {
                 X509TrustManager xtm = (X509TrustManager) m;
-//                Log.d(TAG, "checking chain with " + xtm + ", Alg: " + certListArray[0].getSigAlgName());
+//                MyLog.d( "checking chain with " + xtm + ", Alg: " + certListArray[0].getSigAlgName());
                 xtm.checkClientTrusted(certListArray, certListArray[0].getSigAlgName());
             }
             PublicKey publicKey = certListArray[0].getPublicKey();
@@ -83,7 +83,7 @@ public class X509CertificateValidator {
             signature.update(paymentRequest.getSignature());
             signature.initVerify(publicKey);
             result = certList.get(0).getSubjectX500Principal().getName();
-//            Log.e(TAG,"result cn getName(): " + result);
+//            MyLog.e("result cn getName(): " + result);
 
         } catch (CertificateException | InvalidKeyException | SignatureException | NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -102,9 +102,9 @@ public class X509CertificateValidator {
                 X509Certificate cert = (X509Certificate)
                         ks.getCertificate(alias);
                 certificates.add(cert);
-                Log.d(TAG, "Subject DN: " +
+                MyLog.d( "Subject DN: " +
                         cert.getSubjectDN().getName());
-                Log.d(TAG, "Issuer DN: " +
+                MyLog.d( "Issuer DN: " +
                         cert.getIssuerDN().getName());
             }
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
@@ -114,7 +114,7 @@ public class X509CertificateValidator {
     }
 
     public static List<X509Certificate> getCertificateFromBytes(byte[] rawCerts) {
-//        Log.e(TAG, "This is the rawCerts.length supplied for certificates: " + rawCerts.length);
+//        MyLog.e( "This is the rawCerts.length supplied for certificates: " + rawCerts.length);
 //        List<X509Certificate> theList = new ArrayList<>();
 //        byte[] result;
 //        int i = 0;
@@ -122,12 +122,12 @@ public class X509CertificateValidator {
 //            CertificateFactory certFact = CertificateFactory.getInstance("X.509");
 //            while (true) {
 //                result = CryptoUriParser.getCertificatesFromPaymentRequest(rawCerts, i++);
-////                Log.e(TAG, "The result certificate #" + i + " : " + result.length);
+////                MyLog.e( "The result certificate #" + i + " : " + result.length);
 //                if (result.length > 0) {
 //                    X509Certificate certForValidation = (X509Certificate)
 //                            certFact.generateCertificate(new ByteArrayInputStream(result));
 //                    theList.add(certForValidation);
-////                    Log.e(TAG, "THIS IS THE CERTIFICATE NAME: " + certForValidation.getIssuerDN().toString());
+////                    MyLog.e( "THIS IS THE CERTIFICATE NAME: " + certForValidation.getIssuerDN().toString());
 //                } else {
 //                    break;
 //                }

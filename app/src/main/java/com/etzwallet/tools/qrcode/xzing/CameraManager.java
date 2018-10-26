@@ -19,9 +19,9 @@ package com.etzwallet.tools.qrcode.xzing;
 import android.content.Context;
 import android.graphics.Point;
 import android.hardware.Camera;
-import android.util.Log;
 import android.view.SurfaceHolder;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.qrcode.xzing.open.OpenCamera;
 import com.etzwallet.tools.qrcode.xzing.open.OpenCameraInterface;
 import com.google.zxing.PlanarYUVLuminanceSource;
@@ -126,8 +126,8 @@ public final class CameraManager {
       configManager.setDesiredCameraParameters(theCamera, false);
     } catch (RuntimeException re) {
       // Driver failed
-      Log.w(TAG, "Camera rejected parameters. Setting only minimal safe-mode parameters");
-      Log.i(TAG, "Resetting to saved camera params: " + parametersFlattened);
+      MyLog.w( "Camera rejected parameters. Setting only minimal safe-mode parameters");
+      MyLog.i( "Resetting to saved camera params: " + parametersFlattened);
       // Reset:
       if (parametersFlattened != null) {
         parameters = cameraObject.getParameters();
@@ -137,7 +137,7 @@ public final class CameraManager {
           configManager.setDesiredCameraParameters(theCamera, true);
         } catch (RuntimeException re2) {
           // Well, darn. Give up
-          Log.w(TAG, "Camera rejected even safe-mode parameters! No configuration");
+          MyLog.w( "Camera rejected even safe-mode parameters! No configuration");
         }
       }
     }

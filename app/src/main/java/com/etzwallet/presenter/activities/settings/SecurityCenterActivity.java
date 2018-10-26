@@ -123,7 +123,6 @@ public class SecurityCenterActivity extends BRActivity {
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-//            Log.e(TAG, "getView: pos: " + position + ", item: " + items.get(position));
             if (convertView == null) {
                 // inflate the layout
                 LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();

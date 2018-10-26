@@ -2,9 +2,9 @@ package com.platform.middlewares.plugins;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
 import com.etzwallet.tools.animation.BRDialog;
@@ -78,9 +78,9 @@ public class WalletPlugin implements Plugin {
         Activity app = (Activity) BreadApp.getBreadContext();
 
         if (target.startsWith("/_wallet/info") && request.getMethod().equalsIgnoreCase("get")) {
-            Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+            MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
             if (app == null) {
-                Log.e(TAG, "handle: context is null: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: context is null: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(500, "context is null", baseRequest, response);
             }
             WalletsMaster wm = WalletsMaster.getInstance(app);
@@ -117,15 +117,15 @@ public class WalletPlugin implements Plugin {
                 return BRHTTPHelper.handleSuccess(resp, baseRequest, response);
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e(TAG, "handle: json error: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: json error: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(500, "json error", baseRequest, response);
             }
         } else if (target.startsWith("/_wallet/_event") && request.getMethod().equalsIgnoreCase("get")) {
-            Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+            MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
             byte[] rawData = BRHTTPHelper.getBody(request);
             String name = target.replace("/_event/", "");
 
-            Log.e(TAG, "handle: body: " + new String(rawData != null ? rawData : "null".getBytes()));
+            MyLog.e( "handle: body: " + new String(rawData != null ? rawData : "null".getBytes()));
             JSONObject json = null;
             if (rawData != null) {
                 try {
@@ -142,7 +142,7 @@ public class WalletPlugin implements Plugin {
                         attr.put(key, json.getString(key));
                     } catch (JSONException e) {
                         e.printStackTrace();
-                        Log.e(TAG, String.format("Failed to get the key: %s, from json: %s", key, json.toString()));
+                        MyLog.e( String.format("Failed to get the key: %s, from json: %s", key, json.toString()));
                     }
                 }
                 BREventManager.getInstance().pushEvent(name, attr);
@@ -153,7 +153,7 @@ public class WalletPlugin implements Plugin {
             return BRHTTPHelper.handleSuccess(resp, baseRequest, response);
 
         } else if (target.startsWith("/_wallet/sign_bitid") && request.getMethod().equalsIgnoreCase("post")) {
-            Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+            MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
             /**
              * POST /_wallet/sign_bitid
 
@@ -173,12 +173,12 @@ public class WalletPlugin implements Plugin {
              }
              */
             if (app == null) {
-                Log.e(TAG, "handle: context is null: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: context is null: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(500, "context is null", baseRequest, response);
             }
             String contentType = request.getHeader("content-type");
             if (contentType == null || !contentType.equalsIgnoreCase("application/json")) {
-                Log.e(TAG, "handle: content type is not application/json: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: content type is not application/json: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(400, null, baseRequest, response);
             }
             String reqBody = null;
@@ -188,7 +188,7 @@ public class WalletPlugin implements Plugin {
                 e.printStackTrace();
             }
             if (Utils.isNullOrEmpty(reqBody)) {
-                Log.e(TAG, "handle: reqBody is empty: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: reqBody is empty: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(400, null, baseRequest, response);
             }
 
@@ -200,7 +200,7 @@ public class WalletPlugin implements Plugin {
                 BRBitId.signBitID(app, null, obj);
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e(TAG, "handle: Failed to parse Json request body: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: Failed to parse Json request body: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(400, "failed to parse json", baseRequest, response);
             }
 
@@ -224,7 +224,7 @@ public class WalletPlugin implements Plugin {
                     e.printStackTrace();
                 }
                 if (Utils.isNullOrEmpty(reqBody)) {
-                    Log.e(TAG, "handle: reqBody is empty: " + target + " " + baseRequest.getMethod());
+                    MyLog.e( "handle: reqBody is empty: " + target + " " + baseRequest.getMethod());
                     return BRHTTPHelper.handleError(400, null, baseRequest, response);
                 }
                 JSONObject obj = new JSONObject(reqBody);
@@ -275,7 +275,7 @@ public class WalletPlugin implements Plugin {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-                Log.e(TAG, "handle: Failed to parse Json request body: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: Failed to parse Json request body: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(400, "failed to parse json", baseRequest, response);
             }
         } else if (target.startsWith("/_wallet/currencies")) {
@@ -294,7 +294,7 @@ public class WalletPlugin implements Plugin {
                 e.printStackTrace();
             }
             if (Utils.isNullOrEmpty(reqBody)) {
-                Log.e(TAG, "handle: reqBody is empty: " + target + " " + baseRequest.getMethod());
+                MyLog.e( "handle: reqBody is empty: " + target + " " + baseRequest.getMethod());
                 return BRHTTPHelper.handleError(400, null, baseRequest, response);
             }
 
@@ -333,7 +333,7 @@ public class WalletPlugin implements Plugin {
             return BRHTTPHelper.handleSuccess(resp, baseRequest, response);
         }
 
-        Log.e(TAG, "handle: WALLET PLUGIN DID NOT HANDLE: " + target + " " + baseRequest.getMethod());
+        MyLog.e( "handle: WALLET PLUGIN DID NOT HANDLE: " + target + " " + baseRequest.getMethod());
         return true;
     }
 
@@ -358,7 +358,7 @@ public class WalletPlugin implements Plugin {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "sendTx: " + String.format("address (%s), description (%s), currency (%s), numerator (%s), denominator(%s), txCurrency(%s)",
+        MyLog.e( "sendTx: " + String.format("address (%s), description (%s), currency (%s), numerator (%s), denominator(%s), txCurrency(%s)",
                 toAddress, toDescription, currency, numerator, denominator, txCurrency));
 
         if (Utils.isNullOrEmpty(toAddress) || Utils.isNullOrEmpty(toDescription) || Utils.isNullOrEmpty(currency)
@@ -462,13 +462,13 @@ public class WalletPlugin implements Plugin {
                         try {
                             ((HttpServletResponse) continuation.getServletResponse()).sendError(500);
                         } catch (IOException e) {
-                            Log.e(TAG, "finalizeTx: failed to send error 500: ", e);
+                            MyLog.e( "finalizeTx: failed to send error 500:IOException: "+ e);
                             e.printStackTrace();
                         }
                         return;
                     }
                     if (continuation == null) {
-                        Log.e(TAG, "finalizeTx: WARNING continuation is null");
+                        MyLog.e( "finalizeTx: WARNING continuation is null");
                         return;
                     }
 
@@ -484,10 +484,10 @@ public class WalletPlugin implements Plugin {
                         continuation.getServletResponse().setContentType("application/json");
                         continuation.getServletResponse().setCharacterEncoding("UTF-8");
                         continuation.getServletResponse().getWriter().print(result.toString());
-                        Log.d(TAG, "finalizeTx: finished with writing to the response: " + result);
+                        MyLog.d( "finalizeTx: finished with writing to the response: " + result);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.e(TAG, "sendBitIdResponse Failed to send json: ", e);
+                        MyLog.e( "sendBitIdResponse Failed to send json: Exception:"+ e);
                     }
                     ((HttpServletResponse) continuation.getServletResponse()).setStatus(200);
                 } finally {
@@ -507,23 +507,23 @@ public class WalletPlugin implements Plugin {
                         try {
                             ((HttpServletResponse) continuation.getServletResponse()).sendError(401);
                         } catch (IOException e) {
-                            Log.e(TAG, "sendBitIdResponse: failed to send error 401: ", e);
+                            MyLog.e( "sendBitIdResponse: failed to send error 401: IOException:"+ e);
                             e.printStackTrace();
                         }
                         return;
                     }
                     if (restJson == null || restJson.isNull("signature")) {
-                        Log.e(TAG, "sendBitIdResponse: WARNING restJson is null: " + restJson);
+                        MyLog.e( "sendBitIdResponse: WARNING restJson is null: " + restJson);
                         try {
                             ((HttpServletResponse) continuation.getServletResponse()).sendError(500, "json malformed or null");
                         } catch (IOException e) {
-                            Log.e(TAG, "sendBitIdResponse: failed to send error 401: ", e);
+                            MyLog.e( "sendBitIdResponse: failed to send error 401:IOException: "+ e);
                             e.printStackTrace();
                         }
                         return;
                     }
                     if (continuation == null) {
-                        Log.e(TAG, "sendBitIdResponse: WARNING continuation is null");
+                        MyLog.e( "sendBitIdResponse: WARNING continuation is null");
                         return;
                     }
 
@@ -531,10 +531,10 @@ public class WalletPlugin implements Plugin {
                         continuation.getServletResponse().setContentType("application/json");
                         continuation.getServletResponse().setCharacterEncoding("UTF-8");
                         continuation.getServletResponse().getWriter().print(restJson);
-                        Log.d(TAG, "sendBitIdResponse: finished with writing to the response: " + restJson);
+                        MyLog.d( "sendBitIdResponse: finished with writing to the response: " + restJson);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Log.e(TAG, "sendBitIdResponse Failed to send json: ", e);
+                        MyLog.e( "sendBitIdResponse Failed to send json:Exception: "+ e);
                     }
                     ((HttpServletResponse) continuation.getServletResponse()).setStatus(200);
                 } finally {

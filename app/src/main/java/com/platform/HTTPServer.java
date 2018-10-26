@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.Utils;
 import com.platform.interfaces.Middleware;
@@ -112,7 +112,7 @@ public class HTTPServer {
     }
 
     public synchronized static void startServer() {
-        Log.d(TAG, "startServer");
+        MyLog.d( "startServer");
         try {
             if (server != null && server.isStarted()) {
                 return;
@@ -126,7 +126,7 @@ public class HTTPServer {
     }
 
     public static void stopServer() {
-        Log.d(TAG, "stopServer");
+        MyLog.d( "stopServer");
         try {
             if (server != null) {
 
@@ -148,13 +148,13 @@ public class HTTPServer {
             boolean success;
             success = dispatch(target, baseRequest, request, response);
             if (!success) {
-                Log.e(TAG, "handle: NO MIDDLEWARE HANDLED THE REQUEST: " + target);
+                MyLog.e( "handle: NO MIDDLEWARE HANDLED THE REQUEST: " + target);
             }
         }
     }
 
     private static boolean dispatch(String target, Request baseRequest, HttpServletRequest request, HttpServletResponse response) {
-        Log.d(TAG, "TRYING TO HANDLE: " + target + " (" + request.getMethod() + ")");
+        MyLog.d( "TRYING TO HANDLE: " + target + " (" + request.getMethod() + ")");
         final Context app = BreadApp.getBreadContext();
         boolean result = false;
         if (target.equalsIgnoreCase("/_close")) {
@@ -170,9 +170,9 @@ public class HTTPServer {
             }
             return true;
         } else if (target.toLowerCase().startsWith("/_email")) {
-            Log.e(TAG, "dispatch: uri: " + baseRequest.getUri().toString());
+            MyLog.e( "dispatch: uri: " + baseRequest.getUri().toString());
             String address = Uri.parse(baseRequest.getUri().toString()).getQueryParameter("address");
-            Log.e(TAG, "dispatch: address: " + address);
+            MyLog.e( "dispatch: address: " + address);
             if (Utils.isNullOrEmpty(address)) {
                 return BRHTTPHelper.handleError(400, "no address", baseRequest, response);
             }
@@ -196,7 +196,7 @@ public class HTTPServer {
             if (result) {
                 String className = m.getClass().getName().substring(m.getClass().getName().lastIndexOf(".") + 1);
                 if (!className.contains("HTTPRouter"))
-                    Log.d(TAG, "dispatch: " + className + " succeeded:" + request.getRequestURL());
+                    MyLog.d( "dispatch: " + className + " succeeded:" + request.getRequestURL());
                 break;
             }
         }

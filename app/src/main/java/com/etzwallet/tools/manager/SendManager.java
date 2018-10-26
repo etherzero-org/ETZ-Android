@@ -3,10 +3,10 @@ package com.etzwallet.tools.manager;
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.WorkerThread;
-import android.util.Log;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
@@ -67,7 +67,7 @@ public class SendManager {
     public static boolean sendTransaction(final Context app, final CryptoRequest payment, final BaseWalletManager walletManager, final SendCompletion completion) {
         try {
             if (sending) {
-                Log.e(TAG, "sendTransaction: already sending..");
+                MyLog.e( "sendTransaction: already sending..");
                 return false;
             }
             sending = true;
@@ -91,7 +91,7 @@ public class SendManager {
                     //if the fee is STILL out of date then fail with network problem message
                     long time = BRSharedPrefs.getFeeTime(app, walletManager.getIso());
                     if (time <= 0 || now - time >= FEE_EXPIRATION_MILLIS) {
-                        Log.e(TAG, "sendTransaction: fee out of date even after fetching...");
+                        MyLog.e( "sendTransaction: fee out of date even after fetching...");
                         throw new FeeOutOfDate(BRSharedPrefs.getFeeTime(app, walletManager.getIso()), now);
                     }
                 }
@@ -155,13 +155,13 @@ public class SendManager {
             throws InsufficientFundsException,
             AmountSmallerThanMinException, SpendingNotAllowed, FeeNeedsAdjust, SomethingWentWrong {
         if (paymentRequest == null) {
-            Log.e(TAG, "tryPay: ERROR: paymentRequest: null");
+            MyLog.e( "tryPay: ERROR: paymentRequest: null");
             String message = "paymentRequest is null";
             BRReportsManager.reportBug(new RuntimeException("paymentRequest is malformed: " + message), true);
             throw new SomethingWentWrong("wrong parameters: paymentRequest");
         }
 
-        Log.i(TAG, "tryPay: dataValue==="+paymentRequest.data);
+        MyLog.i( "tryPay: dataValue==="+paymentRequest.data);
 
         BigDecimal balance = walletManager.getCachedBalance(app);
         BigDecimal minOutputAmount = walletManager.getMinOutputAmount(app);
@@ -252,7 +252,7 @@ public class SendManager {
     //点击 转账 （还未输入密码）
     private static void confirmPay(final Context ctx, final CryptoRequest request, final BaseWalletManager wm, final SendCompletion completion) {
         if (ctx == null) {
-            Log.e(TAG, "confirmPay: context is null");
+            MyLog.e( "confirmPay: context is null");
             return;
         }
 
@@ -285,10 +285,10 @@ public class SendManager {
         boolean forcePin = false;
 
         if (Utils.isEmulatorOrDebug(ctx)) {
-            Log.e(TAG, "confirmPay: totalSent: " + wm.getTotalSent(ctx));
-            Log.e(TAG, "confirmPay: request.amount: " + request.amount);
-            Log.e(TAG, "confirmPay: total limit: " + BRKeyStore.getTotalLimit(ctx, wm.getIso()));
-            Log.e(TAG, "confirmPay: limit: " + BRKeyStore.getSpendLimit(ctx, wm.getIso()));
+            MyLog.e( "confirmPay: totalSent: " + wm.getTotalSent(ctx));
+            MyLog.e( "confirmPay: request.amount: " + request.amount);
+            MyLog.e( "confirmPay: total limit: " + BRKeyStore.getTotalLimit(ctx, wm.getIso()));
+            MyLog.e( "confirmPay: limit: " + BRKeyStore.getSpendLimit(ctx, wm.getIso()));
         }
 
         if (wm.getTotalSent(ctx).add(request.amount).compareTo(BRKeyStore.getTotalLimit(ctx, wm.getIso())) > 0) {
@@ -378,10 +378,10 @@ public class SendManager {
         String formattedAmount = CurrencyUtils.getFormattedAmount(ctx, iso, wm.getFiatForSmallestCrypto(ctx, amount, null));
         String formattedFee = CurrencyUtils.getFormattedAmount(ctx, iso, wm.getFiatForSmallestCrypto(ctx, feeForTx, null));
         String formattedTotal = CurrencyUtils.getFormattedAmount(ctx, iso, wm.getFiatForSmallestCrypto(ctx, amount, null));//total
-//        Log.i(TAG, "createConfirmation: formattedFee==="+formattedFee);
-//        Log.i(TAG, "createConfirmation: iso==="+iso);
-//        Log.i(TAG, "createConfirmation: feeForTx==="+feeForTx);
-//        Log.i(TAG, "createConfirmation: iso222==="+wm.getFiatForSmallestCrypto(ctx, feeForTx, null));
+//        MyLog.i( "createConfirmation: formattedFee==="+formattedFee);
+//        MyLog.i( "createConfirmation: iso==="+iso);
+//        MyLog.i( "createConfirmation: feeForTx==="+feeForTx);
+//        MyLog.i( "createConfirmation: iso222==="+wm.getFiatForSmallestCrypto(ctx, feeForTx, null));
         boolean isErc20 = WalletsMaster.getInstance(ctx).isIsoErc20(ctx, wm.getIso());
 
         if (isErc20) {

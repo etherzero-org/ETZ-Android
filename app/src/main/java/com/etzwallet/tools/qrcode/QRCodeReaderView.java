@@ -22,12 +22,12 @@ import android.graphics.PointF;
 import android.hardware.Camera;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.qrcode.xzing.CameraManager;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -212,13 +212,13 @@ public class QRCodeReaderView extends SurfaceView
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        Log.d(TAG, "surfaceCreated");
+        MyLog.d( "surfaceCreated");
 
         try {
             // Indicate camera, our View dimensions
             mCameraManager.openDriver(holder, this.getWidth(), this.getHeight());
         } catch (IOException | RuntimeException e) {
-            Log.w(TAG, "Can not openDriver: " + e.getMessage());
+            MyLog.w( "Can not openDriver: " + e.getMessage());
             mCameraManager.closeDriver();
         }
 
@@ -226,22 +226,22 @@ public class QRCodeReaderView extends SurfaceView
             mQRCodeReader = new QRCodeReader();
             mCameraManager.startPreview();
         } catch (Exception e) {
-            Log.e(TAG, "Exception: " + e.getMessage());
+            MyLog.e( "Exception: " + e.getMessage());
             mCameraManager.closeDriver();
         }
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        Log.d(TAG, "surfaceChanged");
+        MyLog.d( "surfaceChanged");
 
         if (holder.getSurface() == null) {
-            Log.e(TAG, "Error: preview surface does not exist");
+            MyLog.e( "Error: preview surface does not exist");
             return;
         }
 
         if (mCameraManager.getPreviewSize() == null) {
-            Log.e(TAG, "Error: preview size does not exist");
+            MyLog.e( "Error: preview size does not exist");
             return;
         }
 
@@ -259,7 +259,7 @@ public class QRCodeReaderView extends SurfaceView
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
-        Log.d(TAG, "surfaceDestroyed");
+        MyLog.d( "surfaceDestroyed");
 
         mCameraManager.setPreviewCallback(null);
         mCameraManager.stopPreview();
@@ -367,11 +367,11 @@ public class QRCodeReaderView extends SurfaceView
             try {
                 return view.mQRCodeReader.decode(bitmap, hintsRef.get());
             } catch (ChecksumException e) {
-                Log.d(TAG, "ChecksumException", e);
+                MyLog.d( "ChecksumException:"+ e);
             } catch (NotFoundException e) {
-                Log.d(TAG, "No QR Code found");
+                MyLog.d( "No QR Code found");
             } catch (FormatException e) {
-                Log.d(TAG, "FormatException", e);
+                MyLog.d( "FormatException:"+ e);
             } finally {
                 view.mQRCodeReader.reset();
             }

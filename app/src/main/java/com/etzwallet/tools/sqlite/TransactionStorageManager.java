@@ -2,8 +2,7 @@ package com.etzwallet.tools.sqlite;
 
 
 import android.content.Context;
-import android.util.Log;
-
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.BRTransactionEntity;
 
 import java.util.List;
@@ -21,7 +20,7 @@ public class TransactionStorageManager {
 
     public static boolean putTransaction(Context app, String iso, BRTransactionEntity tx) {
         if (iso == null || tx == null || app == null) {
-            Log.e(TAG, "putTransaction: failed: " + app + "|" + iso + "|" + tx);
+            MyLog.e( "putTransaction: failed: " + app + "|" + iso + "|" + tx);
             return false;
 
         }
@@ -38,7 +37,7 @@ public class TransactionStorageManager {
 
     public static List<BRTransactionEntity> getTransactions(Context app, String iso) {
         if (iso == null || app == null) {
-            Log.e(TAG, "putTransaction: failed: " + app + "|" + iso);
+            MyLog.e( "putTransaction: failed: " + app + "|" + iso);
             return null;
 
         }
@@ -54,7 +53,7 @@ public class TransactionStorageManager {
 
     public static boolean updateTransaction(Context app, String iso, BRTransactionEntity tx) {
         if (iso == null || app == null) {
-            Log.e(TAG, "putTransaction: failed: " + app + "|" + iso);
+            MyLog.e( "putTransaction: failed: " + app + "|" + iso);
             return false;
 
         }
@@ -71,7 +70,7 @@ public class TransactionStorageManager {
 
     public static boolean removeTransaction(Context app, String iso, String hash) {
         if (iso == null || app == null) {
-            Log.e(TAG, "putTransaction: failed: " + app + "|" + iso);
+            MyLog.e( "putTransaction: failed: " + app + "|" + iso);
             return false;
 
         }

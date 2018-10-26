@@ -2,7 +2,6 @@ package com.etzwallet.presenter.activities;
 
 import android.os.Handler;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRKeyboard;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.interfaces.BROnSignalCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.SpringAnimator;
@@ -101,7 +101,7 @@ public class ReEnterPinActivity extends BRActivity {
     private void handleClick(String key) {
         if (!isPressAllowed) return;
         if (key == null) {
-            Log.e(TAG, "handleClick: key is null! ");
+            MyLog.e( "handleClick: key is null! ");
             return;
         }
 
@@ -110,7 +110,7 @@ public class ReEnterPinActivity extends BRActivity {
         } else if (Character.isDigit(key.charAt(0))) {
             handleDigitClick(Integer.parseInt(key.substring(0, 1)));
         } else {
-            Log.e(TAG, "handleClick: oops: " + key);
+            MyLog.e( "handleClick: oops: " + key);
         }
     }
 
@@ -157,7 +157,7 @@ public class ReEnterPinActivity extends BRActivity {
     private void verifyPin() {
         if (firstPIN.equalsIgnoreCase(pin.toString())) {
             AuthManager.getInstance().authSuccess(this);
-//            Log.e(TAG, "verifyPin: SUCCESS");
+//            MyLog.e( "verifyPin: SUCCESS");
             isPressAllowed = false;
 //            new Handler().postDelayed(new Runnable() {
 //                @Override
@@ -167,7 +167,7 @@ public class ReEnterPinActivity extends BRActivity {
 //                }
 //            }, 200);
             AuthManager.getInstance().setPinCode(pin.toString(), this);
-            Log.i("---------------", "noPin="+getIntent().getBooleanExtra("noPin", false));
+            MyLog.i("noPin="+getIntent().getBooleanExtra("noPin", false));
             if (getIntent().getBooleanExtra("noPin", false)) {
 
                 BRAnimator.startBreadActivity(this, false);
@@ -184,7 +184,7 @@ public class ReEnterPinActivity extends BRActivity {
 
         } else {
             AuthManager.getInstance().authFail(this);
-            Log.e(TAG, "verifyPin: FAIL: firs: " + firstPIN + ", reEnter: " + pin.toString());
+            MyLog.e( "verifyPin: FAIL: firs: " + firstPIN + ", reEnter: " + pin.toString());
             SpringAnimator.failShakeAnimation(this, pinLayout);
             new Handler().postDelayed(new Runnable() {
                 @Override

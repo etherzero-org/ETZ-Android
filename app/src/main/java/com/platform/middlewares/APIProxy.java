@@ -1,9 +1,9 @@
 package com.platform.middlewares;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.Utils;
 import com.platform.APIClient;
 import com.platform.interfaces.Middleware;
@@ -70,7 +70,7 @@ public class APIProxy implements Middleware {
     public APIProxy() {
         Context app = BreadApp.getBreadContext();
         if (app == null) {
-            Log.e(TAG, "APIProxy: app is null!");
+            MyLog.e( "APIProxy: app is null!");
         }
         apiInstance = APIClient.getInstance(app);
     }
@@ -78,7 +78,7 @@ public class APIProxy implements Middleware {
     @Override
     public boolean handle(String target, org.eclipse.jetty.server.Request baseRequest, HttpServletRequest request, HttpServletResponse response) {
         if (!target.startsWith(MOUNT_POINT)) return false;
-        Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+        MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
         String path = target.substring(MOUNT_POINT.length());
         String queryString = baseRequest.getQueryString();
         if (queryString != null && queryString.length() > 0)
@@ -147,7 +147,7 @@ public class APIProxy implements Middleware {
                 builder.put(reqBody);
                 break;
             default:
-                Log.e(TAG, "jettyToOkHttpRequest: WARNING: method: " + baseRequest.getMethod());
+                MyLog.e( "jettyToOkHttpRequest: WARNING: method: " + baseRequest.getMethod());
                 break;
         }
 

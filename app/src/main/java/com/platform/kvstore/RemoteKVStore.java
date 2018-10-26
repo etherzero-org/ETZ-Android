@@ -1,7 +1,7 @@
 package com.platform.kvstore;
 
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.Utils;
 import com.platform.APIClient;
 import com.platform.interfaces.KVStoreAdaptor;
@@ -72,11 +72,11 @@ public class RemoteKVStore implements KVStoreAdaptor {
 
         APIClient.BRResponse res = apiClient.sendRequest(request, true);
         if (Utils.isNullOrEmpty(res.getBodyText())) {
-            Log.d(TAG, "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
+            MyLog.d( "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
             return new CompletionObject(0, 0, unknown);
         }
         if (!res.isSuccessful()) {
-            Log.e(TAG, "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
+            MyLog.e( "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
             return new CompletionObject(0, 0, unknown);
         }
         v = extractVersion(res);
@@ -100,12 +100,12 @@ public class RemoteKVStore implements KVStoreAdaptor {
         long t;
         APIClient.BRResponse res = apiClient.sendRequest(request, true);
         if (Utils.isNullOrEmpty(res.getBody())) {
-            Log.d(TAG, "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
+            MyLog.d( "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
             return new CompletionObject(0, 0, unknown);
         }
 
         if (!res.isSuccessful()) {
-            Log.e(TAG, "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
+            MyLog.e( "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
             return new CompletionObject(0, 0, unknown);
         }
 
@@ -126,12 +126,12 @@ public class RemoteKVStore implements KVStoreAdaptor {
         long t;
         APIClient.BRResponse res = apiClient.sendRequest(request, true);
         if (res == null) {
-            Log.d(TAG, "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
+            MyLog.d( "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
             return new CompletionObject(0, 0, unknown);
         }
 
         if (!res.isSuccessful()) {
-            Log.e(TAG, "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
+            MyLog.e( "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
             return new CompletionObject(0, 0, unknown);
         }
 
@@ -155,12 +155,12 @@ public class RemoteKVStore implements KVStoreAdaptor {
         try {
             res = apiClient.sendRequest(request, true);
             if (res == null) {
-                Log.d(TAG, "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
+                MyLog.d( "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
                 return new CompletionObject(0, 0, unknown);
             }
 
             if (!res.isSuccessful()) {
-                Log.e(TAG, "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
+                MyLog.e( "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
                 return new CompletionObject(0, 0, unknown);
             }
             v = extractVersion(res);
@@ -183,11 +183,11 @@ public class RemoteKVStore implements KVStoreAdaptor {
         List<KVItem> keys = new ArrayList<>();
         APIClient.BRResponse res = apiClient.sendRequest(request, true);
         if (res == null) {
-            Log.d(TAG, "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
+            MyLog.d( "ver: [KV] PUT key=" + key + ", err= response is null (maybe auth challenge)");
             return new CompletionObject(0, 0, unknown);
         }
         if (!res.isSuccessful()) {
-            Log.e(TAG, "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
+            MyLog.e( "ver: [KV] PUT key=" + key + ", err=" + (res.getCode()));
             return new CompletionObject(0, 0, unknown);
         }
 

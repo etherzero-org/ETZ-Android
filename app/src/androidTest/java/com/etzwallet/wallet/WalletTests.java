@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.core.BRCoreMasterPubKey;
 import com.etzwallet.presenter.activities.settings.TestActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CurrencyEntity;
 import com.etzwallet.presenter.entities.CryptoRequest;
 import com.etzwallet.tools.manager.BRSharedPrefs;
@@ -82,7 +82,7 @@ public class WalletTests {
 
     @Before
     public void setUp() {
-        Log.e(TAG, "setUp: ");
+        MyLog.e( "setUp: ");
         BRCoreMasterPubKey pubKey = new BRCoreMasterPubKey("cat circle quick rotate arena primary walnut mask record smile violin state".getBytes(), true);
         BRKeyStore.putMasterPublicKey(pubKey.serialize(), mActivityRule.getActivity());
         mBtcWallet = WalletBitcoinManager.getInstance(mActivityRule.getActivity());
@@ -341,7 +341,7 @@ public class WalletTests {
                             "&topic1=" + contract +
                             "&topic1_2_opr=or" +
                             "&topic2=" + contract;
-                    Log.d(TAG, "run: " + eth_rpc_url);
+                    MyLog.d( "run: " + eth_rpc_url);
                     final JSONObject payload = new JSONObject();
                     try {
                         payload.put("id", String.valueOf(""));
@@ -354,7 +354,7 @@ public class WalletTests {
 //                        @Override
 //                        public void onRpcRequestCompleted(String jsonResult) {
 //
-//                            Log.e(TAG, "onRpcRequestCompleted: " + jsonResult);
+//                            MyLog.e("onRpcRequestCompleted: " + jsonResult);
 //
 //                        }
 //                    });
@@ -368,7 +368,7 @@ public class WalletTests {
                 e.printStackTrace();
             }
         }
-        Log.e(TAG, "httpTests: DONE, with count: " + count.get());
+        MyLog.e( "httpTests: DONE, with count: " + count.get());
     }
 
 }

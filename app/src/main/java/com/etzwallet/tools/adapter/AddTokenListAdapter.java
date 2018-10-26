@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.ImageView;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRText;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
 
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
             holder.logo.setBackground(mContext.getDrawable(iconResourceId));
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "Error finding icon for -> " + iconResourceName);
+            MyLog.d("Error finding icon for -> " + iconResourceName);
         }
 
         holder.addRemoveButton.setText(mContext.getString(item.isAdded ? R.string.TokenList_remove : R.string.TokenList_add));

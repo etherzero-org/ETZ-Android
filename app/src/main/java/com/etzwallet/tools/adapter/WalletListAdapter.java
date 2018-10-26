@@ -10,7 +10,6 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRText;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.services.SyncService;
 import com.etzwallet.tools.threads.executor.BRExecutor;
@@ -91,7 +91,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
     @Override
     public void onBindViewHolder(final WalletItemViewHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder");
+        MyLog.d( "onBindViewHolder");
 
         if (getItemViewType(position) == VIEW_TYPE_WALLET) {
 
@@ -185,18 +185,18 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
     private boolean updateUi(WalletItem currentWallet, double syncProgress) {
         if (mCurrentWalletSyncing == null || mCurrentWalletSyncing.walletManager == null) {
-            Log.e(TAG, "run: should not happen but ok, ignore it.");
+            MyLog.e( "run: should not happen but ok, ignore it.");
             return false;
         }
         if (syncProgress > SyncService.PROGRESS_START && syncProgress < SyncService.PROGRESS_FINISH) {
-//            Log.d(TAG, "ISO: " + currentWallet.walletManager.getIso(mContext) + " (" + progress + "%)");
+//            MyLog.d( "ISO: " + currentWallet.walletManager.getIso(mContext) + " (" + progress + "%)");
             StringBuffer labelText = new StringBuffer(mContext.getString(R.string.SyncingView_syncing));
             labelText.append(' ')
                     .append(NumberFormat.getPercentInstance().format(syncProgress));
 
             mCurrentWalletSyncing.updateData(true, labelText.toString());
         } else if (syncProgress == SyncService.PROGRESS_FINISH) {
-//            Log.d(TAG, "ISO: " + currentWallet.walletManager.getIso(mContext) + " (100%)");
+//            MyLog.d( "ISO: " + currentWallet.walletManager.getIso(mContext) + " (100%)");
 
             //Done should not be seen but if it is because of a bug or something, then let if be a decent explanation
             mCurrentWalletSyncing.updateData(false);
@@ -303,7 +303,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
                 double progress = intent.getDoubleExtra(SyncService.EXTRA_PROGRESS, SyncService.PROGRESS_NOT_DEFINED);
 
                 if (mCurrentWalletSyncing == null) {
-                    Log.e(TAG, "SyncNotificationBroadcastReceiver.onReceive: mCurrentWalletSyncing is null. Wallet:" + intentWalletIso + " Progress:" + progress + " Ignored");
+                    MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: mCurrentWalletSyncing is null. Wallet:" + intentWalletIso + " Progress:" + progress + " Ignored");
                     return;
                 }
 
@@ -312,10 +312,10 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
                     if (progress >= SyncService.PROGRESS_START) {
                         updateUi(mCurrentWalletSyncing, progress);
                     } else {
-                        Log.e(TAG, "SyncNotificationBroadcastReceiver.onReceive: Progress not set:" + progress);
+                        MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: Progress not set:" + progress);
                     }
                 } else {
-                    Log.e(TAG, "SyncNotificationBroadcastReceiver.onReceive: Wrong wallet. Expected:" + currentWalletISO + " Actual:" + intentWalletIso + " Progress:" + progress);
+                    MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: Wrong wallet. Expected:" + currentWalletISO + " Actual:" + intentWalletIso + " Progress:" + progress);
                 }
             }
         }

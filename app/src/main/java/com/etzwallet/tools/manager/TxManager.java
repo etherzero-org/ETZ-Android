@@ -7,11 +7,11 @@ import android.support.annotation.WorkerThread;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.WalletActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TxUiHolder;
 import com.etzwallet.tools.adapter.TransactionListAdapter;
 import com.etzwallet.tools.animation.BRAnimator;
@@ -100,7 +100,7 @@ public class TxManager {
         long start = System.currentTimeMillis();
         BaseWalletManager wallet = WalletsMaster.getInstance(app).getCurrentWallet(app);
         if (wallet == null) {
-            Log.e(TAG, "updateTxList: wallet is null");
+            MyLog.e( "updateTxList: wallet is null");
             return;
         }
         if (TxManager.getInstance().adapter != null)
@@ -109,7 +109,7 @@ public class TxManager {
 
         long took = (System.currentTimeMillis() - start);
         if (took > 500)
-            Log.e(TAG, "updateTxList: took: " + took);
+            MyLog.e( "updateTxList: took: " + took);
         if (adapter != null) {
             BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                 @Override

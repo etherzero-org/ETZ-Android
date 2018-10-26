@@ -2,7 +2,6 @@ package com.etzwallet.tools.threads;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
@@ -12,6 +11,7 @@ import com.etzwallet.core.BRCoreTransaction;
 import com.etzwallet.core.BRCoreTransactionOutput;
 import com.etzwallet.core.BRCoreWallet;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.exceptions.CertificateChainNotFound;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
 import com.etzwallet.tools.animation.BRDialog;
@@ -78,7 +78,7 @@ public class PaymentProtocolTask extends AsyncTask<String, String, String> {
         app = (Activity) BreadApp.getBreadContext();
         InputStream in;
         try {
-            Log.e(TAG, "the uri: " + params[0]);
+            MyLog.e( "the uri: " + params[0]);
             URL url = new URL(params[0]);
             BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
             if (!wm.getIso().equalsIgnoreCase("BTC") && !wm.getIso().equalsIgnoreCase("BCH")) {
@@ -92,12 +92,12 @@ public class PaymentProtocolTask extends AsyncTask<String, String, String> {
             in = urlConnection.getInputStream();
 
             if (in == null) {
-                Log.e(TAG, "The inputStream is null!");
+                MyLog.e( "The inputStream is null!");
                 return null;
             }
             byte[] serializedBytes = BytesUtil.readBytesFromStream(in);
             if (Utils.isNullOrEmpty(serializedBytes)) {
-                Log.e(TAG, "serializedBytes are null!");
+                MyLog.e( "serializedBytes are null!");
                 return null;
             }
 
@@ -137,7 +137,7 @@ public class PaymentProtocolTask extends AsyncTask<String, String, String> {
                     "amount", String.valueOf(totalAmount));
             //end logging
             if (paymentProtocolRequest.getExpires() != 0 && paymentProtocolRequest.getTime() > paymentProtocolRequest.getExpires()) {
-                Log.e(TAG, "Request is expired");
+                MyLog.e( "Request is expired");
                 if (app != null)
                     BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.PaymentProtocol_Errors_requestExpired), app.getString(R.string.Button_ok), null, new BRDialogView.BROnClickListener() {
                         @Override
@@ -153,7 +153,7 @@ public class PaymentProtocolTask extends AsyncTask<String, String, String> {
 //            certName = X509CertificateValidator.certificateValidation(certList, paymentProtocolRequest);
 
         } catch (Exception e) {
-            Log.e(TAG, "doInBackground: ", e);
+            MyLog.e( "Exception: "+ e);
             if (e instanceof java.net.UnknownHostException) {
                 if (app != null)
                     BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.PaymentProtocol_Errors_corruptedDocument), app.getString(R.string.Button_ok), null, new BRDialogView.BROnClickListener() {
@@ -182,7 +182,7 @@ public class PaymentProtocolTask extends AsyncTask<String, String, String> {
                     }, null, null, 0);
                 paymentProtocolRequest = null;
             } else if (e instanceof CertificateChainNotFound) {
-                Log.e(TAG, "No certificates!", e);
+                MyLog.e( "No certificates!"+ e);
             } else {
                 if (app != null)
                     BRDialog.showCustomDialog(app, app.getString(R.string.JailbreakWarnings_title), app.getString(R.string.PaymentProtocol_Errors_badPaymentRequest) + ":" + e.getMessage(), app.getString(R.string.Button_ok), null, new BRDialogView.BROnClickListener() {
@@ -342,7 +342,7 @@ public class PaymentProtocolTask extends AsyncTask<String, String, String> {
 
                             @Override
                             public void onCancel() {
-                                Log.e(TAG, "onCancel: ");
+                                MyLog.e( "onCancel: ");
                             }
                         });
                     }

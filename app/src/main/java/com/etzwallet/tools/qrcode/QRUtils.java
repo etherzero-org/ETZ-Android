@@ -7,12 +7,12 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.etzwallet.R;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.wallet.WalletsMaster;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
@@ -153,7 +153,7 @@ public class QRUtils {
 
     public static void share(String via, Activity app, String bitcoinUri) {
         if (app == null) {
-            Log.e(TAG, "share: app is null");
+            MyLog.e( "share: app is null");
             return;
         }
 
@@ -170,9 +170,9 @@ public class QRUtils {
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         if (uri != null) {
             intent.putExtra(Intent.EXTRA_STREAM, uri);
-            Log.d(TAG, "Uri -> " + file.getPath());
+            MyLog.d( "Uri -> " + file.getPath());
         } else
-            Log.d(TAG, "Bitmap uri is null!");
+            MyLog.d( "Bitmap uri is null!");
         app.startActivity(Intent.createChooser(intent, app.getString(R.string.QRUtils_ShareTitle)));
 
 
@@ -180,7 +180,7 @@ public class QRUtils {
 
     private static File saveToExternalStorage(Bitmap bitmapImage, Activity app) {
         if (app == null) {
-            Log.e(TAG, "saveToExternalStorage: app is null");
+            MyLog.e( "saveToExternalStorage: app is null");
             return null;
         }
 
@@ -193,11 +193,11 @@ public class QRUtils {
         f.setReadable(true, false);
         try {
             boolean a = f.createNewFile();
-            if (!a) Log.e(TAG, "saveToExternalStorage: createNewFile: failed");
+            if (!a) MyLog.e( "saveToExternalStorage: createNewFile: failed");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "saveToExternalStorage: " + f.getAbsolutePath());
+        MyLog.e( "saveToExternalStorage: " + f.getAbsolutePath());
         if (f.exists()) f.delete();
 
         try {

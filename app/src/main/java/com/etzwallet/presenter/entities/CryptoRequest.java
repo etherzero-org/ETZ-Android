@@ -2,8 +2,8 @@ package com.etzwallet.presenter.entities;
 
 
 import android.content.Context;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
@@ -82,9 +82,9 @@ public class CryptoRequest {
     public boolean isSmallerThanMin(Context app, BaseWalletManager walletManager) {
         BigDecimal minAmount = walletManager.getMinOutputAmount(app);
         BigDecimal absAmt = this.amount.abs();
-        Log.i(TAG, "isSmallerThanMin: " + absAmt);
-        Log.i(TAG, "isSmallerThanMin:minAmount " + minAmount);
-        Log.i(TAG, "isSmallerThanMin:minAmount2222 " + absAmt.compareTo(minAmount));
+        MyLog.i( "isSmallerThanMin: " + absAmt);
+        MyLog.i( "isSmallerThanMin:minAmount " + minAmount);
+        MyLog.i( "isSmallerThanMin:minAmount2222 " + absAmt.compareTo(minAmount));
         return false;//minAmount != null && absAmt.compareTo(minAmount) < 0
     }
 
@@ -101,7 +101,7 @@ public class CryptoRequest {
 
         if (isErc20) {
             BigDecimal feeForTx = walletManager.getEstimatedFee(amount, null);
-            Log.i("-----------------", "ManageWalletsActivity");
+            MyLog.i( "ManageWalletsActivity");
             return amount.compareTo(balance) > 0 || feeForTx.compareTo(WalletEthManager.getInstance(app).getCachedBalance(app)) > 0;
         } else {
             BigDecimal minAmount = walletManager.getMinOutputAmount(app);

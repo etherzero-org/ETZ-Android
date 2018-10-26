@@ -6,7 +6,8 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
+
+import com.etzwallet.presenter.customviews.MyLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +88,7 @@ public class InternetManager extends BroadcastReceiver {
             if (networkInfo != null && networkInfo.getDetailedState() == NetworkInfo.DetailedState.CONNECTED) {
                 connected = true;
 //                WalletsMaster.getInstance(context).getCurrentWallet(context).getPeerManager().connect();
-                Log.e(TAG, "onReceive: core connecting");
+                MyLog.e("onReceive: core connecting");
             } else if (networkInfo != null && networkInfo.getDetailedState() == NetworkInfo.DetailedState.DISCONNECTED) {
 
                 connected = false;
@@ -97,7 +98,7 @@ public class InternetManager extends BroadcastReceiver {
             for (ConnectionReceiverListener listener : mConnectionReceiverListeners) {
                 listener.onConnectionChanged(connected);
             }
-            Log.e(TAG, "onReceive: " + connected);
+            MyLog.e("onReceive: " + connected);
         }
     }
 

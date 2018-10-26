@@ -1,6 +1,7 @@
 package com.platform;
 
-import android.util.Log;
+
+import com.etzwallet.presenter.customviews.MyLog;
 
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketClose;
@@ -42,24 +43,24 @@ public class BRGeoWebSocketHandler {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        Log.d(TAG, "GeoSocketClosed: statusCode=" + statusCode + ", reason=" + reason);
+        MyLog.d( "GeoSocketClosed: statusCode=" + statusCode + ", reason=" + reason);
         GeoLocationManager.getInstance().stopGeoSocket();
     }
 
     @OnWebSocketError
     public void onError(Throwable t) {
-        Log.e(TAG, "GeoSocketError: " + t.getMessage());
+        MyLog.e( "GeoSocketError: " + t.getMessage());
         GeoLocationManager.getInstance().stopGeoSocket();
     }
 
     @OnWebSocketConnect
     public void onConnect(Session session) {
-        Log.d(TAG, "GeoSocketConnected: " + session.getRemoteAddress().getAddress());
+        MyLog.d( "GeoSocketConnected: " + session.getRemoteAddress().getAddress());
         GeoLocationManager.getInstance().startGeoSocket(session);
     }
 
     @OnWebSocketMessage
     public void onMessage(String message) {
-        Log.d(TAG, "GeoSocketMessage: " + message);
+        MyLog.d( "GeoSocketMessage: " + message);
     }
 }

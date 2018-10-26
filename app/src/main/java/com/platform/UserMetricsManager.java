@@ -2,9 +2,9 @@ package com.platform;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.BRConstants;
 
 import org.json.JSONException;
@@ -28,7 +28,6 @@ public class UserMetricsManager {
     private static final String FIELD_DATA = "data";
     private static final String FIELD_BUNDLES = "bundles";
     private static byte[] bundleHash;
-    private static final String TAG = "UserMetricsManager";
     private static final String BUNDLE_WEB = "brd-web";
 
 
@@ -49,7 +48,7 @@ public class UserMetricsManager {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.d(TAG, "Error constructing json payload for request!");
+            MyLog.d("Error constructing json payload for request!");
         }
 
         final MediaType JSON

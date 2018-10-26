@@ -1,9 +1,9 @@
 package com.platform.middlewares;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.crypto.CryptoHelper;
 import com.etzwallet.tools.util.TypesConverter;
 import com.etzwallet.tools.util.Utils;
@@ -68,7 +68,7 @@ public class HTTPFileMiddleware implements Middleware {
 
         Context app = BreadApp.getBreadContext();
         if (app == null) {
-            Log.e(TAG, "handle: app is null!");
+            MyLog.e( "handle: app is null!");
             return true;
         }
 //        if (Utils.isEmulatorOrDebug(app))
@@ -79,18 +79,18 @@ public class HTTPFileMiddleware implements Middleware {
         if (DEBUG_URL == null) {
             // fetch the file locally
             String requestedFile = APIClient.getInstance(app).getExtractedPath(app, target);
-            Log.d(TAG, "Request local file -> " + requestedFile);
-            Log.d(TAG, "Request local file target -> " + target);
+            MyLog.d( "Request local file -> " + requestedFile);
+            MyLog.d( "Request local file target -> " + target);
 
             temp = new File(requestedFile);
             if (temp.exists() && !temp.isDirectory()) {
-                Log.d(TAG, "handle: found bundle for:" + target);
+                MyLog.d( "handle: found bundle for:" + target);
             } else {
-                Log.d(TAG, "handle: no bundle found for: " + target);
+                MyLog.d( "handle: no bundle found for: " + target);
                 return false;
             }
 
-            Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+            MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
             boolean modified = true;
             byte[] md5 = CryptoHelper.md5(TypesConverter.long2byteArray(temp.lastModified()));
             String hexEtag = Utils.bytesToHex(md5);

@@ -29,8 +29,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.BRPeerEntity;
 import com.etzwallet.presenter.entities.PeerEntity;
 import com.etzwallet.tools.manager.BRReportsManager;
@@ -73,7 +73,7 @@ public class PeerDataSource implements BRDataSourceInterface {
             database = openDatabase();
             database.beginTransaction();
             for (PeerEntity p : peerEntities) {
-//                Log.e(TAG,"sqlite peer saved: " + Arrays.toString(p.getPeerTimeStamp()));
+//                MyLog.e("sqlite peer saved: " + Arrays.toString(p.getPeerTimeStamp()));
                 ContentValues values = new ContentValues();
                 values.put(BRSQLiteHelper.PEER_ADDRESS, p.getPeerAddress());
                 values.put(BRSQLiteHelper.PEER_PORT, p.getPeerPort());
@@ -85,7 +85,7 @@ public class PeerDataSource implements BRDataSourceInterface {
             database.setTransactionSuccessful();
         } catch (Exception ex) {
             BRReportsManager.reportBug(ex);
-            Log.e(TAG, "Error inserting into SQLite", ex);
+            MyLog.e( "Error inserting into SQLite"+ ex);
             //Error in between database transaction
         } finally {
             database.endTransaction();
@@ -98,7 +98,7 @@ public class PeerDataSource implements BRDataSourceInterface {
         try {
             database = openDatabase();
             long id = peerEntity.getId();
-            Log.e(TAG, "Peer deleted with id: " + id);
+            MyLog.e( "Peer deleted with id: " + id);
             database.delete(BRSQLiteHelper.PEER_TABLE_NAME, BRSQLiteHelper.PEER_COLUMN_ID
                     + " = ? AND " + BRSQLiteHelper.PEER_ISO + " = ?", new String[]{String.valueOf(id), iso.toUpperCase()});
         } finally {
@@ -133,7 +133,7 @@ public class PeerDataSource implements BRDataSourceInterface {
             }
             // make sure to close the cursor
 
-            Log.e(TAG, "peers: " + peers.size());
+            MyLog.e( "peers: " + peers.size());
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -157,7 +157,7 @@ public class PeerDataSource implements BRDataSourceInterface {
             database = dbHelper.getWritableDatabase();
         dbHelper.setWriteAheadLoggingEnabled(BRConstants.WRITE_AHEAD_LOGGING);
 //        }
-//        Log.d("Database open counter: ",  String.valueOf(mOpenCounter.get()));
+//        MyLog.d("Database open counter: ",  String.valueOf(mOpenCounter.get()));
         return database;
     }
 
@@ -168,6 +168,6 @@ public class PeerDataSource implements BRDataSourceInterface {
 //            database.close();
 
 //        }
-//        Log.d("Database open counter: " , String.valueOf(mOpenCounter.get()));
+//        MyLog.d("Database open counter: " , String.valueOf(mOpenCounter.get()));
     }
 }

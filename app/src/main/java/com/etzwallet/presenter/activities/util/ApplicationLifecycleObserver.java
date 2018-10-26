@@ -3,9 +3,9 @@ package com.etzwallet.presenter.activities.util;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.platform.UserMetricsManager;
@@ -32,14 +32,14 @@ public class ApplicationLifecycleObserver implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     public void onLaunch() {
-        Log.d(TAG, "onLaunch");
+        MyLog.d( "onLaunch");
         sendUserMetricsRequest();
 
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     public void onEnterForeground() {
-        Log.d(TAG, "onEnterForeground");
+        MyLog.d( "onEnterForeground");
 
         sendUserMetricsRequest();
     }
@@ -47,7 +47,7 @@ public class ApplicationLifecycleObserver implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     public void onEnterBackground() {
-        Log.d(TAG, "onEnterBackground");
+        MyLog.d( "onEnterBackground");
 
     }
 }

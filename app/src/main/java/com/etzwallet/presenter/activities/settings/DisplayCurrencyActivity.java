@@ -248,11 +248,9 @@ public class DisplayCurrencyActivity extends BaseSettingsActivity {
 
         private boolean normalizeTextView() {
             int count = 0;
-//        Log.d(TAG, "Normalizing the text view !!!!!!");
             while (!isTextSizeAcceptable(textViewItem)) {
                 count++;
                 float textSize = textViewItem.getTextSize();
-//            Log.e(TAG, "The text size is: " + String.valueOf(textSize));
                 textViewItem.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize - 2);
                 this.notifyDataSetChanged();
             }

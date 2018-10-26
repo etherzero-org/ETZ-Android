@@ -17,7 +17,7 @@
 package com.etzwallet.tools.qrcode.xzing.open;
 
 import android.hardware.Camera;
-import android.util.Log;
+import com.etzwallet.presenter.customviews.MyLog;
 
 
 /**
@@ -45,7 +45,7 @@ public final class OpenCameraInterface {
 
     int numCameras = Camera.getNumberOfCameras();
     if (numCameras == 0) {
-      Log.w(TAG, "No cameras!");
+      MyLog.w("No cameras!");
       return null;
     }
 
@@ -73,14 +73,14 @@ public final class OpenCameraInterface {
 
     Camera camera;
     if (index < numCameras) {
-      Log.i(TAG, "Opening camera #" + index);
+      MyLog.i( "Opening camera #" + index);
       camera = Camera.open(index);
     } else {
       if (explicitRequest) {
-        Log.w(TAG, "Requested camera does not exist: " + cameraId);
+        MyLog.w( "Requested camera does not exist: " + cameraId);
         camera = null;
       } else {
-        Log.i(TAG, "No camera facing " + CameraFacing.BACK + "; returning camera #0");
+        MyLog.i( "No camera facing " + CameraFacing.BACK + "; returning camera #0");
         camera = Camera.open(0);
         selectedCameraInfo = new Camera.CameraInfo();
         Camera.getCameraInfo(0, selectedCameraInfo);

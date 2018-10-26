@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.etzwallet.presenter.activities.settings.TestActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.BRMerkleBlockEntity;
 import com.etzwallet.presenter.entities.BRPeerEntity;
 import com.etzwallet.presenter.entities.BRTransactionEntity;
@@ -70,7 +70,7 @@ public class DatabaseTests {
 
     @Before
     public void setUp() {
-        Log.e(TAG, "setUp: ");
+        MyLog.e( "setUp: ");
 //        Activity app = mActivityRule.getActivity();
 //        BRCoreMasterPubKey pubKey = new BRCoreMasterPubKey("cat circle quick rotate arena primary walnut mask record smile violin state".getBytes(), true);
 //        BRKeyStore.putMasterPublicKey(pubKey.serialize(), app);
@@ -289,7 +289,7 @@ public class DatabaseTests {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "testAsynchronousInserts: Done waiting!");
+        MyLog.e( "testAsynchronousInserts: Done waiting!");
         BtcBchTransactionDataStore tds = BtcBchTransactionDataStore.getInstance(app);
         List<BRTransactionEntity> txs = tds.getAllTransactions(app, "BTC");
         Assert.assertNotNull(txs);

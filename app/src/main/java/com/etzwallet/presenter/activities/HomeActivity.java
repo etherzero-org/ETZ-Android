@@ -13,7 +13,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -29,6 +28,7 @@ import com.etzwallet.presenter.customviews.BRButton;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.BRNotificationBar;
 import com.etzwallet.presenter.customviews.BRText;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.adapter.WalletListAdapter;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.listeners.RecyclerItemClickListener;
@@ -172,10 +172,10 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                 if (info.listener != null)
                     info.listener.onClick(mPromptContinue);
                 else
-                    Log.e(TAG, "Continue :" + info.title + " (FAILED)");
+                    MyLog.e( "Continue :" + info.title + " (FAILED)");
             }
         });
-        Log.e(TAG, "onCreate: 2");
+        MyLog.e( "onCreate: 2");
 
     }
 
@@ -195,7 +195,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
     }
     private void alertDialog(){
         Boolean addErr = BRSharedPrefs.getAddressError(app);
-        Log.i(TAG, "onRecoverWalletAuth: adderr==="+addErr);
+        MyLog.i( "onRecoverWalletAuth: adderr==="+addErr);
         if(!addErr){
             BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
                     app.getString(R.string.Alert_keystore_generic_android_bug),
@@ -229,10 +229,10 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
                         try{
                             if (Utils.isNullOrEmpty(result)) {
-                                Log.i(TAG, "onRequestVersionSuccess: 获取新版本失败1");
+                                MyLog.i( "onRequestVersionSuccess: 获取新版本失败1");
                             }
                             JSONObject json = new JSONObject(result);
-                            Log.i(TAG, "onRequestVersionSuccess: json=="+json);
+                            MyLog.i( "onRequestVersionSuccess: json=="+json);
                             JSONObject json1 = new JSONObject(json.getString("result"));
 
                             String dlUrl = json1.getString("url");
@@ -263,7 +263,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                             }
 
                         }catch (Exception e){
-                            Log.i(TAG, "onRequestVersionSuccess: 获取新版本失败2");
+                            MyLog.i( "onRequestVersionSuccess: 获取新版本失败2");
                         }
 
                         return null;
@@ -284,13 +284,13 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 //            public void run(){
 //                final String listUrl = JsonRpcHelper.getTokenListUrl();
 //
-//                Log.i(TAG, "run: listUrl=="+listUrl);
+//                MyLog.i( "run: listUrl=="+listUrl);
 //                final JSONObject payload = new JSONObject();
 //                JsonRpcHelper.makeRpcRequest1(BreadApp.getBreadContext(), listUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
 //                    @Override
 //                    public void onRpcRequestCompleted(String jsonResult) {
 //
-//                        Log.i(TAG, "gettokenlist=="+jsonResult);
+//                        MyLog.i( "gettokenlist=="+jsonResult);
 //
 //                    }
 //                });
@@ -303,7 +303,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     public void hidePrompt() {
         mPromptCard.setVisibility(View.GONE);
-        Log.e(TAG, "hidePrompt: " + mCurrentPrompt);
+        MyLog.e( "hidePrompt: " + mCurrentPrompt);
 //        if (mCurrentPrompt == PromptManager.PromptItem.SHARE_DATA) {
 //            BRSharedPrefs.putPromptDismissed(app, "shareData", true);
 //        }else
@@ -318,10 +318,10 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     private void showNextPromptIfNeeded() {
         PromptManager.PromptItem toShow = PromptManager.getInstance().nextPrompt(this);
-        Log.i(TAG, "showNextPromptIfNeeded: toShow==="+toShow);
+        MyLog.i( "showNextPromptIfNeeded: toShow==="+toShow);
         if (toShow != null) {
             mCurrentPrompt = toShow;
-//            Log.d(TAG, "showNextPrompt: " + toShow);
+//            MyLog.d( "showNextPrompt: " + toShow);
             PromptManager.PromptInfo promptInfo = PromptManager.getInstance().promptInfo(this, toShow);
             mPromptCard.setVisibility(View.VISIBLE);
             mPromptTitle.setText(promptInfo.title);
@@ -329,7 +329,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
             mPromptContinue.setOnClickListener(promptInfo.listener);
 
         } else {
-            Log.i(TAG, "showNextPrompt: nothing to show");
+            MyLog.i( "showNextPrompt: nothing to show");
         }
     }
 
@@ -366,7 +366,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         });
 
         onConnectionChanged(InternetManager.getInstance().isConnected(this));
-        Log.e(TAG, "onResume: took: " + (System.currentTimeMillis() - start));
+        MyLog.e( "onResume: took: " + (System.currentTimeMillis() - start));
     }
 
     private void populateWallets() {
@@ -389,7 +389,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
             public void run() {
                 final BigDecimal fiatTotalAmount = WalletsMaster.getInstance(HomeActivity.this).getAggregatedFiatBalance(HomeActivity.this);
                 if (fiatTotalAmount == null) {
-                    Log.e(TAG, "updateUi: fiatTotalAmount is null");
+                    MyLog.e( "updateUi: fiatTotalAmount is null");
                     return;
                 }
                 BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
@@ -407,7 +407,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     @Override
     public void onConnectionChanged(boolean isConnected) {
-        Log.d(TAG, "onConnectionChanged: isConnected: " + isConnected);
+        MyLog.d( "onConnectionChanged: isConnected: " + isConnected);
         if (isConnected) {
             if (mNotificationBar != null) {
                 mNotificationBar.setVisibility(View.INVISIBLE);

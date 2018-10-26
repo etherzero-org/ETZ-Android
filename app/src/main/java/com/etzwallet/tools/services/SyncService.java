@@ -8,9 +8,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.util.BRConstants;
@@ -66,8 +66,8 @@ public class SyncService extends IntentService {
             System.loadLibrary(BRConstants.NATIVE_LIB_NAME);
         } catch (UnsatisfiedLinkError e) {
             e.printStackTrace();
-            Log.d(TAG, "Native code library failed to load.\\n\" + " + e);
-            Log.d(TAG, "Installer Package Name -> " + (PACKAGE_NAME == null ? "null"
+            MyLog.d( "Native code library failed to load.\\n\" + " + e);
+            MyLog.d( "Installer Package Name -> " + (PACKAGE_NAME == null ? "null"
                     : BreadApp.getBreadContext().getPackageManager().getInstallerPackageName(PACKAGE_NAME)));
         }
     }
@@ -95,7 +95,7 @@ public class SyncService extends IntentService {
                 }
                 break;
             default:
-                Log.i(TAG, "Intent not recognized.");
+                MyLog.i( "Intent not recognized.");
         }
     }
 
@@ -150,7 +150,7 @@ public class SyncService extends IntentService {
         try{
             final double progress = walletManager.getSyncProgress(BRSharedPrefs.getStartHeight(context,
                     BRSharedPrefs.getCurrentWalletIso(context)));
-            Log.e(TAG, "startSyncPolling: Progress:" + progress + " Wallet: " + walletIso);
+            MyLog.e("startSyncPolling: Progress:" + progress + " Wallet: " + walletIso);
             if (progress > PROGRESS_START && progress < PROGRESS_FINISH) {
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 PendingIntent pendingIntent = PendingIntent.getService(context,
@@ -166,7 +166,8 @@ public class SyncService extends IntentService {
             broadcastSyncProgressUpdate(context, walletManager.getIso(), progress);
 
         }catch(Exception e){
-            BRReportsManager.reportBug(new NullPointerException("startSyncPolling出错"), true);
+            MyLog.i("startSyncPolling出错"+e);
+//            BRReportsManager.reportBug(new NullPointerException("startSyncPolling出错"), true);
         }
 
 

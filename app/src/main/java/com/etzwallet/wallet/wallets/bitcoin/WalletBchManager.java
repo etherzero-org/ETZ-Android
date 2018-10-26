@@ -1,12 +1,12 @@
 package com.etzwallet.wallet.wallets.bitcoin;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.etzwallet.BuildConfig;
 import com.etzwallet.core.BRCoreAddress;
 import com.etzwallet.core.BRCoreChainParams;
 import com.etzwallet.core.BRCoreMasterPubKey;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BREventManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.BRKeyStore;
@@ -60,7 +60,7 @@ public final class WalletBchManager extends BaseBitcoinWalletManager {
         if (mInstance == null) {
             byte[] rawPubKey = BRKeyStore.getMasterPublicKey(app);
             if (Utils.isNullOrEmpty(rawPubKey)) {
-                Log.e(TAG, "getInstance: rawPubKey is null");
+                MyLog.e( "getInstance: rawPubKey is null");
                 return null;
             }
             BRCoreMasterPubKey pubKey = new BRCoreMasterPubKey(rawPubKey, false);

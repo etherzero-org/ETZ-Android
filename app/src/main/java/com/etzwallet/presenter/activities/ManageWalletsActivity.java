@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 
 import com.etzwallet.R;
 import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.presenter.activities.settings.BaseSettingsActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.tools.adapter.ManageTokenListAdapter;
 import com.etzwallet.tools.animation.SimpleItemTouchHelperCallback;
@@ -49,12 +49,12 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
         super.onResume();
 
         final ArrayList<TokenItem> tokenItems = new ArrayList<>();
-
-        if(KVStoreManager.getInstance().getTokenListMetaData(ManageWalletsActivity.this).enabledCurrencies == null || KVStoreManager.getInstance().getTokenListMetaData(ManageWalletsActivity.this).enabledCurrencies.size() == 0){
-            Log.e(TAG, "数组为空  返回");
+        TokenListMetaData tlMetaData = KVStoreManager.getInstance().getTokenListMetaData(ManageWalletsActivity.this);
+        if (tlMetaData == null || tlMetaData.enabledCurrencies.size() <= 0) {
+            MyLog.e("数组为空  返回");
             return;
-        }else{
-            mTokens = KVStoreManager.getInstance().getTokenListMetaData(ManageWalletsActivity.this).enabledCurrencies;
+        } else {
+            mTokens = tlMetaData.enabledCurrencies;
 
             for (int i = 0; i < mTokens.size(); i++) {
 
@@ -68,33 +68,22 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
                     BREthereumToken tk = WalletEthManager.getInstance(this).node.lookupToken(info.contractAddress);
                     if (tk == null) {
                         BRReportsManager.reportBug(new NullPointerException("No token for contract: " + info.contractAddress));
-
-                    } else
+                    } else {
                         tokenItem = new TokenItem(tk.getAddress(), tk.getSymbol(), tk.getName(), null);
-
-
-                } else if (tokenSymbol.equalsIgnoreCase("btc"))
+                    }
+                } else if (tokenSymbol.equalsIgnoreCase("btc")) {
                     tokenItem = new TokenItem(null, "BTC", "Bitcoin", null);
-                else if (tokenSymbol.equalsIgnoreCase("etz"))
+                } else if (tokenSymbol.equalsIgnoreCase("etz")) {
                     tokenItem = new TokenItem(null, "ETZ", "EtherZero", "@drawable/etz");
-                else if (tokenSymbol.equalsIgnoreCase("bo"))
-                    tokenItem = new TokenItem(null, "BO", "BlackOptions", "@drawable/bo");
-//            else if (tokenSymbol.equalsIgnoreCase("fans"))
-//                tokenItem = new TokenItem(null, "FANS", "FansToken", "@drawable/fans");
-//            else if (tokenSymbol.equalsIgnoreCase("easy"))
-//                tokenItem = new TokenItem(null, "EASY", "Easy", "@drawable/easy");
-                else if (tokenSymbol.equalsIgnoreCase("msm"))
-                    tokenItem = new TokenItem(null, "MSM", "MSM", "@drawable/msm");
-                else if(tokenSymbol.equalsIgnoreCase("sqb"))
-                    tokenItem = new TokenItem(null,"SQB","SQB","@drawble/sqb");
-                else if(tokenSymbol.equalsIgnoreCase("abc"))
-                    tokenItem = new TokenItem(null,"ABC","ABountifulCompany","@drawble/abc");
-//            else if (tokenSymbol.equalsIgnoreCase("bch"))
-//                tokenItem = new TokenItem(null, "BCH", "Bitcoin Cash", null);
-//            else if (tokenSymbol.equalsIgnoreCase("eth"))
-//                tokenItem = new TokenItem(null, "ETH", "Ethereum", null);
-//            else if (tokenSymbol.equalsIgnoreCase("brd"))
-//                tokenItem = new TokenItem(null, "BRD", "BRD", null);
+                }
+//                else if (tokenSymbol.equalsIgnoreCase("bo"))
+//                    tokenItem = new TokenItem(null, "BO", "BlackOptions", "@drawable/bo");
+//                else if (tokenSymbol.equalsIgnoreCase("msm"))
+//                    tokenItem = new TokenItem(null, "MSM", "MSM", "@drawable/msm");
+//                else if(tokenSymbol.equalsIgnoreCase("sqb"))
+//                    tokenItem = new TokenItem(null,"SQB","SQB","@drawble/sqb");
+//                else if(tokenSymbol.equalsIgnoreCase("abc"))
+//                    tokenItem = new TokenItem(null,"ABC","ABountifulCompany","@drawble/abc");
 
 
                 if (tokenItem != null) {
@@ -109,7 +98,7 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
         mAdapter = new ManageTokenListAdapter(ManageWalletsActivity.this, tokenItems, new ManageTokenListAdapter.OnTokenShowOrHideListener() {
             @Override
             public void onShowToken(TokenItem token) {
-                Log.d(TAG, "onShowToken");
+                MyLog.d("onShowToken");
 
                 TokenListMetaData metaData = KVStoreManager.getInstance().getTokenListMetaData(ManageWalletsActivity.this);
                 TokenListMetaData.TokenInfo item = new TokenListMetaData.TokenInfo(token.symbol, true, token.address);
@@ -127,7 +116,7 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
 
             @Override
             public void onHideToken(TokenItem token) {
-                Log.d(TAG, "onHideToken");
+                MyLog.d("onHideToken");
 
                 TokenListMetaData metaData = KVStoreManager.getInstance().getTokenListMetaData(ManageWalletsActivity.this);
                 TokenListMetaData.TokenInfo item = new TokenListMetaData.TokenInfo(token.symbol, true, token.address);

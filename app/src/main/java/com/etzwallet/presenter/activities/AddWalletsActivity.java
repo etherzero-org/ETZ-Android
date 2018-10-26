@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -14,6 +13,7 @@ import com.etzwallet.R;
 import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BREdit;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.tools.adapter.AddTokenListAdapter;
 import com.etzwallet.tools.threads.executor.BRExecutor;
@@ -95,7 +95,7 @@ public class AddWalletsActivity extends BRActivity {
                 mTokens = WalletEthManager.getInstance(AddWalletsActivity.this).node.tokens;
 
                 for (BREthereumToken token : mTokens) {
-                    Log.i(TAG, "run: token===="+token);
+                    MyLog.i( "run: token===="+token);
                     TokenItem tokenItem = new TokenItem(token.getAddress(), token.getSymbol(), token.getName(), null);
 
                     if (md!=null&&!md.isCurrencyEnabled(tokenItem.symbol))
@@ -111,7 +111,7 @@ public class AddWalletsActivity extends BRActivity {
             @Override
             public void onTokenAdded(TokenItem token) {
 
-                Log.i(TAG, "onTokenAdded, -> " + token);
+                MyLog.i( "onTokenAdded, -> " + token);
 
                 TokenListMetaData metaData = KVStoreManager.getInstance().getTokenListMetaData(AddWalletsActivity.this);
                 TokenListMetaData.TokenInfo item = new TokenListMetaData.TokenInfo(token.symbol, true, token.address);
@@ -129,7 +129,7 @@ public class AddWalletsActivity extends BRActivity {
 
             @Override
             public void onTokenRemoved(TokenItem token) {
-                Log.d(TAG, "onTokenRemoved, -> " + token.name);
+                MyLog.d( "onTokenRemoved, -> " + token.name);
 
                 TokenListMetaData metaData = KVStoreManager.getInstance().getTokenListMetaData(AddWalletsActivity.this);
                 TokenListMetaData.TokenInfo item = new TokenListMetaData.TokenInfo(token.symbol, true, token.address);

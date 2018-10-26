@@ -1,8 +1,8 @@
 package com.platform.sqlite;
 
 
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.platform.kvstore.CompletionObject;
 
 /**
@@ -61,13 +61,13 @@ public class KVItem {
     }
 
     public void printValues() {
-        Log.e(TAG, "KVItem values:");
-        Log.e(TAG, "version: " + version);
-        Log.e(TAG, "remoteVersion: " + remoteVersion);
-        Log.e(TAG, "key: " + key);
-        Log.e(TAG, "value.length: " + value.length);
-        Log.e(TAG, "time: " + time);
-        Log.e(TAG, "deleted: " + deleted);
+        MyLog.e( "KVItem values:");
+        MyLog.e( "version: " + version);
+        MyLog.e( "remoteVersion: " + remoteVersion);
+        MyLog.e( "key: " + key);
+        MyLog.e( "value.length: " + value.length);
+        MyLog.e( "time: " + time);
+        MyLog.e( "deleted: " + deleted);
     }
 
     private KVItem() {

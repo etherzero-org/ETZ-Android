@@ -1,6 +1,7 @@
 package com.etzwallet.tools.util;
 
-import android.util.Log;
+
+import com.etzwallet.presenter.customviews.MyLog;
 
 import java.io.File;
 
@@ -36,11 +37,11 @@ public class FileHelper {
         if (!folder.isDirectory()) {
             throw new IllegalArgumentException("folder is not a Directory");
         }
-        Log.e(TAG, folder.getAbsolutePath());
+        MyLog.e( folder.getAbsolutePath());
         int indent = 0;
         StringBuilder sb = new StringBuilder();
         printDirectoryTree(folder, indent, sb);
-        Log.e(TAG, sb.toString());
+        MyLog.e( sb.toString());
     }
 
     private static void printDirectoryTree(File folder, int indent,

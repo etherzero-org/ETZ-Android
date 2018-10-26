@@ -2,12 +2,12 @@ package com.etzwallet.wallet.wallets.ethereum;
 
 import android.content.Context;
 import android.support.annotation.WorkerThread;
-import android.util.Log;
 
 import com.etzwallet.core.ethereum.BREthereumAmount;
 import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.core.ethereum.BREthereumTransaction;
 import com.etzwallet.core.ethereum.BREthereumWallet;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CurrencyEntity;
 import com.etzwallet.presenter.entities.TxUiHolder;
 import com.etzwallet.tools.manager.BRReportsManager;
@@ -469,11 +469,11 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         //Btc rate for the token
         CurrencyEntity tokenBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
         if (btcRate == null) {
-            Log.e(TAG, "getUsdFromBtc: No USD rates for BTC");
+            MyLog.e( "getUsdFromBtc: No USD rates for BTC");
             return null;
         }
         if (tokenBtcRate == null) {
-            Log.e(TAG, "getUsdFromBtc: No BTC rates for ETH");
+            MyLog.e( "getUsdFromBtc: No BTC rates for ETH");
             return null;
         }
         if (tokenBtcRate.rate == 0 || btcRate.rate == 0) return BigDecimal.ZERO;
@@ -489,11 +489,11 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         //Btc rate for token
         CurrencyEntity tokenBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
         if (btcRate == null) {
-            Log.e(TAG, "getUsdFromBtc: No USD rates for BTC");
+            MyLog.e( "getUsdFromBtc: No USD rates for BTC");
             return null;
         }
         if (tokenBtcRate == null) {
-            Log.e(TAG, "getUsdFromBtc: No BTC rates for ETH");
+            MyLog.e("getUsdFromBtc: No BTC rates for ETH");
             return null;
         }
 
@@ -511,6 +511,6 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         builder.append(tx.getSourceAddress());
         builder.append("|Target:");
         builder.append(tx.getTargetAddress());
-        Log.e(TAG, "printTxInfo: " + builder.toString());
+        MyLog.e( "printTxInfo: " + builder.toString());
     }
 }

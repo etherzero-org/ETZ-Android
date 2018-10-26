@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import android.widget.ListView;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRText;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.security.BRKeyStore;
 import com.etzwallet.tools.util.CurrencyUtils;
@@ -71,7 +71,7 @@ public class SpendLimitActivity extends BRActivity {
                 BigDecimal limit = adapter.getItem(position);
                 if (limit == null) {
                     BRReportsManager.reportBug(new RuntimeException("limit is null for: " + wm.getIso() + ", pos:" + position));
-                    Log.e(TAG, "onItemClick: limit is null!");
+                    MyLog.e( "onItemClick: limit is null!");
                     return;
                 }
                 BRKeyStore.putSpendLimit(app, limit, wm.getIso());

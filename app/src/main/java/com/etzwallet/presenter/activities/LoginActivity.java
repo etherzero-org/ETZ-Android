@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.Button;
@@ -20,6 +19,7 @@ import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRKeyboard;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.SpringAnimator;
@@ -121,7 +121,7 @@ public class LoginActivity extends BRActivity implements BreadApp.OnAppBackgroun
         });
 
         final boolean useFingerprint = AuthManager.isFingerPrintAvailableAndSetup(this) && BRSharedPrefs.getUseFingerprint(this);
-//        Log.e(TAG, "onCreate: isFingerPrintAvailableAndSetup: " + useFingerprint);
+//        MyLog.e( "onCreate: isFingerPrintAvailableAndSetup: " + useFingerprint);
         fingerPrint.setVisibility(useFingerprint ? View.VISIBLE : View.GONE);
 
         if (useFingerprint)
@@ -183,11 +183,11 @@ public class LoginActivity extends BRActivity implements BreadApp.OnAppBackgroun
 
     private void handleClick(String key) {
         if (!inputAllowed) {
-            Log.e(TAG, "handleClick: input not allowed");
+            MyLog.e( "handleClick: input not allowed");
             return;
         }
         if (key == null) {
-            Log.e(TAG, "handleClick: key is null! ");
+            MyLog.e( "handleClick: key is null! ");
             return;
         }
 
@@ -196,7 +196,7 @@ public class LoginActivity extends BRActivity implements BreadApp.OnAppBackgroun
         } else if (Character.isDigit(key.charAt(0))) {
             handleDigitClick(Integer.parseInt(key.substring(0, 1)));
         } else {
-            Log.e(TAG, "handleClick: oops: " + key);
+            MyLog.e( "handleClick: oops: " + key);
         }
     }
 
@@ -297,7 +297,7 @@ public class LoginActivity extends BRActivity implements BreadApp.OnAppBackgroun
                     // contacts-related task you need to do.
 
                 } else {
-                    Log.e(TAG, "onRequestPermissionsResult: permission isn't granted for: " + requestCode);
+                    MyLog.e( "onRequestPermissionsResult: permission isn't granted for: " + requestCode);
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
                 }

@@ -3,7 +3,6 @@ package com.etzwallet.presenter.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRKeyboard;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.security.BRKeyStore;
 
 public class SetPinActivity extends BRActivity {
@@ -92,7 +92,7 @@ public class SetPinActivity extends BRActivity {
 
     private void handleClick(String key) {
         if (key == null) {
-            Log.e(TAG, "handleClick: key is null! ");
+            MyLog.e("handleClick: key is null! ");
             return;
         }
 
@@ -101,7 +101,7 @@ public class SetPinActivity extends BRActivity {
         } else if (Character.isDigit(key.charAt(0))) {
             handleDigitClick(Integer.parseInt(key.substring(0, 1)));
         } else {
-            Log.e(TAG, "handleClick: oops: " + key);
+            MyLog.e("handleClick: oops: " + key);
         }
     }
 

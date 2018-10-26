@@ -16,7 +16,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
@@ -29,6 +28,7 @@ import com.etzwallet.presenter.activities.WalletActivity;
 import com.etzwallet.presenter.activities.camera.ScanQRActivity;
 import com.etzwallet.presenter.activities.intro.IntroActivity;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
 import com.etzwallet.presenter.entities.TxUiHolder;
 import com.etzwallet.presenter.fragments.FragmentGreetings;
@@ -97,7 +97,7 @@ public class BRAnimator {
 
     public static void showSendFragment(Activity app, final CryptoRequest request) {
         if (app == null) {
-            Log.e(TAG, "showSendFragment: app is null");
+            MyLog.e( "showSendFragment: app is null");
             return;
         }
         FragmentSend fragmentSend = (FragmentSend) app.getFragmentManager().findFragmentByTag(FragmentSend.class.getName());
@@ -125,7 +125,7 @@ public class BRAnimator {
         if (mSupportIsShowing) return;
         mSupportIsShowing = true;
         if (app == null) {
-            Log.e(TAG, "showSupportFragment: app is null");
+            MyLog.e( "showSupportFragment: app is null");
             return;
         }
         FragmentSupport fragmentSupport = (FragmentSupport) app.getFragmentManager().findFragmentByTag(FragmentSupport.class.getName());
@@ -178,7 +178,7 @@ public class BRAnimator {
         FragmentTxDetails txDetails = (FragmentTxDetails) app.getFragmentManager().findFragmentByTag(FragmentTxDetails.class.getName());
 
         if (txDetails != null && txDetails.isAdded()) {
-            Log.e(TAG, "showTransactionDetails: Already showing");
+            MyLog.e( "showTransactionDetails: Already showing");
 
             return;
         }
@@ -247,7 +247,7 @@ public class BRAnimator {
 
     public static void showRequestFragment(Activity app) {
         if (app == null) {
-            Log.e(TAG, "showRequestFragment: app is null");
+            MyLog.e( "showRequestFragment: app is null");
             return;
         }
 
@@ -268,7 +268,7 @@ public class BRAnimator {
     //isReceive tells the Animator that the Receive fragment is requested, not My Address
     public static void showReceiveFragment(Activity app, boolean isReceive) {
         if (app == null) {
-            Log.e(TAG, "showReceiveFragment: app is null");
+            MyLog.e( "showReceiveFragment: app is null");
             return;
         }
         FragmentReceive fragmentReceive = (FragmentReceive) app.getFragmentManager().findFragmentByTag(FragmentReceive.class.getName());
@@ -288,7 +288,7 @@ public class BRAnimator {
 
     public static void showGreetingsMessage(Activity app) {
         if (app == null) {
-            Log.e(TAG, "showGreetingsMessage: app is null");
+            MyLog.e( "showGreetingsMessage: app is null");
             return;
         }
         FragmentTransaction transaction = app.getFragmentManager().beginTransaction();

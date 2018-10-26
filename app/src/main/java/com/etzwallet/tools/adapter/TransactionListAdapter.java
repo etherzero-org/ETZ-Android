@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import com.etzwallet.R;
 import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.presenter.customviews.BRText;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TxUiHolder;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.threads.executor.BRExecutor;
@@ -122,7 +122,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 } else if (md.exchangeRate == 0) {
                     md.exchangeRate = wm.getFiatExchangeRate(mContext).doubleValue();
                     md.exchangeCurrency = BRSharedPrefs.getPreferredFiatIso(mContext);
-                    Log.d(TAG, "MetaData not null");
+                    MyLog.d( "MetaData not null");
                     KVStoreManager.getInstance().putTxMetaData(mContext, md, item.getTxHash());
                 }
             }

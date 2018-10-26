@@ -1,8 +1,8 @@
 package com.platform.tools;
 
 import android.content.Context;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CurrencyEntity;
 import com.etzwallet.tools.crypto.CryptoHelper;
 import com.etzwallet.tools.manager.BRReportsManager;
@@ -79,7 +79,7 @@ public class KVStoreManager {
         long ver = kvStore.localVersion(WALLET_INFO_KEY).version;
         CompletionObject obj = kvStore.get(WALLET_INFO_KEY, ver);
         if (obj.kv == null) {
-            Log.e(TAG, "getWalletInfo: value is null for key: " + WALLET_INFO_KEY);
+            MyLog.e( "getWalletInfo: value is null for key: " + WALLET_INFO_KEY);
             return null;
         }
 
@@ -88,7 +88,7 @@ public class KVStoreManager {
         try {
             byte[] decompressed = BRCompressor.bz2Extract(obj.kv.value);
             if (decompressed == null) {
-                Log.e(TAG, "getWalletInfo: decompressed value is null");
+                MyLog.e( "getWalletInfo: decompressed value is null");
                 return null;
             }
             json = new JSONObject(new String(decompressed));
@@ -102,13 +102,13 @@ public class KVStoreManager {
             result.creationDate = json.getInt("creationDate");
             result.name = json.getString("name");
 //            result.currentCurrency = json.getString("currentCurrency");
-            Log.d(TAG, "getWalletInfo: " + result.creationDate + ", name: " + result.name);
+            MyLog.d( "getWalletInfo: " + result.creationDate + ", name: " + result.name);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(TAG, "getWalletInfo: FAILED to get json value");
+            MyLog.e( "getWalletInfo: FAILED to get json value");
         }
 
-        Log.e(TAG, "getWalletInfo: " + json);
+        MyLog.e( "getWalletInfo: " + json);
         return result;
     }
 
@@ -135,12 +135,12 @@ public class KVStoreManager {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(TAG, "putWalletInfo: FAILED to create json");
+            MyLog.e( "putWalletInfo: FAILED to create json");
             return;
         }
 
         if (result.length == 0) {
-            Log.e(TAG, "putWalletInfo: FAILED: result is empty");
+            MyLog.e( "putWalletInfo: FAILED: result is empty");
             return;
         }
         byte[] compressed;
@@ -156,7 +156,7 @@ public class KVStoreManager {
         long removeVer = kvStore.remoteVersion(WALLET_INFO_KEY);
         CompletionObject compObj = kvStore.set(localVer, removeVer, WALLET_INFO_KEY, compressed, System.currentTimeMillis(), 0);
         if (compObj.err != null) {
-            Log.e(TAG, "putWalletInfo: Error setting value for key: " + WALLET_INFO_KEY + ", err: " + compObj.err);
+            MyLog.e( "putWalletInfo: Error setting value for key: " + WALLET_INFO_KEY + ", err: " + compObj.err);
         }
 
     }
@@ -188,12 +188,12 @@ public class KVStoreManager {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(TAG, "putTokenListMetaData: FAILED to create json");
+            MyLog.e( "putTokenListMetaData: FAILED to create json");
             return;
         }
 
         if (result.length == 0) {
-            Log.e(TAG, "putTokenListMetaData: FAILED: result is empty");
+            MyLog.e( "putTokenListMetaData: FAILED: result is empty");
             return;
         }
         byte[] compressed;
@@ -209,7 +209,7 @@ public class KVStoreManager {
         long removeVer = kvStore.remoteVersion(TOKEN_LIST_META_DATA);
         CompletionObject compObj = kvStore.set(localVer, removeVer, TOKEN_LIST_META_DATA, compressed, System.currentTimeMillis(), 0);
         if (compObj.err != null) {
-            Log.e(TAG, "putTokenListMetaData: Error setting value for key: " + TOKEN_LIST_META_DATA + ", err: " + compObj.err);
+            MyLog.e( "putTokenListMetaData: Error setting value for key: " + TOKEN_LIST_META_DATA + ", err: " + compObj.err);
         }
 
     }
@@ -222,34 +222,26 @@ public class KVStoreManager {
         long ver = kvStore.localVersion(TOKEN_LIST_META_DATA).version;
         CompletionObject obj = kvStore.get(TOKEN_LIST_META_DATA, ver);
         if (obj.kv == null) {
-            Log.e(TAG, "getTokenListMetaData: value is null for key: " + TOKEN_LIST_META_DATA);
+            MyLog.e( "getTokenListMetaData: value is null for key: " + TOKEN_LIST_META_DATA);
             return null;
         }
 
         JSONObject json;
-
+        TokenListMetaData result = null;
         try {
             byte[] decompressed = BRCompressor.bz2Extract(obj.kv.value);
             if (decompressed == null) {
-                Log.e(TAG, "getTokenListMetaData: decompressed value is null");
+                MyLog.e( "getTokenListMetaData: decompressed value is null");
                 return null;
             }
             json = new JSONObject(new String(decompressed));
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-
-        TokenListMetaData result = null;
-        try {
-            int classVersion = json.getInt("classVersion"); //not using yet
+//            int classVersion = json.getInt("classVersion"); //not using yet
             List<TokenListMetaData.TokenInfo> enabledCurrencies = jsonToMetaData(json.getJSONArray("enabledCurrencies"));
             List<TokenListMetaData.TokenInfo> hiddenCurrencies = jsonToMetaData(json.getJSONArray("hiddenCurrencies"));
             result = new TokenListMetaData(enabledCurrencies, hiddenCurrencies);
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(TAG, "getWalletInfo: FAILED to get json value");
+            MyLog.e( "getWalletInfo: FAILED to get json value");
         }
 
         return result;
@@ -258,7 +250,7 @@ public class KVStoreManager {
     private List<TokenListMetaData.TokenInfo> jsonToMetaData(JSONArray json) throws JSONException {
         List<TokenListMetaData.TokenInfo> result = new ArrayList<>();
         if (json == null) {
-            Log.e(TAG, "jsonToMetaData: JSONArray is null");
+            MyLog.e( "jsonToMetaData: JSONArray is null");
             return result;
         }
         for (int i = 0; i < json.length(); i++) {
@@ -286,7 +278,7 @@ public class KVStoreManager {
         CompletionObject obj = kvStore.get(key, ver);
 
         if (obj.kv == null) {
-//            Log.e(TAG, "getTxMetaData: kv is null for key: " + key);
+//            MyLog.e( "getTxMetaData: kv is null for key: " + key);
             return null;
         }
 
@@ -310,22 +302,22 @@ public class KVStoreManager {
         TxMetaData result = new TxMetaData();
         JSONObject json;
         if (value == null) {
-            Log.e(TAG, "valueToMetaData: value is null!");
+            MyLog.e( "valueToMetaData: value is null!");
             return null;
         }
         try {
             byte[] decompressed = BRCompressor.bz2Extract(value);
             if (decompressed == null) {
-                Log.e(TAG, "getTxMetaData: decompressed value is null");
+                MyLog.e( "getTxMetaData: decompressed value is null");
                 return null;
             }
             json = new JSONObject(new String(decompressed));
         } catch (JSONException e) {
 
-            Log.e(TAG, "valueToMetaData: " + new String(value) + ":", e);
+            MyLog.e( "value: " + new String(value) + "-->JSONException:"+ e);
             return null;
         } catch (Exception e) {
-            Log.e(TAG, "valueToMetaData: ", e);
+            MyLog.e( "Exception: "+ e);
             return null;
         }
 
@@ -350,7 +342,7 @@ public class KVStoreManager {
             result.deviceId = json.getString("dId");
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(TAG, "getTxMetaData: FAILED to get json value");
+            MyLog.e( "getTxMetaData: FAILED to get json value");
         }
         return result;
     }
@@ -367,19 +359,19 @@ public class KVStoreManager {
         } else if (data != null) {
             String finalExchangeCurrency = getFinalValue(data.exchangeCurrency, old.exchangeCurrency);
             if (finalExchangeCurrency != null) {
-                Log.e(TAG, "putTxMetaData: finalExchangeCurrency:" + finalExchangeCurrency);
+                MyLog.e( "putTxMetaData: finalExchangeCurrency:" + finalExchangeCurrency);
                 old.exchangeCurrency = finalExchangeCurrency;
                 needsUpdate = true;
             }
             String finalDeviceId = getFinalValue(data.deviceId, old.deviceId);
             if (finalDeviceId != null) {
-                Log.e(TAG, "putTxMetaData: finalDeviceId:" + finalDeviceId);
+                MyLog.e( "putTxMetaData: finalDeviceId:" + finalDeviceId);
                 old.deviceId = finalDeviceId;
                 needsUpdate = true;
             }
             String finalComment = getFinalValue(data.comment, old.comment);
             if (finalComment != null) {
-                Log.e(TAG, "putTxMetaData: comment:" + finalComment);
+                MyLog.e( "putTxMetaData: comment:" + finalComment);
                 old.comment = finalComment;
                 needsUpdate = true;
             }
@@ -417,7 +409,7 @@ public class KVStoreManager {
 
         if (!needsUpdate) return;
 
-        Log.d(TAG, "putTxMetaData: updating txMetadata for : " + key);
+        MyLog.d( "putTxMetaData: updating txMetadata for : " + key);
 
         JSONObject obj = new JSONObject();
         byte[] result;
@@ -435,12 +427,12 @@ public class KVStoreManager {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            Log.e(TAG, "putTxMetaData: FAILED to create json");
+            MyLog.e( "putTxMetaData: FAILED to create json");
             return;
         }
 
         if (result.length == 0) {
-            Log.e(TAG, "putTxMetaData: FAILED: result is empty");
+            MyLog.e( "putTxMetaData: FAILED: result is empty");
             return;
         }
         byte[] compressed;
@@ -456,7 +448,7 @@ public class KVStoreManager {
         long removeVer = kvStore.remoteVersion(key);
         CompletionObject compObj = kvStore.set(localVer, removeVer, key, compressed, System.currentTimeMillis(), 0);
         if (compObj.err != null) {
-            Log.e(TAG, "putTxMetaData: Error setting value for key: " + key + ", err: " + compObj.err);
+            MyLog.e( "putTxMetaData: Error setting value for key: " + key + ", err: " + compObj.err);
         }
 
     }

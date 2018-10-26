@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Intent;
 import android.os.Looper;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -12,6 +11,7 @@ import com.etzwallet.R;
 import com.etzwallet.presenter.activities.DisabledActivity;
 import com.etzwallet.presenter.activities.InputWordsActivity;
 import com.etzwallet.presenter.activities.SetPinActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 
 import java.util.List;
 
@@ -64,7 +64,7 @@ public class ActivityUTILS {
         Intent intent = new Intent(app, DisabledActivity.class);
         app.startActivity(intent);
         app.overridePendingTransition(R.anim.fade_up, R.anim.fade_down);
-        Log.e(TAG, "showWalletDisabled: " + app.getClass().getName());
+        MyLog.e( "showWalletDisabled: " + app.getClass().getName());
 
     }
 
@@ -83,7 +83,7 @@ public class ActivityUTILS {
     public static boolean isMainThread(){
         boolean isMain = Looper.myLooper() == Looper.getMainLooper();
         if(isMain){
-            Log.e(TAG, "IS MAIN UI THREAD!");
+            MyLog.e( "IS MAIN UI THREAD!");
         }
         return isMain;
     }

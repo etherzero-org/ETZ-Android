@@ -1,12 +1,12 @@
 package com.etzwallet.tools.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -17,6 +17,7 @@ import android.widget.ImageView;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRText;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.tools.animation.ItemTouchHelperAdapter;
 import com.etzwallet.tools.animation.ItemTouchHelperViewHolder;
@@ -52,6 +53,7 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
         this.mStartDragListener = dragListener;
     }
 
+    @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})
     @Override
     public void onBindViewHolder(@NonNull final ManageTokenListAdapter.ManageTokenItemViewHolder holder, int position) {
 
@@ -71,7 +73,7 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
             holder.tokenIcon.setBackground(mContext.getDrawable(iconResourceId));
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "Error finding icon for -> " + iconResourceName);
+            MyLog.d( "Error finding icon for -> " + iconResourceName);
         }
 
         boolean isHidden = KVStoreManager.getInstance().getTokenListMetaData(mContext).isCurrencyHidden(item.symbol);
@@ -95,7 +97,7 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
 
         BigDecimal tokenBalance;
         String iso = item.symbol.toUpperCase();
-        Log.i("-----------------", "CryptoRequest");
+        MyLog.i( "CryptoRequest");
         WalletEthManager ethManager = WalletEthManager.getInstance(mContext);
         WalletTokenManager tokenManager = WalletTokenManager.getTokenWalletByIso(mContext, ethManager, item.symbol);
 

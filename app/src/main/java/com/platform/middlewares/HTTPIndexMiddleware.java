@@ -1,9 +1,9 @@
 package com.platform.middlewares;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.platform.APIClient;
 import com.platform.BRHTTPHelper;
 import com.platform.interfaces.Middleware;
@@ -48,10 +48,10 @@ public class HTTPIndexMiddleware implements Middleware {
 
     @Override
     public boolean handle(String target, org.eclipse.jetty.server.Request baseRequest, HttpServletRequest request, HttpServletResponse response) {
-        Log.i(TAG, "handling: " + target + " " + baseRequest.getMethod());
+        MyLog.i( "handling: " + target + " " + baseRequest.getMethod());
         Context app = BreadApp.getBreadContext();
         if (app == null) {
-            Log.e(TAG, "handle: app is null!");
+            MyLog.e( "handle: app is null!");
             return true;
         }
 
@@ -59,7 +59,7 @@ public class HTTPIndexMiddleware implements Middleware {
 
         File temp = new File(indexFile);
         if (!temp.exists()) {
-//            Log.d(TAG, "handle: FILE DOES NOT EXIST: " + temp.getAbsolutePath());
+//            MyLog.d( "handle: FILE DOES NOT EXIST: " + temp.getAbsolutePath());
             return false;
         }
 
@@ -73,7 +73,7 @@ public class HTTPIndexMiddleware implements Middleware {
             return BRHTTPHelper.handleSuccess(resp, baseRequest, response);
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d(TAG, "handle: error sending response: " + target + " " + baseRequest.getMethod());
+            MyLog.d( "handle: error sending response: " + target + " " + baseRequest.getMethod());
             return BRHTTPHelper.handleError(500, null, baseRequest, response);
         }
 

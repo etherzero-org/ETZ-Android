@@ -7,13 +7,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.DisabledActivity;
 import com.etzwallet.presenter.activities.util.ActivityUTILS;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.fragments.FragmentFingerprint;
 import com.etzwallet.presenter.fragments.FragmentPin;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
@@ -71,7 +71,7 @@ public class AuthManager {
     }
 
     public boolean checkAuth(CharSequence passSequence, Context context) {
-        Log.e(TAG, "checkAuth: ");
+        MyLog.e( "checkAuth: ");
         String tempPass = passSequence.toString();
         if (!previousTry.equals(tempPass)) {
             int failCount = BRKeyStore.getFailCount(context);
@@ -178,10 +178,10 @@ public class AuthManager {
     }
 
     public void authPrompt(final Context context, String title, String message, boolean forcePin, boolean forceFingerprint, BRAuthCompletion completion) {
-        Log.i(TAG, "authPrompt: message=="+message);
+        MyLog.i( "authPrompt: message=="+message);
 
         if (context == null || !(context instanceof Activity)) {
-            Log.e(TAG, "authPrompt: context is null or not Activity: " + context);
+            MyLog.e( "authPrompt: context is null or not Activity: " + context);
             return;
         }
         KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Activity.KEYGUARD_SERVICE);

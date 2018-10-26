@@ -1,5 +1,5 @@
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.Bip39Reader;
 
 import org.apache.commons.io.IOUtils;
@@ -85,7 +85,7 @@ public class PaperKeyTests {
                 String lines[] = str.split("\\r?\\n");
                 result.addAll(Arrays.asList(lines));
             } catch (IOException e) {
-                Log.e(TAG, "getAllWords: " + fileName + ", ", e);
+                MyLog.e("getAllWords: " + fileName + ", "+ e);
             } finally {
                 if (in != null) try {
                     in.close();

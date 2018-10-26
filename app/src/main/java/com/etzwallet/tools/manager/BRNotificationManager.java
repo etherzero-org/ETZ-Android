@@ -7,7 +7,8 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+
+import com.etzwallet.presenter.customviews.MyLog;
 
 
 /**
@@ -43,7 +44,7 @@ public class BRNotificationManager {
 
     public static void sendNotification(Activity ctx, int icon, String title, String message, int mId) {
         if (ctx == null) {
-            Log.e(TAG, "sendNotification: ctx is null");
+            MyLog.e( "sendNotification: ctx is null");
             return;
         }
         android.support.v4.app.NotificationCompat.Builder mBuilder =

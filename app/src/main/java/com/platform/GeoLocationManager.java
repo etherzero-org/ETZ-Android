@@ -8,10 +8,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 
 import com.etzwallet.BreadApp;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.Utils;
@@ -72,7 +72,7 @@ public class GeoLocationManager {
             return;
         locationManager = (LocationManager) app.getSystemService(Context.LOCATION_SERVICE);
         if (locationManager == null) {
-            Log.e(TAG, "getOneTimeGeoLocation: locationManager is null!");
+            MyLog.e( "getOneTimeGeoLocation: locationManager is null!");
             return;
         }
         BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
@@ -81,7 +81,7 @@ public class GeoLocationManager {
                 if (ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_FINE_LOCATION) !=
                         PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     RuntimeException ex = new RuntimeException("getOneTimeGeoLocation, can't happen");
-                    Log.e(TAG, "run: getOneTimeGeoLocation, can't happen");
+                    MyLog.e( "run: getOneTimeGeoLocation, can't happen");
                     BRReportsManager.reportBug(ex);
                     return;
                 }
@@ -105,7 +105,7 @@ public class GeoLocationManager {
             public void run() {
                 if (ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     RuntimeException ex = new RuntimeException("startGeoSocket, can't happen");
-                    Log.e(TAG, "run: startGeoSocket, can't happen");
+                    MyLog.e( "run: startGeoSocket, can't happen");
                     BRReportsManager.reportBug(ex);
                     return;
                 }
@@ -124,7 +124,7 @@ public class GeoLocationManager {
             @Override
             public void run() {
                 if (ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    Log.e(TAG, "stopGeoSocket, can't happen");
+                    MyLog.e( "stopGeoSocket, can't happen");
                     RuntimeException ex = new RuntimeException("stopGeoSocket, can't happen");
                     BRReportsManager.reportBug(ex);
                     throw ex;
@@ -204,7 +204,7 @@ public class GeoLocationManager {
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
-                                Log.e(TAG, "onLocationChanged: WARNING respStr is null or empty: " + jsonLocation);
+                                MyLog.e( "onLocationChanged: WARNING respStr is null or empty: " + jsonLocation);
                                 BRReportsManager.reportBug(new NullPointerException("onLocationChanged: " + jsonLocation));
 
                             }
@@ -217,7 +217,7 @@ public class GeoLocationManager {
                             if (app == null || ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_FINE_LOCATION)
                                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(app,
                                     Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                Log.e(TAG, "onLocationChanged: PERMISSION DENIED for removeUpdates");
+                                MyLog.e( "onLocationChanged: PERMISSION DENIED for removeUpdates");
                             } else {
                                 locationManager.removeUpdates(locationListener);
 
@@ -256,7 +256,7 @@ public class GeoLocationManager {
             responseJson.put("description", "");
             return responseJson.toString();
         } catch (JSONException e) {
-            Log.e(TAG, "handleLocation: Failed to create json response");
+            MyLog.e( "handleLocation: Failed to create json response");
             e.printStackTrace();
         }
         return null;

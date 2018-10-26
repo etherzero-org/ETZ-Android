@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +22,7 @@ import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRButton;
 import com.etzwallet.presenter.customviews.BRKeyboard;
 import com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.SlideDetector;
 import com.etzwallet.tools.manager.BRClipboardManager;
@@ -132,7 +132,7 @@ public class FragmentRequestAmount extends Fragment {
 //                if (!BRAnimator.isClickAllowed()) return;
 //                Activity app = getActivity();
 //                if (app == null) {
-//                    Log.e(TAG, "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
+//                    MyLog.e( "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
 //                    return;
 //                }
 //                BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
@@ -378,7 +378,7 @@ public class FragmentRequestAmount extends Fragment {
 
     private void handleClick(String key) {
         if (key == null) {
-            Log.e(TAG, "handleClick: key is null! ");
+            MyLog.e( "handleClick: key is null! ");
             return;
         }
 

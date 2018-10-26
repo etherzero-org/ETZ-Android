@@ -8,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.WorkerThread;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
@@ -16,6 +15,7 @@ import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.core.BRCoreMasterPubKey;
 import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRReportsManager;
@@ -120,10 +120,10 @@ public class WalletsMaster {
                 mWallets.add(ethWallet);
             } else if (enabled.symbol.equalsIgnoreCase("BRD") && !isHidden) {
                 //home页不显示代币 brd
-                Log.i(TAG, "updateWallets: enabled.symbol11===" + enabled.symbol);
+                MyLog.i( "updateWallets: enabled.symbol11===" + enabled.symbol);
             } else {
                 //其他代币
-                Log.i(TAG, "updateWallets: enabled.symbol222===" + enabled.symbol);
+                MyLog.i( "updateWallets: enabled.symbol222===" + enabled.symbol);
                 WalletTokenManager tokenWallet = WalletTokenManager.getTokenWalletByIso(app, ethWallet, enabled.symbol);
                 if (tokenWallet != null && !isHidden) mWallets.add(tokenWallet);
 
@@ -134,6 +134,7 @@ public class WalletsMaster {
 
     public synchronized List<BaseWalletManager> getAllWallets(Context app) {
         if (mWallets == null || mWallets.size() == 0) {
+            MyLog.i("************************************");
             updateWallets(app);
         }
         return mWallets;
@@ -145,8 +146,8 @@ public class WalletsMaster {
 
         if (iso == "ETH") {
             iso = "ETZ";
-            Log.i(TAG, "getWalletByIso: iso==" + iso);
-            Log.i(TAG, "getWalletByIso: +++" + iso.equalsIgnoreCase("ETZ"));
+            MyLog.i( "getWalletByIso: iso==" + iso);
+            MyLog.i( "getWalletByIso: +++" + iso.equalsIgnoreCase("ETZ"));
         }
         if (Utils.isNullOrEmpty(iso))
             throw new RuntimeException("getWalletByIso with iso = null, Cannot happen!");
@@ -185,7 +186,7 @@ public class WalletsMaster {
         final String[] words;
         List<String> list;
         String languageCode = Locale.getDefault().getLanguage();
-        Log.i("------------", "glanguageCode===" + ctx.getResources().getConfiguration().locale.getCountry());
+        MyLog.i("glanguageCode===" + ctx.getResources().getConfiguration().locale.getCountry());
         if (languageCode == null) languageCode = "en";
         if (ctx.getResources().getConfiguration().locale.getCountry().equals("TW")) {
             list = Bip39Reader.bip39List(ctx, "zhTW");
@@ -193,18 +194,18 @@ public class WalletsMaster {
             list = Bip39Reader.bip39List(ctx, languageCode);
         }
 
-        Log.i(TAG, "generateRandomSeed: list===" + list);
+        MyLog.i( "generateRandomSeed: list===" + list);
         words = list.toArray(new String[list.size()]);
 //        final String[] words1 = list.toArray(new String[20]);
-        Log.i(TAG, "generateRandomSeed: words===" + words);//設置完pin密碼生成一次  輸完lock 密碼生成一次
-//        Log.i(TAG, "generateRandomSeed: words1===" + words1);
+        MyLog.i( "generateRandomSeed: words===" + words);//設置完pin密碼生成一次  輸完lock 密碼生成一次
+//        MyLog.i( "generateRandomSeed: words1===" + words1);
 
         final byte[] randomSeed = sr.generateSeed(16);
         if (words.length != 2048) {
             BRReportsManager.reportBug(new IllegalArgumentException("the list is wrong, size: " + words.length), true);
             return false;
         }
-        Log.i("----------", "randomSeed.length=" + randomSeed.length);//
+        MyLog.i("randomSeed.length=" + randomSeed.length);//
         if (randomSeed.length != 16)
             throw new NullPointerException("failed to create the seed, seed length is not 128: " + randomSeed.length);
         byte[] paperKeyBytes = BRCoreMasterPubKey.generatePaperKey(randomSeed, words);
@@ -213,7 +214,7 @@ public class WalletsMaster {
             return false;
         }
         String[] splitPhrase = new String(paperKeyBytes).split(" ");
-        Log.i("----------", "splitPhrase.length=" + splitPhrase.length);//
+        MyLog.i( "splitPhrase.length=" + splitPhrase.length);//
         if (splitPhrase.length != 12) {
             BRReportsManager.reportBug(new NullPointerException("phrase does not have 12 words:" + splitPhrase.length + ", lang: " + languageCode), true);
             return false;
@@ -224,7 +225,7 @@ public class WalletsMaster {
         } catch (UserNotAuthenticatedException e) {
             return false;
         }
-        Log.i("----------", "success=" + success);//
+        MyLog.i( "success=" + success);//
         if (!success) return false;
         byte[] phrase;
         try {
@@ -235,7 +236,7 @@ public class WalletsMaster {
         }
         if (Utils.isNullOrEmpty(phrase)) throw new NullPointerException("phrase is null!!");
         if (phrase.length == 0) throw new RuntimeException("phrase is empty");
-        Log.d(TAG, "generateRandomSeed: phrase===" + phrase);
+        MyLog.d( "generateRandomSeed: phrase===" + phrase);
         byte[] seed = BRCoreKey.getSeedFromPhrase(phrase);
         if (seed == null || seed.length == 0) throw new RuntimeException("seed is null");
         byte[] authKey = BRCoreKey.getAuthPrivKeyForAPI(seed);
@@ -258,7 +259,7 @@ public class WalletsMaster {
     }
 
     public boolean isIsoCrypto(Context app, String iso) {
-//        Log.i(TAG, "isIsoCrypto: ios===="+iso);
+//        MyLog.i( "isIsoCrypto: ios===="+iso);
         List<BaseWalletManager> list = new ArrayList<>(getAllWallets(app));
         for (BaseWalletManager w : list) {
 
@@ -289,7 +290,7 @@ public class WalletsMaster {
     }
 
     public boolean wipeKeyStore(Context context) {
-        Log.d(TAG, "wipeKeyStore");
+        MyLog.d( "wipeKeyStore");
         return BRKeyStore.resetWalletKeyStore(context);
     }
 
@@ -386,7 +387,7 @@ public class WalletsMaster {
         if (app == null) {
             app = BreadApp.getBreadContext();
             if (app == null) {
-                Log.e(TAG, "initLastWallet: FAILED, app is null");
+                MyLog.e( "initLastWallet: FAILED, app is null");
                 return;
             }
         }
@@ -402,19 +403,24 @@ public class WalletsMaster {
         if (!Utils.isNullOrEmpty(node)) {
             String host = TrustedNode.getNodeHost(node);
             int port = TrustedNode.getNodePort(node);
-//        Log.e(TAG, "trust onClick: host:" + host);
-//        Log.e(TAG, "trust onClick: port:" + port);
+//        MyLog.e( "trust onClick: host:" + host);
+//        MyLog.e( "trust onClick: port:" + port);
             boolean success = wm.useFixedNode(host, port);
             if (!success) {
-                Log.e(TAG, "updateFixedPeer: Failed to updateFixedPeer with input: " + node);
+                MyLog.e( "updateFixedPeer: Failed to updateFixedPeer with input: " + node);
             } else {
-                Log.d(TAG, "updateFixedPeer: succeeded");
+                MyLog.d( "updateFixedPeer: succeeded");
             }
         }
         wm.connect(app);
 
     }
 
+    /**
+     *
+     * 检测手有没有设置锁屏
+     * @param app
+     */
     public void startTheWalletIfExists(final Activity app) {
         final WalletsMaster m = WalletsMaster.getInstance(app);
         if (!m.isPasscodeEnabled(app)) {

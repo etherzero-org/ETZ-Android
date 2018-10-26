@@ -7,7 +7,6 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
@@ -17,6 +16,7 @@ import com.etzwallet.presenter.activities.WalletActivity;
 import com.etzwallet.presenter.activities.intro.IntroActivity;
 import com.etzwallet.presenter.activities.intro.RecoverActivity;
 import com.etzwallet.presenter.activities.intro.WriteDownActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRApiManager;
@@ -66,19 +66,19 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
             System.loadLibrary(BRConstants.NATIVE_LIB_NAME);
         } catch (UnsatisfiedLinkError e) {
             e.printStackTrace();
-            Log.d(TAG, "Native code library failed to load.\\n\" + " + e);
-            Log.d(TAG, "Installer Package Name -> " + (PACKAGE_NAME == null ? "null" : BreadApp.getBreadContext().getPackageManager().getInstallerPackageName(PACKAGE_NAME)));
+            MyLog.d("Native code library failed to load.\\n\" + " + e);
+            MyLog.d("Installer Package Name -> " + (PACKAGE_NAME == null ? "null" : BreadApp.getBreadContext().getPackageManager().getInstallerPackageName(PACKAGE_NAME)));
         }
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if ((getIntent().getFlags()&Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT)!=0){
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
             return;
         }
         super.onCreate(savedInstanceState);
-
+        BreadApp.getMyApp().addActivity(this);
     }
 
     @Override
@@ -120,15 +120,15 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
         if (requestCode == BRConstants.CAMERA_REQUEST_ID) {
             // BEGIN_INCLUDE(permission_result)
             // Received permission result for camera permission.
-            Log.i(TAG, "Received response for CAMERA_REQUEST_ID permission request.");
+            MyLog.i("Received response for CAMERA_REQUEST_ID permission request.");
 
             // Check if the only required permission has been granted
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Camera permission has been granted, preview can be displayed
-                Log.i(TAG, "CAMERA permission has now been granted. Showing preview.");
+                MyLog.i("CAMERA permission has now been granted. Showing preview.");
                 BRAnimator.openScanner(this, BRConstants.SCANNER_REQUEST);
             } else {
-                Log.i(TAG, "CAMERA permission was NOT granted.");
+                MyLog.i("CAMERA permission was NOT granted.");
                 BRDialog.showSimpleDialog(this, getString(R.string.Send_cameraUnavailabeTitle_android), getString(R.string.Send_cameraUnavailabeMessage_android));
             }
         }
@@ -144,7 +144,7 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                         @Override
                         public void run() {
-                            PostAuth.getInstance().onPublishTxAuth(BRActivity.this, null, true, null,null, false,null,null);
+                            PostAuth.getInstance().onPublishTxAuth(BRActivity.this, null, true, null, null, false, null, null);
                         }
                     });
                 }
@@ -211,7 +211,7 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                         @Override
                         public void run() {
-                            PostAuth.getInstance().onRecoverWalletAuth(BRActivity.this, true,false);
+                            PostAuth.getInstance().onRecoverWalletAuth(BRActivity.this, true, false);
                         }
                     });
                 } else {
@@ -236,7 +236,7 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                             else if (BRBitId.isBitId(result))
                                 BRBitId.signBitID(BRActivity.this, result, null);
                             else
-                                Log.e(TAG, "onActivityResult: not bitcoin address NOR bitID");
+                                MyLog.e("onActivityResult: not bitcoin address NOR bitID");
                         }
                     });
 
@@ -253,7 +253,7 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                     });
 
                 } else {
-                    Log.e(TAG, "WARNING: resultCode != RESULT_OK");
+                    MyLog.e("WARNING: resultCode != RESULT_OK");
                     WalletsMaster m = WalletsMaster.getInstance(BRActivity.this);
                     m.wipeWalletButKeystore(this);
                     finish();

@@ -10,12 +10,12 @@ import android.graphics.Point;
 import android.hardware.fingerprint.FingerprintManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
-import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
 import com.etzwallet.presenter.activities.util.ApplicationLifecycleObserver;
 import com.etzwallet.presenter.activities.util.BRActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.crypto.Base32;
 import com.etzwallet.tools.crypto.CryptoHelper;
 import com.etzwallet.tools.listeners.SyncReceiver;
@@ -80,6 +80,7 @@ public class BreadApp extends Application {
     public static long backgroundedTime;
     private static Context mContext;
     private ApplicationLifecycleObserver mObserver;
+    private static BreadApp myApp;
 
     private static final String PACKAGE_NAME = BreadApp.getBreadContext() == null ? null : BreadApp.getBreadContext().getApplicationContext().getPackageName();
 
@@ -88,8 +89,8 @@ public class BreadApp extends Application {
             System.loadLibrary(BRConstants.NATIVE_LIB_NAME);
         } catch (UnsatisfiedLinkError e) {
             e.printStackTrace();
-            Log.d(TAG, "Native code library failed to load.\\n\" + " + e);
-            Log.d(TAG, "Installer Package Name -> " + (PACKAGE_NAME == null ? "null" : BreadApp.getBreadContext().getPackageManager().getInstallerPackageName(PACKAGE_NAME)));
+            MyLog.d("Native code library failed to load.\\n\" + " + e);
+            MyLog.d("Installer Package Name -> " + (PACKAGE_NAME == null ? "null" : BreadApp.getBreadContext().getPackageManager().getInstallerPackageName(PACKAGE_NAME)));
         }
     }
 
@@ -98,6 +99,12 @@ public class BreadApp extends Application {
     public static final Map<String, String> mHeaders = new HashMap<>();
 
     private static Activity currentActivity;
+//    private RefWatcher refWatcher;
+
+//    public static RefWatcher getRefWatcher(Context context) {
+//        BreadApp application = (BreadApp) context.getApplicationContext();
+//        return application.refWatcher;
+//    }
 
     @Override
     public void onCreate() {
@@ -122,9 +129,10 @@ public class BreadApp extends Application {
 //                    .penaltyLog()
 //                    .penaltyDeath()
 //                    .build());
-
+        myApp = this;
         mContext = this;
-
+//        //内存泄漏检测
+//        refWatcher = LeakCanary.install(this);
         if (!Utils.isEmulatorOrDebug(this) && IS_ALPHA)
             throw new RuntimeException("can't be alpha for release");
 
@@ -165,9 +173,13 @@ public class BreadApp extends Application {
 
     }
 
+    public static BreadApp getMyApp() {
+        return myApp;
+    }
+
     private static synchronized String generateWalletId(Context app, String address) {
         if (app == null) {
-            Log.e(TAG, "generateWalletId: app is null");
+            MyLog.e("generateWalletId: app is null");
             return null;
         }
         try {
@@ -258,7 +270,7 @@ public class BreadApp extends Application {
             public void run() {
                 if (isAppInBackground(app)) {
                     backgroundedTime = System.currentTimeMillis();
-                    Log.e(TAG, "App went in background!");
+                    MyLog.e("App went in background!");
                     // APP in background, do something
                     fireListeners();
                     isBackgroundChecker.cancel();
@@ -274,5 +286,17 @@ public class BreadApp extends Application {
         void onBackgrounded();
     }
 
+    private static List<Activity> activities = new ArrayList<Activity>();
 
+    public void addActivity(Activity activity) {
+        activities.add(activity);
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        for (Activity activity : activities) {
+            activity.finish();
+        }
+    }
 }

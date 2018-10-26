@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRKeyboard;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
 import com.etzwallet.tools.animation.DecelerateOvershootInterpolator;
 import com.etzwallet.tools.animation.SpringAnimator;
@@ -160,7 +160,7 @@ public class FragmentPin extends Fragment {
 
     private void handleClick(String key) {
         if (key == null) {
-            Log.e(TAG, "handleClick: key is null! ");
+            MyLog.e( "handleClick: key is null! ");
             return;
         }
 
@@ -169,7 +169,7 @@ public class FragmentPin extends Fragment {
         } else if (Character.isDigit(key.charAt(0))) {
             handleDigitClick(Integer.parseInt(key.substring(0, 1)));
         } else {
-            Log.e(TAG, "handleClick: oops: " + key);
+            MyLog.e( "handleClick: oops: " + key);
         }
     }
 

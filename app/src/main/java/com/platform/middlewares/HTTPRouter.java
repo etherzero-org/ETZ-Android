@@ -1,7 +1,7 @@
 package com.platform.middlewares;
 
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.platform.interfaces.Middleware;
 import com.platform.interfaces.Plugin;
 
@@ -51,7 +51,7 @@ public class HTTPRouter implements Middleware {
         for (Plugin plugin : plugins) {
             boolean success = plugin.handle(target, baseRequest, request, response);
             if (success) {
-                Log.i(TAG, "plugin: " + plugin.getClass().getName().substring(plugin.getClass().getName().lastIndexOf(".") + 1) + " succeeded:" + request.getRequestURL());
+                MyLog.i( "plugin: " + plugin.getClass().getName().substring(plugin.getClass().getName().lastIndexOf(".") + 1) + " succeeded:" + request.getRequestURL());
                 return true;
             }
         }

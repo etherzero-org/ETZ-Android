@@ -2,7 +2,7 @@
 //
 //import android.content.Context;
 //import android.os.AsyncTask;
-//import android.util.Log;
+//import android.util.MyLog;
 //import android.widget.Toast;
 //
 //import com.breadwallet.BreadApp;
@@ -85,12 +85,12 @@
 //            in = urlConnection.getInputStream();
 //
 //            if (in == null) {
-//                Log.e(TAG, "The inputStream is null!");
+//                MyLog.e( "The inputStream is null!");
 //                return null;
 //            }
 //            byte[] serializedBytes = BytesUtil.readBytesFromStream(in);
 //            if (serializedBytes == null || serializedBytes.length == 0) {
-//                Log.e(TAG, "serializedBytes are null!!!");
+//                MyLog.e( "serializedBytes are null!!!");
 //                return null;
 //            }
 //

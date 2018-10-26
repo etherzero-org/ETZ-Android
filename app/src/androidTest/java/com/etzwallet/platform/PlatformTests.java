@@ -2,10 +2,10 @@ package com.etzwallet.platform;
 
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.presenter.activities.settings.TestActivity;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.BRCompressor;
 import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.tools.util.Utils;
@@ -103,9 +103,9 @@ public class PlatformTests {
         apiClient.tryExtractTar();
         File temp = new File(extractFolderName);
         int filesExtracted = temp.listFiles().length;
-        Log.e(TAG, "bundleExtractTest: filesExtracted: " + filesExtracted);
+        MyLog.e( "bundleExtractTest: filesExtracted: " + filesExtracted);
         Assert.assertNotSame(filesExtracted, 0);
-        Log.e(TAG, "bundleExtractTest: ");
+        MyLog.e( "bundleExtractTest: ");
         if (temp.isDirectory()) {
             String[] children = temp.list();
             for (int i = 0; i < children.length; i++) {
@@ -126,7 +126,7 @@ public class PlatformTests {
         String latestVersion = apiClient.getLatestVersion();
         Assert.assertNotNull(latestVersion);
         String currentTarVersion = getCurrentVersion(bundleFile);
-        Log.e(TAG, "bundleUpdateTest: latestVersion: " + latestVersion + ", currentTarVersion: " + currentTarVersion);
+        MyLog.e( "bundleUpdateTest: latestVersion: " + latestVersion + ", currentTarVersion: " + currentTarVersion);
 
         Assert.assertNotNull(currentTarVersion);
         Assert.assertNotEquals(latestVersion, currentTarVersion);
@@ -161,21 +161,21 @@ public class PlatformTests {
 //        Assert.assertTrue(bundleFileLatest.exists() && bundleFileLatest.length() > 10);
 //        Assert.assertTrue(patch.exists() && patch.length() > 10);
 //
-////        Log.e(TAG, "bundleUpdateTest: bundleFileOld.length(): " + bundleFileOld.length());
-//        Log.e(TAG, "bundleUpdateTest: bundleFileLatest.length(): " + bundleFileLatest.length());
-//        Log.e(TAG, "bundleUpdateTest: patch.length(): " + patch.length());
+////        MyLog.e( "bundleUpdateTest: bundleFileOld.length(): " + bundleFileOld.length());
+//        MyLog.e( "bundleUpdateTest: bundleFileLatest.length(): " + bundleFileLatest.length());
+//        MyLog.e( "bundleUpdateTest: patch.length(): " + patch.length());
 //
 //        byte[] oldFileBytes = new byte[0];
 //        byte[] correctFileBytes = new byte[0];
 //        try {
 //
 //            FileOutputStream outputStream = new FileOutputStream(mActivityRule.getActivity().getFilesDir().getAbsolutePath() + String.format("/%s/%s.tar", APIClient.BUNDLES, BREAD_POINT));
-//            Log.e(TAG, "bundleUpdateTest: beforeDiff");
+//            MyLog.e( "bundleUpdateTest: beforeDiff");
 //
 //            Patch.patch(bundleFileOldBytes, patchBytes, outputStream);
 //
 //            byte[] updatedBundleBytes = IOUtils.toByteArray(new FileInputStream(bundleFileOld));
-//            Log.e(TAG, "bundleUpdateTest: updatedBundleBytes: " + updatedBundleBytes.length);
+//            MyLog.e( "bundleUpdateTest: updatedBundleBytes: " + updatedBundleBytes.length);
 //
 //            oldFileBytes = IOUtils.toByteArray(new FileInputStream(bundleFileOld));
 //            correctFileBytes = IOUtils.toByteArray(new FileInputStream(bundleFileLatest));
@@ -184,9 +184,9 @@ public class PlatformTests {
 //            e.printStackTrace();
 //        } finally {
 //            boolean delete = patch.delete();
-//            Log.e(TAG, "WARNING bundleUpdateTest: deleting patch, file deleted: " + delete);
+//            MyLog.e( "WARNING bundleUpdateTest: deleting patch, file deleted: " + delete);
 //        }
-//        Log.e(TAG, "bundleUpdateTest: oldFileBytes: " + oldFileBytes.length + ", correctFileBytes: " + correctFileBytes.length);
+//        MyLog.e( "bundleUpdateTest: oldFileBytes: " + oldFileBytes.length + ", correctFileBytes: " + correctFileBytes.length);
 //        Assert.assertArrayEquals(oldFileBytes, correctFileBytes);
 //        Assert.assertTrue(oldFileBytes.length != 0 && correctFileBytes.length != 0);
 
@@ -197,7 +197,7 @@ public class PlatformTests {
         String currentTarVersion = null;
         try {
             bFile = IOUtils.toByteArray(new FileInputStream(bundleFile));
-            Log.e(TAG, "bundleUpdateTest: bFile.length: " + bFile.length);
+            MyLog.e( "bundleUpdateTest: bFile.length: " + bFile.length);
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] hash = digest.digest(bFile);
             currentTarVersion = Utils.bytesToHex(hash);
@@ -229,7 +229,7 @@ public class PlatformTests {
         Assert.assertFalse(BRCompressor.isGZIPStream(data.getBytes()));
         byte[] compressedData = BRCompressor.gZipCompress(data.getBytes());
         Assert.assertTrue(BRCompressor.isGZIPStream(compressedData));
-        Log.e(TAG, "testGZIP: " + new String(compressedData));
+        MyLog.e( "testGZIP: " + new String(compressedData));
         Assert.assertNotNull(compressedData);
         Assert.assertTrue(compressedData.length > 0);
         byte[] decompressedData = BRCompressor.gZipExtract(compressedData);
@@ -265,10 +265,10 @@ public class PlatformTests {
 //        String message = "https://breadwallet.com/bitid?nonce=123456789";
 //        String expectedSig = "ICWek6XEVxu/1/x+TtWk178t6uFcToH019RWNnS+JEeJOr2XGkZKQwsSqEvJ7l3sfhUoX1jm4uWP7nmlyG5Y10E=";
 //        String sig = BRBitId.signMessage(message, key);
-//        Log.e(TAG, "sig: " + sig);
+//        MyLog.e( "sig: " + sig);
 //        String expectedAddress = "mjBrDFeeX9moESGiRZZGeYrsUSNuvgwDVV";
 //        String address = key.address();
-//        Log.e(TAG, "address: " + address);
+//        MyLog.e( "address: " + address);
 //        Assert.assertEquals(expectedAddress, address);
 //        Assert.assertNotNull(sig);
 //        Assert.assertEquals(expectedSig.length(), sig.length());

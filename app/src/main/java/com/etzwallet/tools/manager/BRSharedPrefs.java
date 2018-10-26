@@ -2,8 +2,8 @@ package com.etzwallet.tools.manager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.BRConstants;
 
 import org.json.JSONArray;
@@ -98,7 +98,7 @@ import java.util.UUID;
     }
 
     public static void putReceiveAddress(Context ctx, String tmpAddr, String iso) {
-        Log.i(TAG, "putReceiveAddress: tmpAddr==="+tmpAddr);
+        MyLog.i( "putReceiveAddress: tmpAddr==="+tmpAddr);
         SharedPreferences.Editor editor = ctx.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
         editor.putString("receive_address" + iso.toUpperCase(), tmpAddr);
         editor.apply();
@@ -110,7 +110,7 @@ import java.util.UUID;
     }
 
     public static void putFirstAddress(Context context, String firstAddress) {
-        Log.i(TAG, "putReceiveAddress: firstAddress==="+firstAddress);//比特币地址
+        MyLog.i( "putReceiveAddress: firstAddress==="+firstAddress);//比特币地址
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("firstAddress", firstAddress);
@@ -243,7 +243,7 @@ import java.util.UUID;
             JSONArray arr = new JSONArray(result);
             for (int i = 0; i < arr.length(); i++) {
                 int a = arr.getInt(i);
-                Log.d("found a nonce: ", a + "");
+                MyLog.d("found a nonce: "+ a + "");
                 list.add(a);
             }
         } catch (Exception e) {

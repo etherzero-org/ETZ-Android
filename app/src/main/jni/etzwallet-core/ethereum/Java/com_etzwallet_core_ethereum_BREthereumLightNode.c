@@ -771,7 +771,7 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
          jstring gasP) {
 
 
-    __android_log_print(ANDROID_LOG_INFO, "tx_data_is1=", "tx_data_is1=%s\n", data );
+//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is1=", "tx_data_is1=%s\n", data );
 
     BREthereumLightNode node = (BREthereumLightNode) getJNIReference(env, thisObject);
     BREthereumToken token = ethereumWalletGetToken(node, wid);

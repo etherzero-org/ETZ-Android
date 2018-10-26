@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.net.Uri;
 import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Base64;
-import android.util.Log;
 
 import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.core.BRCoreMasterPubKey;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.AuthManager;
@@ -98,7 +98,7 @@ public class BRBitId {
         }
 
         if (uri == null) {
-            Log.e(TAG, "signBitID: uri is null");
+            MyLog.e( "signBitID: uri is null");
             return;
         }
         _bitUri = uri;
@@ -108,7 +108,7 @@ public class BRBitId {
             bitIdUri = new URI(_bitUri);
         } catch (URISyntaxException e) {
             e.printStackTrace();
-            Log.e(TAG, "signBitID: returning false: ", e);
+            MyLog.e( "signBitID: returning false Exception: "+ e);
             return;
         }
 
@@ -127,15 +127,15 @@ public class BRBitId {
             }
         } else if ("bitid".equals(bitIdUri.getScheme())) {
             if (app == null) {
-                Log.e(TAG, "signBitID: app is null, returning true still");
+                MyLog.e( "signBitID: app is null, returning true still");
                 return;
             }
             _promptString = "BitID Authentication Request";
         }
 
-//        Log.e(TAG, "signBitID: _bitUri: " + _bitUri);
-//        Log.e(TAG, "signBitID: _strToSign: " + _strToSign);
-//        Log.e(TAG, "signBitID: _index: " + _index);
+//        MyLog.e( "signBitID: _bitUri: " + _bitUri);
+//        MyLog.e( "signBitID: _strToSign: " + _strToSign);
+//        MyLog.e( "signBitID: _index: " + _index);
         BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
@@ -179,11 +179,11 @@ public class BRBitId {
             return;
         }
         if (app == null) {
-            Log.e(TAG, "completeBitID: app is null");
+            MyLog.e( "completeBitID: app is null");
             return;
         }
         if (_bitUri == null) {
-            Log.e(TAG, "completeBitID: _bitUri is null");
+            MyLog.e( "completeBitID: _bitUri is null");
             return;
         }
 
@@ -197,7 +197,7 @@ public class BRBitId {
         if (Utils.isNullOrEmpty(phrase)) throw new NullPointerException("cant happen");
         seed = BRCoreKey.getSeedFromPhrase(phrase);
         if (Utils.isNullOrEmpty(seed)) {
-            Log.e(TAG, "completeBitID: seed is null!");
+            MyLog.e( "completeBitID: seed is null!");
             return;
         }
 
@@ -233,18 +233,18 @@ public class BRBitId {
         final String biUri = uri.getHost() == null ? uri.toString() : uri.getHost();
         final byte[] key = BRCoreMasterPubKey.bip32BitIDKey(seed, _index, biUri);
         if (key == null) {
-            Log.d(TAG, "bitIdPlatform: key is null!");
+            MyLog.d( "bitIdPlatform: key is null!");
             return;
         }
         if (_strToSign == null) {
-            Log.d(TAG, "bitIdPlatform: _strToSign is null!");
+            MyLog.d( "bitIdPlatform: _strToSign is null!");
             return;
         }
         final String sig = BRBitId.signMessage(_strToSign, new BRCoreKey(key));
         final String address = new BRCoreKey(key).address();
 
         JSONObject postJson = new JSONObject();
-        Log.e(TAG, "GLIDERA: address:" + address);
+        MyLog.e( "GLIDERA: address:" + address);
         try {
             postJson.put("address", address);
             postJson.put("signature", sig);
@@ -254,7 +254,7 @@ public class BRBitId {
         //keep auth off for this host for 60 seconds.
         if (!bitIdKeys.containsKey(biUri)) {
             bitIdKeys.put(biUri, true);
-            Log.d(TAG, "run: saved temporary sig for key: " + biUri);
+            MyLog.d( "run: saved temporary sig for key: " + biUri);
             BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {
                 @Override
                 public void run() {
@@ -263,7 +263,7 @@ public class BRBitId {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    Log.d(TAG, "run: removed temporary sig for key: " + biUri);
+                    MyLog.d( "run: removed temporary sig for key: " + biUri);
                     if (bitIdKeys != null)
                         bitIdKeys.remove(biUri);
                 }
@@ -293,17 +293,17 @@ public class BRBitId {
 
         String uriWithNonce = String.format("bitid://%s%s?x=%s", uri.getHost(), uri.getPath(), nonce);
 
-        Log.e(TAG, "LINK: callbackUrl:" + callbackUrl);
+        MyLog.e( "LINK: callbackUrl:" + callbackUrl);
         final byte[] key = BRCoreMasterPubKey.bip32BitIDKey(seed, _index, _bitUri);
 
         if (key == null) {
-            Log.d(TAG, "completeBitID: key is null!");
+            MyLog.d( "completeBitID: key is null!");
             return;
         }
 
         final String sig = BRBitId.signMessage(uriWithNonce, new BRCoreKey(key));
         final String address = new BRCoreKey(key).address();
-        Log.e(TAG, "LINK: address: " + address);
+        MyLog.e( "LINK: address: " + address);
         JSONObject postJson = new JSONObject();
         try {
             postJson.put("address", address);

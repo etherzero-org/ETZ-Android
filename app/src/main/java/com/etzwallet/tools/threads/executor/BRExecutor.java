@@ -1,6 +1,7 @@
 package com.etzwallet.tools.threads.executor;
 
-import android.util.Log;
+
+import com.etzwallet.presenter.customviews.MyLog;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -153,6 +154,6 @@ public class BRExecutor implements RejectedExecutionHandler {
 
     @Override
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
-        Log.e(TAG, "rejectedExecution: ");
+        MyLog.e( "rejectedExecution: ");
     }
 }

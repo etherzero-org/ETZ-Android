@@ -3,7 +3,6 @@ package com.etzwallet.presenter.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.etzwallet.R;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.interfaces.BROnSignalCompletion;
 
 import junit.framework.Assert;
@@ -85,7 +85,7 @@ public class FragmentSignal extends Fragment {
             mDescription.setText(description);
             mIcon.setImageResource(resId);
         } else {
-            Log.e(TAG, "onCreateView: bundle is null!");
+            MyLog.e("onCreateView: bundle is null!");
         }
 
         return rootView;

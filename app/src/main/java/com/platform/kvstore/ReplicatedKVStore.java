@@ -30,10 +30,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.core.BRCoreKey;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.security.BRKeyStore;
 import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.tools.util.Utils;
@@ -104,7 +104,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
             mDatabase = dbHelper.getWritableDatabase();
         dbHelper.setWriteAheadLoggingEnabled(BRConstants.WRITE_AHEAD_LOGGING);
 //        }
-//        Log.d(TAG, "getWritable open counter: " + String.valueOf(mOpenCounter.get()));
+//        MyLog.d( "getWritable open counter: " + String.valueOf(mOpenCounter.get()));
         return mDatabase;
     }
 
@@ -119,7 +119,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
 //            mDatabase.close();
 
 //        }
-//        Log.d(TAG, "closeDB open counter: " + String.valueOf(mOpenCounter.get()));
+//        MyLog.d( "closeDB open counter: " + String.valueOf(mOpenCounter.get()));
     }
 
     /**
@@ -150,7 +150,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                 if (syncImmediately && obj.err == null) {
                     if (!syncRunning) {
                         syncKey(kv.key, 0, 0, null);
-                        Log.e(TAG, "set: key synced: " + kv.key);
+                        MyLog.e( "set: key synced: " + kv.key);
                     }
                 }
                 return obj;
@@ -168,7 +168,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
     }
 
     private synchronized CompletionObject _set(KVItem kv) throws Exception {
-        Log.d(TAG, "_set: " + kv.key);
+        MyLog.d( "_set: " + kv.key);
         long localVer = kv.version;
         long newVer = 0;
         long time = System.currentTimeMillis();
@@ -176,7 +176,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
 
         long curVer = _localVersion(key).version;
         if (curVer != localVer) {
-            Log.e(TAG, String.format("set key %s conflict: version %d != current version %d", key, localVer, curVer));
+            MyLog.e( String.format("set key %s conflict: version %d != current version %d", key, localVer, curVer));
             return new CompletionObject(CompletionObject.RemoteKVStoreError.conflict);
         }
         newVer = curVer + 1;
@@ -184,12 +184,12 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
         SQLiteDatabase db = getWritable();
         try {
             db.beginTransaction();
-//            Log.e(TAG, "_set: " + key + ", Thread: " + Thread.currentThread().getName());
+//            MyLog.e( "_set: " + key + ", Thread: " + Thread.currentThread().getName());
             boolean success = insert(new KVItem(newVer, -1, key, encryptionData, time, kv.deleted));
             if (!success) return new CompletionObject(CompletionObject.RemoteKVStoreError.unknown);
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            Log.e(TAG, "_set: ", e);
+            MyLog.e( "Exception: "+ e);
         } finally {
             db.endTransaction();
 //            dbLock.unlock();
@@ -263,7 +263,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                 kv.value = encrypted ? decrypt(val, mContext) : val;
                 if (val != null && Utils.isNullOrEmpty(kv.value)) {
                     //decrypting failed
-                    Log.e(TAG, "get: Decrypting failed for key: " + key + ", deleting the kv");
+                    MyLog.e( "get: Decrypting failed for key: " + key + ", deleting the kv");
                     delete(key, curVer);
                 }
             }
@@ -287,7 +287,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
         if (isKeyValid(key)) {
             return _localVersion(key);
         } else {
-            Log.e(TAG, "Key is invalid: " + key);
+            MyLog.e( "Key is invalid: " + key);
         }
         return new CompletionObject(CompletionObject.RemoteKVStoreError.notFound);
     }
@@ -443,7 +443,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
         try {
             if (remoteVersion == 0 || remoteTime == 0) {
                 final CompletionObject completionObject = remoteKvStore.ver(key);
-                Log.e(TAG, String.format("syncKey: completionObject: version: %d, value: %s, err: %s, time: %d",
+                MyLog.e( String.format("syncKey: completionObject: version: %d, value: %s, err: %s, time: %d",
                         completionObject.version, Arrays.toString(completionObject.value), completionObject.err, completionObject.time));
                 _syncKey(key, completionObject.version, completionObject.time, completionObject.err);
 
@@ -485,7 +485,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
 
         long recorderRemoteVersion = remoteVersion(key);
         if (err != CompletionObject.RemoteKVStoreError.notFound && remoteVersion > 0 && recorderRemoteVersion == remoteVersion) {
-//            Log.e(TAG, "_syncKey: " + String.format("Remote version of key: %s is the same as the one we have", key));
+//            MyLog.e( "_syncKey: " + String.format("Remote version of key: %s is the same as the one we have", key));
             return true;
         }
 
@@ -505,50 +505,50 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
 
             if (localKv.deleted > 0 && err == CompletionObject.RemoteKVStoreError.tombstone) {
                 // was removed on both server and locally
-                Log.i(TAG, String.format("Local key %s was deleted, and so was the remote key", key));
+                MyLog.i( String.format("Local key %s was deleted, and so was the remote key", key));
                 return setRemoteVersion(key, localKv.version, localKv.remoteVersion).err == null;
             }
             if (localKv.time >= remoteTime) {// local is newer (or a tiebreaker)
                 if (localKv.deleted > 0) {
-                    Log.i(TAG, String.format("Local key %s was deleted, removing remotely...", key));
+                    MyLog.i( String.format("Local key %s was deleted, removing remotely...", key));
                     CompletionObject obj = remoteKvStore.del(key, remoteVersion);
                     if (obj.err == CompletionObject.RemoteKVStoreError.notFound) {
-                        Log.i(TAG, String.format("Local key %s was already missing on the server. Ignoring", key));
+                        MyLog.i( String.format("Local key %s was already missing on the server. Ignoring", key));
                         return true;
                     }
                     if (obj.err != null) {
-                        Log.e(TAG, String.format("Error deleting remote version for key %s, error: %s", key, err));
+                        MyLog.e( String.format("Error deleting remote version for key %s, error: %s", key, err));
                         return false;
                     }
 
                     boolean success = setRemoteVersion(key, localKv.version, obj.version).err == null;
                     if (!success) return false;
                 } else {
-                    Log.i(TAG, String.format("Local key %s is newer, updating remotely...", key));
+                    MyLog.i( String.format("Local key %s is newer, updating remotely...", key));
                     // if the remote version is zero it means it doesnt yet exist on the server. set the remote version
                     // to "1" to create the key on the server
                     long useRemoteVer = (remoteVersion == 0 || remoteVersion < recorderRemoteVersion) ? 1 : remoteVersion;
                     byte[] val = localKv.value;
                     if (Utils.isNullOrEmpty(val)) {
-                        Log.e(TAG, "_syncKey: encrypting value before sending to remote failed");
+                        MyLog.e( "_syncKey: encrypting value before sending to remote failed");
                         return false;
                     }
                     CompletionObject obj = remoteKvStore.put(key, val, useRemoteVer);
 
                     if (obj.err != null) {
-                        Log.e(TAG, String.format("Error updating remote version for key %s, error: %s", key, err));
+                        MyLog.e( String.format("Error updating remote version for key %s, error: %s", key, err));
                         return false;
                     }
 
                     boolean success = setRemoteVersion(key, localKv.version, obj.version).err == null;
-                    Log.i(TAG, String.format("Local key %s updated on server", key));
+                    MyLog.i( String.format("Local key %s updated on server", key));
                     if (!success) return false;
                 }
             } else {
                 // local is out-of-date
                 if (err == CompletionObject.RemoteKVStoreError.tombstone) {
                     // remote is deleted
-                    Log.i(TAG, String.format("Remote key %s deleted, removing locally", key));
+                    MyLog.i( String.format("Remote key %s deleted, removing locally", key));
                     CompletionObject obj = new CompletionObject(CompletionObject.RemoteKVStoreError.unknown);
                     try {
                         obj = _delete(key, localKv.version);
@@ -558,26 +558,26 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                     if (obj.version != 0) {
                         boolean success = setRemoteVersion(key, obj.version, remoteVersion).err == null;
                         if (!success) return false;
-                        Log.i(TAG, String.format("Remote key %s was removed locally", key));
+                        MyLog.i( String.format("Remote key %s was removed locally", key));
 
                     }
                 } else {
-                    Log.i(TAG, String.format("Remote key %s is newer, fetching...", key));
+                    MyLog.i( String.format("Remote key %s is newer, fetching...", key));
                     CompletionObject remoteGet = remoteKvStore.get(key, remoteVersion);
 
                     if (remoteGet.err != null) {
-                        Log.e(TAG, String.format("Error fetching the remote value for key %s, error: %s", key, err));
+                        MyLog.e( String.format("Error fetching the remote value for key %s, error: %s", key, err));
                         return false;
                     }
 
                     byte[] val = remoteGet.value;
                     if (Utils.isNullOrEmpty(val)) {
-                        Log.e(TAG, "_syncKey: key: " + key + " ,from the remote, is empty");
+                        MyLog.e( "_syncKey: key: " + key + " ,from the remote, is empty");
                         return false;
                     }
                     byte[] decryptedValue = encryptedReplication ? decrypt(val, mContext) : val;
                     if (Utils.isNullOrEmpty(decryptedValue)) {
-                        Log.e(TAG, "_syncKey: failed to decrypt the value from remote for key: " + key);
+                        MyLog.e( "_syncKey: failed to decrypt the value from remote for key: " + key);
                         return false;
                     }
 
@@ -594,7 +594,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                 }
             }
         } else {
-            Log.e(TAG, String.format("Error fetching remote version for key %s, error: %s", key, err));
+            MyLog.e( String.format("Error fetching remote version for key %s, error: %s", key, err));
             return false;
         }
         return true;
@@ -611,7 +611,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
         // 3. for kvs that we do have, sync em
         // 4. for kvs that they don't have that we do, upload em
         if (syncRunning) {
-            Log.e(TAG, "syncAllKeys: already syncing");
+            MyLog.e( "syncAllKeys: already syncing");
             return false;
         }
         syncRunning = true;
@@ -620,7 +620,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
         try {
             CompletionObject obj = remoteKvStore.keys();
             if (obj.err != null) {
-                Log.e(TAG, String.format("Error fetching remote key data: %s", obj.err));
+                MyLog.e( String.format("Error fetching remote key data: %s", obj.err));
                 syncRunning = false;
                 return false;
             }
@@ -636,13 +636,13 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                     allKvs.add(new KVItem(0, 0, kv.key, null, 0, 0));
             }
 
-            Log.i(TAG, String.format("Syncing %d kvs", allKvs.size()));
+            MyLog.i( String.format("Syncing %d kvs", allKvs.size()));
             int failures = 0;
             for (KVItem k : allKvs) {
                 boolean success = _syncKey(k.key, k.remoteVersion == -1 ? k.version : k.remoteVersion, k.time, k.err);
                 if (!success) failures++;
             }
-            Log.i(TAG, String.format("Finished syncing in %d, with failures: %d", (System.currentTimeMillis() - startTime), failures));
+            MyLog.i( String.format("Finished syncing in %d, with failures: %d", (System.currentTimeMillis() - startTime), failures));
             return true;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -689,7 +689,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                     closeDB();
                 }
             } else {
-                Log.e(TAG, "Key is invalid: " + key);
+                MyLog.e( "Key is invalid: " + key);
             }
         } finally {
             if (cursor != null) {
@@ -718,7 +718,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                 long curVer = _localVersion(key).version;
 
                 if (curVer != localVer) {
-                    Log.e(TAG, String.format("set remote version key %s conflict: version %d != current version %d", key, localVer, curVer));
+                    MyLog.e( String.format("set remote version key %s conflict: version %d != current version %d", key, localVer, curVer));
                     return new CompletionObject(CompletionObject.RemoteKVStoreError.conflict);
                 }
 
@@ -753,7 +753,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                 closeDB();
             }
         } else {
-            Log.e(TAG, "Key is invalid: " + key);
+            MyLog.e( "Key is invalid: " + key);
         }
         return new CompletionObject(CompletionObject.RemoteKVStoreError.unknown);
     }
@@ -764,7 +764,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
      */
     public CompletionObject delete(String key, long localVersion) {
         try {
-            Log.i(TAG, "kv deleted with key: " + key);
+            MyLog.i( "kv deleted with key: " + key);
             if (isKeyValid(key)) {
                 CompletionObject obj = new CompletionObject(CompletionObject.RemoteKVStoreError.unknown);
                 try {
@@ -777,7 +777,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                 if (syncImmediately && obj.err == null) {
                     if (!syncRunning) {
                         syncKey(key, 0, 0, null);
-                        Log.e(TAG, "set: key synced: " + key);
+                        MyLog.e( "set: key synced: " + key);
                     }
                 }
                 return obj;
@@ -797,13 +797,13 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
         try {
             long curVer = _localVersion(key).version;
             if (curVer != localVersion) {
-                Log.e(TAG, String.format("del key %s conflict: version %d != current version %d", key, localVersion, curVer));
+                MyLog.e( String.format("del key %s conflict: version %d != current version %d", key, localVersion, curVer));
                 return new CompletionObject(CompletionObject.RemoteKVStoreError.conflict);
             }
             SQLiteDatabase db = getWritable();
             try {
                 db.beginTransaction();
-                Log.i(TAG, String.format("DEL key: %s ver: %d", key, curVer));
+                MyLog.i( String.format("DEL key: %s ver: %d", key, curVer));
                 newVer = curVer + 1;
                 cursor = db.query(KV_STORE_TABLE_NAME,
                         new String[]{PlatformSqliteHelper.KV_VALUE}, "key = ? AND version = ?", new String[]{key, String.valueOf(localVersion)},
@@ -852,28 +852,28 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
      */
     public static byte[] encrypt(byte[] data, Context app) {
         if (data == null) {
-            Log.e(TAG, "encrypt: data is null");
+            MyLog.e( "encrypt: data is null");
             return null;
         }
         if (app == null) app = BreadApp.getBreadContext();
         if (app == null) {
-            Log.e(TAG, "encrypt: app is null");
+            MyLog.e( "encrypt: app is null");
             return null;
         }
         if (tempAuthKey == null) cacheKeyIfNeeded(app);
         if (Utils.isNullOrEmpty(tempAuthKey)) {
-            Log.e(TAG, "encrypt: authKey is empty: " + (tempAuthKey == null ? null : tempAuthKey.length));
+            MyLog.e( "encrypt: authKey is empty: " + (tempAuthKey == null ? null : tempAuthKey.length));
             return null;
         }
         BRCoreKey key = new BRCoreKey(tempAuthKey);
         byte[] nonce = getNonce();
         if (Utils.isNullOrEmpty(nonce) || nonce.length != 12) {
-            Log.e(TAG, "encrypt: nonce is invalid: " + (nonce == null ? null : nonce.length));
+            MyLog.e( "encrypt: nonce is invalid: " + (nonce == null ? null : nonce.length));
             return null;
         }
         byte[] encryptedData = key.encryptNative(data, nonce);
         if (Utils.isNullOrEmpty(encryptedData)) {
-            Log.e(TAG, "encrypt: encryptNative failed: " + (encryptedData == null ? null : encryptedData.length));
+            MyLog.e( "encrypt: encryptNative failed: " + (encryptedData == null ? null : encryptedData.length));
             return null;
         }
         //result is nonce + encryptedData
@@ -888,7 +888,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
      */
     public static byte[] decrypt(byte[] data, Context app) {
         if (data == null || data.length <= 12) {
-            Log.e(TAG, "decrypt: failed to decrypt: " + (data == null ? null : data.length));
+            MyLog.e( "decrypt: failed to decrypt: " + (data == null ? null : data.length));
             return null;
         }
         if (app == null) app = BreadApp.getBreadContext();
@@ -903,7 +903,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
     private static void cacheKeyIfNeeded(Context context) {
         if (Utils.isNullOrEmpty(tempAuthKey)) {
             tempAuthKey = BRKeyStore.getAuthKey(context);
-            if (tempAuthKey == null) Log.e(TAG, "cacheKeyIfNeeded: FAILED, still null!");
+            if (tempAuthKey == null) MyLog.e( "cacheKeyIfNeeded: FAILED, still null!");
             BreadApp.addOnBackgroundedListener(instance);
         }
     }
@@ -919,7 +919,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
                 return true;
             }
         }
-        Log.e(TAG, "checkKey: found illegal patterns, key: " + key);
+        MyLog.e( "checkKey: found illegal patterns, key: " + key);
         return false;
     }
 

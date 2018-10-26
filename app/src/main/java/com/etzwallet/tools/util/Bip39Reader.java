@@ -2,8 +2,8 @@ package com.etzwallet.tools.util;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.security.SmartValidator;
 
@@ -103,14 +103,14 @@ public class Bip39Reader {
 
 
     public static List<String> detectWords(Context app, String paperKey) {
-        Log.i("**********", "lookupWords: paperKey==22==" + paperKey);
+        MyLog.i( "lookupWords: paperKey==22==" + paperKey);
         if (Utils.isNullOrEmpty(paperKey)) {
             return null;
         }
         String cleanPaperKey = SmartValidator.cleanPaperKey(app, paperKey);
-        Log.i("**********", "lookupWords: paperKey==44==" + cleanPaperKey);
+        MyLog.i( "lookupWords: paperKey==44==" + cleanPaperKey);
         String firstWord = cleanPaperKey.split(" ")[0];
-        Log.i("**********", "lookupWords: paperKey==55==" + firstWord);
+        MyLog.i( "lookupWords: paperKey==55==" + firstWord);
 
         String[] paper = cleanPaperKey.split(" ");
 
@@ -120,16 +120,16 @@ public class Bip39Reader {
 //        }
         for (String s : LANGS) {
             List<String> words = getList(app, s);
-            Log.i("**********", "s==" + s);
+            MyLog.i( "s==" + s);
             if (s.equals("zh") || s.equals("zhTW")) {
                 int x = 0;
                 for (String aPaper : paper) {
-                    Log.i("**********", paper.length+"----apaper=" + aPaper);
+                    MyLog.i( paper.length+"----apaper=" + aPaper);
                     if (!aPaper.equals("")) {
                         if (words.contains(aPaper)) {
                             ++x;
                             if (x == 12) {
-                                Log.i("**********", "----x=" + x);
+                                MyLog.i( "----x=" + x);
                                 return words;
                             }
                         } else {
@@ -150,7 +150,6 @@ public class Bip39Reader {
     }
 
     public static String cleanWord(String word) {
-//        Log.i(TAG, "lookupWords: paperKey==33=="+word);
         String w = Normalizer.normalize(word.trim().replace("　", "")
                 .replace(" ", ""), Normalizer.Form.NFKD);
         return w;

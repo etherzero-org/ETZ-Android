@@ -3,11 +3,11 @@ package com.etzwallet.wallet.util;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 import com.etzwallet.R;
 import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
@@ -64,13 +64,13 @@ public class CryptoUriParser {
     private static final Object LOCK_OBJECT = new Object();
 
     public static synchronized boolean processRequest(Context app, String url, BaseWalletManager walletManager) {
-        Log.d(TAG, "processRequest -> " + url);
+        MyLog.d( "processRequest -> " + url);
         if (app == null) {
-            Log.e(TAG, "processRequest: app is null");
+            MyLog.e( "processRequest: app is null");
             return false;
         }
         if (url == null) {
-            Log.e(TAG, "processRequest: url is null");
+            MyLog.e( "processRequest: url is null");
             return false;
         }
 
@@ -253,7 +253,7 @@ public class CryptoUriParser {
         if (context instanceof Activity) {
             app = (Activity) context;
         } else {
-            Log.e(TAG, "tryCryptoUrl: " + "app isn't activity: " + context.getClass().getSimpleName());
+            MyLog.e("tryCryptoUrl: " + "app isn't activity: " + context.getClass().getSimpleName());
             BRReportsManager.reportBug(new NullPointerException("app isn't activity: " + context.getClass().getSimpleName()));
             return false;
         }

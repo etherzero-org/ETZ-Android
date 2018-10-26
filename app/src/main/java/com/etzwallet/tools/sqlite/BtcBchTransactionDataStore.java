@@ -29,8 +29,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.BRTransactionEntity;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.util.BRConstants;
@@ -68,7 +68,7 @@ public class BtcBchTransactionDataStore implements BRDataSourceInterface {
 
     public BRTransactionEntity putTransaction(Context app, String iso, BRTransactionEntity transactionEntity) {
 
-        Log.e(TAG, "putTransaction: " + transactionEntity.getTxISO() + ":" + transactionEntity.getTxHash() + ", b:" + transactionEntity.getBlockheight() + ", t:" + transactionEntity.getTimestamp());
+        MyLog.e( "putTransaction: " + transactionEntity.getTxISO() + ":" + transactionEntity.getTxHash() + ", b:" + transactionEntity.getBlockheight() + ", t:" + transactionEntity.getTimestamp());
         Cursor cursor = null;
         try {
             database = openDatabase();
@@ -93,7 +93,7 @@ public class BtcBchTransactionDataStore implements BRDataSourceInterface {
             return transactionEntity1;
         } catch (Exception ex) {
             BRReportsManager.reportBug(ex);
-            Log.e(TAG, "Error inserting into SQLite", ex);
+            MyLog.e( "Error inserting into SQLite"+ ex);
             //Error in between database transaction
         } finally {
             database.endTransaction();
@@ -146,7 +146,7 @@ public class BtcBchTransactionDataStore implements BRDataSourceInterface {
     }
 
     public boolean updateTransaction(Context app, String iso, BRTransactionEntity tx) {
-        Log.e(TAG, "updateTransaction: " + tx.getTxISO() + ":" + tx.getTxHash() + ", b:" + tx.getBlockheight() + ", t:" + tx.getTimestamp());
+        MyLog.e( "updateTransaction: " + tx.getTxISO() + ":" + tx.getTxHash() + ", b:" + tx.getBlockheight() + ", t:" + tx.getTimestamp());
 
         try {
             database = openDatabase();
@@ -154,12 +154,12 @@ public class BtcBchTransactionDataStore implements BRDataSourceInterface {
             args.put(BRSQLiteHelper.TX_BLOCK_HEIGHT, tx.getBlockheight());
             args.put(BRSQLiteHelper.TX_TIME_STAMP, tx.getTimestamp());
 
-//            Log.e(TAG, "updateTransaction: size before updating: " + getAllTransactions().size());
+//            MyLog.e( "updateTransaction: size before updating: " + getAllTransactions().size());
             int r = database.update(BRSQLiteHelper.TX_TABLE_NAME, args, "_id=? AND " + BRSQLiteHelper.TX_ISO + "=?", new String[]{tx.getTxHash(), iso.toUpperCase()});
-//            Log.e(TAG, "updateTransaction: size after updating: " + getAllTransactions().size());
+//            MyLog.e( "updateTransaction: size after updating: " + getAllTransactions().size());
             if (r > 0)
-                Log.e(TAG, "transaction updated with id: " + tx.getTxHash());
-            else Log.e(TAG, "updateTransaction: Warning: r:" + r);
+                MyLog.e( "transaction updated with id: " + tx.getTxHash());
+            else MyLog.e( "updateTransaction: Warning: r:" + r);
 
             return true;
         } finally {
@@ -171,7 +171,7 @@ public class BtcBchTransactionDataStore implements BRDataSourceInterface {
     public void deleteTxByHash(Context app, String iso, String hash) {
         try {
             database = openDatabase();
-            Log.e(TAG, "transaction deleted with id: " + hash);
+            MyLog.e( "transaction deleted with id: " + hash);
             database.delete(BRSQLiteHelper.TX_TABLE_NAME,
                     "_id=? AND " + BRSQLiteHelper.TX_ISO + "=?", new String[]{hash, iso.toUpperCase()});
         } finally {
@@ -187,7 +187,7 @@ public class BtcBchTransactionDataStore implements BRDataSourceInterface {
             database = dbHelper.getWritableDatabase();
         dbHelper.setWriteAheadLoggingEnabled(BRConstants.WRITE_AHEAD_LOGGING);
 //        }
-//        Log.d("Database open counter: ",  String.valueOf(mOpenCounter.get()));
+//        MyLog.d("Database open counter: ",  String.valueOf(mOpenCounter.get()));
         return database;
     }
 
@@ -199,7 +199,7 @@ public class BtcBchTransactionDataStore implements BRDataSourceInterface {
 //            database.close();
 
 //        }
-//        Log.d("Database open counter: " , String.valueOf(mOpenCounter.get()));
+//        MyLog.d("Database open counter: " , String.valueOf(mOpenCounter.get()));
     }
 
     private void printTest(Context app, String iso) {
@@ -216,7 +216,7 @@ public class BtcBchTransactionDataStore implements BRDataSourceInterface {
                 BRTransactionEntity ent = cursorToTransaction(app, iso.toUpperCase(), cursor);
                 builder.append("ISO:" + ent.getTxISO() + ", Hash:" + ent.getTxHash() + ", blockHeight:" + ent.getBlockheight() + ", timeStamp:" + ent.getTimestamp() + "\n");
             }
-            Log.e(TAG, "printTest: " + builder.toString());
+            MyLog.e( "printTest: " + builder.toString());
         } finally {
             if (cursor != null)
                 cursor.close();

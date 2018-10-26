@@ -20,7 +20,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -37,6 +36,7 @@ import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRButton;
 import com.etzwallet.presenter.customviews.BRSearchBar;
 import com.etzwallet.presenter.customviews.BRText;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRSharedPrefs;
@@ -89,8 +89,7 @@ import static java.lang.Math.*;
  * (BTC, BCH, ETH)
  */
 
-public class WalletActivity extends BRActivity implements InternetManager.ConnectionReceiverListener,
-        OnTxListModified, RatesDataSource.OnDataChanged, SyncListener, OnBalanceChangedListener {
+public class WalletActivity extends BRActivity implements OnTxListModified, RatesDataSource.OnDataChanged, SyncListener, OnBalanceChangedListener {
     private static final String TAG = WalletActivity.class.getName();
 
     private static final String SYNCED_THROUGH_DATE_FORMAT = "MM/dd/yy HH:mm";
@@ -248,7 +247,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
 
         TxManager.getInstance().init(this);
 
-        onConnectionChanged(InternetManager.getInstance().isConnected(this));
+        crListener.onConnectionChanged(InternetManager.getInstance().isConnected(this));
 
         updateUi();
 
@@ -278,6 +277,24 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
 
     }
 
+    InternetManager.ConnectionReceiverListener crListener=new InternetManager.ConnectionReceiverListener() {
+        @Override
+        public void onConnectionChanged(boolean isConnected) {
+            MyLog.d( "onConnectionChanged: isConnected: " + isConnected);
+            if (isConnected) {
+                if (mBarFlipper != null && mBarFlipper.getDisplayedChild() == 2) {
+                    mBarFlipper.setDisplayedChild(0);
+                }
+                SyncService.startService(getApplicationContext(), SyncService.ACTION_START_SYNC_PROGRESS_POLLING, mCurrentWalletIso);
+
+            } else {
+                if (mBarFlipper != null) {
+                    mBarFlipper.setDisplayedChild(2);
+                }
+
+            }
+        }
+    };
 //    private void setPowerMax(){
 //        //设置power max value
 //        final int balance = 1;
@@ -376,7 +393,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     private void updateUi() {
         final BaseWalletManager wm = WalletsMaster.getInstance(this).getCurrentWallet(this);
         if (wm == null) {
-            Log.e(TAG, "updateUi: wallet is null");
+            MyLog.e( "updateUi: wallet is null");
             return;
         }
 
@@ -527,8 +544,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     protected void onResume() {
         super.onResume();
 
-        InternetManager.registerConnectionReceiver(this, this);
-
+        InternetManager.registerConnectionReceiver(this, crListener);
         TxManager.getInstance().onResume(this);
 
         RatesDataSource.getInstance(this).addOnDataChangedListener(this);
@@ -567,7 +583,7 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     @Override
     protected void onPause() {
         super.onPause();
-        InternetManager.unregisterConnectionReceiver(this, this);
+        InternetManager.unregisterConnectionReceiver(this, crListener);
         mWallet.removeSyncListener(this);
         SyncService.unregisterSyncNotificationBroadcastReceiver(WalletActivity.this.getApplicationContext(), mSyncNotificationBroadcastReceiver);
     }
@@ -599,22 +615,22 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
     }
 
 
-    @Override
-    public void onConnectionChanged(boolean isConnected) {
-        Log.d(TAG, "onConnectionChanged: isConnected: " + isConnected);
-        if (isConnected) {
-            if (mBarFlipper != null && mBarFlipper.getDisplayedChild() == 2) {
-                mBarFlipper.setDisplayedChild(0);
-            }
-            SyncService.startService(this.getApplicationContext(), SyncService.ACTION_START_SYNC_PROGRESS_POLLING, mCurrentWalletIso);
-
-        } else {
-            if (mBarFlipper != null) {
-                mBarFlipper.setDisplayedChild(2);
-            }
-
-        }
-    }
+//    @Override
+//    public void onConnectionChanged(boolean isConnected) {
+//        MyLog.d( "onConnectionChanged: isConnected: " + isConnected);
+//        if (isConnected) {
+//            if (mBarFlipper != null && mBarFlipper.getDisplayedChild() == 2) {
+//                mBarFlipper.setDisplayedChild(0);
+//            }
+//            SyncService.startService(this.getApplicationContext(), SyncService.ACTION_START_SYNC_PROGRESS_POLLING, mCurrentWalletIso);
+//
+//        } else {
+//            if (mBarFlipper != null) {
+//                mBarFlipper.setDisplayedChild(2);
+//            }
+//
+//        }
+//    }
 
     @Override
     public void onBackPressed() {
@@ -705,10 +721,10 @@ public class WalletActivity extends BRActivity implements InternetManager.Connec
                     if (progress >= SyncService.PROGRESS_START) {
                         WalletActivity.this.updateSyncProgress(progress);
                     } else {
-                        Log.e(TAG, "SyncNotificationBroadcastReceiver.onReceive: Progress not set:" + progress);
+                        MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: Progress not set:" + progress);
                     }
                 } else {
-                    Log.e(TAG, "SyncNotificationBroadcastReceiver.onReceive: Wrong wallet. Expected:"
+                    MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: Wrong wallet. Expected:"
                             + mCurrentWalletIso + " Actual:" + intentWalletIso + " Progress:" + progress);
                 }
             }

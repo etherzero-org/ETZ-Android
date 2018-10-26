@@ -4,10 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.NetworkOnMainThreadException;
 import android.support.annotation.WorkerThread;
-import android.util.Log;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.presenter.activities.util.ActivityUTILS;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CurrencyEntity;
 import com.etzwallet.tools.sqlite.RatesDataSource;
 import com.etzwallet.tools.threads.executor.BRExecutor;
@@ -114,7 +114,7 @@ public class BRApiManager {
                 }
 
             } else {
-                Log.e(TAG, "getCurrencies: failed to get currencies, response string: " + arr);
+                MyLog.e( "getCurrencies: failed to get currencies, response string: " + arr);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -146,7 +146,7 @@ public class BRApiManager {
     private void updateData(final Context context) {
 
         if (BreadApp.isAppInBackground(context)) {
-            Log.e(TAG, "doInBackground: Stopping timer, no activity on.");
+            MyLog.e( "doInBackground: Stopping timer, no activity on.");
             stopTimerTask();
             return;
         }
@@ -163,8 +163,7 @@ public class BRApiManager {
 
         for (final BaseWalletManager w : list) {
             //only update stuff for non erc20 for now, API endpoint BUG
-            if (w.getIso().equalsIgnoreCase("BTC") || w.getIso().equalsIgnoreCase("BCH")
-                    || w.getIso().equalsIgnoreCase("ETH")) {
+            if (w.getIso().equalsIgnoreCase("BTC") ) {
                 BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -186,11 +185,11 @@ public class BRApiManager {
 
     @WorkerThread
     private  synchronized  void updateETZRates(Context context){
-        String url = "https://api.coinmarketcap.com/v2/ticker/2843/?convert=BTC&limit=10&structure=array";
+        String url = "https://api.coinmarketcap.com/v2/ticker/2843/?convert=BTC&limit=100&structure=array";
         String result = urlGET(context, url);
         try {
             if (Utils.isNullOrEmpty(result)) {
-                Log.e(TAG, "updateErc20Rates: Failed to fetch");
+                MyLog.e( "updateErc20Rates: Failed to fetch");
                 return;
             }
             String object = null;
@@ -199,18 +198,20 @@ public class BRApiManager {
             JSONObject json = new JSONObject(result);
 
             JSONArray json1 = new JSONArray(json.getString("data"));
-            JSONObject json2 = new JSONObject(json1.getString(0));
+            MyLog.i(result);
+            for (int i = 0; i <json1.length() ; i++) {
+                JSONObject json2 = new JSONObject(json1.getString(i));
+                String code = "BTC";
+                String name = json2.getString("name");
+                String iso = json2.getString("symbol");
+                JSONObject json3 = new JSONObject(json2.getString("quotes"));
+                JSONObject json4 = new JSONObject(json3.getString("BTC"));
+                String rate = json4.getString("price");
 
+                CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
+                tmp.add(ent);
+            }
 
-            String code = "BTC";
-            String name = json2.getString("name");
-            String iso = json2.getString("symbol");
-            JSONObject json3 = new JSONObject(json2.getString("quotes"));
-            JSONObject json4 = new JSONObject(json3.getString("BTC"));
-            String rate = json4.getString("price");
-
-            CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
-            tmp.add(ent);
 
             RatesDataSource.getInstance(context).putCurrencies(context, tmp);
             if (object != null)
@@ -241,20 +242,20 @@ public class BRApiManager {
     private synchronized void updateErc20Rates(Context context) {
         //get all erc20 rates.
         String url = "https://api.coinmarketcap.com/v1/ticker/?limit=1000&convert=BTC";
-        String result = urlGET(context, url);
+//        String result = urlGET(context, url);
 
-        Log.i(TAG, "updateErc20Rates: result==="+result);
+//        MyLog.i( "updateErc20Rates: result==="+result);
         try {
-            if (Utils.isNullOrEmpty(result)) {
-                Log.e(TAG, "updateErc20Rates: Failed to fetch");
-                return;
-            }
-            JSONArray arr = new JSONArray(result);
-            if (arr.length() == 0) {
-                Log.e(TAG, "updateErc20Rates: empty json");
-                return;
-            }
-            String object = null;
+//            if (Utils.isNullOrEmpty(result)) {
+//                MyLog.e( "updateErc20Rates: Failed to fetch");
+//                return;
+//            }
+//            JSONArray arr = new JSONArray(result);
+//            if (arr.length() == 0) {
+//                MyLog.e( "updateErc20Rates: empty json");
+//                return;
+//            }
+//            String object = null;
             Set<CurrencyEntity> tmp = new LinkedHashSet<>();
 //            for (int i = 0; i < arr.length(); i++) {
 //
@@ -324,10 +325,10 @@ public class BRApiManager {
             tmp.add(ent6);
 
             RatesDataSource.getInstance(context).putCurrencies(context, tmp);
-            if (object != null)
-                BRReportsManager.reportBug(new IllegalArgumentException("JSONArray returns a wrong object: " + object));
-        } catch (JSONException e) {
-            Log.i(TAG, "updateErc20Rates: error=="+e);
+//            if (object != null)
+//                BRReportsManager.reportBug(new IllegalArgumentException("JSONArray returns a wrong object: " + object));
+        } catch (Exception e) {
+            MyLog.i( "updateErc20Rates: error=="+e);
             BRReportsManager.reportBug(e);
             e.printStackTrace();
         }
@@ -338,7 +339,7 @@ public class BRApiManager {
         //set a new Timer
         if (timer != null) return;
         timer = new Timer();
-        Log.e(TAG, "startTimer: started...");
+        MyLog.e( "startTimer: started...");
         //initialize the TimerTask's job
         initializeTimerTask(context);
 
@@ -359,7 +360,7 @@ public class BRApiManager {
         String jsonString = urlGET(app, url);
         JSONArray jsonArray = null;
         if (jsonString == null) {
-            Log.e(TAG, "fetchRates: failed, response is null");
+            MyLog.e( "fetchRates: failed, response is null");
             return null;
         }
         try {
@@ -416,7 +417,7 @@ public class BRApiManager {
                 bodyText = resp.getBodyText();
                 String strDate = resp.getHeaders().get("date");
                 if (strDate == null) {
-                    Log.e(TAG, "urlGET: strDate is null!");
+                    MyLog.e( "urlGET: strDate is null!");
                     return bodyText;
                 }
                 SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss z", Locale.US);

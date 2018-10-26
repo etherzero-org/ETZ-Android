@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -23,6 +22,7 @@ import com.etzwallet.core.BRCoreTransactionInput;
 import com.etzwallet.core.BRCoreTransactionOutput;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.BRToast;
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.animation.SpringAnimator;
 import com.etzwallet.tools.manager.BRApiManager;
@@ -90,7 +90,7 @@ public class ImportPrivKeyTask extends AsyncTask<String, String, String> {
         key = params[0];
         iso = params[1];
         if (Utils.isNullOrEmpty(key) || app == null || Utils.isNullOrEmpty(iso)) {
-            Log.e(TAG, "ImportPrivKeyTask:doInBackground: failed: " + iso + "|" + app);
+            MyLog.e( "ImportPrivKeyTask:doInBackground: failed: " + iso + "|" + app);
             return null;
         }
 
@@ -106,14 +106,14 @@ public class ImportPrivKeyTask extends AsyncTask<String, String, String> {
         if (Utils.isNullOrEmpty(tmpAddress)) {
             String err = "doInBackground: failed to create the address for iso " + iso;
             BRReportsManager.reportBug(new NullPointerException(err));
-            Log.e(TAG, err);
+            MyLog.e( err);
             return null;
         }
 
         if (!iso.equalsIgnoreCase("BTC") && !iso.equalsIgnoreCase("BCH")) {
             String err = "doInBackground: Can't happen, uknown iso: " + iso;
             BRReportsManager.reportBug(new NullPointerException(err));
-            Log.e(TAG, err);
+            MyLog.e( err);
             return null;
         }
 
@@ -194,7 +194,7 @@ public class ImportPrivKeyTask extends AsyncTask<String, String, String> {
 
                         if (!mTransaction.getCoreTx().isSigned()) {
                             String err = "transaction is not signed";
-                            Log.e(TAG, "run: " + err);
+                            MyLog.e( "run: " + err);
                             BRReportsManager.reportBug(new IllegalArgumentException(err));
                             return;
                         }
@@ -236,7 +236,7 @@ public class ImportPrivKeyTask extends AsyncTask<String, String, String> {
         if (walletManager == null) {
             String err = "createSweepingTx: wallet is null for: " + iso;
             BRReportsManager.reportBug(new NullPointerException(err));
-            Log.e(TAG, err);
+            MyLog.e( err);
             return null;
         }
 
@@ -277,11 +277,11 @@ public class ImportPrivKeyTask extends AsyncTask<String, String, String> {
 
     public static boolean trySweepWallet(final Context ctx, final String privKey, final BaseWalletManager walletManager) {
         if (ctx == null) {
-            Log.e(TAG, "trySweepWallet: ctx is null");
+            MyLog.e( "trySweepWallet: ctx is null");
             return false;
         }
         if (BRCoreKey.isValidBitcoinBIP38Key(privKey)) {
-            Log.d(TAG, "isValidBitcoinBIP38Key true");
+            MyLog.d( "isValidBitcoinBIP38Key true");
             ((Activity) ctx).runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -315,7 +315,7 @@ public class ImportPrivKeyTask extends AsyncTask<String, String, String> {
                                     }
                                 });
                             if (editText == null) {
-                                Log.e(TAG, "onClick: edit text is null!");
+                                MyLog.e( "onClick: edit text is null!");
                                 return;
                             }
 
@@ -348,11 +348,11 @@ public class ImportPrivKeyTask extends AsyncTask<String, String, String> {
             });
             return true;
         } else if (BRCoreKey.isValidBitcoinPrivateKey(privKey)) {
-            Log.d(TAG, "isValidBitcoinPrivateKey true");
+            MyLog.d( "isValidBitcoinPrivateKey true");
             new ImportPrivKeyTask(((Activity) ctx)).execute(privKey, walletManager.getIso());
             return true;
         } else {
-            Log.e(TAG, "trySweepWallet: !isValidBitcoinPrivateKey && !isValidBitcoinBIP38Key");
+            MyLog.e( "trySweepWallet: !isValidBitcoinPrivateKey && !isValidBitcoinBIP38Key");
             return false;
         }
     }

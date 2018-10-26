@@ -28,8 +28,8 @@ package com.platform.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.BRConstants;
 
 public class PlatformSqliteHelper extends SQLiteOpenHelper {
@@ -80,13 +80,13 @@ public class PlatformSqliteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        Log.d(TAG, "onCreate: " + KV_DATABASE_CREATE);
+        MyLog.d( "onCreate: " + KV_DATABASE_CREATE);
         database.execSQL(KV_DATABASE_CREATE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.e(TAG, "Upgrading database from version " + oldVersion + " to "
+        MyLog.e( "Upgrading database from version " + oldVersion + " to "
                 + newVersion + ", which will destroy all old data");
         db.execSQL("DROP TABLE IF EXISTS " + KV_STORE_TABLE_NAME);
         //recreate the dbs

@@ -82,11 +82,11 @@ android {
     buildTypes {
         release {
             minifyEnabled = false
-            debuggable = true
+            debuggable = false
 
             ndk {
                 minifyEnabled = false
-                debuggable = true
+                debuggable = false
             }
         }
         debug {

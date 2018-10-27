@@ -91,7 +91,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
     @Override
     public void onBindViewHolder(final WalletItemViewHolder holder, int position) {
-        MyLog.d( "onBindViewHolder");
+        MyLog.d("onBindViewHolder");
 
         if (getItemViewType(position) == VIEW_TYPE_WALLET) {
 
@@ -133,11 +133,11 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
             String startColor = wallet.getUiConfiguration().getStartColor();
             String endColor = wallet.getUiConfiguration().getEndColor();
 
-        Drawable drawable = mContext.getResources().getDrawable(R.drawable.crypto_card_shape, null).mutate();
-        //create gradient with 2 colors if exist
-        ((GradientDrawable) drawable).setColors(new int[]{Color.parseColor(startColor), Color.parseColor(endColor == null ? startColor : endColor)});
-        ((GradientDrawable) drawable).setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
-        holder.mParent.setBackground(drawable);
+            Drawable drawable = mContext.getResources().getDrawable(R.drawable.crypto_card_shape, null).mutate();
+            //create gradient with 2 colors if exist
+            ((GradientDrawable) drawable).setColors(new int[]{Color.parseColor(startColor), Color.parseColor(endColor == null ? startColor : endColor)});
+            ((GradientDrawable) drawable).setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
+            holder.mParent.setBackground(drawable);
 
         }
     }
@@ -185,7 +185,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
     private boolean updateUi(WalletItem currentWallet, double syncProgress) {
         if (mCurrentWalletSyncing == null || mCurrentWalletSyncing.walletManager == null) {
-            MyLog.e( "run: should not happen but ok, ignore it.");
+            MyLog.e("run: should not happen but ok, ignore it.");
             return false;
         }
         if (syncProgress > SyncService.PROGRESS_START && syncProgress < SyncService.PROGRESS_FINISH) {
@@ -277,12 +277,12 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
         }
 
         public void updateData(boolean showSyncProgress) {
-           updateData(showSyncProgress, null);
+            updateData(showSyncProgress, null);
         }
 
         public void updateData(boolean showSyncProgress, String labelText) {
             mShowSyncProgress = showSyncProgress;
-
+            MyLog.i(labelText);
             if (labelText != null) {
                 mLabelText = labelText;
             }
@@ -303,7 +303,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
                 double progress = intent.getDoubleExtra(SyncService.EXTRA_PROGRESS, SyncService.PROGRESS_NOT_DEFINED);
 
                 if (mCurrentWalletSyncing == null) {
-                    MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: mCurrentWalletSyncing is null. Wallet:" + intentWalletIso + " Progress:" + progress + " Ignored");
+                    MyLog.e("SyncNotificationBroadcastReceiver.onReceive: mCurrentWalletSyncing is null. Wallet:" + intentWalletIso + " Progress:" + progress + " Ignored");
                     return;
                 }
 
@@ -312,10 +312,10 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
                     if (progress >= SyncService.PROGRESS_START) {
                         updateUi(mCurrentWalletSyncing, progress);
                     } else {
-                        MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: Progress not set:" + progress);
+                        MyLog.e("SyncNotificationBroadcastReceiver.onReceive: Progress not set:" + progress);
                     }
                 } else {
-                    MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: Wrong wallet. Expected:" + currentWalletISO + " Actual:" + intentWalletIso + " Progress:" + progress);
+                    MyLog.e("SyncNotificationBroadcastReceiver.onReceive: Wrong wallet. Expected:" + currentWalletISO + " Actual:" + intentWalletIso + " Progress:" + progress);
                 }
             }
         }

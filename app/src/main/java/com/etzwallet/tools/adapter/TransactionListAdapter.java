@@ -122,7 +122,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 } else if (md.exchangeRate == 0) {
                     md.exchangeRate = wm.getFiatExchangeRate(mContext).doubleValue();
                     md.exchangeCurrency = BRSharedPrefs.getPreferredFiatIso(mContext);
-                    MyLog.d( "MetaData not null");
+                    MyLog.d("MetaData not null");
                     KVStoreManager.getInstance().putTxMetaData(mContext, md, item.getTxHash());
                 }
             }
@@ -232,10 +232,10 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             showTransactionProgress(convertView, level * 20);
         }
         String sentTo = String.format(mContext.getString(R.string.Transaction_sentTo), wm.decorateAddress(item.getTo()));
-        String receivedVia = String.format(mContext.getString(R.string.TransactionDetails_receivedVia), wm.decorateAddress(item.getTo()));
+        String receivedVia = String.format(mContext.getString(R.string.TransactionDetails_receivedVia), wm.decorateAddress(item.getFrom()));
 
         String sendingTo = String.format(mContext.getString(R.string.Transaction_sendingTo), wm.decorateAddress(item.getTo()));
-        String receivingVia = String.format(mContext.getString(R.string.TransactionDetails_receivingVia), wm.decorateAddress(item.getTo()));
+        String receivingVia = String.format(mContext.getString(R.string.TransactionDetails_receivingVia), wm.decorateAddress(item.getFrom()));
 
         if (level > 4) {
             convertView.transactionDetail.setText(!commentString.isEmpty() ? commentString : (!received ? sentTo : receivedVia));
@@ -357,25 +357,15 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private class TxHolder extends RecyclerView.ViewHolder {
-        public RelativeLayout mainLayout;
-        public ConstraintLayout constraintLayout;
-        public TextView sentReceived;
-        public TextView amount;
-        public TextView account;
-        public TextView status;
-        public TextView status_2;
-        public TextView timestamp;
-        public TextView comment;
-        public ImageView arrowIcon;
 
-        public BRText transactionDate;
-        public BRText transactionAmount;
-        public BRText transactionDetail;
-        public Button transactionFailed;
-        public ProgressBar transactionProgress;
+        BRText transactionDate;
+        BRText transactionAmount;
+        BRText transactionDetail;
+        Button transactionFailed;
+        ProgressBar transactionProgress;
 
 
-        public TxHolder(View view) {
+        TxHolder(View view) {
             super(view);
 
             transactionDate = view.findViewById(R.id.tx_date);

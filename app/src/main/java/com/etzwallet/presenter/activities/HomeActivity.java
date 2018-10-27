@@ -56,7 +56,7 @@ import java.util.ArrayList;
  * Home activity that will show a list of a user's wallets
  */
 
-public class HomeActivity extends BRActivity implements InternetManager.ConnectionReceiverListener , RatesDataSource.OnDataChanged{
+public class HomeActivity extends BRActivity implements InternetManager.ConnectionReceiverListener, RatesDataSource.OnDataChanged {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
 
@@ -65,7 +65,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
     private BRText mFiatTotal;
     private RelativeLayout mSettings;
     private RelativeLayout mSecurity;
-//    private RelativeLayout mSupport;
+    //    private RelativeLayout mSupport;
     private PromptManager.PromptItem mCurrentPrompt;
     public BRNotificationBar mNotificationBar;
 
@@ -172,10 +172,10 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                 if (info.listener != null)
                     info.listener.onClick(mPromptContinue);
                 else
-                    MyLog.e( "Continue :" + info.title + " (FAILED)");
+                    MyLog.e("Continue :" + info.title + " (FAILED)");
             }
         });
-        MyLog.e( "onCreate: 2");
+        MyLog.e("onCreate: 2");
 
     }
 
@@ -193,10 +193,11 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         }
         return versionCode;
     }
-    private void alertDialog(){
+
+    private void alertDialog() {
         Boolean addErr = BRSharedPrefs.getAddressError(app);
-        MyLog.i( "onRecoverWalletAuth: adderr==="+addErr);
-        if(!addErr){
+        MyLog.i("onRecoverWalletAuth: adderr===" + addErr);
+        if (!addErr) {
             BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
                     app.getString(R.string.Alert_keystore_generic_android_bug),
                     app.getString(R.string.Button_ok),
@@ -215,7 +216,8 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
             BRSharedPrefs.putAddressError(app, false);
         }
     }
-    public void checkVersionUpdate(){
+
+    public void checkVersionUpdate() {
         Context ctx = this.getApplicationContext();
         AllenVersionChecker
                 .getInstance()
@@ -227,12 +229,12 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                     @Override
                     public UIData onRequestVersionSuccess(String result) {
 
-                        try{
+                        try {
                             if (Utils.isNullOrEmpty(result)) {
-                                MyLog.i( "onRequestVersionSuccess: 获取新版本失败1");
+                                MyLog.i("onRequestVersionSuccess: 获取新版本失败1");
                             }
                             JSONObject json = new JSONObject(result);
-                            MyLog.i( "onRequestVersionSuccess: json=="+json);
+                            MyLog.i("onRequestVersionSuccess: json==" + json);
                             JSONObject json1 = new JSONObject(json.getString("result"));
 
                             String dlUrl = json1.getString("url");
@@ -251,19 +253,19 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
                             String finalString = stringBuilder.toString();
 
-                            if(Integer.parseInt(versionCode) > Integer.parseInt(getVersionCode())){
+                            if (Integer.parseInt(versionCode) > Integer.parseInt(getVersionCode())) {
                                 UIData uiData = UIData
                                         .create()
                                         .setDownloadUrl(dlUrl)
                                         .setTitle(app.getString(R.string.download_latest_version))
                                         .setContent(finalString);
                                 return uiData;
-                            }else{
+                            } else {
                                 return null;
                             }
 
-                        }catch (Exception e){
-                            MyLog.i( "onRequestVersionSuccess: 获取新版本失败2");
+                        } catch (Exception e) {
+                            MyLog.i("onRequestVersionSuccess: 获取新版本失败2");
                         }
 
                         return null;
@@ -278,7 +280,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     }
 
-//    public void getTokenList(){
+    //    public void getTokenList(){
 //        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
 //            @Override
 //            public void run(){
@@ -297,17 +299,16 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 //            }
 //        });
 //    }
-    private  static Context context;
-
+    private static Context context;
 
 
     public void hidePrompt() {
         mPromptCard.setVisibility(View.GONE);
-        MyLog.e( "hidePrompt: " + mCurrentPrompt);
+        MyLog.e("hidePrompt: " + mCurrentPrompt);
 //        if (mCurrentPrompt == PromptManager.PromptItem.SHARE_DATA) {
 //            BRSharedPrefs.putPromptDismissed(app, "shareData", true);
 //        }else
-         if (mCurrentPrompt == PromptManager.PromptItem.FINGER_PRINT) {
+        if (mCurrentPrompt == PromptManager.PromptItem.FINGER_PRINT) {
             BRSharedPrefs.putPromptDismissed(app, "fingerprint", true);
         }
         if (mCurrentPrompt != null)
@@ -318,7 +319,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     private void showNextPromptIfNeeded() {
         PromptManager.PromptItem toShow = PromptManager.getInstance().nextPrompt(this);
-        MyLog.i( "showNextPromptIfNeeded: toShow==="+toShow);
+        MyLog.i("showNextPromptIfNeeded: toShow===" + toShow);
         if (toShow != null) {
             mCurrentPrompt = toShow;
 //            MyLog.d( "showNextPrompt: " + toShow);
@@ -329,7 +330,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
             mPromptContinue.setOnClickListener(promptInfo.listener);
 
         } else {
-            MyLog.i( "showNextPrompt: nothing to show");
+            MyLog.i("showNextPrompt: nothing to show");
         }
     }
 
@@ -346,7 +347,8 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mAdapter.startObserving();
+                if (mAdapter != null)
+                    mAdapter.startObserving();
             }
         }, 500);
 
@@ -366,7 +368,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
         });
 
         onConnectionChanged(InternetManager.getInstance().isConnected(this));
-        MyLog.e( "onResume: took: " + (System.currentTimeMillis() - start));
+        MyLog.e("onResume: took: " + (System.currentTimeMillis() - start));
     }
 
     private void populateWallets() {
@@ -389,7 +391,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
             public void run() {
                 final BigDecimal fiatTotalAmount = WalletsMaster.getInstance(HomeActivity.this).getAggregatedFiatBalance(HomeActivity.this);
                 if (fiatTotalAmount == null) {
-                    MyLog.e( "updateUi: fiatTotalAmount is null");
+                    MyLog.e("updateUi: fiatTotalAmount is null");
                     return;
                 }
                 BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
@@ -407,7 +409,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     @Override
     public void onConnectionChanged(boolean isConnected) {
-        MyLog.d( "onConnectionChanged: isConnected: " + isConnected);
+        MyLog.d("onConnectionChanged: isConnected: " + isConnected);
         if (isConnected) {
             if (mNotificationBar != null) {
                 mNotificationBar.setVisibility(View.INVISIBLE);

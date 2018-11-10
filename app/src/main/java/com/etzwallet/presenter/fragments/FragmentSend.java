@@ -3,6 +3,7 @@ package com.etzwallet.presenter.fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -27,6 +28,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.BuildConfig;
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRButton;
@@ -115,12 +117,12 @@ public class FragmentSend extends Fragment {
 
     private ImageButton close;
     private ConstraintLayout amountLayout;
-//    private BRButton regular;
+    //    private BRButton regular;
 //    private BRButton economy;
 //    private BRLinearLayoutWithCaret feeLayout;
     private LinearLayout feeLayout;
     private boolean feeButtonsShown = false;
-//    private BRText feeDescription;
+    //    private BRText feeDescription;
 //    private BRText warningText;
     private boolean amountLabelOn = true;
 
@@ -165,16 +167,17 @@ public class FragmentSend extends Fragment {
 //        economy = rootView.findViewById(R.id.right_button);
         close = rootView.findViewById(R.id.close_button);
         BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
-        selectedIso = BRSharedPrefs.isCryptoPreferred(getActivity()) ? wm.getIso() : BRSharedPrefs.getPreferredFiatIso(getContext());
+        selectedIso = BRSharedPrefs.isCryptoPreferred(getActivity()) ? wm.getIso() : BRSharedPrefs.getPreferredFiatIso(getActivity());
+        MyLog.i(selectedIso + "**********" + BRSharedPrefs.getPreferredFiatIso(getActivity()) + "*****" + BRSharedPrefs.isCryptoPreferred(getActivity()));
 
         amountBuilder = new StringBuilder(0);
         setListeners();
         visibleAdvView();
         isoText.setText(getString(R.string.Send_amountLabel));
         isoText.setTextSize(18);
-        isoText.setTextColor(getContext().getColor(R.color.light_gray));
+        isoText.setTextColor(getResources().getColor(R.color.light_gray));
         isoText.requestLayout();
-        signalLayout.setOnTouchListener(new SlideDetector(getContext(), signalLayout));
+        signalLayout.setOnTouchListener(new SlideDetector(getActivity(), signalLayout));
 
         signalLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -221,23 +224,23 @@ public class FragmentSend extends Fragment {
     }
 
     //只在etz显示data输入框
-    private void visibleAdvView(){
+    private void visibleAdvView() {
         final BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
-        if(wm.getIso().equalsIgnoreCase("ETZ")){
+        if (wm.getIso().equalsIgnoreCase("ETZ")) {
             commentDataView.setVisibility(View.VISIBLE);
-        }else{
+        } else {
             commentDataView.setVisibility(View.GONE);
         }
 
-        if(wm.getIso().equalsIgnoreCase("BTC")){
+        if (wm.getIso().equalsIgnoreCase("BTC")) {
             advBtnView.setVisibility(View.GONE);
-        }else{
+        } else {
             advBtnView.setVisibility(View.VISIBLE);
         }
     }
 
     //needed to fix the overlap bug
-    private void hideShowAdvOption(){
+    private void hideShowAdvOption() {
         commentEdit.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
@@ -250,14 +253,10 @@ public class FragmentSend extends Fragment {
     }
 
 
-
-
-
     private void setListeners() {
         amountEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
                 showKeyboard(true);
                 showFeeSelectionButtons(false);
                 hideShowAdvOption();
@@ -268,7 +267,7 @@ public class FragmentSend extends Fragment {
                     balanceText.setVisibility(View.VISIBLE);
                     advancedBtn.setVisibility(View.VISIBLE);
                     feeText.setVisibility(View.VISIBLE);
-                    isoText.setTextColor(getContext().getColor(R.color.almost_black));
+                    isoText.setTextColor(Color.parseColor("#303030"));
                     isoText.setText(CurrencyUtils.getSymbolByIso(getActivity(), selectedIso));
                     isoText.setTextSize(28);
                     final float scaleX = amountEdit.getScaleX();
@@ -308,7 +307,7 @@ public class FragmentSend extends Fragment {
                     set.clone(amountLayout);
                     TransitionManager.beginDelayedTransition(amountLayout, tr);
 
-                    int px4 = Utils.getPixelsFromDps(getContext(), 4);
+                    int px4 = Utils.getPixelsFromDps(BreadApp.getBreadContext(), 4);
                     set.connect(balanceText.getId(), ConstraintSet.TOP, isoText.getId(), ConstraintSet.BOTTOM, px4);
                     set.connect(feeText.getId(), ConstraintSet.TOP, balanceText.getId(), ConstraintSet.BOTTOM, px4);
                     set.connect(feeText.getId(), ConstraintSet.BOTTOM, ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM, px4);
@@ -320,9 +319,6 @@ public class FragmentSend extends Fragment {
 
             }
         });
-
-
-
 
 
         commentEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -341,7 +337,7 @@ public class FragmentSend extends Fragment {
         });
 
 
-        gasLimitIpt.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        gasLimitIpt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFous) {
                 showKeyboard(!hasFous);
@@ -349,7 +345,7 @@ public class FragmentSend extends Fragment {
         });
         gasLimitIpt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 
-        gasPriceIpt.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        gasPriceIpt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFous) {
                 showKeyboard(!hasFous);
@@ -383,9 +379,9 @@ public class FragmentSend extends Fragment {
                     return;
                 }
                 if (Utils.isEmulatorOrDebug(getActivity())) {
-                    MyLog.d( "Send Address -> " + obj.address);
-                    MyLog.d( "Send Value -> " + obj.value);
-                    MyLog.d( "Send Amount -> " + obj.amount);
+                    MyLog.d("Send Address -> " + obj.address);
+                    MyLog.d("Send Value -> " + obj.value);
+                    MyLog.d("Send Amount -> " + obj.amount);
                 }
 
                 if (obj.iso != null && !obj.iso.equalsIgnoreCase(wm.getIso())) {
@@ -397,7 +393,7 @@ public class FragmentSend extends Fragment {
                 if (wm.isAddressValid(obj.address)) {
                     final Activity app = getActivity();
                     if (app == null) {
-                        MyLog.e( "paste onClick: app is null");
+                        MyLog.e("paste onClick: app is null");
                         return;
                     }
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
@@ -443,7 +439,7 @@ public class FragmentSend extends Fragment {
                                 app.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        MyLog.e( "run: " + wm.getIso());
+                                        MyLog.e("run: " + wm.getIso());
                                         addressEdit.setText(wm.decorateAddress(obj.address));
 
                                     }
@@ -463,20 +459,20 @@ public class FragmentSend extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (selectedIso.equalsIgnoreCase(BRSharedPrefs.getPreferredFiatIso(getContext()))) {
+                if (selectedIso.equalsIgnoreCase(BRSharedPrefs.getPreferredFiatIso(getActivity()))) {
                     Activity app = getActivity();
 
                     String currentIos;
 
-                    if( WalletsMaster.getInstance(app).getCurrentWallet(app).getIso()=="ETH"){
+                    if (WalletsMaster.getInstance(app).getCurrentWallet(app).getIso() == "ETH") {
                         currentIos = "ETZ";
-                    }else{
+                    } else {
                         currentIos = WalletsMaster.getInstance(app).getCurrentWallet(app).getIso();
                     }
 
                     selectedIso = currentIos;
                 } else {
-                    selectedIso = BRSharedPrefs.getPreferredFiatIso(getContext());
+                    selectedIso = BRSharedPrefs.getPreferredFiatIso(getActivity());
                 }
                 updateText();
 
@@ -507,11 +503,11 @@ public class FragmentSend extends Fragment {
 //                }else{
 //                    MyLog.i( "onClick: isnotToken");
 //                }
-                        
-                        
+
+
                 //get the current wallet used
                 if (wm == null) {
-                    MyLog.e( "onClick: Wallet is null and it can't happen.");
+                    MyLog.e("onClick: Wallet is null and it can't happen.");
                     BRReportsManager.reportBug(new NullPointerException("Wallet is null and it can't happen."), true);
                     return;
                 }
@@ -524,12 +520,11 @@ public class FragmentSend extends Fragment {
                 String gasP = gasPriceIpt.getText().toString();
 
 
-
                 dataValue = dataValue.toLowerCase();
-                if(dataValue.length() == 0){
+                if (dataValue.length() == 0) {
                     dataValue = "";
                 }
-                if(dataValue.startsWith("0x")){
+                if (dataValue.startsWith("0x")) {
                     dataValue = dataValue.substring(2);
                 }
                 String p = "^[a-z0-9]*$";
@@ -561,14 +556,14 @@ public class FragmentSend extends Fragment {
 //                }
 
 
-                if(dataValue.length() > 0){
-                    if(!Pattern.matches(p, dataValue)){
-                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),app.getString(R.string.Data_invalid),app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
+                if (dataValue.length() > 0) {
+                    if (!Pattern.matches(p, dataValue)) {
+                        BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Data_invalid), app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
                             @Override
                             public void onClick(BRDialogView brDialogView) {
                                 brDialogView.dismiss();
                             }
-                        },null,null,0);
+                        }, null, null, 0);
                         return;
                     }
                 }
@@ -626,7 +621,7 @@ public class FragmentSend extends Fragment {
 
                 }
                 if (allFilled) {
-                    final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount,dataValue,gasL,gasP);
+                    final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount, dataValue, gasL, gasP);
                     BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                         @Override
                         public void run() {
@@ -845,7 +840,7 @@ public class FragmentSend extends Fragment {
 
     private void handleClick(String key) {
         if (key == null) {
-            MyLog.e( "handleClick: key is null! ");
+            MyLog.e("handleClick: key is null! ");
             return;
         }
 
@@ -901,7 +896,7 @@ public class FragmentSend extends Fragment {
             selectedIso = wm.getIso();
         //String iso = selectedIso;
 
-        MyLog.i( "updateText: selectedIso==="+selectedIso);
+        MyLog.i("updateText: selectedIso===" + selectedIso);
 
 
         curBalance = wm.getCachedBalance(app);
@@ -912,9 +907,9 @@ public class FragmentSend extends Fragment {
         //is the chosen ISO a crypto (could be also a fiat currency)
         boolean isIsoCrypto = WalletsMaster.getInstance(app).isIsoCrypto(app, selectedIso);
         //对象的getInstance方法 --对于方法的引用
-        MyLog.i( "updateTextBTC=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "BTC"));
-        MyLog.i( "updateTextETZ=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "ETZ"));
-        MyLog.i( "updateTextETH=="+WalletsMaster.getInstance(app).isIsoCrypto(app, "ETH"));
+        MyLog.i("updateTextBTC==" + WalletsMaster.getInstance(app).isIsoCrypto(app, "BTC"));
+        MyLog.i("updateTextETZ==" + WalletsMaster.getInstance(app).isIsoCrypto(app, "ETZ"));
+        MyLog.i("updateTextETH==" + WalletsMaster.getInstance(app).isIsoCrypto(app, "ETH"));
 
         boolean isWalletErc20 = WalletsMaster.getInstance(app).isIsoErc20(app, wm.getIso());
         BigDecimal inputAmount = new BigDecimal(Utils.isNullOrEmpty(stringAmount) || stringAmount.equalsIgnoreCase(".") ? "0" : stringAmount);
@@ -924,7 +919,7 @@ public class FragmentSend extends Fragment {
 
         //wallet's balance for the selected ISO
         BigDecimal isoBalance = isIsoCrypto ? wm.getCryptoForSmallestCrypto(app, curBalance) : wm.getFiatForSmallestCrypto(app, curBalance, null);
-        MyLog.i( "updateText isoBalance=="+isoBalance);
+        MyLog.i("updateText isoBalance==" + isoBalance);
 
         if (isoBalance == null) isoBalance = BigDecimal.ZERO;
 
@@ -945,18 +940,18 @@ public class FragmentSend extends Fragment {
         boolean isOverTheBalance = inputAmount.compareTo(isoBalance) > 0;
 
         if (isOverTheBalance) {
-            balanceText.setTextColor(getContext().getColor(R.color.warning_color));
-            feeText.setTextColor(getContext().getColor(R.color.warning_color));
-            amountEdit.setTextColor(getContext().getColor(R.color.warning_color));
+            balanceText.setTextColor(getResources().getColor(R.color.warning_color));
+            feeText.setTextColor(getResources().getColor(R.color.warning_color));
+            amountEdit.setTextColor(getResources().getColor(R.color.warning_color));
 
             if (!amountLabelOn)
-                isoText.setTextColor(getContext().getColor(R.color.warning_color));
+                isoText.setTextColor(getResources().getColor(R.color.warning_color));
         } else {
-            balanceText.setTextColor(getContext().getColor(R.color.light_gray));
-            feeText.setTextColor(getContext().getColor(R.color.light_gray));
-            amountEdit.setTextColor(getContext().getColor(R.color.almost_black));
+            balanceText.setTextColor(getResources().getColor(R.color.light_gray));
+            feeText.setTextColor(getResources().getColor(R.color.light_gray));
+            amountEdit.setTextColor(getResources().getColor(R.color.almost_black));
             if (!amountLabelOn)
-                isoText.setTextColor(getContext().getColor(R.color.almost_black));
+                isoText.setTextColor(getResources().getColor(R.color.almost_black));
         }
         //formattedBalance
 
@@ -975,12 +970,12 @@ public class FragmentSend extends Fragment {
             @Override
             public void run() {
                 if (obj == null) {
-                    MyLog.e( "setCryptoObject: obj is null");
+                    MyLog.e("setCryptoObject: obj is null");
                     return;
                 }
                 Activity app = getActivity();
                 if (app == null) {
-                    MyLog.e( "setCryptoObject: app is null");
+                    MyLog.e("setCryptoObject: app is null");
                     return;
                 }
                 BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
@@ -1000,10 +995,27 @@ public class FragmentSend extends Fragment {
 
                     if (obj.value != null) {
 
-                        BigDecimal fiatAmount = wm.getFiatForSmallestCrypto(getActivity(), obj.value, null);
+//                        BigDecimal fiatAmount = wm.getFiatForSmallestCrypto(getActivity(), obj.value, null);
+                        BigDecimal fiatAmount = wm.getCryptoForSmallestCrypto(getActivity(), obj.value);
                         fiatAmount = fiatAmount.setScale(2, RoundingMode.HALF_EVEN);
-
                         amountBuilder = new StringBuilder(fiatAmount.toPlainString());
+                        MyLog.i("***********" + obj.label + "---" + isoButton.getText().toString());
+                        if (obj.label.equalsIgnoreCase(wm.getIso())) {
+                            if (!obj.label.equalsIgnoreCase(isoButton.getText().toString())) {
+                                isoButton.performClick();
+                            }
+                        } else {
+                            if (wm.getIso().equalsIgnoreCase(isoButton.getText().toString())) {
+                                if (obj.label.equalsIgnoreCase(BRSharedPrefs.getPreferredFiatIso(getActivity()))) {
+                                    isoButton.performClick();
+                                }
+                            } else {
+                                if (!obj.label.equalsIgnoreCase(BRSharedPrefs.getPreferredFiatIso(getActivity()))) {
+                                    isoButton.performClick();
+                                }
+                            }
+
+                        }
                         updateText();
 
                     }

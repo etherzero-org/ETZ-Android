@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
@@ -11,6 +12,7 @@ import android.hardware.fingerprint.FingerprintManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +37,7 @@ public class FragmentFingerprint extends Fragment
         implements FingerprintUiHelper.Callback {
     public static final String TAG = FragmentFingerprint.class.getName();
 
-    private FingerprintManager.CryptoObject mCryptoObject;
+    private FingerprintManagerCompat.CryptoObject mCryptoObject;
     private FingerprintUiHelper mFingerprintUiHelper;
     private BRAuthCompletion completion;
     private TextView title;
@@ -81,10 +83,10 @@ public class FragmentFingerprint extends Fragment
             customMessage = messageString;
             message.setText(customMessage);
         }
-        FingerprintManager mFingerprintManager = (FingerprintManager) getActivity().getSystemService(Activity.FINGERPRINT_SERVICE);
+        FingerprintManagerCompat mFingerprintManager = FingerprintManagerCompat.from(getActivity());
         mFingerprintUiHelperBuilder = new FingerprintUiHelper.FingerprintUiHelperBuilder(mFingerprintManager);
         mFingerprintUiHelper = mFingerprintUiHelperBuilder.build((ImageView) v.findViewById(R.id.fingerprint_icon),
-                (TextView) v.findViewById(R.id.fingerprint_status), this, getContext());
+                (TextView) v.findViewById(R.id.fingerprint_status), this, getActivity());
         View mFingerprintContent = v.findViewById(R.id.fingerprint_container);
 
         Button mCancelButton = v.findViewById(R.id.cancel_button);
@@ -156,7 +158,7 @@ public class FragmentFingerprint extends Fragment
      * button. This can also happen when the user had too many fingerprint attempts.
      */
     private void goToBackup() {
-        final Context app = getContext();
+        final Context app = getActivity();
         closeMe();
 
         if (mFingerprintUiHelper != null)

@@ -150,7 +150,7 @@ public class BRDialogView extends DialogFragment {
         if (showHelpIcon) {
 //            helpButton.setVisibility(View.VISIBLE);
 
-            messageText.setPadding(0, 0, 0, Utils.getPixelsFromDps(getContext(), 16));
+            messageText.setPadding(0, 0, 0, Utils.getPixelsFromDps(getActivity(), 16));
 
 //            helpButton.setOnClickListener(new View.OnClickListener() {
 //                @Override

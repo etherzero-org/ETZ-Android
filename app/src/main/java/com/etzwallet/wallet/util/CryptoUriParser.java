@@ -79,6 +79,8 @@ public class CryptoUriParser {
         }
 
         CryptoRequest requestObject = parseRequest(app, url);
+        MyLog.i("url"+url+":address="+requestObject.address+":value="+requestObject.value+":label="+requestObject.label+":amount="+requestObject.amount+":r="+requestObject.r+":req="
+                +requestObject.req);
 
         if (requestObject == null) {
             BRDialog.showSimpleDialog(app, app.getString(R.string.JailbreakWarnings_title), app.getString(R.string.Send_invalidAddressTitle));

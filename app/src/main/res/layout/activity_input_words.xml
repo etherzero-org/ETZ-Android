@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_intro_set_pit"
@@ -8,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/extra_light_blue_background"
     tools:context="com.etzwallet.presenter.activities.SetPinActivity">
+
 
     <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/title"
@@ -20,7 +20,7 @@
         android:textSize="@dimen/header"
         app:customTFont="CircularPro-Bold.otf"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!--
         <ImageButton
@@ -49,7 +49,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/title"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"/>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/textView9"
@@ -61,7 +61,7 @@
         android:textSize="@dimen/sub_header"
         app:customTFont="CircularPro-Bold.otf"
         app:layout_constraintLeft_toLeftOf="@+id/description"
-        app:layout_constraintTop_toBottomOf="@+id/description"/>
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
 
     <com.etzwallet.presenter.customviews.BRButton
@@ -74,14 +74,14 @@
         android:background="@drawable/b_blue"
         android:elevation="8dp"
         android:padding="10dp"
-        app:buttonType="1"
-        app:isBreadButton="true"
         android:text="@string/RecoverWallet.nextStep"
         android:textColor="@color/white"
         android:textSize="18sp"
+        app:buttonType="1"
+        app:isBreadButton="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintRight_toRightOf="parent" />
 
     <GridLayout
         android:layout_width="0dp"
@@ -97,14 +97,12 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
-        >
+        app:layout_constraintTop_toBottomOf="@+id/textView9">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:weightSum="3"
-            >
+            android:weightSum="3">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -120,9 +118,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
@@ -130,8 +128,7 @@
                     android:textColor="@color/almost_black"
                     android:textColorHint="@color/extra_light_gray"
                     android:textCursorDrawable="@null"
-                    app:customEFont="CircularPro-Medium.otf"
-                    />
+                    app:customEFont="CircularPro-Medium.otf" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -140,7 +137,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="1"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -157,16 +154,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word3"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -175,7 +171,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="2"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -192,16 +188,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word4"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -210,7 +205,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="3"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
         </LinearLayout>
@@ -218,8 +213,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:weightSum="3"
-            >
+            android:weightSum="3">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -235,16 +229,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word5"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -253,7 +246,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="4"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -270,16 +263,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word6"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -288,7 +280,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="5"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -305,16 +297,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word7"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -323,7 +314,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="6"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
         </LinearLayout>
@@ -331,8 +322,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:weightSum="3"
-            >
+            android:weightSum="3">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -348,16 +338,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word8"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -366,7 +355,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="7"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -383,16 +372,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word9"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -401,7 +389,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="8"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -418,16 +406,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word10"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -436,7 +423,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="9"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
         </LinearLayout>
@@ -445,8 +432,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="3"
-            >
+            android:weightSum="3">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -463,16 +449,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word11"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -481,7 +466,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="10"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -499,16 +484,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionNext"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:nextFocusForward="@+id/word12"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -517,7 +501,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="11"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
             <LinearLayout
@@ -526,23 +510,21 @@
                 android:layout_marginBottom="16dp"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:weightSum="2"
-                >
+                android:weightSum="2">
 
                 <com.etzwallet.presenter.customviews.BREdit
                     android:id="@+id/word12"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:gravity="center"
                     android:layout_weight="0.5"
                     android:backgroundTint="@color/extra_light_gray"
+                    android:gravity="center"
                     android:imeOptions="actionDone"
                     android:inputType="textVisiblePassword"
                     android:lines="1"
                     android:textColor="@color/almost_black"
-                    android:textColorHint="@color/extra_light_gray"
-                    />
+                    android:textColorHint="@color/extra_light_gray" />
 
                 <com.etzwallet.presenter.customviews.BRText
                     android:layout_width="match_parent"
@@ -551,7 +533,7 @@
                     android:layout_weight="1.5"
                     android:gravity="center"
                     android:text="12"
-                    android:textColor="@color/light_gray"/>
+                    android:textColor="@color/light_gray" />
             </LinearLayout>
 
         </LinearLayout>

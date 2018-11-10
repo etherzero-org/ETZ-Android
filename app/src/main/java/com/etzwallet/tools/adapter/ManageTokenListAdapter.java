@@ -80,7 +80,7 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
 
         holder.showHide.setBackground(mContext.getDrawable(isHidden ? R.drawable.add_wallet_button : R.drawable.remove_wallet_button));
         holder.showHide.setText(isHidden ? mContext.getString(R.string.TokenList_show) : mContext.getString(R.string.TokenList_hide));
-        holder.showHide.setTextColor(mContext.getColor(isHidden ? R.color.dialog_button_positive : R.color.red));
+        holder.showHide.setTextColor(mContext.getResources().getColor(isHidden ? R.color.dialog_button_positive : R.color.red));
 
         holder.showHide.setOnClickListener(new View.OnClickListener() {
             @Override

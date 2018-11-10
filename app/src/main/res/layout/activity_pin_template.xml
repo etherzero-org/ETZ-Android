@@ -72,20 +72,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pinLayout"
         app:layout_constraintVertical_bias="0.73"/>
-    <!--
-        <ImageButton
-        android:id="@+id/faq_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginEnd="@dimen/bread_margin"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/faq_question_black"
-        app:layout_constraintBottom_toBottomOf="@+id/title"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/title"
-        />
-    -->
 
 
     <LinearLayout

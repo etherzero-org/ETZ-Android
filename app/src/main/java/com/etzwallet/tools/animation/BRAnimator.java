@@ -8,6 +8,7 @@ import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -352,6 +353,7 @@ public class BRAnimator {
         }
     }
 
+    @SuppressLint("NewApi")
     public static void animateSignalSlide(final ViewGroup signalLayout, final boolean reverse, final OnSlideAnimationEnd listener) {
         float translationY = signalLayout.getTranslationY();
         float signalHeight = signalLayout.getHeight();

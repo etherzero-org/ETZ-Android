@@ -72,12 +72,12 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
             return;
         }
-        super.onCreate(savedInstanceState);
         BreadApp.getMyApp().addActivity(this);
     }
 
@@ -230,6 +230,7 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                                 e.printStackTrace();
                             }
                             String result = data.getStringExtra("result");
+                            MyLog.i("**************" + result);
                             if (CryptoUriParser.isCryptoUrl(BRActivity.this, result))
                                 CryptoUriParser.processRequest(BRActivity.this, result,
                                         WalletsMaster.getInstance(BRActivity.this).getCurrentWallet(BRActivity.this));

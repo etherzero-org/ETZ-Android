@@ -69,7 +69,7 @@ public class CryptoRequest {
     public CryptoRequest() {
 
     }
-
+//
     public boolean isPaymentProtocol() {
         return !Utils.isNullOrEmpty(r);
     }

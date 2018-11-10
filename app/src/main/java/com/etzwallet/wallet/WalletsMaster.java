@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.WorkerThread;
 
 import com.etzwallet.BreadApp;
@@ -18,6 +17,7 @@ import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
+import com.etzwallet.tools.exceptions.UserNotAuthenticatedException;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.BRKeyStore;
@@ -134,7 +134,6 @@ public class WalletsMaster {
 
     public synchronized List<BaseWalletManager> getAllWallets(Context app) {
         if (mWallets == null || mWallets.size() == 0) {
-            MyLog.i("************************************");
             updateWallets(app);
         }
         return mWallets;
@@ -424,6 +423,7 @@ public class WalletsMaster {
     public void startTheWalletIfExists(final Activity app) {
         final WalletsMaster m = WalletsMaster.getInstance(app);
         if (!m.isPasscodeEnabled(app)) {
+//        if (false) {
             //Device passcode/password should be enabled for the app to work
             BRDialog.showCustomDialog(app, app.getString(R.string.JailbreakWarnings_title), app.getString(R.string.Prompts_NoScreenLock_body_android),
                     app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {

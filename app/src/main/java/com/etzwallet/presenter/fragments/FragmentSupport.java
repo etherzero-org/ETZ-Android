@@ -73,7 +73,7 @@ public class FragmentSupport extends Fragment {
         backgroundLayout = rootView.findViewById(R.id.background_layout);
         signalLayout = rootView.findViewById(R.id.signal_layout);
 
-        signalLayout.setOnTouchListener(new SlideDetector(getContext(), signalLayout));
+        signalLayout.setOnTouchListener(new SlideDetector(getActivity(), signalLayout));
 
         signalLayout.setLayoutTransition(BRAnimator.getDefaultTransition());
 

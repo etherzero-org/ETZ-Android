@@ -3,7 +3,6 @@ package com.etzwallet.wallet.wallets.ethereum;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.security.keystore.UserNotAuthenticatedException;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.BuildConfig;
@@ -23,6 +22,7 @@ import com.etzwallet.presenter.entities.TxUiHolder;
 import com.etzwallet.presenter.interfaces.BROnSignalCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
+import com.etzwallet.tools.exceptions.UserNotAuthenticatedException;
 import com.etzwallet.tools.manager.BRApiManager;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
@@ -1229,6 +1229,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             public void run() {
                 final String ethRpcUrl = JsonRpcHelper.createLogsUrl(address, contract, event);
                 MyLog.i( "run: ethRpcUrl=token===" + ethRpcUrl);
+                MyLog.i( "run: ethRpcUrl=token===" + event);
 
                 final JSONObject payload = new JSONObject();
                 try {
@@ -1241,7 +1242,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
-
+                        MyLog.i( "run: ethRpcUrl=logs===" + jsonResult);
                         if (!Utils.isNullOrEmpty(jsonResult)) {
                             try {
                                 // Convert response into JsonArray of logs

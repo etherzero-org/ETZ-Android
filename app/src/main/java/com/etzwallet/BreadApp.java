@@ -1,5 +1,6 @@
 package com.etzwallet;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
@@ -7,9 +8,9 @@ import android.arch.lifecycle.ProcessLifecycleOwner;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.graphics.Point;
-import android.hardware.fingerprint.FingerprintManager;
 import android.net.ConnectivityManager;
 import android.os.Build;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.view.Display;
 import android.view.WindowManager;
 
@@ -71,7 +72,7 @@ public class BreadApp extends Application {
     private static final String TAG = BreadApp.class.getName();
     public static int DISPLAY_HEIGHT_PX;
     public static int DISPLAY_WIDTH_PX;
-    private FingerprintManager mFingerprintManager;
+//    private FingerprintManagerCompat mFingerprintManager;
     // host is the server(s) on which the API is hosted
     public static String HOST = "api.breadwallet.com";
     private static List<OnAppBackgrounded> listeners;
@@ -106,6 +107,7 @@ public class BreadApp extends Application {
 //        return application.refWatcher;
 //    }
 
+    @SuppressLint("ServiceCast")
     @Override
     public void onCreate() {
         super.onCreate();
@@ -151,7 +153,7 @@ public class BreadApp extends Application {
         display.getSize(size);
         DISPLAY_WIDTH_PX = size.x;
         DISPLAY_HEIGHT_PX = size.y;
-        mFingerprintManager = (FingerprintManager) getSystemService(Context.FINGERPRINT_SERVICE);
+//        mFingerprintManager = (FingerprintManagerCompat) getSystemService(Context.FINGERPRINT_SERVICE);
 
         registerReceiver(InternetManager.getInstance(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 

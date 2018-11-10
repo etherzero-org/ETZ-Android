@@ -1,6 +1,7 @@
 package com.etzwallet.tools.util;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.usage.UsageStats;
@@ -11,8 +12,10 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.hardware.fingerprint.FingerprintManager;
 import android.os.Build;
+import android.os.Looper;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodInfo;
@@ -167,7 +170,7 @@ public class Utils {
     }
 
     public static boolean isFingerprintEnrolled(Context app) {
-        FingerprintManager fingerprintManager = (FingerprintManager) app.getSystemService(FINGERPRINT_SERVICE);
+         FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(app);
         // Device doesn't support fingerprint authentication
 
         if (fingerprintManager == null) return false;
@@ -180,11 +183,11 @@ public class Utils {
     }
 
     public static boolean isFingerprintAvailable(Context app) {
-        FingerprintManager fingerprintManager = (FingerprintManager) app.getSystemService(FINGERPRINT_SERVICE);
-        if (fingerprintManager == null) return false;
+         FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(app);
+//        if (fingerprintManager == null) return false;
         // Device doesn't support fingerprint authentication
         if (ActivityCompat.checkSelfPermission(app, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(app, "Fingerprint authentication permission not enabled", Toast.LENGTH_LONG).show();
+//            Toast.makeText(app, "Fingerprint authentication permission not enabled", Toast.LENGTH_LONG).show();
             return false;
         }
         return fingerprintManager.isHardwareDetected();

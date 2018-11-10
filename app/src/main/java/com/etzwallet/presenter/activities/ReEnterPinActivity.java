@@ -6,16 +6,20 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRKeyboard;
+import com.etzwallet.presenter.customviews.LoadingDialog;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.interfaces.BROnSignalCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.SpringAnimator;
 import com.etzwallet.tools.security.AuthManager;
 import com.etzwallet.tools.security.PostAuth;
+import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.Utils;
+import com.etzwallet.wallet.WalletsMaster;
 
 public class ReEnterPinActivity extends BRActivity {
     private static final String TAG = ReEnterPinActivity.class.getName();
@@ -44,7 +48,7 @@ public class ReEnterPinActivity extends BRActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_template);
-
+        app = this;
         keyboard = findViewById(R.id.brkeyboard);
         pinLayout = findViewById(R.id.pinLayout);
 
@@ -58,6 +62,7 @@ public class ReEnterPinActivity extends BRActivity {
 //                BRAnimator.showSupportFragment(ReEnterPinActivity.this, BRConstants.FAQ_SET_PIN, wm);
 //            }
 //        });
+
 
         title = findViewById(R.id.title);
         title.setText(getString(R.string.UpdatePin_createTitleConfirm));
@@ -88,7 +93,6 @@ public class ReEnterPinActivity extends BRActivity {
         super.onResume();
 //        updateDots();
         appVisible = true;
-        app = this;
         isPressAllowed = true;
     }
 
@@ -101,7 +105,7 @@ public class ReEnterPinActivity extends BRActivity {
     private void handleClick(String key) {
         if (!isPressAllowed) return;
         if (key == null) {
-            MyLog.e( "handleClick: key is null! ");
+            MyLog.e("handleClick: key is null! ");
             return;
         }
 
@@ -110,7 +114,7 @@ public class ReEnterPinActivity extends BRActivity {
         } else if (Character.isDigit(key.charAt(0))) {
             handleDigitClick(Integer.parseInt(key.substring(0, 1)));
         } else {
-            MyLog.e( "handleClick: oops: " + key);
+            MyLog.e("handleClick: oops: " + key);
         }
     }
 
@@ -149,42 +153,44 @@ public class ReEnterPinActivity extends BRActivity {
         dot6.setBackground(getDrawable(selectedDots <= 0 ? R.drawable.ic_pin_dot_gray : R.drawable.ic_pin_dot_black));
 
         if (pin.length() == 6) {
+
             verifyPin();
+
         }
 
     }
 
+    LoadingDialog loadingDialog = null;
+
     private void verifyPin() {
         if (firstPIN.equalsIgnoreCase(pin.toString())) {
-            AuthManager.getInstance().authSuccess(this);
-//            MyLog.e( "verifyPin: SUCCESS");
-            isPressAllowed = false;
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    pin = new StringBuilder("");
-//                    updateDots();
-//                }
-//            }, 200);
-            AuthManager.getInstance().setPinCode(pin.toString(), this);
-            MyLog.i("noPin="+getIntent().getBooleanExtra("noPin", false));
-            if (getIntent().getBooleanExtra("noPin", false)) {
+            if (loadingDialog == null)
+                loadingDialog = new LoadingDialog(app);
+            loadingDialog.show();
+            BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+                @Override
+                public void run() {
+                    AuthManager.getInstance().authSuccess(app);
+                    isPressAllowed = false;
+                    AuthManager.getInstance().setPinCode(pin.toString(), BreadApp.getBreadContext());
+                    MyLog.i("noPin=" + getIntent().getBooleanExtra("noPin", false));
+                    if (getIntent().getBooleanExtra("noPin", false)) {
+                        BRAnimator.startBreadActivity(app, false);
+                    } else {
+                        BRAnimator.showBreadSignal(app, getString(R.string.Alerts_pinSet),
+                                getString(R.string.UpdatePin_createInstruction), R.drawable.ic_check_mark_white, new BROnSignalCompletion() {
+                                    @Override
+                                    public void onComplete() {
+                                        PostAuth.getInstance().onCreateWalletAuth(ReEnterPinActivity.this, false);
 
-                BRAnimator.startBreadActivity(this, false);
-            } else {
-                BRAnimator.showBreadSignal(this, getString(R.string.Alerts_pinSet),
-                        getString(R.string.UpdatePin_createInstruction), R.drawable.ic_check_mark_white, new BROnSignalCompletion() {
-                    @Override
-                    public void onComplete() {
-                        PostAuth.getInstance().onCreateWalletAuth(ReEnterPinActivity.this, false);
-
+                                    }
+                                });
                     }
-                });
-            }
-
+                }
+            });
         } else {
             AuthManager.getInstance().authFail(this);
-            MyLog.e( "verifyPin: FAIL: firs: " + firstPIN + ", reEnter: " + pin.toString());
+            MyLog.e("verifyPin: FAIL: firs: " + firstPIN + ", reEnter: " + pin.toString());
             SpringAnimator.failShakeAnimation(this, pinLayout);
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -200,5 +206,12 @@ public class ReEnterPinActivity extends BRActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (loadingDialog != null && loadingDialog.isShowing())
+            loadingDialog.dismiss();
+        super.onDestroy();
     }
 }

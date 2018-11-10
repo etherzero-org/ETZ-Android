@@ -82,12 +82,11 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 //        getTokenList();
-        //检查新版本
-        checkVersionUpdate();
+        app = this;
         mWalletRecycler = findViewById(R.id.rv_wallet_list);
         mFiatTotal = findViewById(R.id.total_assets_usd);
 
@@ -175,7 +174,14 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                     MyLog.e("Continue :" + info.title + " (FAILED)");
             }
         });
-        MyLog.e("onCreate: 2");
+        //检查新版本
+        getWindow().getDecorView().post(new Runnable() {
+            @Override
+            public void run() {
+                alertDialog();
+                checkVersionUpdate();
+            }
+        });
 
     }
 
@@ -299,8 +305,6 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 //            }
 //        });
 //    }
-    private static Context context;
-
 
     public void hidePrompt() {
         mPromptCard.setVisibility(View.GONE);
@@ -337,45 +341,35 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
     @Override
     protected void onResume() {
         super.onResume();
-        long start = System.currentTimeMillis();
-        app = this;
-
         showNextPromptIfNeeded();
-
         populateWallets();
-
-        new Handler().postDelayed(new Runnable() {
+        getWindow().getDecorView().post(new Runnable() {
             @Override
             public void run() {
                 if (mAdapter != null)
                     mAdapter.startObserving();
             }
-        }, 500);
-
+        });
         InternetManager.registerConnectionReceiver(this, this);
-
         updateUi();
-        alertDialog();
         RatesDataSource.getInstance(this).addOnDataChangedListener(this);
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
                 Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
-                Activity app = HomeActivity.this;
                 WalletsMaster.getInstance(app).refreshBalances(app);
                 WalletsMaster.getInstance(app).getCurrentWallet(app).refreshAddress(app);
             }
         });
-
         onConnectionChanged(InternetManager.getInstance().isConnected(this));
-        MyLog.e("onResume: took: " + (System.currentTimeMillis() - start));
     }
 
     private void populateWallets() {
-        ArrayList<BaseWalletManager> list = new ArrayList<>(WalletsMaster.getInstance(this).getAllWallets(this));
-        mAdapter = new WalletListAdapter(this, list);
+        ArrayList<BaseWalletManager> list = new ArrayList<>(WalletsMaster.getInstance(app).getAllWallets(app));
+        mAdapter = new WalletListAdapter(app, list);
         mWalletRecycler.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+
     }
 
     @Override
@@ -399,7 +393,8 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
                     public void run() {
                         mFiatTotal.setText(CurrencyUtils.getFormattedAmount(HomeActivity.this,
                                 BRSharedPrefs.getPreferredFiatIso(HomeActivity.this), fiatTotalAmount));
-                        mAdapter.notifyDataSetChanged();
+                        if (mAdapter != null)
+                            mAdapter.notifyDataSetChanged();
                     }
                 });
 

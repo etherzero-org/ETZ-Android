@@ -87,7 +87,7 @@ public class FragmentPin extends Fragment {
         pinLayout = rootView.findViewById(R.id.pinLayout);
 //        Vibrator vibrator = (Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);//获取震动权限
 
-        if (BRKeyStore.getPinCode(getContext()).length() == 4) pinLimit = 4;
+        if (BRKeyStore.getPinCode(getActivity()).length() == 4) pinLimit = 4;
 
         title = rootView.findViewById(R.id.title);
         message = rootView.findViewById(R.id.message);
@@ -191,7 +191,7 @@ public class FragmentPin extends Fragment {
                 dot1, dot2, dot3, dot4, dot5, dot6, R.drawable.ic_pin_dot_gray, new AuthManager.OnPinSuccess() {
                     @Override
                     public void onSuccess() {
-                        if (AuthManager.getInstance().checkAuth(pin.toString(), getContext())) {
+                        if (AuthManager.getInstance().checkAuth(pin.toString(),getActivity())) {
                             handleSuccess();
                         } else {
                             handleFail();

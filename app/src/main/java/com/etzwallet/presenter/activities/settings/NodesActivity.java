@@ -210,12 +210,12 @@ public class NodesActivity extends BRActivity {
 
                 } else {
                     customTitle.setText("Invalid Node");
-                    customTitle.setTextColor(app.getColor(R.color.warning_color));
+                    customTitle.setTextColor(getResources().getColor(R.color.warning_color));
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             customTitle.setText(getString(R.string.NodeSelector_enterTitle));
-                            customTitle.setTextColor(app.getColor(R.color.almost_black));
+                            customTitle.setTextColor(getResources().getColor(R.color.almost_black));
                         }
                     }, 1000);
                 }

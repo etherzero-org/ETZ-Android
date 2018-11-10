@@ -66,7 +66,7 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
 
         holder.addRemoveButton.setText(mContext.getString(item.isAdded ? R.string.TokenList_remove : R.string.TokenList_add));
         holder.addRemoveButton.setBackground(mContext.getDrawable(item.isAdded ? R.drawable.remove_wallet_button : R.drawable.add_wallet_button));
-        holder.addRemoveButton.setTextColor(mContext.getColor(item.isAdded ? R.color.red : R.color.dialog_button_positive));
+        holder.addRemoveButton.setTextColor(mContext.getResources().getColor(item.isAdded ? R.color.red : R.color.dialog_button_positive));
 
         holder.addRemoveButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -45,6 +45,14 @@ public class SmartValidator {
 
     public static boolean isPaperKeyValid(Context ctx, String paperKey) {
         String languageCode = Locale.getDefault().getLanguage();
+        if (languageCode.equals("zh")) {
+            String strcode = Locale.getDefault().getCountry();
+            if (strcode.equalsIgnoreCase("CN")) {
+                languageCode="zh";
+            } else {
+                languageCode="zhTW";
+            }
+        }
         if (!isValid(ctx, paperKey, languageCode)) {
             //            //try all langs
             for (String lang : Bip39Reader.LANGS) {
@@ -64,7 +72,7 @@ public class SmartValidator {
         List<String> list = Bip39Reader.bip39List(ctx, lang);
         String[] words = list.toArray(new String[list.size()]);
         if (words.length % Bip39Reader.WORD_LIST_SIZE != 0) {
-            MyLog.e( "isPaperKeyValid: " + "The list size should divide by " + Bip39Reader.WORD_LIST_SIZE);
+            MyLog.e("isPaperKeyValid: " + "The list size should divide by " + Bip39Reader.WORD_LIST_SIZE);
             BRReportsManager.reportBug(new IllegalArgumentException("words.length is not dividable by " + Bip39Reader.WORD_LIST_SIZE), true);
         }
         return BRCoreMasterPubKey.validateRecoveryPhrase(words, paperKey);
@@ -92,7 +100,7 @@ public class SmartValidator {
 
         String generatedAddress = new BRCoreMasterPubKey(mpk, false).getPubKeyAsCoreKey().address();
         if (!addressFromPrefs.equalsIgnoreCase(generatedAddress) && addressFromPrefs.length() != 0 && generatedAddress.length() != 0) {
-            MyLog.e( "checkFirstAddress: WARNING, addresses don't match: Prefs:" + addressFromPrefs + ", gen:" + generatedAddress);
+            MyLog.e("checkFirstAddress: WARNING, addresses don't match: Prefs:" + addressFromPrefs + ", gen:" + generatedAddress);
         }
         return addressFromPrefs.equals(generatedAddress);
     }
@@ -103,7 +111,7 @@ public class SmartValidator {
     }
 
     public static boolean isWordValid(Context ctx, String word) {
-        MyLog.e( "isWordValid: word:" + word + ":" + word.length());
+        MyLog.e("isWordValid: word:" + word + ":" + word.length());
         if (list == null) list = Bip39Reader.bip39List(ctx, null);
         String cleanWord = Bip39Reader.cleanWord(word);
         MyLog.e("isWordValid: cleanWord:" + cleanWord + ":" + cleanWord.length());

@@ -82,9 +82,9 @@ public class BRLockScreenConstraintLayout extends ConstraintLayout {
             height = h;
             createTriangles(w, h);
 
-            trianglesPaint.setShader(new LinearGradient(0, 0, w, 0, getContext().getColor(R.color.logo_gradient_start),
-                    getContext().getColor(R.color.logo_gradient_end), Shader.TileMode.MIRROR));
-            trianglesPaintBlack.setShadowLayer(10.0f, 5f, 5f, getContext().getColor(R.color.gray_shadow));
+            trianglesPaint.setShader(new LinearGradient(0, 0, w, 0, getResources().getColor(R.color.logo_gradient_start),
+                    getResources().getColor(R.color.logo_gradient_end), Shader.TileMode.MIRROR));
+            trianglesPaintBlack.setShadowLayer(10.0f, 5f, 5f, getResources().getColor(R.color.gray_shadow));
 
             invalidate();
         }

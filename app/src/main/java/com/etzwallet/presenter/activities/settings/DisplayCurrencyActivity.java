@@ -146,15 +146,15 @@ public class DisplayCurrencyActivity extends BaseSettingsActivity {
     private void setButton(boolean left) {
         if (left) {
             BRSharedPrefs.putCryptoDenomination(this, "BTC", BRConstants.CURRENT_UNIT_BITS);
-            leftButton.setTextColor(getColor(R.color.white));
+            leftButton.setTextColor(getResources().getColor(R.color.white));
             leftButton.setBackground(getDrawable(R.drawable.b_half_left_blue));
-            rightButton.setTextColor(getColor(R.color.dark_blue));
+            rightButton.setTextColor(getResources().getColor(R.color.dark_blue));
             rightButton.setBackground(getDrawable(R.drawable.b_half_right_blue_stroke));
         } else {
             BRSharedPrefs.putCryptoDenomination(this, "BTC", BRConstants.CURRENT_UNIT_BITCOINS);
-            leftButton.setTextColor(getColor(R.color.dark_blue));
+            leftButton.setTextColor(getResources().getColor(R.color.dark_blue));
             leftButton.setBackground(getDrawable(R.drawable.b_half_left_blue_stroke));
-            rightButton.setTextColor(getColor(R.color.white));
+            rightButton.setTextColor(getResources().getColor(R.color.white));
             rightButton.setBackground(getDrawable(R.drawable.b_half_right_blue));
         }
         updateExchangeRate();

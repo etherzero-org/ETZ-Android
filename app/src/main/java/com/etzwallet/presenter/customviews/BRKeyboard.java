@@ -222,21 +222,21 @@ public class BRKeyboard extends LinearLayout implements View.OnClickListener {
     }
 
     public void setBRKeyboardColor(int color) {
-        setBackgroundColor(getContext().getColor(color));
+        setBackgroundColor(getResources().getColor(color));
     }
 
     public void setBRButtonTextColor(int color) {
-        num0.setTextColor(getContext().getColor(color));
-        num1.setTextColor(getContext().getColor(color));
-        num2.setTextColor(getContext().getColor(color));
-        num3.setTextColor(getContext().getColor(color));
-        num4.setTextColor(getContext().getColor(color));
-        num5.setTextColor(getContext().getColor(color));
-        num6.setTextColor(getContext().getColor(color));
-        num7.setTextColor(getContext().getColor(color));
-        num8.setTextColor(getContext().getColor(color));
-        num9.setTextColor(getContext().getColor(color));
-        numDot.setTextColor(getContext().getColor(color));
+        num0.setTextColor(getResources().getColor(color));
+        num1.setTextColor(getResources().getColor(color));
+        num2.setTextColor(getResources().getColor(color));
+        num3.setTextColor(getResources().getColor(color));
+        num4.setTextColor(getResources().getColor(color));
+        num5.setTextColor(getResources().getColor(color));
+        num6.setTextColor(getResources().getColor(color));
+        num7.setTextColor(getResources().getColor(color));
+        num8.setTextColor(getResources().getColor(color));
+        num9.setTextColor(getResources().getColor(color));
+        numDot.setTextColor(getResources().getColor(color));
 //        numDelete.setColorFilter(getContext().getColor(color));
         invalidate();
     }

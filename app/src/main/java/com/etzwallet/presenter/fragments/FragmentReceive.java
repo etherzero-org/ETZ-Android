@@ -145,7 +145,7 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
 
         signalLayout.setLayoutTransition(BRAnimator.getDefaultTransition());
 
-        signalLayout.setOnTouchListener(new SlideDetector(getContext(), signalLayout));
+        signalLayout.setOnTouchListener(new SlideDetector(getActivity(), signalLayout));
 
         return rootView;
     }
@@ -311,7 +311,7 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
     }
 
     private void updateQr() {
-        final Context ctx = getContext() == null ? BreadApp.getBreadContext() : (Activity) getContext();
+        final Context ctx = getActivity() == null ? BreadApp.getBreadContext() :  getActivity();
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
@@ -330,7 +330,7 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
                         MyLog.i( "run: decorated===2"+decorated);
                         mAddress.setText(decorated);
                         Utils.correctTextSizeIfNeeded(mAddress);
-                        Uri uri = CryptoUriParser.createCryptoUrl(ctx, wm, decorated, BigDecimal.ZERO, null, null, null);
+                        Uri uri = CryptoUriParser.createCryptoUrl(ctx, wm, decorated, BigDecimal.ZERO, wm.getIso(), null, null);
                         boolean generated = QRUtils.generateQR(ctx, uri.toString(), mQrImage);
                         if (!generated)
                             throw new RuntimeException("failed to generate qr image for address");

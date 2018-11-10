@@ -3,19 +3,24 @@ package com.etzwallet.presenter.activities;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.intro.IntroActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.LoadingDialog;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.interfaces.BROnSignalCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
@@ -26,6 +31,7 @@ import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.AuthManager;
 import com.etzwallet.tools.security.PostAuth;
 import com.etzwallet.tools.security.SmartValidator;
+import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.RestartAPPTool;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
@@ -48,33 +54,20 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 
     private List<EditText> mEditWords = new ArrayList<>(NUMBER_OF_WORDS);
 
-    private String mDebugPhrase;
-
     //will be true if this screen was called from the restore screen
     private boolean mIsRestoring = false;
     private boolean mIsResettingPin = false;
     private int fromCrate = 0;
+    private LoadingDialog loadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_words);
         String languageCode = Locale.getDefault().getLanguage();//手机语言
-//        if (Utils.isEmulatorOrDebug(this)) {
-//            mDebugPhrase = "こせき　ぎじにってい　けっこん　せつぞく　うんどう　ふこう　にっすう　こせい　きさま　なまみ　たきび　はかい";//japanese
-//            mDebugPhrase = "video tiger report bid suspect taxi mail argue naive layer metal surface";//english
-//            mDebugPhrase = "vocation triage capsule marchand onduler tibia illicite entier fureur minorer amateur lubie";//french
-//            mDebugPhrase = "zorro turismo mezcla nicho morir chico blanco pájaro alba esencia roer repetir";//spanish
-//            mDebugPhrase = "怨 贪 旁 扎 吹 音 决 廷 十 助 畜 怒";//chinese
-//            mDebugPhrase = "aim lawn sniff tenant coffee smoke meat hockey glow try also angle";
-//            mDebugPhrase = "oído largo pensar grúa vampiro nación tomar agitar mano azote tarea miedo";
-
-//        }
-
         mNextButton = findViewById(R.id.send_button);
         fromCrate = getIntent().getIntExtra("from", 0);
-        MyLog.i( "fromCrate=" + fromCrate);
-
+        MyLog.i("fromCrate=" + fromCrate);
         if (Utils.isUsingCustomInputMethod(this)) {
             BRDialog.showCustomDialog(this, getString(R.string.JailbreakWarnings_title), getString(R.string.Alert_customKeyboard_android),
                     getString(R.string.Button_ok), getString(R.string.JailbreakWarnings_close), new BRDialogView.BROnClickListener() {
@@ -159,38 +152,32 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyLog.i( "onClick: next step1111");
-                if (!BRAnimator.isClickAllowed()) return;
+                MyLog.i("onClick: next step1111");
                 final Activity app = InputWordsActivity.this;
-                String phraseToCheck = getPhrase();//返回助记词的字符串
-                if (Utils.isEmulatorOrDebug(app) && !Utils.isNullOrEmpty(mDebugPhrase)) {
-                    phraseToCheck = mDebugPhrase;
+                if (!BRAnimator.isClickAllowed()) {
+                    return;
                 }
+                String phraseToCheck = getPhrase();//返回助记词的字符串
+//                if (Utils.isEmulatorOrDebug(app) && !Utils.isNullOrEmpty(mDebugPhrase)) {
+//                    phraseToCheck = mDebugPhrase;
+//                }
                 if (phraseToCheck == null) {
                     return;
                 }
                 String cleanPhrase = SmartValidator.cleanPaperKey(app, phraseToCheck);
-                MyLog.i( "phrase==cleanPhrase=" + cleanPhrase);
-                MyLog.i( "phrase==fromCrate==" + fromCrate);
+                MyLog.i("phrase==cleanPhrase=" + cleanPhrase);
+                MyLog.i("phrase==fromCrate==" + fromCrate);
                 if (Utils.isNullOrEmpty(cleanPhrase)) {
                     BRReportsManager.reportBug(new NullPointerException("cleanPhrase is null or empty!"));
                     return;
                 }
+
                 if (SmartValidator.isPaperKeyValid(app, cleanPhrase)) {
-                    //创建钱包  验证助记词  输入助记词
+//                    //创建钱包  验证助记词  输入助记词
                     Utils.hideKeyboard(app);
                     clearWords();
                     if (fromCrate == 1) {
                         if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {//验证创建的助记词
-                            //执行恢复钱包代码
-                            WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
-//                            m.wipeAll(InputWordsActivity.this);
-                            PostAuth.getInstance().setCachedPaperKey(cleanPhrase);
-                            //Disallow BTC and BCH sending.
-                            BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
-                            BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
-                            PostAuth.getInstance().onRecoverWalletAuth(app, false, true);
-//
                             BRSharedPrefs.putPhraseWroteDown(InputWordsActivity.this, true);
                             BRAnimator.showBreadSignal(InputWordsActivity.this, getString(R.string.Alerts_paperKeySet), getString(R.string.Alerts_paperKeySetSubheader), R.drawable.ic_check_mark_white, new BROnSignalCompletion() {
                                 @Override
@@ -221,12 +208,14 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                                             getResources().getString(R.string.WipeWallet_alertMessage), getResources().getString(R.string.WipeWallet_wipe), getResources().getString(R.string.Button_cancel), new BRDialogView.BROnClickListener() {
                                                 @Override
                                                 public void onClick(BRDialogView brDialogView) {
+                                                    BRSharedPrefs.putIsSetPinCode(app, false);
                                                     brDialogView.dismissWithAnimation();
                                                     WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
                                                     m.wipeWalletButKeystore(app);
                                                     m.wipeKeyStore(app);
 //                                                    Intent intent = new Intent(app, IntroActivity.class);
-                                                    BRSharedPrefs.putFirstAddress(app,"");
+                                                    BRSharedPrefs.putFirstAddress(app, "");
+
 //                                                    finalizeIntent(intent);
                                                     RestartAPPTool.restartAPP(getApplicationContext());
 
@@ -259,14 +248,22 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 
                         } else {
                             Utils.hideKeyboard(app);
+                            if (loadingDialog == null)
+                                loadingDialog = new LoadingDialog(InputWordsActivity.this);
+                            loadingDialog.show();
                             WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
                             m.wipeAll(InputWordsActivity.this);
                             PostAuth.getInstance().setCachedPaperKey(cleanPhrase);
-                            //Disallow BTC and BCH sending.
+//                            //Disallow BTC and BCH sending.
                             BRSharedPrefs.putPhraseWroteDown(InputWordsActivity.this, true);
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCASH_SYMBOL, false);
                             BRSharedPrefs.putAllowSpend(app, BaseBitcoinWalletManager.BITCOIN_SYMBOL, false);
-                            PostAuth.getInstance().onRecoverWalletAuth(app, false, false);
+                            BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+                                @Override
+                                public void run() {
+                                    PostAuth.getInstance().onRecoverWalletAuth(app, false, false);
+                                }
+                            });
                         }
 
                     }
@@ -315,7 +312,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                 paperKeyStringBuilder.append(' ');
             }
         }
-        MyLog.i( "getPhrase: paperKeyStringBuilder==" + paperKeyStringBuilder.length());
+        MyLog.i("getPhrase: paperKeyStringBuilder==" + paperKeyStringBuilder.length());
         //remove the last space
         if (paperKeyStringBuilder.length() == 0) {
             return null;
@@ -325,7 +322,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
 
 
         String paperKey = paperKeyStringBuilder.toString();
-        MyLog.i( "phrase==paperKey=" + paperKey);
+        MyLog.i("phrase==paperKey=" + paperKey);
         if (!success) {
             return null;
         }
@@ -359,17 +356,29 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
         if (!hasFocus) {
             validateWord((EditText) v);
         } else {
-            ((EditText) v).setTextColor(getColor(R.color.light_gray));
+            ((EditText) v).setTextColor(getResources().getColor(R.color.light_gray));
         }
     }
 
     private void validateWord(EditText view) {
         String word = view.getText().toString();
         boolean valid = SmartValidator.isWordValid(this, word);
-        view.setTextColor(getColor(valid ? R.color.light_gray : R.color.red_text));
+        view.setTextColor(getResources().getColor(valid ? R.color.light_gray : R.color.red_text));
         if (!valid) {
             SpringAnimator.failShakeAnimation(this, view);
         }
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (loadingDialog != null && loadingDialog.isShowing())
+            loadingDialog.dismiss();
+    }
 }

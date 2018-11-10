@@ -204,36 +204,36 @@ public class BRButton extends Button {
         this.type = type;
 
         if (type == 1) { //blue
-            bPaint.setColor(getContext().getColor(R.color.button_primary_normal));
-            setTextColor(getContext().getColor(R.color.white));
+            bPaint.setColor(getResources().getColor(R.color.button_primary_normal));
+            setTextColor(getResources().getColor(R.color.white));
         } else if (type == 2) { //gray stroke
-            bPaintStroke.setColor(getContext().getColor(R.color.extra_light_gray));
+            bPaintStroke.setColor(getResources().getColor(R.color.extra_light_gray));
             bPaintStroke.setStyle(Paint.Style.STROKE);
             bPaintStroke.setStrokeWidth(Utils.getPixelsFromDps(getContext(), 1));
-            setTextColor(getContext().getColor(R.color.light_gray));
-            bPaint.setColor(getContext().getColor(R.color.button_secondary));
+            setTextColor(getResources().getColor(R.color.light_gray));
+            bPaint.setColor(getResources().getColor(R.color.button_secondary));
             bPaint.setStyle(Paint.Style.FILL);
         } else if (type == 3) { //blue strokeww
-            bPaintStroke.setColor(getContext().getColor(R.color.button_primary_normal));
+            bPaintStroke.setColor(getResources().getColor(R.color.button_primary_normal));
             bPaintStroke.setStyle(Paint.Style.STROKE);
             bPaintStroke.setStrokeWidth(Utils.getPixelsFromDps(getContext(), 1));
-            setTextColor(getContext().getColor(R.color.button_primary_normal));
-            bPaint.setColor(getContext().getColor(R.color.button_secondary));
+            setTextColor(getResources().getColor(R.color.button_primary_normal));
+            bPaint.setColor(getResources().getColor(R.color.button_secondary));
             bPaint.setStyle(Paint.Style.FILL);
         } else if (type == 4) {
-            bPaintStroke.setColor(getContext().getColor(R.color.currency_buttons_color));
+            bPaintStroke.setColor(getResources().getColor(R.color.currency_buttons_color));
             bPaintStroke.setStyle(Paint.Style.STROKE);
             bPaintStroke.setStrokeWidth(Utils.getPixelsFromDps(getContext(), 1));
-            setTextColor(getContext().getColor(R.color.white));
-            bPaint.setColor(getContext().getColor(R.color.currency_buttons_color));
+            setTextColor(getResources().getColor(R.color.white));
+            bPaint.setColor(getResources().getColor(R.color.currency_buttons_color));
             bPaint.setStyle(Paint.Style.FILL);
         }
         else if (type == 5){
-            bPaintStroke.setColor(getContext().getColor(R.color.blue));
+            bPaintStroke.setColor(getResources().getColor(R.color.blue));
             bPaintStroke.setStyle(Paint.Style.STROKE);
             bPaintStroke.setStrokeWidth(Utils.getPixelsFromDps(getContext(), 1));
-            setTextColor(getContext().getColor(R.color.blue));
-            bPaint.setColor(getContext().getColor(R.color.white));
+            setTextColor(getResources().getColor(R.color.blue));
+            bPaint.setColor(getResources().getColor(R.color.white));
             bPaint.setStyle(Paint.Style.FILL);
 
         }

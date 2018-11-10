@@ -103,16 +103,16 @@ public class BRLinearLayoutWithCaret extends LinearLayout {
         strokePaint.setStyle(Paint.Style.STROKE);
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics());
         strokePaint.setStrokeWidth(px);
-        strokePaint.setColor(getContext().getColor(R.color.separator_gray));
+        strokePaint.setColor(getResources().getColor(R.color.separator_gray));
 
         path_stroke = new Path();
         path_background = new Path();
 
         backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         backgroundPaint.setStyle(Paint.Style.FILL);
-        backgroundPaint.setColor(getContext().getColor(R.color.extra_light_blue_background));
+        backgroundPaint.setColor(getResources().getColor(R.color.extra_light_blue_background));
 
-        setBackgroundColor(getContext().getColor(android.R.color.transparent));
+        setBackgroundColor(getResources().getColor(android.R.color.transparent));
         TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.BRLinearLayoutWithCaret);
         final int N = a.getIndexCount();
         for (int i = 0; i < N; ++i) {

@@ -136,7 +136,7 @@ public class AuthManager {
         }
     }
 
-    public void setPinCode(String pass, Activity context) {
+    public void setPinCode(String pass, Context context) {
         BRKeyStore.putFailCount(0, context);
         BRKeyStore.putPinCode(pass, context);
         BRKeyStore.putLastPinUsedTime(System.currentTimeMillis(), context);

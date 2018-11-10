@@ -2,13 +2,13 @@ package com.platform.tools;
 
 import android.app.Activity;
 import android.net.Uri;
-import android.security.keystore.UserNotAuthenticatedException;
 import android.util.Base64;
 
 import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.core.BRCoreMasterPubKey;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
+import com.etzwallet.tools.exceptions.UserNotAuthenticatedException;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.AuthManager;
 import com.etzwallet.tools.security.BRKeyStore;

@@ -9,11 +9,11 @@
     <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/tx_date"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
-        android:text="Dec 2"
+        android:gravity="bottom"
+        android:text="dd"
         android:textColor="@color/total_assets_usd_color"
         android:textSize="18sp"
         app:customTFont="CircularPro-Book.otf" />
@@ -26,9 +26,10 @@
         android:layout_alignStart="@id/tx_date"
         android:layout_below="@id/tx_date"
         android:layout_toStartOf="@id/tx_amount"
+        android:paddingTop="3dp"
+        android:singleLine="true"
         android:ellipsize="end"
-        android:maxLines="1"
-        android:paddingBottom="4dp"
+        android:gravity="top"
         android:text="sent to f94c57..."
         android:textColor="@color/settings_chevron_right"
         android:textSize="14sp" />
@@ -60,7 +61,7 @@
         android:progressBackgroundTint="#552196f3"
         android:progressDrawable="@drawable/tx_complete_progress_bar"
         android:progressTint="#4b77f3"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/tx_failed_button"
@@ -73,7 +74,7 @@
         android:textColor="@color/white"
         android:textSize="11sp"
         android:textStyle="bold"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <View
         android:layout_width="match_parent"

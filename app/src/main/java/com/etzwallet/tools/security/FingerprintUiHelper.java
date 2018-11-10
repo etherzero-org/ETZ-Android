@@ -19,20 +19,20 @@ package com.etzwallet.tools.security;
 import com.etzwallet.R;
 
 import android.content.Context;
-import android.hardware.fingerprint.FingerprintManager;
-import android.os.CancellationSignal;
+import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v4.os.CancellationSignal;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 /**
  * Small helper class to manage text/icon around fingerprint authentication UI.
  */
-public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallback {
+public class FingerprintUiHelper extends FingerprintManagerCompat.AuthenticationCallback {
 
     private static final long ERROR_TIMEOUT_MILLIS = 1600;
     private static final long SUCCESS_DELAY_MILLIS = 1300;
 
-    private final FingerprintManager mFingerprintManager;
+    private final FingerprintManagerCompat mFingerprintManager;
     private final ImageView mIcon;
     private final TextView mErrorTextView;
     private final Callback mCallback;
@@ -44,8 +44,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
     private Runnable mResetErrorTextRunnable = new Runnable() {
         @Override
         public void run() {
-            mErrorTextView.setTextColor(
-                    mErrorTextView.getResources().getColor(R.color.hint_color, null));
+            mErrorTextView.setTextColor(mErrorTextView.getResources().getColor(R.color.hint_color));
             mErrorTextView.setText(mContext.getString(R.string.UnlockScreen_touchIdInstructions_android));
             mIcon.setImageResource(R.drawable.ic_fp_40px);
         }
@@ -56,9 +55,9 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
      * holds its fields and takes other arguments in the {@link #build} method.
      */
     public static class FingerprintUiHelperBuilder {
-        private final FingerprintManager mFingerPrintManager;
+        private final FingerprintManagerCompat mFingerPrintManager;
 
-        public FingerprintUiHelperBuilder(FingerprintManager fingerprintManager) {
+        public FingerprintUiHelperBuilder(FingerprintManagerCompat fingerprintManager) {
             mFingerPrintManager = fingerprintManager;
         }
 
@@ -72,7 +71,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
      * Constructor for {@link FingerprintUiHelper}. This method is expected to be called from
      * only the {@link FingerprintUiHelperBuilder} class.
      */
-    private FingerprintUiHelper(FingerprintManager fingerprintManager,
+    private FingerprintUiHelper(FingerprintManagerCompat fingerprintManager,
                                 ImageView icon, TextView errorTextView, Callback callback, Context context) {
         mFingerprintManager = fingerprintManager;
         mIcon = icon;
@@ -86,13 +85,13 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
                 && mFingerprintManager.hasEnrolledFingerprints();
     }
 
-    public void startListening(FingerprintManager.CryptoObject cryptoObject) {
+    public void startListening(FingerprintManagerCompat.CryptoObject cryptoObject) {
         if (!isFingerprintAuthAvailable()) {
             return;
         }
         mCancellationSignal = new CancellationSignal();
         mSelfCancelled = false;
-        mFingerprintManager.authenticate(cryptoObject, mCancellationSignal, 0 /* flags */, this, null);
+        mFingerprintManager.authenticate(cryptoObject,0 /* flags */, mCancellationSignal,  this, null);
         mIcon.setImageResource(R.drawable.ic_fp_40px);
     }
 
@@ -128,11 +127,11 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
     }
 
     @Override
-    public void onAuthenticationSucceeded(FingerprintManager.AuthenticationResult result) {
+    public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
         mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
         mIcon.setImageResource(R.drawable.ic_fingerprint_success);
         mErrorTextView.setTextColor(
-                mErrorTextView.getResources().getColor(R.color.success_color, null));
+                mErrorTextView.getResources().getColor(R.color.success_color));
         mErrorTextView.setText(mContext.getString(R.string.Alerts_touchIdSucceeded_android));
         mIcon.postDelayed(new Runnable() {
             @Override
@@ -146,7 +145,7 @@ public class FingerprintUiHelper extends FingerprintManager.AuthenticationCallba
         mIcon.setImageResource(R.drawable.ic_fingerprint_error);
         mErrorTextView.setText(error);
         mErrorTextView.setTextColor(
-                mErrorTextView.getResources().getColor(R.color.warning_color, null));
+                mErrorTextView.getResources().getColor(R.color.warning_color));
         mErrorTextView.removeCallbacks(mResetErrorTextRunnable);
         mErrorTextView.postDelayed(mResetErrorTextRunnable, ERROR_TIMEOUT_MILLIS);
     }

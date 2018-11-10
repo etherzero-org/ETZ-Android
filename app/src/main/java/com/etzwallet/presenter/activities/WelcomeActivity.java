@@ -17,7 +17,8 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-        if (BRKeyStore.getPinCode(this) != null && !BRKeyStore.getPinCode(this).equals("")) {
+        if (BRSharedPrefs.getIsSetPinCode(this)) {
+            MyLog.i("**********"+BRSharedPrefs.getIsSetPinCode(this));
             startActivity(new Intent(this, LoginActivity.class));
         } else {
             MyLog.i(BRSharedPrefs.getFirstAddress(this));

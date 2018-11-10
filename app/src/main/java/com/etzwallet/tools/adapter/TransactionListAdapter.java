@@ -186,7 +186,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         boolean received = item.isReceived();
         int amountColor = received ? R.color.transaction_amount_received_color : R.color.total_assets_usd_color;
 
-        convertView.transactionAmount.setTextColor(mContext.getResources().getColor(amountColor, null));
+        convertView.transactionAmount.setTextColor(mContext.getResources().getColor(amountColor));
 
         // If this transaction failed, show the "FAILED" indicator in the cell
         if (!item.isValid())
@@ -231,12 +231,13 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if (level > 0 && level < 5) {
             showTransactionProgress(convertView, level * 20);
         }
+
         String sentTo = String.format(mContext.getString(R.string.Transaction_sentTo), wm.decorateAddress(item.getTo()));
         String receivedVia = String.format(mContext.getString(R.string.TransactionDetails_receivedVia), wm.decorateAddress(item.getFrom()));
 
         String sendingTo = String.format(mContext.getString(R.string.Transaction_sendingTo), wm.decorateAddress(item.getTo()));
         String receivingVia = String.format(mContext.getString(R.string.TransactionDetails_receivingVia), wm.decorateAddress(item.getFrom()));
-
+        MyLog.i("getTo="+sentTo+":getFrom="+receivedVia);
         if (level > 4) {
             convertView.transactionDetail.setText(!commentString.isEmpty() ? commentString : (!received ? sentTo : receivedVia));
         } else {
@@ -265,7 +266,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             holder.transactionDetail.setLayoutParams(detailParams);
             holder.transactionDetail.setMaxWidth(Utils.getPixelsFromDps(mContext, 120));
         } else {
-            holder.transactionProgress.setVisibility(View.INVISIBLE);
+            holder.transactionProgress.setVisibility(View.GONE);
             holder.transactionDate.setVisibility(View.VISIBLE);
             RelativeLayout.LayoutParams startingParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             startingParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);

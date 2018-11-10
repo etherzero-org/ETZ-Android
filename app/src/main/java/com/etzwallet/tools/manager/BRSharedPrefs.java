@@ -127,6 +127,17 @@ import java.util.UUID;
         editor.putBoolean("addrStatus",status);
         editor.apply();
     }
+    public static Boolean getIsSetPinCode(Context context){
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean("isSetPin", false);
+    }
+    public static void putIsSetPinCode(Context context,Boolean status){
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        MyLog.i("**********"+status);
+        editor.putBoolean("isSetPin",status);
+        editor.apply();
+    }
     //第一次创建
     public static void putFirstCreate(Context context,Boolean status){
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);

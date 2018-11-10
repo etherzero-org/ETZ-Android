@@ -3,7 +3,6 @@ package com.etzwallet.tools.security;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.security.keystore.UserNotAuthenticatedException;
 import android.support.annotation.WorkerThread;
 
 import com.etzwallet.R;
@@ -17,6 +16,7 @@ import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
 import com.etzwallet.tools.animation.BRDialog;
+import com.etzwallet.tools.exceptions.UserNotAuthenticatedException;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.manager.SendManager;

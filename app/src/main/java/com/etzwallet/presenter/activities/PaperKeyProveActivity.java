@@ -119,12 +119,12 @@ public class PaperKeyProveActivity extends BRActivity {
                 } else {
 
                     if (!isWordCorrect(true)) {
-                        wordEditFirst.setTextColor(getColor(R.color.red_text));
+                        wordEditFirst.setTextColor(getResources().getColor(R.color.red_text));
                         SpringAnimator.failShakeAnimation(PaperKeyProveActivity.this, wordEditFirst);
                     }
 
                     if (!isWordCorrect(false)) {
-                        wordEditSecond.setTextColor(getColor(R.color.red_text));
+                        wordEditSecond.setTextColor(getResources().getColor(R.color.red_text));
                         SpringAnimator.failShakeAnimation(PaperKeyProveActivity.this, wordEditSecond);
                     }
                 }
@@ -210,7 +210,7 @@ public class PaperKeyProveActivity extends BRActivity {
     private void validateWord(EditText view) {
         String word = view.getText().toString();
         boolean valid = SmartValidator.isWordValid(this, word);
-        view.setTextColor(getColor(valid ? R.color.light_gray : R.color.red_text));
+        view.setTextColor(getResources().getColor(valid ? R.color.light_gray : R.color.red_text));
 //        if (!valid)
 //            SpringAnimator.failShakeAnimation(this, view);
         if (isWordCorrect(true)) {

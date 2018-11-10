@@ -7,11 +7,15 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRKeyboard;
 import com.etzwallet.presenter.customviews.MyLog;
+import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.BRKeyStore;
+import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.wallet.WalletsMaster;
 
 public class SetPinActivity extends BRActivity {
     private static final String TAG = SetPinActivity.class.getName();
@@ -24,7 +28,7 @@ public class SetPinActivity extends BRActivity {
     private View dot5;
     private View dot6;
 
-//    private ImageButton faq;
+    //    private ImageButton faq;
     private StringBuilder pin = new StringBuilder();
     private int pinLimit = 6;
     private boolean startingNextActivity;
@@ -41,18 +45,17 @@ public class SetPinActivity extends BRActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pin_template);
 
+        if (getIntent().getBooleanExtra("noPin", false)) {
+            //恢复钱包获取钱包信息
+            BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+                @Override
+                public void run() {
+                    WalletsMaster.getInstance(BreadApp.getBreadContext()).getAllWallets(BreadApp.getBreadContext());
+                }
+            });
+        }
         keyboard = findViewById(R.id.brkeyboard);
         title = findViewById(R.id.title);
-//        faq = findViewById(R.id.faq_button);
-//
-//        faq.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!BRAnimator.isClickAllowed()) return;
-//                BaseWalletManager wm = WalletsMaster.getInstance(SetPinActivity.this).getCurrentWallet(SetPinActivity.this);
-//                BRAnimator.showSupportFragment(SetPinActivity.this, BRConstants.FAQ_SET_PIN, wm);
-//            }
-//        });
 
         dot1 = findViewById(R.id.dot1);
         dot2 = findViewById(R.id.dot2);
@@ -74,14 +77,15 @@ public class SetPinActivity extends BRActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!BRKeyStore.getPinCode(SetPinActivity.this).isEmpty()){
-            startActivity(new Intent(SetPinActivity.this,LoginActivity.class));
+        app = this;
+
+        if (BRSharedPrefs.getIsSetPinCode(app)) {
+            startActivity(new Intent(SetPinActivity.this, LoginActivity.class));
             finish();
         }
         updateDots();
         introSetPitActivity = this;
         appVisible = true;
-        app = this;
     }
 
     @Override
@@ -141,9 +145,9 @@ public class SetPinActivity extends BRActivity {
         if (pin.length() == 6) {
             if (startingNextActivity) return;
             startingNextActivity = true;
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
                     Intent intent = new Intent(SetPinActivity.this, ReEnterPinActivity.class);
                     intent.putExtra("pin", pin.toString());
                     intent.putExtra("noPin", getIntent().getBooleanExtra("noPin", false));
@@ -151,8 +155,8 @@ public class SetPinActivity extends BRActivity {
                     overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                     pin = new StringBuilder("");
                     startingNextActivity = false;
-                }
-            }, 100);
+//                }
+//            }, 100);
 
         }
 

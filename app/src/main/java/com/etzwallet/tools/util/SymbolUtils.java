@@ -1,6 +1,8 @@
 package com.etzwallet.tools.util;
 
+import android.annotation.TargetApi;
 import android.graphics.Paint;
+import android.os.Build;
 
 /**
  * Created by byfieldj on 3/16/18.
@@ -19,6 +21,7 @@ public class SymbolUtils {
     }
 
 
+    @TargetApi(Build.VERSION_CODES.M)
     public boolean doesDeviceSupportSymbol(String unicodeString) {
 
 

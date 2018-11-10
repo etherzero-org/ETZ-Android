@@ -26,7 +26,8 @@
     <item name="intro_status_bar" type="color">#ffbf7f</item>
     <item name="warning_status_bar" type="color">#7f5225</item>
     <item name="camera_guideline" type="color">#50636363</item>
-
+    <color name="btm">#30000000</color>
+    <color name="bbtm">#20000000</color>
 
     <item name="logo_gradient_start" type="color">#144396</item>
     <item name="logo_gradient_end" type="color">#144396</item>

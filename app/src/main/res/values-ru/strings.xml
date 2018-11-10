@@ -9,7 +9,7 @@
   <string name="current.version">текущая версия:</string>
   <string name="update.content">обновить контент:</string>
   <string name="download.latest.version">обновление новой версии</string>
-  <!-- App name -->
+  <!-- App name  俄语 -->
   <string name="About.appName.android">EasyETZ</string>
   <!-- About screen blog label -->
   <string name="About.blog">Блог</string>
@@ -932,4 +932,5 @@
   <string name="WritePaperPhrase.previous">Назад</string>
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%1$d из %2$d</string>
+  <string name="loading">Загружается...</string>
 </resources>

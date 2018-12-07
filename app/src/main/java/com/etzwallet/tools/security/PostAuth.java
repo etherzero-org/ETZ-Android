@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.WorkerThread;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.core.BRCoreMasterPubKey;
@@ -86,12 +87,13 @@ public class PostAuth {
     public void onCreateWalletAuth(final Activity app, boolean authAsked) {
         MyLog.i( "onCreateWalletAuth: " + authAsked);
         long start = System.currentTimeMillis();
-        boolean success = WalletsMaster.getInstance(app).generateRandomSeed(app);
+        boolean success = WalletsMaster.getInstance(BreadApp.getBreadContext()).generateRandomSeed(BreadApp.getBreadContext());
         MyLog.i("创建钱包是否成功------- " + success);
         if (success) {
             Intent intent = new Intent(app, WriteDownActivity.class);
             app.startActivity(intent);
             app.overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            app.finish();
         } else {
             if (authAsked) {
                 MyLog.e( "onCreateWalletAuth: WARNING!!!! LOOP");
@@ -268,7 +270,8 @@ public class PostAuth {
                     txMetaData.creationTime = (int) (System.currentTimeMillis() / 1000);//seconds
                     txMetaData.deviceId = BRSharedPrefs.getDeviceId(app);
                     txMetaData.classVersion = 1;
-
+                    BRSharedPrefs.setAddressNonce(app,mWalletManager.getAddress(),tx.getEtherTx().getNonce()+1);
+                    MyLog.i("*********LL****"+tx.getEtherTx().getNonce());
                     if (Utils.isNullOrEmpty(txHash)) {
                         if (tx.getEtherTx() != null) {
                             mWalletManager.watchTransactionForHash(tx, new BaseWalletManager.OnHashUpdated() {

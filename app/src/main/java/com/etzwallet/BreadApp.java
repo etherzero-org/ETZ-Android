@@ -72,7 +72,7 @@ public class BreadApp extends Application {
     private static final String TAG = BreadApp.class.getName();
     public static int DISPLAY_HEIGHT_PX;
     public static int DISPLAY_WIDTH_PX;
-//    private FingerprintManagerCompat mFingerprintManager;
+    //    private FingerprintManagerCompat mFingerprintManager;
     // host is the server(s) on which the API is hosted
     public static String HOST = "api.breadwallet.com";
     private static List<OnAppBackgrounded> listeners;
@@ -159,7 +159,6 @@ public class BreadApp extends Application {
 
         mObserver = new ApplicationLifecycleObserver();
         ProcessLifecycleOwner.get().getLifecycle().addObserver(mObserver);
-
     }
 
     public static void generateWalletIfIfNeeded(Context app, String address) {

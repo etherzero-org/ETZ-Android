@@ -244,22 +244,22 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                 }
                 break;
 
-            case BRConstants.PUT_PHRASE_NEW_WALLET_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
-                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            PostAuth.getInstance().onCreateWalletAuth(BRActivity.this, true);
-                        }
-                    });
-
-                } else {
-                    MyLog.e("WARNING: resultCode != RESULT_OK");
-                    WalletsMaster m = WalletsMaster.getInstance(BRActivity.this);
-                    m.wipeWalletButKeystore(this);
-                    finish();
-                }
-                break;
+//            case BRConstants.PUT_PHRASE_NEW_WALLET_REQUEST_CODE:
+//                if (resultCode == RESULT_OK) {
+//                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            PostAuth.getInstance().onCreateWalletAuth(BRActivity.this, true);
+//                        }
+//                    });
+//
+//                } else {
+//                    MyLog.e("WARNING: resultCode != RESULT_OK");
+//                    WalletsMaster m = WalletsMaster.getInstance(BRActivity.this);
+//                    m.wipeWalletButKeystore(this);
+//                    finish();
+//                }
+//                break;
 
         }
     }

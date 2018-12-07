@@ -1003,7 +1003,7 @@ void runAccountTests () {
 
 #define GAS_PRICE_20_GWEI       2000000000
 #define GAS_PRICE_10_GWEI       1000000000
-#define GAS_PRICE_5_GWEI         500000000
+#define GAS_PRICE_5_GWEI         18000000000
 
 #define GAS_LIMIT_DEFAULT 21000
 

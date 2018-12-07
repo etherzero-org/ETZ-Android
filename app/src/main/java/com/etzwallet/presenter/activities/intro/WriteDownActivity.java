@@ -1,29 +1,18 @@
 package com.etzwallet.presenter.activities.intro;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-//import android.widget.ImageButton;
 
-import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.security.AuthManager;
 import com.etzwallet.tools.security.PostAuth;
-import com.etzwallet.wallet.WalletsMaster;
-import com.etzwallet.wallet.abstracts.BaseWalletManager;
-
-import static java.security.AccessController.getContext;
 
 public class WriteDownActivity extends BRActivity {
-    private static final String TAG = WriteDownActivity.class.getName();
     private static WriteDownActivity app;
-    private String storeAddress;
     public static WriteDownActivity getApp() {
         return app;
     }
@@ -39,19 +28,19 @@ public class WriteDownActivity extends BRActivity {
             @Override
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
-                PostAuth.getInstance().onPhraseCheckAuth(WriteDownActivity.this, false);
-                //取消身份认证
-//                AuthManager.getInstance().authPrompt(WriteDownActivity.this, null, getString(R.string.VerifyPin_continueBody), true, false, new BRAuthCompletion() {
-//                    @Override
-//                    public void onComplete() {
-//                        PostAuth.getInstance().onPhraseCheckAuth(WriteDownActivity.this, false);
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
+//                PostAuth.getInstance().onPhraseCheckAuth(WriteDownActivity.this, false);
+//                pin码验证
+                AuthManager.getInstance().authPrompt(WriteDownActivity.this, null, getString(R.string.VerifyPin_continueBody), true, false, new BRAuthCompletion() {
+                    @Override
+                    public void onComplete() {
+                        PostAuth.getInstance().onPhraseCheckAuth(WriteDownActivity.this, false);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
 
             }
         });

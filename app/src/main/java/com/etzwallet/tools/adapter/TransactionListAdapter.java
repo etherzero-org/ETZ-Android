@@ -182,7 +182,7 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 commentString = md.comment;
             }
         }
-
+        MyLog.i("******index*********"+position+"--n---"+item.getNonce());
         boolean received = item.isReceived();
         int amountColor = received ? R.color.transaction_amount_received_color : R.color.total_assets_usd_color;
 

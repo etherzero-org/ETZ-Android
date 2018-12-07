@@ -283,7 +283,7 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
                     tx.getBlockTimestamp(), (int) tx.getBlockNumber(), Utils.isNullOrEmpty(tx.getHash()) ? null :
                     tx.getHash().getBytes(), tx.getHash(), new BigDecimal(tx.getFee(BREthereumAmount.Unit.ETHER_GWEI)),
                     tx.getTargetAddress(), tx.getSourceAddress(), null, 0,
-                    new BigDecimal(tx.getAmount(getUnit())), true));
+                    new BigDecimal(tx.getAmount(getUnit())), true,tx.getNonce()));
         }
         return uiTxs;
     }

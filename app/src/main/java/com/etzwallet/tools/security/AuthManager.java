@@ -72,14 +72,14 @@ public class AuthManager {
 
     public boolean checkAuth(CharSequence passSequence, Context context) {
         MyLog.e( "checkAuth: ");
+        String pass = BRKeyStore.getPinCode(context);
+        previousTry = pass;
         String tempPass = passSequence.toString();
         if (!previousTry.equals(tempPass)) {
             int failCount = BRKeyStore.getFailCount(context);
             BRKeyStore.putFailCount(failCount + 1, context);
         }
-        previousTry = tempPass;
 
-        String pass = BRKeyStore.getPinCode(context);
         boolean match = pass != null && tempPass.equals(pass);
         if (!match) {
             if (BRKeyStore.getFailCount(context) >= LOCK_FAIL_ATTEMPT_COUNT) {
@@ -184,7 +184,7 @@ public class AuthManager {
             MyLog.e( "authPrompt: context is null or not Activity: " + context);
             return;
         }
-        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Activity.KEYGUARD_SERVICE);
+//        KeyguardManager keyguardManager = (KeyguardManager) context.getSystemService(Activity.KEYGUARD_SERVICE);
 
         boolean useFingerPrint = isFingerPrintAvailableAndSetup(context);
 
@@ -207,7 +207,7 @@ public class AuthManager {
 
         FragmentFingerprint fingerprintFragment;
         FragmentPin breadPin;
-        if (keyguardManager.isKeyguardSecure()) {
+//        if (keyguardManager.isKeyguardSecure()) {
             if (useFingerPrint) {
                 fingerprintFragment = new FragmentFingerprint();
                 Bundle args = new Bundle();
@@ -236,9 +236,9 @@ public class AuthManager {
                     transaction.commitAllowingStateLoss();
                 }
             }
-        } else {
-            sayNoScreenLock(app);
-        }
+//        } else {
+//            sayNoScreenLock(app);
+//        }
 
     }
 

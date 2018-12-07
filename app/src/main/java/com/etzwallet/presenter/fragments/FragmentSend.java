@@ -12,6 +12,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.transition.AutoTransition;
 import android.support.transition.TransitionManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -351,7 +353,8 @@ public class FragmentSend extends Fragment {
                 showKeyboard(!hasFous);
             }
         });
-        gasPriceIpt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//        gasPriceIpt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        gasPriceIpt.addTextChangedListener(addET);
 
 
         paste.setOnClickListener(new View.OnClickListener() {
@@ -1114,5 +1117,32 @@ public class FragmentSend extends Fragment {
 
         }
     }
+    /**
+     * 输入首字不能为0和.
+     */
+    private TextWatcher addET = new TextWatcher() {
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable edt) {
+            String temp = edt.toString();
+            int posDot = temp.indexOf(".");
+            int frist = temp.indexOf("0");
+            if (frist == 0 || posDot == 0) {
+                edt.delete(0, 1);
+            }
+        }
+    };
 
 }

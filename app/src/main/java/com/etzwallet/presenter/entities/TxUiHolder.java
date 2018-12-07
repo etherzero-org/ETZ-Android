@@ -45,11 +45,12 @@ public class TxUiHolder {
     public TxMetaData metaData;
     private Object transaction;
     private boolean isReceived;
+    private long nonce;
 
     //todo refactor this useless class
     public TxUiHolder(Object transaction, boolean isReceived, long timeStamp, int blockHeight, byte[] hash, String txReversed,
                       BigDecimal fee,  String to, String from,
-                      BigDecimal balanceAfterTx, int txSize, BigDecimal amount, boolean isValid) {
+                      BigDecimal balanceAfterTx, int txSize, BigDecimal amount, boolean isValid,long nonce) {
         this.transaction = transaction;
         this.timeStamp = timeStamp;
         this.blockHeight = blockHeight;
@@ -63,6 +64,7 @@ public class TxUiHolder {
         this.amount = amount;
         this.isValid = isValid;
         this.txSize = txSize;
+        this.nonce=nonce;
     }
 
     public int getBlockHeight() {
@@ -128,6 +130,7 @@ public class TxUiHolder {
     public boolean isReceived() {
         return isReceived;
     }
+    public long getNonce(){return nonce;}
 
 
 

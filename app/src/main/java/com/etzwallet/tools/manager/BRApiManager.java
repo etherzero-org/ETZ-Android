@@ -101,8 +101,10 @@ public class BRApiManager {
                 int length = arr.length();
                 for (int i = 0; i < length; i++) {
                     CurrencyEntity tmp = new CurrencyEntity();
+
                     try {
                         JSONObject tmpObj = (JSONObject) arr.get(i);
+                        if (tmpObj.getString("code").equalsIgnoreCase("BCH"))continue;
                         tmp.name = tmpObj.getString("name");
                         tmp.code = tmpObj.getString("code");
                         tmp.rate = Float.valueOf(tmpObj.getString("rate"));

@@ -1317,7 +1317,7 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniLightNodeDisconnect
  * Method:    initializeNative
  * Signature: ()V
  */
-JNIEXPORT void JNICALL 
+JNIEXPORT void JNICALL
 Java_com_etzwallet_core_ethereum_BREthereumLightNode_initializeNative
   (JNIEnv *env, jclass thisClass) {
 }

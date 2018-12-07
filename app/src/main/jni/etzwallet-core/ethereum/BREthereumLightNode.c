@@ -165,7 +165,7 @@ lightNodeRemoveListener (BREthereumLightNode node,
 // Connect // Disconnect
 //
 #define PTHREAD_STACK_SIZE (512 * 1024)
-#define PTHREAD_SLEEP_SECONDS (45)
+#define PTHREAD_SLEEP_SECONDS (15)
 
 static BREthereumClient nullClient;
 

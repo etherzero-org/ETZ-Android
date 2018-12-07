@@ -205,7 +205,7 @@ public class BRKeyStore {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                 inCipher = Cipher.getInstance(RSA_MODE);
                 PublicKey publicKey = null;
-                if (keyStore != null && keyStore.getCertificate(alias) != null) {
+                if (keyStore.getCertificate(alias) != null) {
                     publicKey = keyStore.getCertificate(alias).getPublicKey();
                 }
                 if (publicKey == null) {

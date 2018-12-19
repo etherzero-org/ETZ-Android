@@ -465,9 +465,9 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     private BigDecimal getFiatForToken(Context app, BigDecimal tokenAmount, String code) {
         //fiat rate for btc
         CurrencyEntity btcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, "BTC", code);
-
         //Btc rate for the token
         CurrencyEntity tokenBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
+
         if (btcRate == null) {
             MyLog.e( "getUsdFromBtc: No USD rates for BTC");
             return null;

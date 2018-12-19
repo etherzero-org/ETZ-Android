@@ -26,6 +26,7 @@ import com.etzwallet.tools.util.CurrencyUtils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -117,11 +118,14 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 //                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
 //                holder.mWalletBalanceFiat.setText(fiatBalance);
 //            }
-
-            String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatExchangeRate(mContext));
-            holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
+            if (BRSharedPrefs.getPreferredFiatIso(mContext).equalsIgnoreCase("USD") && iso.equalsIgnoreCase("EASH")) {
+                String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext),new BigDecimal("1"));
+                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
+            } else {
+                String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatExchangeRate(mContext));
+                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
+            }
             holder.mWalletBalanceFiat.setText(fiatBalance);
-
 
             holder.mWalletBalanceFiat.setTextColor(mContext.getResources().getColor(item.mShowSyncProgress ? R.color.wallet_balance_fiat_syncing : R.color.wallet_balance_fiat));
             holder.mWalletBalanceCurrency.setText(cryptoBalance);

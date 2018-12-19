@@ -13,6 +13,7 @@ import com.etzwallet.R;
 import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.core.BRCoreMasterPubKey;
 import com.etzwallet.core.ethereum.BREthereumToken;
+import com.etzwallet.core.ethereum.BREthereumWallet;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
@@ -98,30 +99,38 @@ public class WalletsMaster {
             enabled.add(new TokenListMetaData.TokenInfo("BTC", false, null));
             //enabled.add(new TokenListMetaData.TokenInfo("BCH", false, null));
             enabled.add(new TokenListMetaData.TokenInfo("ETZ", false, null));
-            //添加钱包 及brd
-//            BREthereumWallet brdWallet = ethWallet.node.getWallet(ethWallet.node.tokenBRD);
-//            enabled.add(new TokenListMetaData.TokenInfo(brdWallet.getToken().getSymbol(), true, brdWallet.getToken().getAddress()));
+            //添加token钱包
+            BREthereumWallet tokenWallet = ethWallet.node.getWallet(ethWallet.node.getToken("EASH"));
+            enabled.add(new TokenListMetaData.TokenInfo(tokenWallet.getToken().getSymbol(), true, tokenWallet.getToken().getAddress()));
             mTokenListMetaData = new TokenListMetaData(enabled, null);
             KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
+        }else {
+            boolean istrue=false;
+            for (TokenListMetaData.TokenInfo enabled : mTokenListMetaData.enabledCurrencies) {
+                if (enabled.symbol.equalsIgnoreCase("EASH") ) {
+                    istrue=true;
+                }
+            }
+            if (!istrue){
+                //添加token钱包
+                BREthereumWallet tokenWallet = ethWallet.node.getWallet(ethWallet.node.getToken("EASH"));
+                mTokenListMetaData.enabledCurrencies.add(new TokenListMetaData.TokenInfo(tokenWallet.getToken().getSymbol(), true, tokenWallet.getToken().getAddress()));
+                KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
+            }
         }
 
         for (TokenListMetaData.TokenInfo enabled : mTokenListMetaData.enabledCurrencies) {
 
             boolean isHidden = mTokenListMetaData.isCurrencyHidden(enabled.symbol);
+            MyLog.i("mTokenListMetaData-iso="+enabled.symbol);
 
             if (enabled.symbol.equalsIgnoreCase("BTC") && !isHidden) {
                 //BTC wallet
                 mWallets.add(WalletBitcoinManager.getInstance(app));
-            } else if (enabled.symbol.equalsIgnoreCase("BCH") && !isHidden) {
-                //BCH wallet
-//                mWallets.add(WalletBchManager.getInstance(app));
-            } else if (enabled.symbol.equalsIgnoreCase("ETZ") && !isHidden) {
+            }  else if (enabled.symbol.equalsIgnoreCase("ETZ") && !isHidden) {
                 //ETH wallet
                 mWallets.add(ethWallet);
-            } else if (enabled.symbol.equalsIgnoreCase("BRD") && !isHidden) {
-                //home页不显示代币 brd
-                MyLog.i( "updateWallets: enabled.symbol11===" + enabled.symbol);
-            } else {
+            }  else {
                 //其他代币
                 MyLog.i( "updateWallets: enabled.symbol222===" + enabled.symbol);
                 WalletTokenManager tokenWallet = WalletTokenManager.getTokenWalletByIso(app, ethWallet, enabled.symbol);

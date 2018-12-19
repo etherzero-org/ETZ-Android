@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -243,58 +244,47 @@ public class BRApiManager {
     @WorkerThread
     private synchronized void updateErc20Rates(Context context) {
         //get all erc20 rates.
-        String url = "https://api.coinmarketcap.com/v1/ticker/?limit=1000&convert=BTC";
-//        String result = urlGET(context, url);
+        String url = "https://api.coinmarketcap.com/v1/ticker/?limit=5&convert=BTC";
+        String result = urlGET(context, url);
 
-//        MyLog.i( "updateErc20Rates: result==="+result);
+        MyLog.i( "updateErc20Rates: result==="+result);
         try {
-//            if (Utils.isNullOrEmpty(result)) {
-//                MyLog.e( "updateErc20Rates: Failed to fetch");
-//                return;
-//            }
-//            JSONArray arr = new JSONArray(result);
-//            if (arr.length() == 0) {
-//                MyLog.e( "updateErc20Rates: empty json");
-//                return;
-//            }
-//            String object = null;
+            if (Utils.isNullOrEmpty(result)) {
+                MyLog.e( "updateErc20Rates: Failed to fetch");
+                return;
+            }
+            JSONArray arr = new JSONArray(result);
+            if (arr.length() == 0) {
+                MyLog.e( "updateErc20Rates: empty json");
+                return;
+            }
             Set<CurrencyEntity> tmp = new LinkedHashSet<>();
-//            for (int i = 0; i < arr.length(); i++) {
-//
-//                Object obj = arr.get(i);
-//                if (!(obj instanceof JSONObject)) {
-//                    object = obj.getClass().getSimpleName();
-//                    continue;
-//                }
-//                JSONObject json = (JSONObject) obj;
-//                String code = "BTC";
-//                String name = json.getString("name");
-//                String rate = json.getString("price_btc");
-//                String iso = json.getString("symbol");
-//
-//                CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
-//
-//
-//
-//
-//
-//                tmp.add(ent);
-//
-//            }
+            for (int i = 0; i < arr.length(); i++) {
+
+                Object obj = arr.get(i);
+                JSONObject json = (JSONObject) obj;
+                if (json.getString("symbol").equalsIgnoreCase("BTC")){
+                    BigDecimal btc=new BigDecimal(json.getString("price_btc"));
+                    BigDecimal usd=new BigDecimal(json.getString("price_usd"));
+//                    BigDecimal eash=new BigDecimal(json.getString("price_btc")).divide(new BigDecimal(json.getString("price_usd")),10,BigDecimal.ROUND_DOWN);
+                    String eashRate=btc.divide(usd,10,BigDecimal.ROUND_HALF_UP).toString();
+                    String code = "BTC";
+                    String name = json.getString("name");
+                    String rate = eashRate;
+                    String iso = "EASH";
+                    CurrencyEntity ent = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
+                    tmp.add(ent);
+                    break;
+                }
+
+
+
+
+            }
             String code1 = "BTC";
             String name1 = "Black Options";
             String iso1 = "BO";
             String rate1 = "0";
-
-//            String code2 = "BTC";
-//            String name2 = "Fans";
-//            String iso2 = "FANS";
-//            String rate2 = "0";
-//
-//            String code3 = "BTC";
-//            String name3 = "Easy";
-//            String iso3 = "EASY";
-//            String rate3 = "0";
 
             String code4 = "BTC";
             String name4 = "MSM";
@@ -313,15 +303,11 @@ public class BRApiManager {
 
 
             CurrencyEntity ent1 = new CurrencyEntity(code1, name1, Float.valueOf(rate1), iso1);
-//            CurrencyEntity ent2 = new CurrencyEntity(code2, name2, Float.valueOf(rate2), iso2);
-//            CurrencyEntity ent3 = new CurrencyEntity(code3, name3, Float.valueOf(rate3), iso3);
             CurrencyEntity ent4 = new CurrencyEntity(code4, name4, Float.valueOf(rate4), iso4);
             CurrencyEntity ent5 = new CurrencyEntity(code5, name5, Float.valueOf(rate5), iso5);
             CurrencyEntity ent6 = new CurrencyEntity(code6, name6, Float.valueOf(rate6), iso6);
 
             tmp.add(ent1);
-//            tmp.add(ent2);
-//            tmp.add(ent3);
             tmp.add(ent4);
             tmp.add(ent5);
             tmp.add(ent6);

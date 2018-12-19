@@ -773,4 +773,16 @@ public class BREthereumLightNode extends BRCoreJniReference {
                 throw new IllegalArgumentException("Invalid Unit for instance type: " + unit.toString());
         }
     }
+    public BREthereumToken getToken(String iso){
+        BREthereumToken ethToken=null;
+        if (tokens!=null&&tokens.length>0){
+            for (BREthereumToken token : tokens) {
+                if (token.getSymbol().equalsIgnoreCase(iso))
+                    ethToken=token;
+
+            }
+        }
+        return ethToken;
+    }
+
 }

@@ -152,7 +152,6 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
             node = new BREthereumLightNode(this, network, normalizedPhrase, words);
             node.addListener(this);
-
             mWallet = node.getWallet();
 
             if (null == mWallet) {
@@ -708,6 +707,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         CurrencyEntity btcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, "BTC", code);
         //Btc rate for ether
         CurrencyEntity ethBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
+        MyLog.i("ethBtcRate===="+ethBtcRate.rate);
         if (btcRate == null) {
             MyLog.e("getUsdFromBtc: No USD rates for BTC");
             return null;
@@ -1243,12 +1243,39 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         if (BreadApp.isAppInBackground(BreadApp.getBreadContext())) {
             return;
         }
+        String contractAddress="";
+        if (!Utils.isNullOrEmpty(contract)) {
+            contractAddress = contract;
+        }else {
+            Activity ctx=(Activity) BreadApp.getBreadContext();
+            String iso=BRSharedPrefs.getCurrentWalletIso(ctx);
+            MyLog.i("run: ethRpcUrl=ethRpcUrl===" + iso);
+            WalletsMaster wallet=WalletsMaster.getInstance(ctx);
+            if( wallet.isIsoErc20(ctx,iso)){
+                try {
+                    BREthereumToken[] tokens=WalletEthManager.getInstance(ctx).node.tokens;
+                    for (BREthereumToken t : tokens) {
+                        if (t.getSymbol().equalsIgnoreCase(iso)){
+                            contractAddress=t.getAddress();
+                        }
+                    }
+                }catch (Exception e){
+                    MyLog.i("run: ethRpcUrl=ethRpcUrl==="+e);
+                }
+
+
+            }
+        }
+
+        final String finalContractAddress = contractAddress;
         BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
-                final String ethRpcUrl = JsonRpcHelper.createLogsUrl(address, contract, event);
-                MyLog.i("run: ethRpcUrl=token===" + ethRpcUrl);
-                MyLog.i("run: ethRpcUrl=token===" + event);
+                final String ethRpcUrl = JsonRpcHelper.createLogsUrl(address, finalContractAddress, event);
+                MyLog.i("run: ethRpcUrl=ethRpcUrl===" + ethRpcUrl);
+                MyLog.i("run: ethRpcUrl=event===" + event);
+                MyLog.i("run: ethRpcUrl=contract===" + finalContractAddress);
+                MyLog.i("run: ethRpcUrl=address===" + address);
 
                 final JSONObject payload = new JSONObject();
                 try {

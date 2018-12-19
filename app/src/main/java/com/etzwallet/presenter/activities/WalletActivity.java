@@ -398,13 +398,17 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         }
 
         CryptoAddress addr = wm.getReceiveAddress(this);
-
-        String fiatExchangeRate = CurrencyUtils.getFormattedAmount(this, BRSharedPrefs.getPreferredFiatIso(this), wm.getFiatExchangeRate(this));
+        if (BRSharedPrefs.getPreferredFiatIso(this).equalsIgnoreCase("USD") && wm.getIso().equalsIgnoreCase("EASH")) {
+            String fiatExchangeRate = CurrencyUtils.getFormattedAmount(this, BRSharedPrefs.getPreferredFiatIso(this), new BigDecimal("1"));
+            mCurrencyPriceUsd.setText(String.format("%s per %s", fiatExchangeRate, wm.getIso()));
+        } else {
+            String fiatExchangeRate = CurrencyUtils.getFormattedAmount(this, BRSharedPrefs.getPreferredFiatIso(this), wm.getFiatExchangeRate(this));
+            mCurrencyPriceUsd.setText(String.format("%s per %s", fiatExchangeRate, wm.getIso()));
+        }
         String fiatBalance = CurrencyUtils.getFormattedAmount(this, BRSharedPrefs.getPreferredFiatIso(this), wm.getFiatBalance(this));
         String cryptoBalance = CurrencyUtils.getFormattedAmount(this, wm.getIso(), wm.getCachedBalance(this), wm.getUiConfiguration().getMaxDecimalPlacesForUi());
 
         mCurrencyTitle.setText(wm.getName());
-        mCurrencyPriceUsd.setText(String.format("%s per %s", fiatExchangeRate, wm.getIso()));
 
         //只在etz显示power 值
         if(!wm.getIso().equalsIgnoreCase("ETZ")){

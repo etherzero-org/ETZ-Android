@@ -303,6 +303,18 @@ static struct BREthereumTokenRecord tokens[] = {
                 {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
                 1
         },
+        {
+                "0x3b7020a5e28ba4c3383dd69b72df6084321cfaee",
+                "EASH",
+                "EASH",
+                "",
+                18,
+                "#7613FD",
+                "#6209DB",
+                {TOKEN_BRD_DEFAULT_GAS_LIMIT},
+                {{{.u64 = {TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64, 0, 0, 0}}}},
+                1
+        },
 //
 //    {
 //        "0xD0D6D6C5Fe4a677D343cC433536BB717bAe167dD",

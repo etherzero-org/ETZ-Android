@@ -14,6 +14,7 @@ import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
+import com.etzwallet.wallet.wallets.CryptoTransaction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -115,6 +116,7 @@ public final class WalletBchManager extends BaseBitcoinWalletManager {
         result.add(new BigDecimal(ONE_BITCOIN_IN_SATOSHIS).multiply(new BigDecimal(100)));
         return result;
     }
+
 
     @Override
     public String getIso() {

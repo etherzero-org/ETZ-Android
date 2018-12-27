@@ -16,13 +16,15 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.BIND_JOB_SERVICE" />
+    <uses-permission android:name="android.permission.BIND_JOB_SERVICE"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android:sharedUserId=”android.uid.system" />
     <!-- bugly权限 <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
     <!-- bugly权限 -->
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
@@ -30,7 +32,10 @@
     <!-- Allows unlocking your device and activating its screen so UI tests can succeed -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <!-- Allows changing locales -->
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.OBSERVE_GRANT_REVOKE_PERMISSIONS"
+        tools:ignore="ProtectedPermissions" />
 
     <uses-feature
         android:name="android.hardware.location.gps"
@@ -52,6 +57,7 @@
         android:name=".BreadApp"
         android:allowBackup="true"
         android:fullBackupContent="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="EasyETZ"
         android:largeHeap="true"
@@ -139,10 +145,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presenter.activities.settings.SettingsActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".presenter.activities.settings.NotificationActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -222,10 +224,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presenter.activities.HomeActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".presenter.activities.CurrencySettingsActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -248,17 +246,26 @@
             android:name=".tools.services.SyncService"
             android:enabled="true"
             android:exported="false" />
-        <service
-            android:name=".tools.services.killSelfService"
-            />
+        <service android:name=".tools.services.killSelfService" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="8f7c58228ac371e49f7c5e8b1a94c4c0833986a1" />
 
-        <activity android:name=".presenter.activities.intro.IntroActivity"
+        <activity
+            android:name=".presenter.activities.intro.IntroActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".presenter.activities.WebActivity"
+            android:hardwareAccelerated="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.dapp.DappTransaction" />
+        <activity android:name=".presenter.activities.HomeActivity" />
+        <activity android:name=".presenter.activities.ContactsActivity" />
+        <activity android:name=".presenter.activities.ManageContactsActivity"></activity>
     </application>
 
 </manifest>

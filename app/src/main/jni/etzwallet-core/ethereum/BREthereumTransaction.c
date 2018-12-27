@@ -32,15 +32,16 @@
 #include "BREthereumAccount.h"
 #include "BREthereumPrivate.h"
 #include <android/log.h>
-#include <iconv.h>
 #define MAX(a,b) ((a) > (b) ? (a) : (b))
 
 // Forward Declarations
 static void
-provideData (BREthereumTransaction transaction,const char *data);
+provideData (BREthereumTransaction transaction);
 
-static void
-provideGasEstimate (BREthereumTransaction transaction);
+static BREthereumGas
+gasLimitApplyMargin (BREthereumGas gas) {
+    return gasCreate(((100 + GAS_LIMIT_MARGIN_PERCENT) * gas.amountOfGas) / 100);
+}
 
 //
 // Transaction State
@@ -143,8 +144,6 @@ struct BREthereumTransactionRecord {
      *
      */
     char *data;
-    char *gasL;
-    char *gasP;
     /**
      * The transaction's hash.   This will be 'empty' until the transaction is submitted.
      */
@@ -172,19 +171,8 @@ transactionCreate(BREthereumAddress sourceAddress,
                   BREthereumAmount amount,
                   BREthereumGasPrice gasPrice,
                   BREthereumGas gasLimit,
-                  uint64_t nonce,
-                  const char *data,
-                  const char *gasL,
-                  const char *gasP) {
+                  uint64_t nonce) {
     BREthereumTransaction transaction = calloc (1, sizeof (struct BREthereumTransactionRecord));
-
-    if(gasL!= NULL && strlen(gasL) > 0){
-        gasLimit.amountOfGas = (uint64_t) atof(gasL);
-    }
-    if(gasP!= NULL && strlen(gasP) > 0){
-        BRCoreParseStatus status;
-        gasPrice = gasPriceCreate(etherCreate(createUInt256Parse(gasP, 10, &status)));
-    }
 
     transactionStateCreated(&transaction->state);
     transaction->sourceAddress = sourceAddress;
@@ -195,14 +183,34 @@ transactionCreate(BREthereumAddress sourceAddress,
     transaction->nonce = nonce;
     transaction->chainId = 90;
     transaction->hash = hashCreateEmpty();
+    transaction->gasEstimate = gasLimit;
 
-    transaction->gasL = gasL;
+    provideData(transaction);
 
-//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", data );
-//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", gasL );
-//    __android_log_print(ANDROID_LOG_INFO, "tx_data_is5=", "tx_data_is5=%s\n", gasP );
-    provideData(transaction,data);
-    provideGasEstimate(transaction);
+    return transaction;
+}
+
+extern BREthereumTransaction
+transactionCreateGeneric(BREthereumAddress sourceAddress,
+                         BREthereumAddress targetAddress,
+                         BREthereumEther amount,
+                         BREthereumGasPrice gasPrice,
+                         BREthereumGas gasLimit,
+                         const char *data,
+                         uint64_t nonce) {
+    BREthereumTransaction transaction = calloc(1, sizeof(struct BREthereumTransactionRecord));
+
+    transactionStateCreated(&transaction->state);
+    transaction->sourceAddress = sourceAddress;
+    transaction->targetAddress = targetAddress;
+    transaction->amount = amountCreateEther(amount);
+    transaction->gasPrice = gasPrice;
+    transaction->gasLimit = gasLimit;
+    transaction->data = strdup(data); // Avoid 'provideData()'
+    transaction->nonce = nonce;
+    transaction->chainId = 0;
+    transaction->hash = hashCreateEmpty();
+    transaction->gasEstimate = gasLimit;
 
     return transaction;
 }
@@ -270,13 +278,15 @@ transactionGetGasEstimate (BREthereumTransaction transaction) {
 extern void
 transactionSetGasEstimate (BREthereumTransaction transaction,
                            BREthereumGas gasEstimate) {
-//            BREthereumGas *a = (uint64_t)transaction->gasL;
             transaction->gasEstimate = gasEstimate;
-}
 
-static void
-provideGasEstimate (BREthereumTransaction transaction) {
-    transactionSetGasEstimate(transaction, amountGetGasEstimate(transaction->amount));
+    // Ensure that the gasLimit is at least 20% more than gasEstimate
+    // unless the gasEstimate is 21000 (special case for ETH transfers).
+    BREthereumGas gasLimitWithMargin = (21000 != gasEstimate.amountOfGas
+                                        ? gasLimitApplyMargin (gasEstimate)
+                                        : gasCreate(21000));
+    if (gasLimitWithMargin.amountOfGas > transaction->gasLimit.amountOfGas)
+        transaction->gasLimit = gasLimitWithMargin;
 }
 
 extern uint64_t
@@ -306,11 +316,11 @@ transactionGetData (BREthereumTransaction transaction) {
 }
 
 static void
-provideData (BREthereumTransaction transaction,const char *data) {
+provideData (BREthereumTransaction transaction) {
     if (NULL == transaction->data) {
         switch (amountGetType (transaction->amount)) {
             case AMOUNT_ETHER:
-                transaction->data = (char *) etherEncode(data);
+                transaction->data = "";
                 break;
             case AMOUNT_TOKEN: {
                 UInt256 value = amountGetTokenQuantity(transaction->amount).valueAsInteger;
@@ -620,6 +630,18 @@ transactionGetEffectiveAmountInEther (BREthereumTransaction transaction) {
             return etherCreate(UINT256_ZERO);
         case AMOUNT_ETHER:
             return transaction->amount.u.ether;
+    }
+}
+
+private_extern char *
+transactionGetEffectiveAddress (BREthereumTransaction transaction) {
+    switch (amountGetType(transaction->amount)) {
+        case AMOUNT_ETHER:
+            return addressAsString (transaction->targetAddress);
+        case AMOUNT_TOKEN: {
+            BREthereumToken token = tokenQuantityGetToken (amountGetTokenQuantity(transaction->amount));
+            return strdup (tokenGetAddress(token));
+        }
     }
 }
 

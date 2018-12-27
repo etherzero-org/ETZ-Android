@@ -113,6 +113,14 @@ JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreKey_compactSign
 
 /*
  * Class:     com_etzwallet_core_BRCoreKey
+ * Method:    createKeyRecoverCompactSign
+ * Signature: ([B[B)J
+ */
+JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreKey_createKeyRecoverCompactSign
+        (JNIEnv *, jclass, jbyteArray, jbyteArray);
+
+/*
+ * Class:     com_etzwallet_core_BRCoreKey
  * Method:    encryptNative
  * Signature: ([B[B)[B
  */
@@ -126,6 +134,30 @@ JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreKey_encryptNative
  */
 JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreKey_decryptNative
   (JNIEnv *, jobject, jbyteArray, jbyteArray);
+
+/*
+ * Class:     com_etzwallet_core_BRCoreKey
+ * Method:    encryptUsingSharedSecret
+ * Signature: ([B[B[B)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreKey_encryptUsingSharedSecret
+ (JNIEnv *, jobject, jbyteArray, jbyteArray, jbyteArray);
+
+/*
+ * Class:     com_etzwallet_core_BRCoreKey
+ * Method:    decryptUsingSharedSecret
+ * Signature: ([B[B[B)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreKey_decryptUsingSharedSecret
+ (JNIEnv *, jobject, jbyteArray, jbyteArray, jbyteArray);
+
+/*
+ * Class:     com_etzwallet_core_BRCoreKey
+ * Method:    createPairingKey
+ * Signature: ([B)J
+ */
+JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreKey_createPairingKey
+ (JNIEnv *, jobject, jbyteArray);
 
 /*
  * Class:     com_etzwallet_core_BRCoreKey
@@ -157,7 +189,31 @@ JNIEXPORT jboolean JNICALL Java_com_etzwallet_core_BRCoreKey_isValidBitcoinBIP38
  * Signature: (Ljava/lang/String;)[B
  */
 JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreKey_encodeSHA256
-  (JNIEnv *, jclass, jstring);
+  (JNIEnv *, jclass, jbyteArray);
+
+/*
+ * Class:     com_etzwallet_core_BRCoreKey
+ * Method:    encodeSHA256Double
+ * Signature: ([B)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreKey_encodeSHA256Double
+        (JNIEnv *, jclass, jbyteArray);
+
+/*
+ * Class:     com_etzwallet_core_BRCoreKey
+ * Method:    encodeBase58
+ * Signature: ([B)Ljava/lang/String;
+ */
+JNIEXPORT jstring JNICALL Java_com_etzwallet_core_BRCoreKey_encodeBase58
+        (JNIEnv *, jclass, jbyteArray);
+
+/*
+ * Class:     com_etzwallet_core_BRCoreKey
+ * Method:    decodeBase58
+ * Signature: (Ljava/lang/String;)[B
+ */
+JNIEXPORT jbyteArray JNICALL Java_com_etzwallet_core_BRCoreKey_decodeBase58
+        (JNIEnv *, jclass, jstring);
 
 /*
  * Class:     com_etzwallet_core_BRCoreKey

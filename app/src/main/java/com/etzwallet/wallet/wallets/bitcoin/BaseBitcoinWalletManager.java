@@ -299,7 +299,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
                     tx.getReverseHash(), new BigDecimal(getWallet().getTransactionFee(tx)),
                     toAddress, tx.getInputAddresses()[0],
                     new BigDecimal(getWallet().getBalanceAfterTransaction(tx)), (int) tx.getSize(),
-                    new BigDecimal(getWallet().getTransactionAmount(tx)), getWallet().transactionIsValid(tx)));
+                    new BigDecimal(getWallet().getTransactionAmount(tx)), getWallet().transactionIsValid(tx),0));
         }
 
         return uiTxs;
@@ -368,7 +368,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
             MyLog.e( "createTransaction: can't create, address is null");
             return null;
         }
-        BRCoreTransaction tx = getWallet().createTransaction(amount.longValue(), new BRCoreAddress(address),data, gasL, gasP);
+        BRCoreTransaction tx = getWallet().createTransaction(amount.longValue(), new BRCoreAddress(address));
         return tx == null ? null : new CryptoTransaction(tx);
     }
 

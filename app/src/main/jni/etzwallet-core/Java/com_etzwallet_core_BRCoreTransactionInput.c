@@ -37,6 +37,7 @@ JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreTransactionInput_createTra
         (JNIEnv *env, jclass thisClass, jbyteArray hashByteArray, jlong index, jlong amount,
          jbyteArray scriptByteArray,
          jbyteArray signatureByteArray,
+         jbyteArray witnessByteArray,
          jlong sequence) {
     BRTxInput *input = (BRTxInput *) calloc(1, sizeof(BRTxInput));
 
@@ -65,6 +66,15 @@ JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreTransactionInput_createTra
              ? NULL
              : (*env)->GetByteArrayElements(env, signatureByteArray, 0));
     BRTxInputSetSignature(input, signature, signatureLen);
+
+    // witness
+    input->witness = NULL;
+    size_t witnessLen = (size_t) (*env)->GetArrayLength(env, witnessByteArray);
+    const uint8_t *witness = (const uint8_t *)
+            (0 == witnessLen
+             ? NULL
+             : (*env)->GetByteArrayElements(env, witnessByteArray, 0));
+    BRTxInputSetWitness(input, witness, witnessLen);
 
     input->sequence = (uint32_t) (sequence == -1 ? TXIN_SEQUENCE : sequence);
 

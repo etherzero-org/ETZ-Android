@@ -132,6 +132,21 @@ Java_com_etzwallet_core_BRCoreWallet_getReceiveAddress
 }
 
 /*
+ * Class:     com_breadwallet_core_BRCoreWallet
+ * Method:    getLegacyAddress
+ * Signature: ()Lcom/breadwallet/core/BRCoreAddress;
+ */
+JNIEXPORT jobject JNICALL Java_com_etzwallet_core_BRCoreWallet_getLegacyAddress
+        (JNIEnv *env, jobject thisObject) {
+    BRWallet *wallet = (BRWallet *) getJNIReference (env, thisObject);
+
+    BRAddress *address = (BRAddress *) malloc (sizeof (BRAddress));
+    *address = BRWalletLegacyAddress (wallet);
+
+    return (*env)->NewObject (env, addressClass, addressConstructor, (jlong) address);
+}
+
+/*
  * Class:     com_etzwallet_core_BRCoreWallet
  * Method:    getAllAddresses
  * Signature: ()[Lcom/etzwallet/core/BRCoreAddress;
@@ -344,7 +359,7 @@ JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreWallet_getDefaultFeePerKb
  */
 JNIEXPORT jobject JNICALL
 Java_com_etzwallet_core_BRCoreWallet_createTransaction
-        (JNIEnv *env, jobject thisObject, jlong amount, jobject addressObject, jchar data) {
+        (JNIEnv *env, jobject thisObject, jlong amount, jobject addressObject) {
     BRWallet  *wallet  = (BRWallet  *) getJNIReference(env, thisObject);
     BRAddress *address = (BRAddress *) getJNIReference(env, addressObject);
 //    char *data1 = (char *) getJNIReference(env, data);

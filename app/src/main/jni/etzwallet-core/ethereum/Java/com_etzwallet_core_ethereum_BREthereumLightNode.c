@@ -28,6 +28,7 @@
 #include <BRBIP39Mnemonic.h>
 #include <BRKey.h>
 #include <BREthereum.h>
+#include <BREthereumAccount.h>
 
 #include "com_etzwallet_core_ethereum_BREthereumLightNode.h"
 #include <android/log.h>
@@ -123,6 +124,24 @@ static jstring
 asJniString(JNIEnv *env, char *string) {
     jstring result = (*env)->NewStringUTF(env, string);
     free(string);
+    return result;
+}
+
+/*
+ * Class:     com_breadwallet_core_ethereum_BREthereumLightNode
+ * Method:    jniAddressIsValid
+ * Signature: (Ljava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniAddressIsValid
+        (JNIEnv *env, jclass thisClass, jstring addressObject) {
+
+    const char *address = (*env)->GetStringUTFChars(env, addressObject, 0);
+
+    jboolean result = ETHEREUM_BOOLEAN_IS_TRUE (validateAddressString(address))
+                      ? JNI_TRUE
+                      : JNI_FALSE;
+
+    (*env)->ReleaseStringUTFChars(env, addressObject, address);
     return result;
 }
 
@@ -754,6 +773,50 @@ JNIEXPORT void JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniA
 }
 
 /*
+ * Class:     com_breadwallet_core_ethereum_BREthereumLightNode
+ * Method:    jniAnnounceToken
+ * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;I)V
+ */
+JNIEXPORT void JNICALL
+Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniAnnounceToken
+        (JNIEnv *env, jobject thisObject,
+         jstring address,
+         jstring symbol,
+         jstring name,
+         jstring description,
+         jint decimals,
+         jstring defaultGasLimit,
+         jstring defaultGasPrice,
+         jint rid) {
+    BREthereumLightNode node = (BREthereumLightNode) getJNIReference(env, thisObject);
+
+    const char *strAddress  = (*env)->GetStringUTFChars (env, address, 0);
+    const char *strSymbol   = (*env)->GetStringUTFChars (env, symbol, 0);
+    const char *strName     = (*env)->GetStringUTFChars (env, name, 0);
+    const char *strDescription = (*env)->GetStringUTFChars (env, description, 0);
+    const char *strGasLimit = (*env)->IsSameObject(env, defaultGasLimit, NULL)
+                              ? NULL
+                              : (*env)->GetStringUTFChars (env, defaultGasLimit, 0);
+    const char *strGasPrice = (*env)->IsSameObject(env, defaultGasPrice, NULL)
+                              ? NULL
+                              : (*env)->GetStringUTFChars (env, defaultGasPrice, 0);
+
+    lightNodeAnnounceToken(node,
+                           strAddress, strSymbol, strName, strDescription,
+                           decimals, strGasLimit, strGasPrice,
+                           rid);
+
+    (*env)->ReleaseStringUTFChars (env, address, strAddress);
+    (*env)->ReleaseStringUTFChars (env, symbol, strSymbol);
+    (*env)->ReleaseStringUTFChars (env, name, strName);
+    (*env)->ReleaseStringUTFChars (env, description, strDescription);
+    if (!(*env)->IsSameObject(env, defaultGasLimit, NULL))
+        (*env)->ReleaseStringUTFChars (env, defaultGasLimit, strGasLimit);
+    if (!(*env)->IsSameObject(env, defaultGasPrice, NULL))
+        (*env)->ReleaseStringUTFChars (env, defaultGasPrice, strGasPrice);
+}
+
+/*
  * Class:     com_etzwallet_core_ethereum_BREthereumLightNode
  * Method:    jniCreateTransaction
  * Signature: (JLjava/lang/String;Ljava/lang/String;J)J
@@ -765,10 +828,7 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
          jlong wid,
          jstring toObject,
          jstring amountObject,
-         jlong amountUnit,
-         jstring data,
-         jstring gasL,
-         jstring gasP) {
+         jlong amountUnit) {
 
 
 //    __android_log_print(ANDROID_LOG_INFO, "tx_data_is1=", "tx_data_is1=%s\n", data );
@@ -786,27 +846,66 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
     (*env)->ReleaseStringUTFChars (env, amountObject, amountChars);
 
 
-    //data jstring类型转成 char *类型
-    const char *nativeData = (*env)->GetStringUTFChars(env, data, 0);
-//    (*env)->ReleaseStringUTFChars(env, data, nativeData);
-    const char *nativeGasL = (*env)->GetStringUTFChars(env, gasL, 0);
-//    (*env)->ReleaseStringUTFChars(env, gasL, nativeGasL);
-    const char *nativeGasP = (*env)->GetStringUTFChars(env, gasP, 0);
-//    (*env)->ReleaseStringUTFChars(env, gasP, nativeGasP);
-
-
 
     const char *to = (*env)->GetStringUTFChars(env, toObject, 0);
     BREthereumTransactionId tid =
             ethereumWalletCreateTransaction(node,
                                             (BREthereumWalletId) wid,
                                             to,
-                                            amount,
-                                            nativeData,
-                                            nativeGasL,
-                                            nativeGasP);
+                                            amount);
     (*env)->ReleaseStringUTFChars(env, toObject, to);
     return (jlong) tid;
+}
+
+/*
+ * Class:     com_breadwallet_core_ethereum_BREthereumLightNode
+ * Method:    jniCreateTransactionGeneric
+ * Signature: (JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;JLjava/lang/String;Ljava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL
+Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransactionGeneric
+        (JNIEnv *env, jobject thisObject,
+         jlong wid,
+         jstring toObject,
+         jstring amountObject,
+         jlong amountUnit,
+         jstring gasPriceObject,
+         jlong gasPriceUnit,
+         jstring gasLimitObject,
+         jstring dataObject) {
+    BREthereumLightNode node = (BREthereumLightNode) getJNIReference(env, thisObject);
+    BRCoreParseStatus status = CORE_PARSE_OK;
+
+    const char *to = (*env)->GetStringUTFChars(env, toObject, 0);
+    const char *data = (*env)->GetStringUTFChars(env, dataObject, 0);
+
+    // Get an actual Amount
+    const char *amountChars = (*env)->GetStringUTFChars(env, amountObject, 0);
+    BREthereumEther amount = etherCreateString(amountChars, amountUnit, &status);
+    (*env)->ReleaseStringUTFChars(env, amountObject, amountChars);
+
+    const char *gasPriceChars = (*env)->GetStringUTFChars(env, gasPriceObject, 0);
+    BREthereumGasPrice gasPrice = gasPriceCreate(
+            etherCreateString(gasPriceChars, gasPriceUnit, &status));
+    (*env)->ReleaseStringUTFChars(env, gasPriceObject, gasPriceChars);
+
+    const char *gasLimitChars = (*env)->GetStringUTFChars(env, gasLimitObject, 0);
+    BREthereumGas gasLimit = gasCreate(strtoull(gasLimitChars, NULL, 0));
+    (*env)->ReleaseStringUTFChars(env, gasLimitObject, gasLimitChars);
+
+    BREthereumTransactionId tid =
+            ethereumWalletCreateTransactionGeneric(node,
+                                                   (BREthereumWalletId) wid,
+                                                   to,
+                                                   amount,
+                                                   gasPrice,
+                                                   gasLimit,
+                                                   data);
+    (*env)->ReleaseStringUTFChars(env, toObject, to);
+    (*env)->ReleaseStringUTFChars(env, dataObject, data);
+
+    return (jlong) tid;
+
 }
 
 /*
@@ -1306,8 +1405,18 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniLightNodeDisconnect
         (JNIEnv *env, jobject thisObject) {
     BREthereumLightNode node = (BREthereumLightNode) getJNIReference(env, thisObject);
 
-    // TODO: Hopefully
-    (*env)->DeleteGlobalRef (env, thisObject);
+    jobject context = (jobject) ethereumGetClientContext(node);
+
+    // TODO: How to reclaim 'context'?
+    // A DeleteGlobalRef works but then a subsequent NewLocalRef (like in callbacks) or
+    // a subsequent IsSameObject() or DeleteGlobalRef (like you might think about using here)
+    // will throw an exception.
+    //
+    // If we can't delete the global ref, then we've got a memory leak because we will allocate a
+    // new context/GlobalRef on each connect.
+    //
+    // if (NULL != context && !(*env)->IsSameObject(env, context, NULL))
+    //    (*env)->DeleteGlobalRef (env, context);
 
     return (jboolean) (ETHEREUM_BOOLEAN_TRUE == ethereumDisconnect(node) ? JNI_TRUE : JNI_FALSE);
 }
@@ -1317,7 +1426,7 @@ Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniLightNodeDisconnect
  * Method:    initializeNative
  * Signature: ()V
  */
-JNIEXPORT void JNICALL 
+JNIEXPORT void JNICALL
 Java_com_etzwallet_core_ethereum_BREthereumLightNode_initializeNative
   (JNIEnv *env, jclass thisClass) {
 }

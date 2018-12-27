@@ -24,10 +24,14 @@ import com.etzwallet.tools.manager.BRApiManager;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.manager.InternetManager;
+import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.BRConstants;
+import com.etzwallet.tools.util.TokenUtil;
 import com.etzwallet.tools.util.Utils;
 import com.crashlytics.android.Crashlytics;
 import com.platform.APIClient;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -100,12 +104,12 @@ public class BreadApp extends Application {
     public static final Map<String, String> mHeaders = new HashMap<>();
 
     private static Activity currentActivity;
-//    private RefWatcher refWatcher;
+    private RefWatcher refWatcher;
 
-//    public static RefWatcher getRefWatcher(Context context) {
-//        BreadApp application = (BreadApp) context.getApplicationContext();
-//        return application.refWatcher;
-//    }
+    public static RefWatcher getRefWatcher(Context context) {
+        BreadApp application = (BreadApp) context.getApplicationContext();
+        return application.refWatcher;
+    }
 
     @SuppressLint("ServiceCast")
     @Override
@@ -134,7 +138,7 @@ public class BreadApp extends Application {
         myApp = this;
         mContext = this;
 //        //内存泄漏检测
-//        refWatcher = LeakCanary.install(this);
+        refWatcher = LeakCanary.install(this);
         if (!Utils.isEmulatorOrDebug(this) && IS_ALPHA)
             throw new RuntimeException("can't be alpha for release");
 
@@ -159,6 +163,12 @@ public class BreadApp extends Application {
 
         mObserver = new ApplicationLifecycleObserver();
         ProcessLifecycleOwner.get().getLifecycle().addObserver(mObserver);
+        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+            @Override
+            public void run() {
+                TokenUtil.fetchTokensFromServer(myApp);
+            }
+        });
 
     }
 

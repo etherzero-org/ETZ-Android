@@ -29,7 +29,7 @@
 #include "BREthereumPrivate.h"
 #include "BRArray.h"
 #include "android/log.h"
-#define DEFAULT_ETHER_GAS_PRICE_NUMBER   500000000 // 0.5 GWEI
+#define DEFAULT_ETHER_GAS_PRICE_NUMBER   18000000000 // 18 GWEI
 #define DEFAULT_ETHER_GAS_PRICE_UNIT     WEI
 
 #define DEFAULT_TRANSACTION_CAPACITY     20
@@ -220,21 +220,15 @@ walletEstimateTransactionFeeDetailed (BREthereumWallet wallet,
 extern BREthereumTransaction
 walletCreateTransaction(BREthereumWallet wallet,
                         BREthereumAddress recvAddress,
-                        BREthereumAmount amount,
-                        const char *data,
-                        const char *gasL,
-                        const char *gasP) {
-    
+                        BREthereumAmount amount) {
+
     return walletCreateTransactionDetailed
     (wallet,
      recvAddress,
      amount,
      walletGetDefaultGasPrice(wallet),
      walletGetDefaultGasLimit(wallet),
-     TRANSACTION_NONCE_IS_NOT_ASSIGNED,
-     data,
-     gasL,
-     gasP);
+     TRANSACTION_NONCE_IS_NOT_ASSIGNED);
 }
 
 extern BREthereumTransaction
@@ -243,23 +237,35 @@ walletCreateTransactionDetailed(BREthereumWallet wallet,
                                 BREthereumAmount amount,
                                 BREthereumGasPrice gasPrice,
                                 BREthereumGas gasLimit,
-                                uint64_t nonce,
-                                const char *data,
-                                const char *gasL,
-                                const char *gasP) {
+                                uint64_t nonce) {
     assert (walletGetAmountType(wallet) == amountGetType(amount));
     assert (AMOUNT_ETHER == amountGetType(amount)
             || (wallet->token == tokenQuantityGetToken (amountGetTokenQuantity(amount))));
-    __android_log_print(ANDROID_LOG_INFO, "tx_data_is4=", "tx_data_is4=%s\n", data );
     BREthereumTransaction transaction = transactionCreate(wallet->address,
                                                           recvAddress,
                                                           amount,
                                                           gasPrice,
                                                           gasLimit,
-                                                          nonce,
-                                                          data,
-                                                          gasL,
-                                                          gasP);
+                                                          nonce);
+    walletHandleTransaction(wallet, transaction);
+    return transaction;
+}
+
+extern BREthereumTransaction
+walletCreateTransactionGeneric(BREthereumWallet wallet,
+                               BREthereumAddress recvAddress,
+                               BREthereumEther amount,
+                               BREthereumGasPrice gasPrice,
+                               BREthereumGas gasLimit,
+                               const char *data) {
+    assert (walletGetAmountType(wallet) == AMOUNT_ETHER);
+    BREthereumTransaction transaction = transactionCreateGeneric(wallet->address,
+                                                                 recvAddress,
+                                                                 amount,
+                                                                 gasPrice,
+                                                                 gasLimit,
+                                                                 data,
+                                                                 TRANSACTION_NONCE_IS_NOT_ASSIGNED);
     walletHandleTransaction(wallet, transaction);
     return transaction;
 }

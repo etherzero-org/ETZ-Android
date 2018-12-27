@@ -25,6 +25,7 @@ public abstract class BaseSettingsActivity extends BRActivity {
             @Override
             public void onClick(View v) {
                 onBackPressed();
+                finish();
             }
         });
 

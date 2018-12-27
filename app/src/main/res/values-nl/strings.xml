@@ -932,4 +932,5 @@
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%1$d van %2$d</string>
   <string name="loading">Laden...</string>
+  <string name="Dapp.dataError">De gegevens van de overeenkomst.</string>
 </resources>

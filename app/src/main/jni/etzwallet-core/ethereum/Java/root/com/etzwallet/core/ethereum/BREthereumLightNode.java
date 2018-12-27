@@ -140,6 +140,9 @@ public class BREthereumLightNode extends BRCoreJniReference {
                                     // confirmations
                                     // txreceipt_status
                                     String isError) {
+        ensureValidAddress(from);
+        ensureValidAddress(to);
+        if (null != contract && !contract.isEmpty()) ensureValidAddress(contract);
         jniAnnounceTransaction(id, hash, from, to, contract, amount, gasLimit, gasPrice, data, nonce, gasUsed,
                 blockNumber, blockHash, blockConfirmations, blockTransactionIndex, blockTimestamp,
                 isError);
@@ -156,6 +159,7 @@ public class BREthereumLightNode extends BRCoreJniReference {
                             String blockNumber,
                             String blockTransactionIndex,
                             String blockTimestamp) {
+        ensureValidAddress(contract);
         jniAnnounceLog(id, hash, contract, topics, data, gasPrice, gasUsed, logIndex,
                 blockNumber, blockTransactionIndex, blockTimestamp);
     }
@@ -165,7 +169,23 @@ public class BREthereumLightNode extends BRCoreJniReference {
     }
 
     public void announceNonce (String address, String nonce, int rid) {
+        ensureValidAddress(address);
         jniAnnounceNonce(address, nonce, rid);
+    }
+
+    public void announceToken (String address,
+                               String symbol,
+                               String name,
+                               String description,
+                               int decimals,
+                               String defaultGasLimit,
+                               String defaultGasPrice,
+                               int rid) {
+        ensureValidAddress(address);
+        jniAnnounceToken(address, symbol, name, description, decimals,
+                defaultGasLimit, defaultGasPrice,
+                rid);
+        tokensNeeded = true;
     }
 
     //
@@ -396,31 +416,48 @@ public class BREthereumLightNode extends BRCoreJniReference {
     protected final HashMap<Long, BREthereumToken> tokensByReference = new HashMap<>();
     public BREthereumToken[] tokens = null;
     public BREthereumToken tokenBRD;
+    private boolean tokensNeeded = true;
 
-    protected void initializeTokens () {
-        long[] references =  jniTokenAll ();
-        tokens = new BREthereumToken[references.length];
+    protected synchronized void initializeTokens () {
+        if (tokensNeeded) {
+            tokensNeeded = false;
+            long[] references = jniTokenAll();
+            tokens = new BREthereumToken[references.length];
 
-        for (int i = 0; i < references.length; i++){
-            tokens[i] = new BREthereumToken(references[i]);
+            for (int i = 0; i < references.length; i++) {
+                tokens[i] = new BREthereumToken(references[i]);
+            }
+
+            tokensByReference.clear();
+            tokensByAddress.clear();
+
+            for (BREthereumToken token : tokens) {
+                tokensByReference.put(token.getIdentifier(), token);
+                tokensByAddress.put(token.getAddress().toLowerCase(), token);
+            }
+
+            tokenBRD = lookupTokenByReference(jniGetTokenBRD());
         }
+    }
 
+    public BREthereumToken[] getTokens () {
+        initializeTokens();
+        return tokens;
+    }
 
-
-        for (BREthereumToken token : tokens) {
-            System.err.println ("Token: " + token.getSymbol());
-            tokensByReference.put(token.getIdentifier(), token);
-            tokensByAddress.put (token.getAddress().toLowerCase(), token);
-        }
-
-        tokenBRD = lookupTokenByReference(jniGetTokenBRD());
+    public BREthereumToken getBRDToken () {
+        initializeTokens();
+        return tokenBRD;
     }
 
      public BREthereumToken lookupToken (String address) {
+         ensureValidAddress(address);
+         initializeTokens();
         return tokensByAddress.get(address.toLowerCase());
     }
 
     protected BREthereumToken lookupTokenByReference (long reference) {
+        initializeTokens();
         return tokensByReference.get(reference);
     }
 
@@ -561,12 +598,23 @@ public class BREthereumLightNode extends BRCoreJniReference {
     protected void trampolineGetNonce (String address, int rid) {
         client.get().getNonce(address, rid);
     }
+    public static boolean addressIsValid (String address) {
+        assert (null != address);
+        return jniAddressIsValid(address);
+    }
+
+    static void ensureValidAddress (String address) {
+        if (!addressIsValid(address))
+            throw new RuntimeException ("Invalid Ethereum Address");
+    }
 
     //
     // JNI: Constructors
     //
     protected static native long jniCreateLightNode(Client client, long network, String paperKey, String[] wordList);
     protected static native long jniCreateLightNode_PublicKey(Client client, long network, byte[] publicKey);
+
+    protected static native boolean jniAddressIsValid (String address);
 
     protected native void jniAddListener (Listener listener);
 
@@ -612,7 +660,14 @@ public class BREthereumLightNode extends BRCoreJniReference {
     protected native void jniAnnounceSubmitTransaction (int wid, int tid, String hash, int rid);
     protected native void jniAnnounceBlockNumber (String blockNumber, int rid);
     protected native void jniAnnounceNonce (String address, String nonce, int rid);
-
+    protected native void jniAnnounceToken (String address,
+                                            String symbol,
+                                            String name,
+                                            String description,
+                                            int decimals,
+                                            String defaultGasLimit,
+                                            String defaultGasPrice,
+                                            int rid);
 
     // JNI: Account & Address
     protected native long jniLightNodeGetAccount();
@@ -642,10 +697,16 @@ public class BREthereumLightNode extends BRCoreJniReference {
     protected native long jniCreateTransaction (long walletId,
                                                 String to,
                                                 String amount,
-                                                long amountUnit,
-                                                String data,
-                                                String gasL,
-                                                String gasP);
+                                                long amountUnit);
+
+    protected native long jniCreateTransactionGeneric(long walletId,
+                                                      String to,
+                                                      String amount,
+                                                      long amountUnit,
+                                                      String gasPrice,
+                                                      long gasPriceUnit,
+                                                      String gasLimit,
+                                                      String data);
 
     protected native void jniSignTransaction (long walletId,
                                               long transactionId,
@@ -772,5 +833,24 @@ public class BREthereumLightNode extends BRCoreJniReference {
             if (!validUnit(unit))
                 throw new IllegalArgumentException("Invalid Unit for instance type: " + unit.toString());
         }
+    }
+    public BREthereumToken getToken(String iso){
+        initializeTokens();
+        BREthereumToken ethToken=null;
+        if (tokens!=null&&tokens.length>0){
+            for (BREthereumToken token : tokens) {
+                if (token.getSymbol().equalsIgnoreCase(iso))
+                    ethToken=token;
+
+            }
+        }else {
+
+            for (BREthereumToken token : tokens) {
+                if (token.getSymbol().equalsIgnoreCase(iso))
+                    ethToken=token;
+
+            }
+        }
+        return ethToken;
     }
 }

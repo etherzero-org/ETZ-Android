@@ -173,8 +173,9 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     private void setTexts(final TxHolder convertView, int position) {
         BaseWalletManager wm = WalletsMaster.getInstance(mContext).getCurrentWallet(mContext);
-        TxUiHolder item = itemFeed.get(position);
 
+        TxUiHolder item = itemFeed.get(position);
+        MyLog.i("************position********"+position+"--nonce--"+item.getNonce());
         String commentString = "";
         TxMetaData md = mMetaDatas.size() > position ? mMetaDatas.get(position) : null;
         if (md != null) {
@@ -228,6 +229,12 @@ public class TransactionListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 level = confirms + 2;
             }
         }
+//        if (position==0) {
+//            MyLog.i("**********L*****" + level);
+//            MyLog.i("***********C****" + confirms);
+//            MyLog.i("***********B****" + blockHeight);
+//            MyLog.i("***********LB****" + lastBlockHeight);
+//        }
         if (level > 0 && level < 5) {
             showTransactionProgress(convertView, level * 20);
         }

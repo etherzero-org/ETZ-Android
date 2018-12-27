@@ -25,7 +25,8 @@
 
 #ifndef BR_Ethereum_Token_H
 #define BR_Ethereum_Token_H
-
+#define TOKEN_BRD_DEFAULT_GAS_LIMIT  92000
+#define TOKEN_BRD_DEFAULT_GAS_PRICE_IN_WEI_UINT64  18000000000 // 18 GWEI
 #include "BREthereumEther.h"
 #include "BREthereumGas.h"
 #include "BREthereumContract.h"
@@ -63,20 +64,8 @@ tokenGetGasLimit (BREthereumToken token);
 extern BREthereumGasPrice
 tokenGetGasPrice (BREthereumToken token);
 
-extern const char *
-tokenGetColorLeft (BREthereumToken token);
-
-extern const char *
-tokenGetColorRight (BREthereumToken token);
-
 extern BREthereumContract
 tokenGetContract (BREthereumToken token);
-
-extern const BREthereumToken tokenBRD;
-
-#if defined (BITCOIN_DEBUG)
-extern const BREthereumToken tokenTST;
-#endif
 
 extern BREthereumToken
 tokenLookup (const char *address);
@@ -84,8 +73,20 @@ tokenLookup (const char *address);
 extern int
 tokenCount (void);
 
-extern BREthereumToken
-tokenGet (int index);
+/**
+ * Return a newly allocated array with references to all tokens
+ */
+extern BREthereumToken *
+tokenGetAll (void);
+
+extern void
+tokenInstall (const char *address,
+              const char *symbol,
+              const char *name,
+              const char *description,
+              int decimals,
+              BREthereumGas defaultGasLimit,
+              BREthereumGasPrice defaultGasPrice);
 
 //
 // Token Quantity

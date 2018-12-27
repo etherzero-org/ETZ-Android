@@ -7,6 +7,9 @@ public class TokenItem{
     public String name;
     public String image; // may need to change to int if logos become resources
     public boolean isAdded;
+    private String mStartColor;
+    private String mEndColor;
+    private String mContractInitialValue; // This is the initial value of a token during its ICO
 
 
     public TokenItem(String address, String symbol, String name, String image){
@@ -15,4 +18,31 @@ public class TokenItem{
         this.name = name;
         this.image = image;
     }
+
+    public void setImage(String imageURL){image=imageURL;}
+    public String getImage(){return image;}
+    public void setStartColor(String startColor) {
+        mStartColor = startColor;
+    }
+
+    public String getStartColor() {
+        return mStartColor;
+    }
+
+    public void setEndColor(String endColor) {
+        mEndColor = endColor;
+    }
+
+    public String getEndColor() {
+        return mEndColor;
+    }
+
+    public void setContractInitialValue(String contractInitialvalue) {
+        mContractInitialValue = contractInitialvalue;
+    }
+
+    public String getContractInitialValue() {
+        return mContractInitialValue;
+    }
+
 }

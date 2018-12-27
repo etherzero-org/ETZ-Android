@@ -55,6 +55,10 @@ public final class BRConstants {
     public static final int UPLOAD_FILE_REQUEST = 120;
 
     /**
+     * Request codes for contacts
+     */
+    public static final int REQUEST_CONTACTS = 121;
+    /**
      * Request codes for take picture
      */
     public static final int SCANNER_REQUEST = 201;

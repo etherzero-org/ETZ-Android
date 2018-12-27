@@ -39,19 +39,19 @@ public class WriteDownActivity extends BRActivity {
             @Override
             public void onClick(View v) {
                 if (!BRAnimator.isClickAllowed()) return;
-                PostAuth.getInstance().onPhraseCheckAuth(WriteDownActivity.this, false);
-                //取消身份认证
-//                AuthManager.getInstance().authPrompt(WriteDownActivity.this, null, getString(R.string.VerifyPin_continueBody), true, false, new BRAuthCompletion() {
-//                    @Override
-//                    public void onComplete() {
-//                        PostAuth.getInstance().onPhraseCheckAuth(WriteDownActivity.this, false);
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//
-//                    }
-//                });
+//                PostAuth.getInstance().onPhraseCheckAuth(WriteDownActivity.this, false);
+//                pin码验证
+                AuthManager.getInstance().authPrompt(WriteDownActivity.this, null, getString(R.string.VerifyPin_continueBody), true, false, new BRAuthCompletion() {
+                    @Override
+                    public void onComplete() {
+                        PostAuth.getInstance().onPhraseCheckAuth(WriteDownActivity.this, false);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
 
             }
         });

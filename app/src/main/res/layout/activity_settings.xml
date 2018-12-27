@@ -1,62 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_intro_set_pit"
     android:layout_width="match_parent"
-    android:background="@color/extra_light_blue_background"
     android:layout_height="match_parent"
+    android:background="@color/extra_light_blue_background"
+    android:orientation="vertical"
     tools:context="com.etzwallet.presenter.activities.SetPinActivity">
 
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="56dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/back_button"
-                android:background="@drawable/ic_arrow_left"
-                android:layout_width="24dp"
-                android:layout_height="24dp" />
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_arrow_left"
+            android:visibility="gone" />
 
 
+        <com.etzwallet.presenter.customviews.BRText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/Home.my"
+            android:textColor="@color/gray"
+            android:textSize="18sp"
+            app:customTFont="CircularPro-Book.otf" />
 
-        </LinearLayout>
-
-    </android.support.v7.widget.Toolbar>
-
-    <com.etzwallet.presenter.customviews.BRText
-        app:customTFont="CircularPro-Bold.otf"
-        android:id="@+id/title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/Button.settings"
-        android:layout_below="@id/toolbar"
-        android:layout_alignParentEnd="true"
-        android:textColor="@color/total_assets_usd_color"
-        android:textSize="28sp"
-        android:layout_marginStart="@dimen/bread_margin"
-        android:layout_marginEnd="@dimen/bread_margin"
-        android:layout_marginTop="@dimen/bread_margin"
-        />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/settings_list"
-        android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
-        android:background="@color/extra_light_blue_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:layout_below="@id/title"
+        android:background="@color/extra_light_blue_background"
+        android:footerDividersEnabled="true"
+        android:headerDividersEnabled="true"
 
         />
 
-</RelativeLayout>
+</LinearLayout>

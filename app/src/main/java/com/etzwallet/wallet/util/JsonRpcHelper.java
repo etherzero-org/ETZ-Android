@@ -3,6 +3,7 @@ package com.etzwallet.wallet.util;
 import android.content.Context;
 import android.support.annotation.WorkerThread;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.BuildConfig;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.util.Utils;
@@ -122,7 +123,9 @@ public class JsonRpcHelper {
     //代币列表
 
     public static String getTokenListUrl(){
-        return "http://10.0.3.2:8080/api/v1/getTokenList";
+//        return "https://172.18.188.126:7002/etzq/api/v1/getTokenList";//本地服务器
+        return "https://easyetz.io/etzq/api/v1/getTokenList";//本地服务器
+//        return "https://api.breadwallet.com/currencies";
     }
 
 

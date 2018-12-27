@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/add_wallets_header_color"
+    android:orientation="vertical"
+    tools:context=".presenter.activities.ManageContactsActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp">
+
+            <ImageButton
+                android:id="@+id/contacts_manage_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_arrow_left"
+                />
+
+            <Button
+                android:id="@+id/contacts_manage_cancel_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@color/add_wallets_header_color"
+                android:gravity="left|center_vertical"
+                android:text="@string/Button.cancel"
+                android:textColor="@color/gray"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+
+            <com.etzwallet.presenter.customviews.BRText
+                android:id="@+id/contacts_manage_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="@string/My.contacts"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                app:customTFont="CircularPro-Book.otf" />
+
+            <Button
+                android:id="@+id/contacts_manage_save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@color/add_wallets_header_color"
+                android:text="@string/My.contacts.save"
+                android:textColor="@color/dialog_button_positive"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+            <Button
+                android:id="@+id/contacts_manage_edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@color/add_wallets_header_color"
+                android:text="@string/My.contacts.edit"
+                android:textColor="@color/gray"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/contacts_manage_done_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:background="@color/add_wallets_header_color"
+                android:text="@string/RecoverWallet.done"
+                android:textColor="@color/dialog_button_positive"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/contacts_manage_ll_add"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <com.etzwallet.presenter.customviews.BREdit
+            android:id="@+id/contacts_edit_name"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:hint="@string/My.contacts.name"
+            android:inputType="text"
+            android:maxLength="60"
+            android:textColor="@color/black_trans"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/sub_header" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/extra_light_gray" />
+
+        <com.etzwallet.presenter.customviews.BREdit
+            android:id="@+id/contacts_edit_description"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:hint="@string/My.contacts.remarks"
+            android:inputType="text"
+            android:maxLength="60"
+            android:textColor="@color/black_trans"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/sub_header" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/extra_light_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.etzwallet.presenter.customviews.BREdit
+                android:id="@+id/contacts_edit_address"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:ems="10"
+                android:hint="@string/BCH.noAddressError"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:textColor="@color/black_trans"
+                android:textColorHint="@color/hint_color"
+                android:textSize="@dimen/sub_header" />
+
+            <ImageButton
+                android:id="@+id/contacts_manage_scan_btn"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="7dp"
+                android:background="@drawable/scan_icon" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/extra_light_gray" />
+
+        <Button
+            android:id="@+id/contacts_manage_delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:background="@color/add_wallets_header_color"
+            android:text="@string/My.contacts.delete"
+            android:textColor="@color/red"
+            android:textSize="16sp"
+            android:visibility="gone"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/contacts_manage_ll_show"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="30dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <com.etzwallet.presenter.customviews.BRText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:background="@android:color/transparent"
+                android:text="@string/My.contacts.name"
+                android:textColor="@color/black_trans"
+                android:textSize="@dimen/sub_header"
+                app:customTFont="CircularPro-Book.otf" />
+
+            <com.etzwallet.presenter.customviews.BRText
+                android:id="@+id/contacts_tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:background="@android:color/transparent"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/sub_header"
+                app:customTFont="CircularPro-Book.otf" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/extra_light_gray" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <com.etzwallet.presenter.customviews.BRText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1.2"
+                android:background="@android:color/transparent"
+                android:text="@string/My.contacts.remark"
+                android:textColor="@color/black_trans"
+                android:textSize="@dimen/sub_header"
+                app:customTFont="CircularPro-Book.otf" />
+
+            <com.etzwallet.presenter.customviews.BRText
+                android:id="@+id/contacts_tv_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="4"
+                android:background="@android:color/transparent"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/sub_header"
+                app:customTFont="CircularPro-Book.otf" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/extra_light_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.etzwallet.presenter.customviews.BRText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:text="@string/My.contacts.address"
+                android:textColor="@color/black_trans"
+                android:textSize="@dimen/sub_header" />
+
+            <Button
+                android:id="@+id/contacts_manage_copy_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:background="@color/add_wallets_header_color"
+                android:text="@string/Receive.copy"
+                android:textSize="13sp"/>
+        </LinearLayout>
+        <com.etzwallet.presenter.customviews.BRText
+            android:id="@+id/contacts_tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@android:color/transparent"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/sub_header"
+            app:customTFont="CircularPro-Book.otf" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/extra_light_gray" />
+    </LinearLayout>
+
+
+</LinearLayout>

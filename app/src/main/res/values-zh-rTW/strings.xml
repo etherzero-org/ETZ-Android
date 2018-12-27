@@ -930,4 +930,5 @@
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%2$d 之 %1$d</string>
   <string name="loading">正在加載…</string>
+  <string name="Dapp.dataError">无效的合约数据....</string>
 </resources>

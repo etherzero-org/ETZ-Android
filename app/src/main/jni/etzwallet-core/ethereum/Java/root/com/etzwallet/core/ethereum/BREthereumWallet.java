@@ -258,15 +258,12 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
      * @param amountUnit
      * @return
      */
-    public static final String TAG = "BREthereumWallet";
     public BREthereumTransaction createTransaction(String targetAddress,
                                                    String amount,
-                                                   Unit amountUnit,
-                                                   String data,
-                                                   String gasL,
-                                                   String gasP) {
+                                                   Unit amountUnit) {
+        BREthereumLightNode.ensureValidAddress (targetAddress);
+
         BREthereumLightNode lightNode = node.get();
-        MyLog.d( "tx_data_is0="+data);
 
         // Note: The created transaction's unit will be `amountUnit`.  This unit may differ
         // from the wallet's defaultUnit - which should not be a problem.
@@ -274,10 +271,30 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
                 lightNode.jniCreateTransaction(identifier,
                         targetAddress,
                         amount,
+                        amountUnit.jniValue),
+                amountUnit);
+    }
+
+    public BREthereumTransaction createTransactionGeneric(String targetAddress,
+                                                          String amount, Unit amountUnit,
+                                                          String gasPrice, Unit gasPriceUnit,
+                                                          String gasLimit,
+                                                          String data) {
+        BREthereumLightNode.ensureValidAddress (targetAddress);
+
+        BREthereumLightNode lightNode = node.get();
+
+        assert (!amountUnit.isTokenUnit() && !gasPriceUnit.isTokenUnit());
+
+        return new BREthereumTransaction(lightNode,
+                lightNode.jniCreateTransactionGeneric(identifier,
+                        targetAddress,
+                        amount,
                         amountUnit.jniValue,
-                        data,
-                        gasL,
-                        gasP),
+                        gasPrice,
+                        gasPriceUnit.jniValue,
+                        gasLimit,
+                        data),
                 amountUnit);
     }
 
@@ -309,6 +326,8 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
      * @param transaction
      */
     public void submit (BREthereumTransaction transaction) {
+        MyLog.i("submit="+transaction.getHash());
+        MyLog.i("submit="+transaction.identifier);
         node.get().jniSubmitTransaction(identifier, transaction.identifier);
     }
 

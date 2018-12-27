@@ -17,21 +17,22 @@ import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.tools.adapter.AddTokenListAdapter;
 import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.tools.util.TokenUtil;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
+import com.platform.APIClient;
 import com.platform.entities.TokenListMetaData;
 import com.platform.tools.KVStoreManager;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class AddWalletsActivity extends BRActivity {
 
 
-    private BREthereumToken[] mTokens;
     private AddTokenListAdapter mAdapter;
     private BREdit mSearchView;
     private RecyclerView mRecycler;
-    private static final String TAG = AddWalletsActivity.class.getSimpleName();
     private ImageButton mBackButton;
 
 
@@ -39,10 +40,11 @@ public class AddWalletsActivity extends BRActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_wallets);
-
+        TokenUtil.initialize(getApplicationContext());
         mRecycler = findViewById(R.id.token_list);
         mSearchView = findViewById(R.id.search_edit);
         mBackButton = findViewById(R.id.back_arrow);
+
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,24 +90,12 @@ public class AddWalletsActivity extends BRActivity {
 
         final ArrayList<TokenItem> tokenItems = new ArrayList<>();
         final TokenListMetaData md = KVStoreManager.getInstance().getTokenListMetaData(this);
-
-        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-            @Override
-            public void run() {
-                mTokens = WalletEthManager.getInstance(AddWalletsActivity.this).node.tokens;
-
-                for (BREthereumToken token : mTokens) {
-                    MyLog.i( "run: token===="+token);
-                    TokenItem tokenItem = new TokenItem(token.getAddress(), token.getSymbol(), token.getName(), null);
-
-                    if (md!=null&&!md.isCurrencyEnabled(tokenItem.symbol))
-
-                        tokenItems.add(tokenItem);
-                }
-
+        for (TokenItem tokenItem : TokenUtil.getTokenItems(this)) {
+            MyLog.e(tokenItem.symbol);
+            if (!md.isCurrencyEnabled(tokenItem.symbol)) {
+                tokenItems.add(tokenItem);
             }
-        });
-
+        }
 
         mAdapter = new AddTokenListAdapter(this, tokenItems, new AddTokenListAdapter.OnTokenAddOrRemovedListener() {
             @Override
@@ -149,6 +139,11 @@ public class AddWalletsActivity extends BRActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        WalletsMaster.getInstance(this).updateWallets(this);
+        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+            @Override
+            public void run() {
+                WalletsMaster.getInstance(getApplication()).updateWallets(getApplication());
+            }
+        });
     }
 }

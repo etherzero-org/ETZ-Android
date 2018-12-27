@@ -8,11 +8,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/bread_gradient"
     tools:context="com.etzwallet.presenter.activities.DisabledActivity">
-
-
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -62,9 +57,7 @@
         android:layout_marginTop="8dp"
         android:textColor="@color/white"
         app:layout_constraintHorizontal_bias="0.506"
-        app:layout_constraintLeft_toLeftOf="@+id/disabled"
-        app:layout_constraintRight_toRightOf="@+id/disabled"
-        app:layout_constraintTop_toBottomOf="@+id/disabled"/>
+        />
 
     <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/attempts_label"
@@ -74,8 +67,6 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="8dp"
         android:textColor="@color/gray"
-        app:layout_constraintLeft_toLeftOf="@+id/disabled"
-        app:layout_constraintRight_toRightOf="@+id/disabled"
         app:layout_constraintTop_toBottomOf="@+id/until_label"/>
     <!--
     <ImageButton

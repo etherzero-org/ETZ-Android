@@ -311,6 +311,7 @@ public class LoginActivity extends BRActivity implements BreadApp.OnAppBackgroun
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override

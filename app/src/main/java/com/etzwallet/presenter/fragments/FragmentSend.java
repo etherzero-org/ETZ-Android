@@ -2,16 +2,20 @@ package com.etzwallet.presenter.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.transition.AutoTransition;
 import android.support.transition.TransitionManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +35,7 @@ import android.widget.TextView;
 import com.etzwallet.BreadApp;
 import com.etzwallet.BuildConfig;
 import com.etzwallet.R;
+import com.etzwallet.presenter.activities.ContactsActivity;
 import com.etzwallet.presenter.customviews.BRButton;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.BRKeyboard;
@@ -38,6 +43,7 @@ import com.etzwallet.presenter.customviews.BRLinearLayoutWithCaret;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
+import com.etzwallet.presenter.interfaces.BRContactsInterface;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.animation.SlideDetector;
@@ -93,8 +99,9 @@ public class FragmentSend extends Fragment {
     public ScrollView backgroundLayout;
     public LinearLayout signalLayout;
     private BRKeyboard keyboard;
-    private EditText addressEdit;
-    private Button scan;
+    private static EditText addressEdit;
+    private ImageButton scan;
+    private ImageButton contacts;
     private Button paste;
     private Button send;
     private EditText commentEdit;
@@ -160,6 +167,7 @@ public class FragmentSend extends Fragment {
         amountLayout = rootView.findViewById(R.id.amount_layout);
         feeLayout = rootView.findViewById(R.id.adv_edit_text);
         advBtnView = rootView.findViewById(R.id.adv_btn_view);
+        contacts=rootView.findViewById(R.id.send_contacts);
 //        feeDescription = rootView.findViewById(R.id.fee_description);
 //        warningText = rootView.findViewById(R.id.warning_text);
 
@@ -343,7 +351,8 @@ public class FragmentSend extends Fragment {
                 showKeyboard(!hasFous);
             }
         });
-        gasLimitIpt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+//        gasLimitIpt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        gasPriceIpt.addTextChangedListener(addET);
 
         gasPriceIpt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -353,7 +362,14 @@ public class FragmentSend extends Fragment {
         });
         gasPriceIpt.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 
-
+        contacts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), ContactsActivity.class);
+                intent.putExtra("from",1);
+                startActivityForResult(intent,BRConstants.REQUEST_CONTACTS);
+            }
+        });
         paste.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -498,13 +514,6 @@ public class FragmentSend extends Fragment {
                 WalletsMaster master = WalletsMaster.getInstance(getActivity());
                 final BaseWalletManager wm = master.getCurrentWallet(getActivity());
 
-//                if(WalletsMaster.getInstance(getActivity()).isIsoErc20(getActivity(), wm.getIso())){
-//                    MyLog.i( "onClick: istoken");
-//                }else{
-//                    MyLog.i( "onClick: isnotToken");
-//                }
-
-
                 //get the current wallet used
                 if (wm == null) {
                     MyLog.e("onClick: Wallet is null and it can't happen.");
@@ -530,31 +539,6 @@ public class FragmentSend extends Fragment {
                 String p = "^[a-z0-9]*$";
                 String p1 = "^[0-9]*$";
                 final Activity app = getActivity();
-
-//                if(gasL.length() > 0){
-//                    if(!Pattern.matches(p1,gasL)){
-//                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),app.getString(R.string.GasLimit_invalid),app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
-//                            @Override
-//                            public void onClick(BRDialogView brDialogView) {
-//                                brDialogView.dismiss();
-//                            }
-//                        },null,null,0);
-//                    }
-//                    return;
-//                }
-////
-//                if(gasP.length() > 0){
-//                    if(!Pattern.matches(p1,gasP)){
-//                        BRDialog.showCustomDialog(app,app.getString(R.string.Alert_error),app.getString(R.string.GasPrice_invalid),app.getString(R.string.AccessibilityLabels_close),null,new BRDialogView.BROnClickListener() {
-//                            @Override
-//                            public void onClick(BRDialogView brDialogView) {
-//                                brDialogView.dismiss();
-//                            }
-//                        },null,null,0);
-//                    }
-//                    return;
-//                }
-
 
                 if (dataValue.length() > 0) {
                     if (!Pattern.matches(p, dataValue)) {
@@ -819,6 +803,13 @@ public class FragmentSend extends Fragment {
             }
         });
     }
+    public static BRContactsInterface ci=new BRContactsInterface() {
+        @Override
+        public void getContactsAddress(String address) {
+
+            addressEdit.setText(address);
+        }
+    };
 
     @Override
     public void onResume() {
@@ -980,10 +971,25 @@ public class FragmentSend extends Fragment {
                 }
                 BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
                 if (obj.address != null && addressEdit != null) {
-                    addressEdit.setText(wm.decorateAddress(obj.address.trim()));
+                    app.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            addressEdit.setText(obj.address.trim());
+                        }
+                    });
+
                 }
                 if (obj.message != null && commentEdit != null) {
                     commentEdit.setText(obj.message);
+                }
+                if (obj.gasL != null && gasLimitIpt != null) {
+                    gasLimitIpt.setText(obj.gasL);
+                }
+                if (obj.gasP != null && gasPriceIpt != null) {
+                    gasPriceIpt.setText(obj.gasP);
+                }
+                if (obj.data != null && commentData != null) {
+                    commentData.setText(obj.data);
                 }
                 if (obj.amount != null) {
 
@@ -992,7 +998,6 @@ public class FragmentSend extends Fragment {
                     updateText();
                 } else {
                     // ETH request amount param is named `value`
-
                     if (obj.value != null) {
 
 //                        BigDecimal fiatAmount = wm.getFiatForSmallestCrypto(getActivity(), obj.value, null);
@@ -1016,6 +1021,8 @@ public class FragmentSend extends Fragment {
                             }
 
                         }
+
+
                         updateText();
 
                     }
@@ -1114,5 +1121,40 @@ public class FragmentSend extends Fragment {
 
         }
     }
+    /**
+     * 输入首字不能为0和.
+     */
+    private TextWatcher addET = new TextWatcher() {
 
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before,
+                                  int count) {
+
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count,
+                                      int after) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable edt) {
+            String temp = edt.toString();
+            int posDot = temp.indexOf(".");
+            int frist = temp.indexOf("0");
+            if (frist == 0 || posDot == 0) {
+                edt.delete(0, 1);
+            }
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (requestCode==BRConstants.REQUEST_CONTACTS&&resultCode==Activity.RESULT_OK){
+            String address=data.getStringExtra("address");
+            addressEdit.setText(address);
+        }
+    }
 }

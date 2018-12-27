@@ -66,6 +66,9 @@ void BRMD5(void *md16, const void *data, size_t dataLen);
 // murmurHash3 (x86_32): https://code.google.com/p/smhasher/ - for non cryptographic use only
 uint32_t BRMurmur3_32(const void *data, size_t dataLen, uint32_t seed);
 
+// sipHash-64: https://131002.net/siphash
+uint64_t BRSip64(const void *key16, const void *data, size_t dataLen);
+
 void BRHMAC(void *mac, void (*hash)(void *, const void *, size_t), size_t hashLen, const void *key, size_t keyLen,
             const void *data, size_t dataLen);
 
@@ -88,6 +91,14 @@ size_t BRChacha20Poly1305AEADEncrypt(void *out, size_t outLen, const void *key32
 
 size_t BRChacha20Poly1305AEADDecrypt(void *out, size_t outLen, const void *key32, const void *nonce12,
                                      const void *data, size_t dataLen, const void *ad, size_t adLen);
+
+// aes-ecb block cipher
+void BRAESECBEncrypt(void *buf16, const void *key, size_t keyLen);
+
+void BRAESECBDecrypt(void *buf16, const void *key, size_t keyLen);
+
+// aes-ctr stream cipher encrypt/decrypt
+void BRAESCTR(void *out, const void *key, size_t keyLen, const void *iv16, const void *data, size_t dataLen);
     
 void BRPBKDF2(void *dk, size_t dkLen, void (*hash)(void *, const void *, size_t), size_t hashLen,
               const void *pw, size_t pwLen, const void *salt, size_t saltLen, unsigned rounds);

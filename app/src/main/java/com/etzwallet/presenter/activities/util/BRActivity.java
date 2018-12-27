@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
@@ -56,7 +56,7 @@ import com.platform.tools.BRBitId;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
+public class BRActivity extends FragmentActivity implements BreadApp.OnAppBackgrounded {
     private static final String TAG = BRActivity.class.getName();
     public static final Point screenParametersPoint = new Point();
     private static final String PACKAGE_NAME = BreadApp.getBreadContext() == null ? null : BreadApp.getBreadContext().getApplicationContext().getPackageName();
@@ -108,10 +108,7 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
 
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        //No call for super(). Bug on API Level > 11.
-    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

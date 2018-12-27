@@ -3,18 +3,23 @@ package com.etzwallet.wallet.wallets.ethereum;
 import android.content.Context;
 import android.support.annotation.WorkerThread;
 
+import com.etzwallet.R;
 import com.etzwallet.core.ethereum.BREthereumAmount;
 import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.core.ethereum.BREthereumTransaction;
 import com.etzwallet.core.ethereum.BREthereumWallet;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CurrencyEntity;
+import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.presenter.entities.TxUiHolder;
+import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.sqlite.RatesDataSource;
 import com.etzwallet.tools.util.BRConstants;
+import com.etzwallet.tools.util.TokenUtil;
 import com.etzwallet.tools.util.Utils;
+import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
 import com.etzwallet.wallet.configs.WalletSettingsConfiguration;
 import com.etzwallet.wallet.configs.WalletUiConfiguration;
@@ -66,7 +71,9 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     private WalletTokenManager(WalletEthManager walletEthManager, BREthereumWallet tokenWallet) {
         mWalletEthManager = walletEthManager;
         mWalletToken = tokenWallet;
-        uiConfig = new WalletUiConfiguration(tokenWallet.getToken().getColorLeft(), tokenWallet.getToken().getColorRight(), false, WalletManagerHelper.MAX_DECIMAL_PLACES_FOR_UI);
+
+        String currencyCode = tokenWallet.getSymbol();
+        uiConfig = new WalletUiConfiguration(TokenUtil.getTokenStartColor(currencyCode), TokenUtil.getTokenEndColor(currencyCode), false, WalletManagerHelper.MAX_DECIMAL_PLACES_FOR_UI);
         mAddress = mWalletEthManager.getAddress();
     }
 
@@ -128,11 +135,10 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         return null;
     }
 
-    public synchronized static void mapTokenIsos(Context app) {
-        BREthereumToken[] tokens = WalletEthManager.getInstance(app).node.tokens;
-        for (BREthereumToken t : tokens) {
-            if (!mTokenIsos.containsKey(t.getSymbol().toLowerCase())) {
-                mTokenIsos.put(t.getSymbol().toLowerCase(), t.getAddress().toLowerCase());
+    public static synchronized void mapTokenIsos(Context app) {
+        for (TokenItem tokenItem : TokenUtil.getTokenItems(app)) {
+            if (!mTokenIsos.containsKey(tokenItem.symbol.toLowerCase())) {
+                mTokenIsos.put(tokenItem.symbol.toLowerCase(), tokenItem.address.toLowerCase());
             }
         }
     }
@@ -150,7 +156,6 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         String hash = tx.getEtherTx().getHash();
         return hash == null ? new byte[0] : hash.getBytes();
     }
-
     @Override
     public void watchTransactionForHash(CryptoTransaction tx, OnHashUpdated listener) {
         mWalletEthManager.watchTransactionForHash(tx, listener);
@@ -274,16 +279,19 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         if (app != null && blockHeight != Integer.MAX_VALUE && blockHeight > 0) {
             BRSharedPrefs.putLastBlockHeight(app, getIso(), blockHeight);
         }
+        BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
+        long nonce=BRSharedPrefs.getAddressNonce(app,wm.getAddress());
         if (txs == null || txs.length <= 0) return null;
         List<TxUiHolder> uiTxs = new ArrayList<>();
         for (int i = txs.length - 1; i >= 0; i--) { //revere order
             BREthereumTransaction tx = txs[i];
+            if(tx.getNonce()>=nonce)continue;
 //            printTxInfo(tx);
             uiTxs.add(new TxUiHolder(tx, tx.getTargetAddress().equalsIgnoreCase(mWalletEthManager.getReceiveAddress(app).stringify()),
                     tx.getBlockTimestamp(), (int) tx.getBlockNumber(), Utils.isNullOrEmpty(tx.getHash()) ? null :
                     tx.getHash().getBytes(), tx.getHash(), new BigDecimal(tx.getFee(BREthereumAmount.Unit.ETHER_GWEI)),
                     tx.getTargetAddress(), tx.getSourceAddress(), null, 0,
-                    new BigDecimal(tx.getAmount(getUnit())), true));
+                    new BigDecimal(tx.getAmount(getUnit())), true,tx.getNonce()));
         }
         return uiTxs;
     }
@@ -335,7 +343,7 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
 
     @Override
     public CryptoTransaction createTransaction(BigDecimal amount, String address, String data, String gasL, String gasP) {
-        BREthereumTransaction tx = mWalletToken.createTransaction(address, amount.toPlainString(), BREthereumAmount.Unit.TOKEN_DECIMAL,data,gasL,gasP);
+        BREthereumTransaction tx = mWalletToken.createTransaction(address, amount.toPlainString(), BREthereumAmount.Unit.TOKEN_DECIMAL);
         return new CryptoTransaction(tx);
     }
 

@@ -32,6 +32,14 @@ JNIEXPORT jobject JNICALL Java_com_etzwallet_core_BRCoreWallet_getReceiveAddress
   (JNIEnv *, jobject);
 
 /*
+ * Class:     com_breadwallet_core_BRCoreWallet
+ * Method:    getLegacyAddress
+ * Signature: ()Lcom/breadwallet/core/BRCoreAddress;
+ */
+JNIEXPORT jobject JNICALL Java_com_etzwallet_core_BRCoreWallet_getLegacyAddress
+        (JNIEnv *, jobject);
+
+/*
  * Class:     com_etzwallet_core_BRCoreWallet
  * Method:    getAllAddresses
  * Signature: ()[Lcom/etzwallet/core/BRCoreAddress;
@@ -133,7 +141,7 @@ JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreWallet_getDefaultFeePerKb
  * Signature: (JLcom/etzwallet/core/BRCoreAddress;)Lcom/etzwallet/core/BRCoreTransaction;
  */
 JNIEXPORT jobject JNICALL Java_com_etzwallet_core_BRCoreWallet_createTransaction
-  (JNIEnv *, jobject, jlong, jobject, jchar);
+  (JNIEnv *, jobject, jlong, jobject);
 
 /*
  * Class:     com_etzwallet_core_BRCoreWallet

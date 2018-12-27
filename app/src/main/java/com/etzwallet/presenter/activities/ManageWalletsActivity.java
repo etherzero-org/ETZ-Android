@@ -1,10 +1,13 @@
 package com.etzwallet.presenter.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.View;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.presenter.activities.settings.BaseSettingsActivity;
@@ -14,6 +17,7 @@ import com.etzwallet.tools.adapter.ManageTokenListAdapter;
 import com.etzwallet.tools.animation.SimpleItemTouchHelperCallback;
 import com.etzwallet.tools.listeners.OnStartDragListener;
 import com.etzwallet.tools.manager.BRReportsManager;
+import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import com.platform.entities.TokenListMetaData;
@@ -30,6 +34,7 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
     private List<TokenListMetaData.TokenInfo> mTokens;
     private ItemTouchHelper mItemTouchHelper;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_manage_wallets;
@@ -40,7 +45,15 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
         super.onCreate(savedInstanceState);
 
         mTokenList = findViewById(R.id.token_list);
-
+        findViewById(R.id.add_wallet_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //添加钱包
+                Intent intent = new Intent(ManageWalletsActivity.this, AddWalletsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        });
 
     }
 
@@ -76,14 +89,6 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
                 } else if (tokenSymbol.equalsIgnoreCase("etz")) {
                     tokenItem = new TokenItem(null, "ETZ", "EtherZero", "@drawable/etz");
                 }
-//                else if (tokenSymbol.equalsIgnoreCase("bo"))
-//                    tokenItem = new TokenItem(null, "BO", "BlackOptions", "@drawable/bo");
-//                else if (tokenSymbol.equalsIgnoreCase("msm"))
-//                    tokenItem = new TokenItem(null, "MSM", "MSM", "@drawable/msm");
-//                else if(tokenSymbol.equalsIgnoreCase("sqb"))
-//                    tokenItem = new TokenItem(null,"SQB","SQB","@drawble/sqb");
-//                else if(tokenSymbol.equalsIgnoreCase("abc"))
-//                    tokenItem = new TokenItem(null,"ABC","ABountifulCompany","@drawble/abc");
 
 
                 if (tokenItem != null) {
@@ -144,7 +149,13 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
     @Override
     protected void onPause() {
         super.onPause();
-        WalletsMaster.getInstance(this).updateWallets(this);
+        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+            @Override
+            public void run() {
+                WalletsMaster.getInstance(getApplication()).updateWallets(getApplication());
+            }
+        });
+
     }
 
     @Override

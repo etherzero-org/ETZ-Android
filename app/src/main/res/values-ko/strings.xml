@@ -930,4 +930,5 @@
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%2$d의 %1$d</string>
   <string name="loading">추가하는 중...</string>
+  <string name="Dapp.dataError">잘못된 계약 데이터</string>
 </resources>

@@ -13,6 +13,7 @@ import com.etzwallet.R;
 import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.core.BRCoreMasterPubKey;
 import com.etzwallet.core.ethereum.BREthereumToken;
+import com.etzwallet.core.ethereum.BREthereumWallet;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
@@ -96,14 +97,26 @@ public class WalletsMaster {
         if (mTokenListMetaData == null) {
             List<TokenListMetaData.TokenInfo> enabled = new ArrayList<>();
             enabled.add(new TokenListMetaData.TokenInfo("BTC", false, null));
-            //enabled.add(new TokenListMetaData.TokenInfo("BCH", false, null));
             enabled.add(new TokenListMetaData.TokenInfo("ETZ", false, null));
-            //添加钱包 及brd
-//            BREthereumWallet brdWallet = ethWallet.node.getWallet(ethWallet.node.tokenBRD);
-//            enabled.add(new TokenListMetaData.TokenInfo(brdWallet.getToken().getSymbol(), true, brdWallet.getToken().getAddress()));
+            //添加token钱包
+//            enabled.add(new TokenListMetaData.TokenInfo("EASH", true, "0x013b6e279989aa20819a623630fe678c9f43a48f"));
+            enabled.add(new TokenListMetaData.TokenInfo("EASH", true, null));
             mTokenListMetaData = new TokenListMetaData(enabled, null);
             KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
         }
+//        else {
+//            boolean istrue=false;
+//            for (TokenListMetaData.TokenInfo enabled : mTokenListMetaData.enabledCurrencies) {
+//                if (enabled.symbol.equalsIgnoreCase("EASH") ) {
+//                    istrue=true;
+//                }
+//            }
+//            if (!istrue){
+//                //添加token钱包
+//                mTokenListMetaData.enabledCurrencies.add(new TokenListMetaData.TokenInfo("EASH", true, "0x013b6e279989aa20819a623630fe678c9f43a48f"));
+//                KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
+//            }
+//        }
 
         for (TokenListMetaData.TokenInfo enabled : mTokenListMetaData.enabledCurrencies) {
 
@@ -112,16 +125,10 @@ public class WalletsMaster {
             if (enabled.symbol.equalsIgnoreCase("BTC") && !isHidden) {
                 //BTC wallet
                 mWallets.add(WalletBitcoinManager.getInstance(app));
-            } else if (enabled.symbol.equalsIgnoreCase("BCH") && !isHidden) {
-                //BCH wallet
-//                mWallets.add(WalletBchManager.getInstance(app));
-            } else if (enabled.symbol.equalsIgnoreCase("ETZ") && !isHidden) {
+            }  else if (enabled.symbol.equalsIgnoreCase("ETZ") && !isHidden) {
                 //ETH wallet
                 mWallets.add(ethWallet);
-            } else if (enabled.symbol.equalsIgnoreCase("BRD") && !isHidden) {
-                //home页不显示代币 brd
-                MyLog.i( "updateWallets: enabled.symbol11===" + enabled.symbol);
-            } else {
+            }  else {
                 //其他代币
                 MyLog.i( "updateWallets: enabled.symbol222===" + enabled.symbol);
                 WalletTokenManager tokenWallet = WalletTokenManager.getTokenWalletByIso(app, ethWallet, enabled.symbol);
@@ -148,15 +155,13 @@ public class WalletsMaster {
             MyLog.i( "getWalletByIso: iso==" + iso);
             MyLog.i( "getWalletByIso: +++" + iso.equalsIgnoreCase("ETZ"));
         }
-        if (Utils.isNullOrEmpty(iso))
+        if (Utils.isNullOrEmpty(iso)) {
             throw new RuntimeException("getWalletByIso with iso = null, Cannot happen!");
-        if (iso.equalsIgnoreCase("BTC"))
+        }else if (iso.equalsIgnoreCase("BTC")) {
             return WalletBitcoinManager.getInstance(app);
-        if (iso.equalsIgnoreCase("BCH"))
-            return WalletBchManager.getInstance(app);
-        if (iso.equalsIgnoreCase("ETZ"))
+        }else  if (iso.equalsIgnoreCase("ETZ")) {
             return WalletEthManager.getInstance(app);
-        else if (isIsoErc20(app, iso)) {
+        }  else if (isIsoErc20(app, iso)) {
             return WalletTokenManager.getTokenWalletByIso(app, WalletEthManager.getInstance(app), iso);
         }
         return null;
@@ -274,7 +279,7 @@ public class WalletsMaster {
         try {
             BREthereumToken[] tokens = WalletEthManager.getInstance(app).node.tokens;
             for (BREthereumToken token : tokens) {
-                if (token.getSymbol().equals(iso)) {
+                if ((token!=null&&!Utils.isNullOrEmpty(token.getSymbol()))&&iso.equals(token.getSymbol())) {
                     return true;
                 }
             }

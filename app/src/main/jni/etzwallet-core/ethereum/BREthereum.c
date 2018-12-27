@@ -52,6 +52,11 @@ ethereumConnect(BREthereumLightNode node,
     return lightNodeConnect(node, client);
 }
 
+extern BREthereumClientContext
+ethereumGetClientContext (BREthereumLightNode node) {
+    return lightNodeGetClientContext(node);
+}
+
 extern BREthereumBoolean
 ethereumDisconnect (BREthereumLightNode node) {
     return lightNodeDisconnect(node);
@@ -181,13 +186,21 @@ extern BREthereumTransactionId
 ethereumWalletCreateTransaction(BREthereumLightNode node,
                                 BREthereumWalletId wid,
                                 const char *recvAddress,
-                                BREthereumAmount amount,
-                                const char *data,
-                                const char *gasL,
-                                const char *gasP) {
+                                BREthereumAmount amount) {
     BREthereumWallet wallet = lightNodeLookupWallet(node, wid);
-    __android_log_print(ANDROID_LOG_INFO, "tx_data_is2=", "tx_data_is2=%s\n", data );
-    return lightNodeWalletCreateTransaction(node, wallet, recvAddress, amount, data, gasL, gasP);
+    return lightNodeWalletCreateTransaction(node, wallet, recvAddress, amount);
+}
+
+extern BREthereumTransactionId
+ethereumWalletCreateTransactionGeneric(BREthereumLightNode node,
+                                       BREthereumWalletId wid,
+                                       const char *recvAddress,
+                                       BREthereumEther amount,
+                                       BREthereumGasPrice gasPrice,
+                                       BREthereumGas gasLimit,
+                                       const char *data) {
+    BREthereumWallet wallet = lightNodeLookupWallet(node, wid);
+    return lightNodeWalletCreateTransactionGeneric(node, wallet, recvAddress, amount, gasPrice, gasLimit, data);
 }
 
 extern void // status, error

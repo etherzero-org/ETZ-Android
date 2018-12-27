@@ -932,4 +932,5 @@
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%1$d di %2$d</string>
   <string name="loading">Sta caricando...</string>
+  <string name="Dapp.dataError">Contratto nullo di dati</string>
 </resources>

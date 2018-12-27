@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.WorkerThread;
 
+import com.dapp.DappTransaction;
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.MyLog;
@@ -163,33 +164,34 @@ public class SendManager {
 
         MyLog.i( "tryPay: dataValue==="+paymentRequest.data);
 
-        BigDecimal balance = walletManager.getCachedBalance(app);
-        BigDecimal minOutputAmount = walletManager.getMinOutputAmount(app);
+        if (!walletManager.getAddress().equalsIgnoreCase(paymentRequest.address)) {
+            BigDecimal balance = walletManager.getCachedBalance(app);
+            BigDecimal minOutputAmount = walletManager.getMinOutputAmount(app);
 
-        //not enough for fee
-        if (paymentRequest.notEnoughForFee(app, walletManager)) {
-            throw new InsufficientFundsException(paymentRequest.amount, balance);
+            //not enough for fee
+            if (paymentRequest.notEnoughForFee(app, walletManager)) {
+                throw new InsufficientFundsException(paymentRequest.amount, balance);
+            }
+
+            if (paymentRequest.feeOverBalance(app, walletManager)) {
+                throw new FeeNeedsAdjust(paymentRequest.amount, balance, new BigDecimal(-1));
+            }
+
+            // check if spending is allowed
+            if (!BRSharedPrefs.getAllowSpend(app, walletManager.getIso())) {
+                throw new SpendingNotAllowed();
+            }
+
+            //check if amount isn't smaller than the min amount
+            if (paymentRequest.isSmallerThanMin(app, walletManager)) {
+                throw new AmountSmallerThanMinException(paymentRequest.amount, minOutputAmount);
+            }
+
+            //amount is larger than balance
+            if (paymentRequest.isLargerThanBalance(app, walletManager)) {
+                throw new InsufficientFundsException(paymentRequest.amount, balance);
+            }
         }
-
-        if (paymentRequest.feeOverBalance(app, walletManager)) {
-            throw new FeeNeedsAdjust(paymentRequest.amount, balance, new BigDecimal(-1));
-        }
-
-        // check if spending is allowed
-        if (!BRSharedPrefs.getAllowSpend(app, walletManager.getIso())) {
-            throw new SpendingNotAllowed();
-        }
-
-        //check if amount isn't smaller than the min amount
-        if (paymentRequest.isSmallerThanMin(app, walletManager)) {
-            throw new AmountSmallerThanMinException(paymentRequest.amount, minOutputAmount);
-        }
-
-        //amount is larger than balance
-        if (paymentRequest.isLargerThanBalance(app, walletManager)) {
-            throw new InsufficientFundsException(paymentRequest.amount, balance);
-        }
-
         // payment successful
         PostAuth.getInstance().setPaymentItem(paymentRequest);//将paymentRequest所有参数传入 PostAuth.java
         confirmPay(app, paymentRequest, walletManager, completion);
@@ -284,12 +286,12 @@ public class SendManager {
         }
         boolean forcePin = false;
 
-        if (Utils.isEmulatorOrDebug(ctx)) {
-            MyLog.e( "confirmPay: totalSent: " + wm.getTotalSent(ctx));
-            MyLog.e( "confirmPay: request.amount: " + request.amount);
-            MyLog.e( "confirmPay: total limit: " + BRKeyStore.getTotalLimit(ctx, wm.getIso()));
-            MyLog.e( "confirmPay: limit: " + BRKeyStore.getSpendLimit(ctx, wm.getIso()));
-        }
+//        if (Utils.isEmulatorOrDebug(ctx)) {
+//            MyLog.e( "confirmPay: totalSent: " + wm.getTotalSent(ctx));
+//            MyLog.e( "confirmPay: request.amount: " + request.amount);
+//            MyLog.e( "confirmPay: total limit: " + BRKeyStore.getTotalLimit(ctx, wm.getIso()));
+//            MyLog.e( "confirmPay: limit: " + BRKeyStore.getSpendLimit(ctx, wm.getIso()));
+//        }
 
         if (wm.getTotalSent(ctx).add(request.amount).compareTo(BRKeyStore.getTotalLimit(ctx, wm.getIso())) > 0) {
             forcePin = true;
@@ -311,6 +313,7 @@ public class SendManager {
                             @Override
                             public void run() {
                                 BRAnimator.killAllFragments((Activity) ctx);
+
                             }
                         });
 

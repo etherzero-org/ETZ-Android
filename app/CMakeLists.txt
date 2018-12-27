@@ -48,6 +48,8 @@ add_library( # The name of the library.
              src/main/jni/etzwallet-core/BRInt.h
              src/main/jni/etzwallet-core/BRKey.c
              src/main/jni/etzwallet-core/BRKey.h
+             src/main/jni/etzwallet-core/BRKeyECIES.c
+             src/main/jni/etzwallet-core/BRKeyECIES.h
              src/main/jni/etzwallet-core/BRMerkleBlock.c
              src/main/jni/etzwallet-core/BRMerkleBlock.h
              src/main/jni/etzwallet-core/BRPaymentProtocol.c

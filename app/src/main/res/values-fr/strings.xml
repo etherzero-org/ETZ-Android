@@ -932,4 +932,5 @@
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%1$d de %2$d</string>
   <string name="loading">Chargement...</string>
+  <string name="Dapp.dataError">Données contractuelles non valides</string>
 </resources>

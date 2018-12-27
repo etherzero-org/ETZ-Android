@@ -459,6 +459,17 @@ import java.util.UUID;
         editor.putString("userId", uuid);
         editor.apply();
     }
+    public static long getAddressNonce(Context context,String address) {
+        SharedPreferences settingsToGet = context.getSharedPreferences(PREFS_NAME, 0);
+        return (settingsToGet.getLong(address, 0));
+    }
+
+    public static void setAddressNonce(Context context, String address,long nonce) {
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putLong(address, nonce);
+        editor.apply();
+    }
 
     public static void clearAllPrefs(Context activity) {
         SharedPreferences.Editor editor = activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
@@ -539,5 +550,16 @@ import java.util.UUID;
         editor.putBoolean("appBackgroundedFromHome", fromHome);
         editor.apply();
 
+    }
+    public static String getlastDappHash(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getString("dappHash" , "");
+    }
+
+    public static void putlastDappHash(Context context, String hash) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("dappHash", hash);
+        editor.apply();
     }
 }

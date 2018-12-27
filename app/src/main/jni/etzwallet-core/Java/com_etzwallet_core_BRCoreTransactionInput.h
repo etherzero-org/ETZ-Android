@@ -13,7 +13,7 @@ extern "C" {
  * Signature: ([BJJ[B[BJ)J
  */
 JNIEXPORT jlong JNICALL Java_com_etzwallet_core_BRCoreTransactionInput_createTransactionInput
-  (JNIEnv *, jclass, jbyteArray, jlong, jlong, jbyteArray, jbyteArray, jlong);
+  (JNIEnv *, jclass, jbyteArray, jlong, jlong, jbyteArray, jbyteArray, jbyteArray, jlong);
 
 /*
  * Class:     com_etzwallet_core_BRCoreTransactionInput

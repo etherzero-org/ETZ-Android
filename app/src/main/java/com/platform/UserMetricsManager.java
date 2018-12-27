@@ -6,6 +6,7 @@ import android.content.Context;
 import com.etzwallet.BreadApp;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.BRConstants;
+import com.etzwallet.wallet.util.JsonRpcHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,7 +34,7 @@ public class UserMetricsManager {
 
     public static void makeUserMetricsRequest(Context context, String metricName) {
 
-        String url = BRConstants.HTTPS_PROTOCOL + BreadApp.HOST + ENDPOINT_ME_METRICS;
+        String url = BRConstants.HTTPS_PROTOCOL + JsonRpcHelper.EASY_HOME + ENDPOINT_ME_METRICS;
 
         JSONObject payload = new JSONObject();
 

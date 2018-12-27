@@ -53,7 +53,7 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
     }
 
     public static final String DATABASE_NAME = "breadwallet.db";
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 16;//15
 
     /**
      * MerkleBlock table
@@ -126,47 +126,50 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
             CURRENCY_ISO + " text DEFAULT 'BTC', " +
             "PRIMARY KEY (" + CURRENCY_CODE + ", " + CURRENCY_ISO + ")" +
             ");";
+    /**
+     * contacts table
+     */
+
+    public static final String CONTACTS_TABLE_NAME = "contactsTable";
+    public static final String CONTACTS_NAME = "name";
+    public static final String CONTACTS_WALLRT_ADDRESS = "wallrt_address";
+    public static final String CONTACTS_PHONE = "phone";//
+    public static final String CONTACTS_REMARKS = "remarks";//
+
+    private static final String CONTACTS_DATABASE_CREATE = "create table if not exists " + CONTACTS_TABLE_NAME + " (" +
+            CONTACTS_NAME + " text," +
+            CONTACTS_PHONE + " text," +
+            CONTACTS_WALLRT_ADDRESS + " text," +
+            CONTACTS_REMARKS + " text );";
+
 
 
     @Override
     public void onCreate(SQLiteDatabase database) {
         //drop peers table due to multiple changes
-
-        MyLog.e( "onCreate: " + MB_DATABASE_CREATE);
-        MyLog.e( "onCreate: " + TX_DATABASE_CREATE);
-        MyLog.e( "onCreate: " + PEER_DATABASE_CREATE);
-        MyLog.e( "onCreate: " + CURRENCY_DATABASE_CREATE);
         database.execSQL(MB_DATABASE_CREATE);
         database.execSQL(TX_DATABASE_CREATE);
         database.execSQL(PEER_DATABASE_CREATE);
         database.execSQL(CURRENCY_DATABASE_CREATE);
+        database.execSQL(CONTACTS_DATABASE_CREATE);
 
-//        printTableStructures(database, MB_TABLE_NAME);
-//        printTableStructures(database, TX_TABLE_NAME);
-//        printTableStructures(database, PEER_TABLE_NAME);
-//        printTableStructures(database, CURRENCY_TABLE_NAME);
-
-//        database.execSQL("PRAGMA journal_mode=WRITE_AHEAD_LOGGING;");
     }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        MyLog.i("SQLiteDatabase="+newVersion);
         if (oldVersion < 13 && (newVersion >= 13)) {
-            boolean migrationNeeded = !tableExists(MB_TABLE_NAME, db);
+            boolean migrationNeeded = !tableExists(CONTACTS_TABLE_NAME, db);
             onCreate(db); //create new db tables
 
             if (migrationNeeded)
                 migrateDatabases(db);
-        } else {
-            //drop everything maybe?
-//            db.execSQL("DROP TABLE IF EXISTS " + MB_TABLE_NAME);
-//            db.execSQL("DROP TABLE IF EXISTS " + TX_TABLE_NAME);
-//            db.execSQL("DROP TABLE IF EXISTS " + PEER_TABLE_NAME);
-//            db.execSQL("DROP TABLE IF EXISTS " + CURRENCY_TABLE_NAME);
-//            db.execSQL("PRAGMA journal_mode=WRITE_AHEAD_LOGGING;");
+            MyLog.i("SQLiteDatabase="+migrationNeeded);
+        } else if(oldVersion<=15&&newVersion>=16) {
+            boolean contactsExist=tableExists(CONTACTS_TABLE_NAME,db);
+            if (!contactsExist) {
+                db.execSQL(CONTACTS_DATABASE_CREATE);
+            }
         }
-        //recreate if needed
 
     }
 

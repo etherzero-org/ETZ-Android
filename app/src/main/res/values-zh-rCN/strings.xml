@@ -934,5 +934,18 @@
 
 
     <string name="loading">正在加载....</string>
+    <string name="Dapp.dataError">无效的合约数据....</string>
+    <string name="My.contacts">常用联系人</string>
+    <string name="My.contacts.save">保存</string>
+    <string name="My.contacts.edit">编辑</string>
+    <string name="My.contacts.name">名称</string>
+    <string name="My.contacts.remarks">备注(选填)</string>
+    <string name="My.contacts.remark">备注</string>
+    <string name="My.contacts.address">地址</string>
+    <string name="My.contacts.delete">删除联系人</string>
+    <string name="TransactionDetails.beneficiary.address">收款地址</string>
+    <string name="Home.my">我的</string>
+    <string name="Home.wallet">钱包</string>
+    <string name="Home.Discovery">发现</string>
 
 </resources>

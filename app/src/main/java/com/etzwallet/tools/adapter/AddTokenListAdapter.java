@@ -2,7 +2,9 @@ package com.etzwallet.tools.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,12 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
+import com.platform.APIClient;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapter.TokenItemViewHolder> {
@@ -53,12 +61,31 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
         }
 
         String iconResourceName = tickerName;
-        int iconResourceId = mContext.getResources().getIdentifier(tickerName, "drawable", mContext.getPackageName());
-
+//        int iconResourceId = mContext.getResources().getIdentifier(tickerName, "drawable", mContext.getPackageName());
         holder.name.setText(mTokens.get(position).name);
         holder.symbol.setText(mTokens.get(position).symbol);
+
+        String iconName=mTokens.get(position).symbol.toLowerCase();
+        String pathDir=mContext.getFilesDir().getAbsolutePath()+ APIClient.ETZ_TOKEN_ICON_EXTRACTED;
+        File imageDir=new File(pathDir);
+        if (!imageDir.exists()){
+            imageDir.mkdir();
+        }
+        File image=new File(imageDir,iconName+".png");
+
+        if (image.exists()){
+            Picasso.get().load(image).into(holder.logo);
+        }else {
+            Picasso.get().load(mTokens.get(position).image).into(holder.logo);
+            downloadIcon(mTokens.get(position).image,image.getAbsolutePath());
+
+
+        }
+
+
+        Picasso.get().load(mTokens.get(position).image).into(holder.logo);
         try {
-            holder.logo.setBackground(mContext.getDrawable(iconResourceId));
+//            holder.logo.setBackground(mContext.getDrawable(iconResourceId));
         } catch (Exception e) {
             e.printStackTrace();
             MyLog.d("Error finding icon for -> " + iconResourceName);
@@ -148,6 +175,43 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
 
         mTokens = filteredList;
         notifyDataSetChanged();
+
+    }
+
+    private void downloadIcon(String url, final String iconName) {
+        //获得图片的地址
+
+        //Target
+        Target target = new Target(){
+
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
+                File dcimFile =new File(iconName);
+
+                FileOutputStream ostream = null;
+                try {
+                    ostream = new FileOutputStream(dcimFile);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, ostream);
+                    ostream.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+            }
+        };
+
+        //Picasso下载
+        Picasso.get().load(url).into(target);
 
     }
 

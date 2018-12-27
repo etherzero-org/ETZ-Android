@@ -114,10 +114,7 @@ walletEstimateTransactionFeeDetailed (BREthereumWallet wallet,
 extern BREthereumTransaction
 walletCreateTransaction(BREthereumWallet wallet,
                         BREthereumAddress recvAddress,
-                        BREthereumAmount amount,
-                        const char *data,
-                        const char *gasL,
-                        const char *gasP);
+                        BREthereumAmount amount);
 
 /**
  *
@@ -144,10 +141,15 @@ walletCreateTransactionDetailed(BREthereumWallet wallet,
                                 BREthereumAmount amount,
                                 BREthereumGasPrice gasPrice,
                                 BREthereumGas gasLimit,
-                                uint64_t nonce,
-                                const char *data,
-                                const char *gasL,
-                                const char *gasP);
+                                uint64_t nonce);
+
+extern BREthereumTransaction
+walletCreateTransactionGeneric(BREthereumWallet wallet,
+                               BREthereumAddress recvAddress,
+                               BREthereumEther amount,
+                               BREthereumGasPrice gasPrice,
+                               BREthereumGas gasLimit,
+                               const char *data);
 
 extern void
 walletSignTransaction(BREthereumWallet wallet,

@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.dapp.DappTransaction">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/dapp_t_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/add_wallets_header_color">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/dapp_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_arrow_left" />
+
+
+            <com.etzwallet.presenter.customviews.BRText
+                android:id="@+id/dapp_t_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="@string/TransactionDetails.title"
+                android:textColor="@color/gray"
+                android:textSize="18sp"
+                app:customTFont="CircularPro-Book.otf" />
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:text="@string/Send.toLabel"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:id="@+id/dapp_to"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_weight="4"
+            android:background="@android:color/transparent"
+            android:paddingLeft="16dp"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/extra_light_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:text="@string/Send.amountLabel"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:id="@+id/dapp_value"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="4"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/extra_light_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:text="@string/gas_limit_text"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/paragraph"
+
+            />
+
+        <com.etzwallet.presenter.customviews.BREdit
+            android:id="@+id/dapp_gasl"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:paddingLeft="16dp"
+            android:layout_weight="4"
+            android:background="@android:color/transparent"
+            android:digits="1234567890."
+            android:hint="@string/gas_limit_text"
+            android:inputType="textPersonName"
+            android:maxLength="250"
+            android:textColor="@color/black_trans"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/extra_light_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:text="@string/gas_price_text"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/paragraph"
+
+            />
+
+        <com.etzwallet.presenter.customviews.BREdit
+            android:id="@+id/dapp_gasp"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:layout_weight="3"
+            android:background="@android:color/transparent"
+            android:digits="1234567890."
+            android:hint="@string/gas_price_text"
+            android:inputType="textPersonName"
+            android:maxLines="1"
+            android:textColor="@color/black_trans"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="16dp"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="gwei"
+            android:textColor="@color/gray" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/extra_light_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:text="@string/Send.descriptionLabelData"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:id="@+id/dapp_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="4"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:ellipsize="end"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/extra_light_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:text="@string/TransactionDetails.commentsHeader"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+        <com.etzwallet.presenter.customviews.BRText
+            android:id="@+id/dapp_message"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="4"
+            android:background="@android:color/transparent"
+            android:maxLines="1"
+            android:paddingLeft="16dp"
+            android:textColor="@color/black_trans"
+            android:textSize="@dimen/sub_header"
+
+            />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/gas_price_separator_data"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/extra_light_gray"
+        android:visibility="gone"/>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+    <com.etzwallet.presenter.customviews.BRButton
+        android:id="@+id/dapp_send_button"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
+        android:padding="10dp"
+        android:text="@string/Button.submit"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:buttonType="1"
+        app:isBreadButton="true" />
+
+</LinearLayout>

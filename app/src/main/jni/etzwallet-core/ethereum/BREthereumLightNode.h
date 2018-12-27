@@ -66,6 +66,9 @@ extern BREthereumBoolean
 lightNodeConnect(BREthereumLightNode node,
                  BREthereumClient client);
 
+extern BREthereumClientContext
+lightNodeGetClientContext (BREthereumLightNode node);
+
 extern BREthereumBoolean
 lightNodeDisconnect (BREthereumLightNode node);
 
@@ -102,10 +105,16 @@ extern BREthereumTransactionId
 lightNodeWalletCreateTransaction(BREthereumLightNode node,
                                 BREthereumWallet wallet,
                                 const char *recvAddress,
-                                BREthereumAmount amount,
-                                const char *data,
-                                const char *gasL,
-                                const char *gasP);
+                                BREthereumAmount amount);
+
+extern BREthereumTransactionId
+lightNodeWalletCreateTransactionGeneric(BREthereumLightNode node,
+                                        BREthereumWallet wallet,
+                                        const char *recvAddress,
+                                        BREthereumEther amount,
+                                        BREthereumGasPrice gasPrice,
+                                        BREthereumGas gasLimit,
+                                        const char *data);
 
 extern void // status, error
 lightNodeWalletSignTransaction(BREthereumLightNode node,

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import com.dapp.DappTransaction;
 import com.etzwallet.BreadApp;
 import com.etzwallet.BuildConfig;
 import com.etzwallet.R;
@@ -16,6 +17,7 @@ import com.etzwallet.core.ethereum.BREthereumTransaction;
 import com.etzwallet.core.ethereum.BREthereumBlock;
 import com.etzwallet.core.ethereum.BREthereumWallet;
 import com.etzwallet.presenter.customviews.BRDialogView;
+import com.etzwallet.presenter.customviews.LoadingDialog;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CurrencyEntity;
 import com.etzwallet.presenter.entities.TxUiHolder;
@@ -134,7 +136,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             }
             if (Utils.isNullOrEmpty(paperKey)) {
                 alertDialog(app, "助记词为空！没有创建钱包！");
-                MyLog.e( "WalletEthManager: paper key is empty too, no wallet!");
+                MyLog.e("WalletEthManager: paper key is empty too, no wallet!");
                 return;
             }
             String[] words = lookupWords(app, paperKey);
@@ -163,33 +165,32 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             ethPubKey = mWallet.getAccount().getPrimaryAddressPublicKey();
             BRKeyStore.putEthPublicKey(ethPubKey, app);
         } else {
-            MyLog.e( "WalletEthManager: Using the pubkey to create");
+            MyLog.e("WalletEthManager: Using the pubkey to create");
             node = new BREthereumLightNode(this, network, ethPubKey);
             node.addListener(this);
             mWallet = node.getWallet();
 
             if (null == mWallet) {
                 alertDialog(app, "使用保存的公钥创建ETZ钱包失败！");
-                MyLog.e( "WalletEthManager: failed to create the ETH wallet using saved publicKey.");
+                MyLog.e("WalletEthManager: failed to create the ETH wallet using saved publicKey.");
                 return;
             }
         }
 
         mAddress = getReceiveAddress(app).stringify();
-        MyLog.e( "" + mAddress);
-        final Activity app1 = (Activity) app;
+        MyLog.e("" + mAddress);
 
         Boolean isFirst = BRSharedPrefs.getFristCreate(app);
-        MyLog.i( "WalletEthManager: isFirst==" + isFirst);
+        MyLog.i("WalletEthManager: isFirst==" + isFirst);
         if (isFirst) {
-            if (pKey==null||pKey.equals("")){
+            if (pKey == null || pKey.equals("")) {
                 try {
-                    pKey=new String(BRKeyStore.getPhrase(app, 0));
+                    pKey = new String(BRKeyStore.getPhrase(app, 0));
                 } catch (UserNotAuthenticatedException e) {
                     e.printStackTrace();
                 }
             }
-            confirmAddress(app1, pKey, mAddress);
+            confirmAddress((Activity) app, pKey, mAddress);
         }
 //        else{
 //            BRSharedPrefs.putFirstCreate(app, false);
@@ -210,7 +211,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
     }
 
     private void confirmAddress(final Activity app, String mn, String addr) {
-        MyLog.i( "WalletEthManager: addr==" + addr);
+        MyLog.i("WalletEthManager: addr==" + addr);
         AddressIndex addressIndex = BIP44
                 .m()
                 .purpose44()
@@ -232,11 +233,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
         if (!fullAddress.equals(addr.toLowerCase())) {
             alertDialog(app, app.getString(R.string.Alert_keystore_generic_android_bug));
-            MyLog.i( "WalletEthManager: mAddress=1000==地址不一致");
+            MyLog.i("WalletEthManager: mAddress=1000==地址不一致");
         }
         BRSharedPrefs.putFirstCreate(app, false);
-        MyLog.i( "WalletEthManager: mAddress=1000==" + addr.toLowerCase());
-        MyLog.i( "WalletEthManager: mAddress==2000=" + fullAddress);
+        MyLog.i("WalletEthManager: mAddress=1000==" + addr.toLowerCase());
+        MyLog.i("WalletEthManager: mAddress==2000=" + fullAddress);
     }
 
     private void alertDialog(Context app, String dialogContent) {
@@ -263,7 +264,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         if (mInstance == null) {
             byte[] rawPubKey = BRKeyStore.getMasterPublicKey(app);
             if (Utils.isNullOrEmpty(rawPubKey)) {
-                MyLog.e( "getInstance: rawPubKey is null");
+                MyLog.e("getInstance: rawPubKey is null");
                 return null;
             }
             byte[] ethPubKey = BRKeyStore.getEthPublicKey(app);
@@ -332,8 +333,10 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         mWallet.sign(tx.getEtherTx(), new String(phrase));
         mWallet.submit(tx.getEtherTx());
         String hash = tx.getEtherTx().getHash();
+        MyLog.i("+++++++"+hash);
         return hash == null ? new byte[0] : hash.getBytes();
     }
+
 
     @Override
     public void watchTransactionForHash(CryptoTransaction tx, OnHashUpdated listener) {
@@ -466,24 +469,24 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             JSONObject obj = new JSONObject(jsonString);
             fee = new BigDecimal(obj.getString("fee_per_kb"));
             economyFee = new BigDecimal(obj.getString("fee_per_kb_economy"));
-            MyLog.d( "updateFee: " + getIso() + ":" + fee + "|" + economyFee);
+            MyLog.d("updateFee: " + getIso() + ":" + fee + "|" + economyFee);
 
             if (fee.compareTo(BigDecimal.ZERO) > 0) {
                 BRSharedPrefs.putFeeRate(app, getIso(), fee);
                 BRSharedPrefs.putFeeTime(app, getIso(), System.currentTimeMillis()); //store the time of the last successful fee fetch
             } else {
                 BRReportsManager.reportBug(new NullPointerException("Fee is weird:" + fee));
-                MyLog.d( "Error: Fee is unexpected value");
+                MyLog.d("Error: Fee is unexpected value");
 
             }
             if (economyFee.compareTo(BigDecimal.ZERO) > 0) {
                 BRSharedPrefs.putEconomyFeeRate(app, getIso(), economyFee);
             } else {
                 BRReportsManager.reportBug(new NullPointerException("Economy fee is weird:" + economyFee));
-                MyLog.d( "Error: Economy fee is unexpected value");
+                MyLog.d("Error: Economy fee is unexpected value");
             }
         } catch (JSONException e) {
-            MyLog.e("updateFeePerKb: FAILED:json= " + jsonString+"---->Exception:"+ e);
+            MyLog.e("updateFeePerKb: FAILED:json= " + jsonString + "---->Exception:" + e);
         }
 
     }
@@ -504,13 +507,28 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         BREthereumTransaction txs[] = mWallet.getTransactions();
         if (txs == null || txs.length <= 0) return null;
         List<TxUiHolder> uiTxs = new ArrayList<>();
+        BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
+        long nonce=BRSharedPrefs.getAddressNonce(app,wm.getAddress());
+        long lastNonce=-1;
         for (int i = txs.length - 1; i >= 0; i--) { //revere order
             BREthereumTransaction tx = txs[i];
-            uiTxs.add(new TxUiHolder(tx, tx.getTargetAddress().equalsIgnoreCase(mWallet.getAccount().getPrimaryAddress()), tx.getBlockTimestamp(),
-                    (int) tx.getBlockNumber(), Utils.isNullOrEmpty(tx.getHash()) ? null : tx.getHash().getBytes(), tx.getHash(),
+        if(tx.getNonce()>=nonce&&!(tx.getTargetAddress().equalsIgnoreCase(mWallet.getAccount().getPrimaryAddress())))continue;
+        if (lastNonce==tx.getNonce()&&!(tx.getTargetAddress().equalsIgnoreCase(mWallet.getAccount().getPrimaryAddress())))continue;
+            uiTxs.add(new TxUiHolder(tx,
+                    tx.getTargetAddress().equalsIgnoreCase(mWallet.getAccount().getPrimaryAddress()),
+                    tx.getBlockTimestamp(),
+                    (int) tx.getBlockNumber(),
+                    Utils.isNullOrEmpty(tx.getHash()) ? null : tx.getHash().getBytes(),
+                    tx.getHash(),
                     new BigDecimal(tx.getFee(BREthereumAmount.Unit.ETHER_WEI)),
-                    tx.getTargetAddress(), tx.getSourceAddress(), null, 0,
-                    new BigDecimal(tx.getAmount(BREthereumAmount.Unit.ETHER_WEI)), true));
+                    tx.getTargetAddress(),
+                    tx.getSourceAddress(),
+                    null,
+                    0,
+                    new BigDecimal(tx.getAmount(BREthereumAmount.Unit.ETHER_WEI)),
+                    true,
+                    tx.getNonce()));
+            lastNonce=tx.getNonce();
         }
 
         return uiTxs;
@@ -566,8 +584,14 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public CryptoTransaction createTransaction(BigDecimal amount, String address, String data, String gasL, String gasP) {
-        MyLog.d( "tx_data_is-1=" + data);
-        BREthereumTransaction tx = mWallet.createTransaction(address, amount.toPlainString(), BREthereumAmount.Unit.ETHER_WEI, data, gasL, gasP);
+        MyLog.d("tx_data_is-1=" + data);
+        BREthereumTransaction tx;
+
+        if ((!Utils.isNullOrEmpty(gasP)&&!Utils.isNullOrEmpty(gasL))){
+            tx = mWallet.createTransactionGeneric(address, amount.toPlainString(), BREthereumAmount.Unit.ETHER_WEI,gasP,BREthereumAmount.Unit.ETHER_WEI,gasL,data);
+        }else{
+            tx = mWallet.createTransaction(address, amount.toPlainString(), BREthereumAmount.Unit.ETHER_WEI);
+        }
         return new CryptoTransaction(tx);
     }
 
@@ -598,7 +622,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public void wipeData(Context app) {
-        MyLog.e( "wipeData: ");
+        MyLog.e("wipeData: ");
     }
 
     @Override
@@ -642,7 +666,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
     @Override
     public BigDecimal getFiatBalance(Context app) {
         if (app == null) return null;
-        MyLog.i(getCachedBalance(app)+"");
+        MyLog.i(getCachedBalance(app) + "");
         return getFiatForSmallestCrypto(app, getCachedBalance(app), null);
     }
 
@@ -702,11 +726,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         //Btc rate for ether
         CurrencyEntity ethBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
         if (btcRate == null) {
-            MyLog.e( "getUsdFromBtc: No USD rates for BTC");
+            MyLog.e("getUsdFromBtc: No USD rates for BTC");
             return null;
         }
         if (ethBtcRate == null) {
-            MyLog.e( "getUsdFromBtc: No BTC rates for ETH");
+            MyLog.e("getUsdFromBtc: No BTC rates for ETH");
             return null;
         }
 
@@ -721,11 +745,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         //Btc rate for ether
         CurrencyEntity ethBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
         if (btcRate == null) {
-            MyLog.e( "getUsdFromBtc: No USD rates for BTC");
+            MyLog.e("getUsdFromBtc: No USD rates for BTC");
             return null;
         }
         if (ethBtcRate == null) {
-            MyLog.e( "getUsdFromBtc: No BTC rates for ETH");
+            MyLog.e("getUsdFromBtc: No BTC rates for ETH");
             return null;
         }
 
@@ -740,8 +764,8 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public void getBalance(final int wid, final String address, final int rid) {
-        MyLog.i( "getBalance: address===" + address+";wid="+wid+";rid="+rid);
-        MyLog.i( "getBalance: mWallet===" + mAddress);
+        MyLog.i("getBalance: address===" + address + ";wid=" + wid + ";rid=" + rid);
+        MyLog.i("getBalance: mWallet===" + mAddress);
         BREthereumWallet wallet = this.node.getWalletByIdentifier(wid);
         BREthereumToken token = wallet.getToken();
         if (null == token)
@@ -779,14 +803,14 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                             if (!Utils.isNullOrEmpty(jsonResult)) {
 
                                 JSONObject responseObject = new JSONObject(jsonResult);
-                                MyLog.i( "getETZBalance" + responseObject.toString());
+                                MyLog.i("getETZBalance" + responseObject.toString());
 
                                 if (responseObject.has(JsonRpcHelper.RESULT)) {
                                     String balance = responseObject.getString(JsonRpcHelper.RESULT);
                                     node.announceBalance(wid, balance, rid);
                                 }
                             } else {
-                                MyLog.e( "onRpcRequestCompleted: jsonResult is null");
+                                MyLog.e("onRpcRequestCompleted: jsonResult is null");
                             }
                         } catch (JSONException je) {
                             je.printStackTrace();
@@ -803,7 +827,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                    final String address,
                                    final int rid) {
         if (BreadApp.isAppInBackground(BreadApp.getBreadContext())) {
-            MyLog.e( "getTokenBalance: App in background!");
+            MyLog.e("getTokenBalance: App in background!");
             return;
         }
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
@@ -812,7 +836,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                 String ethRpcUrl = JsonRpcHelper.createTokenTransactionsUrl(address, contractAddress);
 
-                MyLog.i( "run: token balance url==" + ethRpcUrl);
+                MyLog.i("run: token balance url==" + ethRpcUrl);
 
                 final JSONObject payload = new JSONObject();
                 try {
@@ -828,7 +852,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                             if (!Utils.isNullOrEmpty(jsonResult)) {
                                 JSONObject responseObject = new JSONObject(jsonResult);
 
-                                MyLog.i( "onRpcRequestCompleted: responseObject=11==" + responseObject);
+                                MyLog.i("onRpcRequestCompleted: responseObject=11==" + responseObject);
 
 
                                 if (responseObject.has(JsonRpcHelper.RESULT)) {
@@ -836,7 +860,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                     node.announceBalance(wid, balance, rid);
 
                                 } else {
-                                    MyLog.e( "onRpcRequestCompleted: Response does not contain the key 'result'.");
+                                    MyLog.e("onRpcRequestCompleted: Response does not contain the key 'result'.");
                                 }
                             }
                         } catch (JSONException je) {
@@ -859,7 +883,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             @Override
             public void run() {
                 final String ethUrl = JsonRpcHelper.getEthereumRpcUrl();
-                MyLog.d( "Making rpc request to -> " + ethUrl);
+                MyLog.d("Making rpc request to -> " + ethUrl);
 
                 final JSONObject payload = new JSONObject();
                 final JSONArray params = new JSONArray();
@@ -881,7 +905,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                                 if (responseObject.has(JsonRpcHelper.RESULT)) {
                                     String gasPrice = responseObject.getString(JsonRpcHelper.RESULT);
-                                    MyLog.d( "onRpcRequestCompleted: getGasPrice: " + gasPrice);
+                                    MyLog.d("onRpcRequestCompleted: getGasPrice: " + gasPrice);
                                     node.announceGasPrice(wid, gasPrice, rid);
                                 }
                             }
@@ -899,9 +923,10 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
     //web3中的gaslimit
     @Override
     public void getGasEstimate(final int wid, final int tid, final String to, final String amount, final String data, final int rid) {
-        MyLog.i( "getGasEstimate: to==" + to);
-        MyLog.i( "getGasEstimate: amount==" + amount);
-        MyLog.i( "getGasEstimate: rid==" + rid);
+        MyLog.i("getGasEstimate: to==" + to);
+        MyLog.i("getGasEstimate: amount==" + amount);
+        MyLog.i("getGasEstimate: rid==" + rid);
+        MyLog.i("getGasEstimate: data==" + data);
         if (BreadApp.isAppInBackground(BreadApp.getBreadContext())) {
             return;
         }
@@ -909,7 +934,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             @Override
             public void run() {
                 final String ethUrl = JsonRpcHelper.getEthereumRpcUrl();
-                MyLog.d( "Making rpc request to -> " + ethUrl);
+                MyLog.d("Making rpc request to -> " + ethUrl);
 
                 final JSONObject payload = new JSONObject();
                 final JSONArray params = new JSONArray();
@@ -920,6 +945,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                 try {
                     payload.put(JsonRpcHelper.METHOD, JsonRpcHelper.ETH_ESTIMATE_GAS);
+                    payload.put("jsonrpc", "2.0");
                     payload.put(JsonRpcHelper.PARAMS, params);
                     payload.put(JsonRpcHelper.ID, rid);
 
@@ -932,7 +958,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     public void onRpcRequestCompleted(String jsonResult) {
                         try {
                             JSONObject responseObject = new JSONObject(jsonResult);
-                            MyLog.i( "gasLimit=== " + responseObject);
+                            MyLog.i("gasLimit=== " + responseObject);
                             if (responseObject.has(JsonRpcHelper.RESULT)) {
                                 String gasEstimate = responseObject.getString(JsonRpcHelper.RESULT);
 
@@ -954,17 +980,17 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             return;
         }
         if (Utils.isEmulatorOrDebug(BreadApp.getBreadContext())) {
-            MyLog.i( "submitTransaction: wid:" + wid);
-            MyLog.i( "submitTransaction: tid:" + tid);
-            MyLog.i( "submitTransaction: rawTransaction:" + rawTransaction);
-            MyLog.i( "submitTransaction: rid:" + rid);
+            MyLog.i("submitTransaction: wid:" + wid);
+            MyLog.i("submitTransaction: tid:" + tid);
+//            MyLog.i("submitTransaction: rawTransaction:" + rawTransaction);
+            MyLog.i("submitTransaction: rid:" + rid);
         }
-
+        MyLog.i("submitTransaction: rawTransaction:" + rawTransaction);
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
                 final String eth_url = JsonRpcHelper.getEthereumRpcUrl();
-                MyLog.d( "Making rpc request to -> " + eth_url);
+                MyLog.d("Making rpc request to -> " + eth_url);
 
                 JSONObject payload = new JSONObject();
                 JSONArray params = new JSONArray();
@@ -978,6 +1004,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
 
+                MyLog.i("payload"+payload.toString());
                 JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), eth_url, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
@@ -989,10 +1016,10 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                                 JSONObject responseObject = new JSONObject(jsonResult);
 
-                                MyLog.i( "返回结果: " + responseObject);
+                                MyLog.i("返回结果: " + responseObject);
                                 if (responseObject.has(JsonRpcHelper.RESULT)) {
                                     txHash = responseObject.getString(JsonRpcHelper.RESULT);
-                                    MyLog.d( "onRpcRequestCompleted: " + txHash);
+                                    MyLog.d("onRpcRequestCompleted: " + txHash);
                                     node.announceSubmitTransaction(wid, tid, txHash, rid);
                                 } else if (responseObject.has(JsonRpcHelper.ERROR)) {
                                     JSONObject errObj = responseObject.getJSONObject(JsonRpcHelper.ERROR);
@@ -1018,20 +1045,30 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                                     @Override
                                                     public void onComplete() {
                                                         BRAnimator.killAllFragments((Activity) app);
+                                                        if (app instanceof DappTransaction){
+                                                            BRSharedPrefs.putlastDappHash(app, finalTxHash);
+                                                            ((DappTransaction) app).finish();
+                                                        }
                                                         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                                                             @Override
                                                             public void run() {
                                                                 mWallet.updateBalance();
+
                                                             }
                                                         });
                                                     }
                                                 });
                                     } else {
-                                        String message = String.format(Locale.getDefault(), "(%d) %s", finalErrCode, finalErrMessage);
+                                        String message;
+                                        if (finalErrMessage.equals("") && finalErrCode == 0) {
+                                            message=String.format(Locale.getDefault(), "(%d) %s", finalErrCode,R.string.GasLimit_invalid+"/"+R.string.GasPrice_invalid);
+                                        } else {
+                                            message = String.format(Locale.getDefault(), "(%d) %s", finalErrCode, finalErrMessage);
+                                        }
                                         BRDialog.showSimpleDialog(app, app.getString(R.string.WipeWallet_failedTitle), message);
                                     }
                                 } else {
-                                    MyLog.e( "submitTransaction: app is null or not an activity");
+                                    MyLog.e("submitTransaction: app is null or not an activity");
                                 }
                             }
                         });
@@ -1052,7 +1089,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             @Override
             public void run() {
                 final String ethRpcUrl = JsonRpcHelper.createEthereumTransactionsUrl(address);
-                MyLog.i( "ethRpcUrl==: " + ethRpcUrl);
+                MyLog.i("ethRpcUrl==: " + ethRpcUrl);
                 final JSONObject payload = new JSONObject();
                 try {
                     payload.put(JsonRpcHelper.ID, String.valueOf(id));
@@ -1064,7 +1101,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
-                        MyLog.i( "onRpcRequestCompleted: responseObject=222==" + jsonResult);
+                        MyLog.i("onRpcRequestCompleted: responseObject=222==" + jsonResult);
                         if (!Utils.isNullOrEmpty(jsonResult)) {
                             try {
                                 // Convert response into JsonArray of transactions
@@ -1094,7 +1131,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                 for (int i = 0; i < transactionsArray.length(); i++) {
                                     JSONObject txObject = transactionsArray.getJSONObject(i);
 
-                                    MyLog.d( "TxObject contains -> " + txObject.toString());
+                                    MyLog.d("TxObject contains -> " + txObject.toString());
 
                                     if (txObject.has(JsonRpcHelper.HASH)) {
                                         txHash = txObject.getString(JsonRpcHelper.HASH);
@@ -1115,7 +1152,8 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                     }
 
                                     if (txObject.has(JsonRpcHelper.CONTRACT_ADDRESS)) {
-                                        txContract = txObject.getString(JsonRpcHelper.CONTRACT_ADDRESS);
+                                        if (!txObject.getString(JsonRpcHelper.CONTRACT_ADDRESS).equals("0"))
+                                            txContract = txObject.getString(JsonRpcHelper.CONTRACT_ADDRESS);
                                         // MyLog.d( "TxObject contractAddress -> " + txContract);
 
                                     }
@@ -1201,14 +1239,14 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                                     int blockHeight = (int) node.getBlockHeight();
                                     if (app != null && blockHeight != Integer.MAX_VALUE && blockHeight > 0) {
-                                        MyLog.i( "onRpcRequestCompleted: responseObject=222==" + blockHeight);
+                                        MyLog.i("onRpcRequestCompleted: responseObject=222==" + blockHeight);
                                         BRSharedPrefs.putLastBlockHeight(app, getIso(), blockHeight);
                                     }
                                 }
 
-                                MyLog.d( "Rpc Transactions array length -> " + transactionsArray.length());
+                                MyLog.d("Rpc Transactions array length -> " + transactionsArray.length());
                             } catch (JSONException e) {
-                                MyLog.e("Exception: "+e);
+                                MyLog.e("Exception: " + e);
 
                             }
                         }
@@ -1224,12 +1262,39 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         if (BreadApp.isAppInBackground(BreadApp.getBreadContext())) {
             return;
         }
+        String contractAddress="";
+        if (!Utils.isNullOrEmpty(contract)) {
+            contractAddress = contract;
+        }else {
+            Activity ctx=(Activity) BreadApp.getBreadContext();
+            String iso=BRSharedPrefs.getCurrentWalletIso(ctx);
+            MyLog.i("run: ethRpcUrl=ethRpcUrl===" + iso);
+            WalletsMaster wallet=WalletsMaster.getInstance(ctx);
+            if( wallet.isIsoErc20(ctx,iso)){
+                try {
+                    BREthereumToken[] tokens=WalletEthManager.getInstance(ctx).node.tokens;
+                    for (BREthereumToken t : tokens) {
+                        if (t.getSymbol().equalsIgnoreCase(iso)){
+                            contractAddress=t.getAddress();
+                        }
+                    }
+                }catch (Exception e){
+                    MyLog.i("run: ethRpcUrl=ethRpcUrl==="+e);
+                }
+
+
+            }
+        }
+
+        final String finalContractAddress = contractAddress;
         BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
-                final String ethRpcUrl = JsonRpcHelper.createLogsUrl(address, contract, event);
-                MyLog.i( "run: ethRpcUrl=token===" + ethRpcUrl);
-                MyLog.i( "run: ethRpcUrl=token===" + event);
+                final String ethRpcUrl = JsonRpcHelper.createLogsUrl(address, finalContractAddress, event);
+                MyLog.i("run: ethRpcUrl=ethRpcUrl===" + ethRpcUrl);
+                MyLog.i("run: ethRpcUrl=event===" + event);
+                MyLog.i("run: ethRpcUrl=contract===" + finalContractAddress);
+                MyLog.i("run: ethRpcUrl=address===" + address);
 
                 final JSONObject payload = new JSONObject();
                 try {
@@ -1242,12 +1307,12 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
-                        MyLog.i( "run: ethRpcUrl=logs===" + jsonResult);
+                        MyLog.i("run: ethRpcUrl=logs===" + jsonResult);
                         if (!Utils.isNullOrEmpty(jsonResult)) {
                             try {
                                 // Convert response into JsonArray of logs
                                 JSONObject logs = new JSONObject(jsonResult);
-                                MyLog.i( "run: ethRpcUrl=logs===" + logs);
+                                MyLog.i("run: ethRpcUrl=logs===" + logs);
                                 JSONArray logsArray = logs.getJSONArray(JsonRpcHelper.RESULT);
 
                                 // Iterate through the list of transactions and call node.announceTransaction()
@@ -1255,7 +1320,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                 for (int i = 0; i < logsArray.length(); i++) {
                                     JSONObject log = logsArray.getJSONObject(i);
 
-                                    MyLog.d( "LogObject contains -> " + log.toString());
+                                    MyLog.d("LogObject contains -> " + log.toString());
 
                                     JSONArray topicsArray = log.getJSONArray(JsonRpcHelper.TOPICS);
                                     String[] topics = new String[topicsArray.length()];
@@ -1294,7 +1359,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             @Override
             public void run() {
                 final String eth_url = JsonRpcHelper.getEthereumRpcUrl();
-                MyLog.d( "Making rpc request to -> " + eth_url);
+                MyLog.d("Making rpc request to -> " + eth_url);
 
                 final JSONObject payload = new JSONObject();
                 final JSONArray params = new JSONArray();
@@ -1316,7 +1381,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                             if (responseObject.has(JsonRpcHelper.RESULT)) {
                                 String blockNumber = responseObject.getString(JsonRpcHelper.RESULT);
-                                MyLog.e( "onRpcRequestCompleted: getBlockNumber: " + blockNumber);
+                                MyLog.e("onRpcRequestCompleted: getBlockNumber: " + blockNumber);
                                 node.announceBlockNumber(blockNumber, rid);
                             }
                         } catch (JSONException e) {
@@ -1333,7 +1398,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
     }
 
     private void printInfo(String infoText, String walletIso, String eventName) {
-        MyLog.d( String.format("%s (%s): %s", eventName, walletIso, infoText));
+        MyLog.d(String.format("%s (%s): %s", eventName, walletIso, infoText));
     }
 
     @Override
@@ -1375,7 +1440,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
     public void handleBlockEvent(BREthereumBlock block, BlockEvent event,
                                  Status status,
                                  String errorDescription) {
-        MyLog.d( "handleBlockEvent: " + block + ", event: " + event);
+        MyLog.d("handleBlockEvent: " + block + ", event: " + event);
         Context app = BreadApp.getBreadContext();
         if (app != null) {
             //String iso = (null == wallet.getToken() ? "ETH" : wallet.getToken().getSymbol());
@@ -1418,7 +1483,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     break;
                 case SUBMITTED:
                     if (mWatchedTransaction != null) {
-                        MyLog.e( "handleTransactionEvent: mWatchedTransaction: " + mWatchedTransaction.getEtherTx().getNonce()
+                        MyLog.e("handleTransactionEvent: mWatchedTransaction: " + mWatchedTransaction.getEtherTx().getNonce()
                                 + ", actual: " + transaction.getNonce());
                         if (mWatchedTransaction.getEtherTx().getNonce() == transaction.getNonce()) {
                             String hash = transaction.getHash();
@@ -1430,9 +1495,9 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                             }
                         }
                     } else {
-                        MyLog.e( "handleTransactionEvent: tx is null");
+                        MyLog.e("handleTransactionEvent: tx is null");
                     }
-                    MyLog.e( "handleTransactionEvent: SUBMITTED: " + transaction.getHash());
+                    MyLog.e("handleTransactionEvent: SUBMITTED: " + transaction.getHash());
                     printInfo("Transaction submitted: " + transaction.getAmount(), iso, event.name());
                     break;
                 case BLOCKED:
@@ -1460,7 +1525,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             @Override
             public void run() {
                 final String ethUrl = JsonRpcHelper.getEthereumRpcUrl();
-                MyLog.d( "Making rpc request to -> " + ethUrl);
+                MyLog.d("Making rpc request to -> " + ethUrl);
 
                 final JSONObject payload = new JSONObject();
                 final JSONArray params = new JSONArray();
@@ -1484,8 +1549,13 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                             if (responseObject.has(JsonRpcHelper.RESULT)) {
                                 String nonce = responseObject.getString(JsonRpcHelper.RESULT);
-                                MyLog.d( "onRpcRequestCompleted: getNonce: " + nonce);
+
+                                if (nonce.length()>=3) {
+                                    MyLog.d("onRpcRequestCompleted: getNonce: " + Integer.parseInt(nonce.substring(2, nonce.length()), 16));
+                                    BRSharedPrefs.setAddressNonce(BreadApp.getBreadContext(), address, Integer.parseInt(nonce.substring(2, nonce.length()), 16));
+                                }
                                 node.announceNonce(address, nonce, rid);
+
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();

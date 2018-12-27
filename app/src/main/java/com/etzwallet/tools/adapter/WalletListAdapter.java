@@ -26,6 +26,7 @@ import com.etzwallet.tools.util.CurrencyUtils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
@@ -46,39 +47,42 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
     private static final int VIEW_TYPE_WALLET = 0;
     private static final int VIEW_TYPE_ADD_WALLET = 1;
 
-    public WalletListAdapter(Context context, ArrayList<BaseWalletManager> walletList) {
+    public WalletListAdapter(Context context) {
         this.mContext = context;
         mWalletItems = new ArrayList<>();
-        for (BaseWalletManager w : walletList) {
-            this.mWalletItems.add(new WalletItem(w));
-        }
+//        for (BaseWalletManager w : walletList) {
+//            this.mWalletItems.add(new WalletItem(w));
+//        }
 
         mSyncNotificationBroadcastReceiver = new SyncNotificationBroadcastReceiver();
     }
-
+    public void refreshList(){
+        ArrayList<BaseWalletManager> list = new ArrayList<>(WalletsMaster.getInstance(mContext).getAllWallets(mContext));
+        if (list.size()>0)mWalletItems.clear();
+        for (BaseWalletManager w : list) {
+            mWalletItems.add(new WalletItem(w));
+        }
+        notifyDataSetChanged();
+    }
     @Override
     public WalletItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         View convertView;
 
-        if (viewType == VIEW_TYPE_WALLET) {
+//        if (viewType == VIEW_TYPE_WALLET) {
             convertView = inflater.inflate(R.layout.wallet_list_item, parent, false);
             return new WalletItemViewHolder(convertView);
-        } else {
-            convertView = inflater.inflate(R.layout.add_wallets_item, parent, false);
-            return new AddWalletItemViewHolder(convertView);
-
-        }
+//        } else {
+//            convertView = inflater.inflate(R.layout.add_wallets_item, parent, false);
+//            return new AddWalletItemViewHolder(convertView);
+//
+//        }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position < mWalletItems.size()) {
             return VIEW_TYPE_WALLET;
-        } else {
-            return VIEW_TYPE_ADD_WALLET;
-        }
     }
 
     public BaseWalletManager getItemAt(int pos) {
@@ -108,18 +112,13 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
             // Set wallet fields
             holder.mWalletName.setText(name);
 
-//            if(iso.equalsIgnoreCase("BO")){
-//                String exchangeRate = "0";
-//                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
-//                holder.mWalletBalanceFiat.setText("0");
-//            }else{
-//                String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatExchangeRate(mContext));
-//                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
-//                holder.mWalletBalanceFiat.setText(fiatBalance);
-//            }
-
-            String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatExchangeRate(mContext));
-            holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
+            if (BRSharedPrefs.getPreferredFiatIso(mContext).equalsIgnoreCase("USD") && iso.equalsIgnoreCase("EASH")) {
+                String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext),new BigDecimal("1"));
+                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
+            } else {
+                String exchangeRate = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatExchangeRate(mContext));
+                holder.mTradePrice.setText(mContext.getString(R.string.Account_exchangeRate, exchangeRate, iso));
+            }
             holder.mWalletBalanceFiat.setText(fiatBalance);
 
 
@@ -234,7 +233,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
     @Override
     public int getItemCount() {
-        return mWalletItems.size() + 1;
+        return mWalletItems.size();
     }
 
     public class WalletItemViewHolder extends RecyclerView.ViewHolder {

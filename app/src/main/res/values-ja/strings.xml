@@ -930,4 +930,5 @@
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%2$dの%1$d</string>
   <string name="loading">ロードしている...</string>
+  <string name="Dapp.dataError">無効な契約データ </string>
 </resources>

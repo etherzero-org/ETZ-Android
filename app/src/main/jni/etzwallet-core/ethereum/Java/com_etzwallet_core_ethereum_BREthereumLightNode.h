@@ -24,6 +24,14 @@ JNIEXPORT jlong JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jni
   (JNIEnv *, jclass, jobject, jlong, jbyteArray);
 
 /*
+ * Class:     com_breadwallet_core_ethereum_BREthereumLightNode
+ * Method:    jniAddressIsValid
+ * Signature: (Ljava/lang/String;)Z
+ */
+JNIEXPORT jboolean JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniAddressIsValid
+        (JNIEnv *, jclass, jstring);
+
+/*
  * Class:     com_etzwallet_core_ethereum_BREthereumLightNode
  * Method:    jniAddListener
  * Signature: (Lcom/etzwallet/core/ethereum/BREthereumLightNode/Listener;)V
@@ -94,6 +102,14 @@ JNIEXPORT void JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniA
  */
 JNIEXPORT void JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniAnnounceNonce
   (JNIEnv *, jobject, jstring, jstring, jint);
+
+/*
+ * Class:     com_breadwallet_core_ethereum_BREthereumLightNode
+ * Method:    jniAnnounceToken
+ * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILjava/lang/String;Ljava/lang/String;I)V
+ */
+JNIEXPORT void JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniAnnounceToken
+        (JNIEnv *, jobject, jstring, jstring, jstring, jstring, jint, jstring, jstring, jint);
 
 /*
  * Class:     com_etzwallet_core_ethereum_BREthereumLightNode
@@ -221,7 +237,16 @@ JNIEXPORT void JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniW
  * Signature: (JLjava/lang/String;Ljava/lang/String;J)J
  */
 JNIEXPORT jlong JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransaction
-  (JNIEnv *, jobject, jlong, jstring, jstring, jlong, jstring, jstring, jstring);
+        (JNIEnv *, jobject, jlong, jstring, jstring, jlong);
+
+
+/*
+ * Class:     com_breadwallet_core_ethereum_BREthereumLightNode
+ * Method:    jniCreateTransactionGeneric
+ * Signature: (JLjava/lang/String;Ljava/lang/String;JLjava/lang/String;JLjava/lang/String;Ljava/lang/String;)J
+ */
+JNIEXPORT jlong JNICALL Java_com_etzwallet_core_ethereum_BREthereumLightNode_jniCreateTransactionGeneric
+        (JNIEnv *, jobject, jlong, jstring, jstring, jlong, jstring, jlong, jstring, jstring);
 
 /*
  * Class:     com_etzwallet_core_ethereum_BREthereumLightNode

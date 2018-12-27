@@ -14,14 +14,12 @@ import com.etzwallet.presenter.activities.SetPinActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.animation.BRAnimator;
-import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.BRKeyStore;
 import com.etzwallet.tools.security.PostAuth;
 import com.etzwallet.tools.security.SmartValidator;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
-import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import com.platform.APIClient;
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -176,7 +174,7 @@ public class IntroActivity extends BRActivity implements Serializable {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-
+        super.onSaveInstanceState(outState);
     }
 
     @Override

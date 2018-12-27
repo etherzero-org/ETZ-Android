@@ -933,4 +933,5 @@
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%1$d av %2$d</string>
   <string name="loading">snälla senare i...</string>
+  <string name="Dapp.dataError">ogiltigt avtal uppgifter</string>
 </resources>

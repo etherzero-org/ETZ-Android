@@ -225,6 +225,65 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
     /**
      * get kv by key and version (version can be 0)
      */
+//    public CompletionObject get(String key, long version) {
+//        KVItem kv = null;
+//        Cursor cursor = null;
+//        long curVer = 0;
+//
+//        try {
+//            //if no version, fine the version
+//            SQLiteDatabase db = getReadable();
+//            if (version == 0) {
+//                curVer = _localVersion(key).version;
+//            } else {
+////                    curVer = version;
+//                //if we have a version, check if it's correct
+//                cursor = db.query(KV_STORE_TABLE_NAME,
+//                        allColumns, "key = ? AND version = ?", new String[]{key, String.valueOf(version)},
+//                        null, null, "version DESC", "1");
+//                if (cursor.moveToNext())
+//                    curVer = cursor.getLong(0);
+//                else
+//                    curVer = 0;
+//            }
+//            //if still 0 then version is non-existent or wrong.
+//            if (curVer == 0) {
+//                return new CompletionObject(CompletionObject.RemoteKVStoreError.notFound);
+//            }
+//            if (cursor != null) cursor.close();
+//            cursor = db.query(KV_STORE_TABLE_NAME,
+//                    allColumns, "key = ? AND version = ?", new String[]{key, String.valueOf(curVer)},
+//                    null, null, "version DESC", "1");
+//            //if still 0 then version is non-existent or wrong.
+//
+//
+//            if (cursor.moveToNext()) {
+//                kv = cursorToKv(cursor);
+//            }
+//            if (kv != null) {
+//                byte[] val = kv.value;
+//                kv.value = encrypted ? decrypt(val, mContext) : val;
+//                if (val != null && Utils.isNullOrEmpty(kv.value)) {
+//                    //decrypting failed
+//                    MyLog.e( "get: Decrypting failed for key: " + key + ", deleting the kv");
+//                    delete(key, curVer);
+//                }
+//            }
+//            if (cursor.moveToNext()) {
+//                kv = cursorToKv(cursor);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (cursor != null) {
+//                cursor.close();
+//            }
+////            closeDB();
+//        }
+//
+//        return kv == null ? new CompletionObject(CompletionObject.RemoteKVStoreError.notFound) : new CompletionObject(kv, null);
+//    }
+
     public CompletionObject get(String key, long version) {
         KVItem kv = null;
         Cursor cursor = null;
@@ -260,6 +319,7 @@ public class ReplicatedKVStore implements BreadApp.OnAppBackgrounded {
             }
             if (kv != null) {
                 byte[] val = kv.value;
+                MyLog.i("6666666666666666"+new String(kv.value));
                 kv.value = encrypted ? decrypt(val, mContext) : val;
                 if (val != null && Utils.isNullOrEmpty(kv.value)) {
                     //decrypting failed

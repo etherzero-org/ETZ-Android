@@ -49,22 +49,6 @@ JNIEXPORT jint JNICALL Java_com_etzwallet_core_ethereum_BREthereumToken_getDecim
 
 /*
  * Class:     com_etzwallet_core_ethereum_BREthereumToken
- * Method:    getColorLeft
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_etzwallet_core_ethereum_BREthereumToken_getColorLeft
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_etzwallet_core_ethereum_BREthereumToken
- * Method:    getColorRight
- * Signature: ()Ljava/lang/String;
- */
-JNIEXPORT jstring JNICALL Java_com_etzwallet_core_ethereum_BREthereumToken_getColorRight
-  (JNIEnv *, jobject);
-
-/*
- * Class:     com_etzwallet_core_ethereum_BREthereumToken
  * Method:    jniGetTokenBRD
  * Signature: ()J
  */

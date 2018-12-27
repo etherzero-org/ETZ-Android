@@ -33,6 +33,9 @@
 #include "BREthereumAmount.h"
 #include "rlp/BRRlp.h"
 
+// When setting the gasEstimate, ensure gasLimit is this percent higher, at least.
+#define GAS_LIMIT_MARGIN_PERCENT        (20)
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -48,10 +51,16 @@ transactionCreate(BREthereumAddress sourceAddress,
                   BREthereumAmount amount,
                   BREthereumGasPrice gasPrice,
                   BREthereumGas gasLimit,
-                  uint64_t nonce,
-                  const char *data,
-                  const char *gasL,
-                  const char *gasP);
+                  uint64_t nonce);
+
+extern BREthereumTransaction
+transactionCreateGeneric(BREthereumAddress sourceAddress,
+                         BREthereumAddress targetAddress,
+                         BREthereumEther amount,
+                         BREthereumGasPrice gasPrice,
+                         BREthereumGas gasLimit,
+                         const char *data,
+                         uint64_t nonce);
 
 extern BREthereumAddress
 transactionGetSourceAddress(BREthereumTransaction transaction);

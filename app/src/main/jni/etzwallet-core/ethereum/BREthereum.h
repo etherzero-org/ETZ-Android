@@ -365,6 +365,9 @@ extern BREthereumBoolean
 ethereumConnect(BREthereumLightNode node,
                 BREthereumClient client);
 
+extern BREthereumClientContext
+ethereumGetClientContext (BREthereumLightNode node);
+
 extern BREthereumBoolean
 ethereumDisconnect (BREthereumLightNode node);
 
@@ -453,10 +456,28 @@ extern BREthereumTransactionId
 ethereumWalletCreateTransaction(BREthereumLightNode node,
                                 BREthereumWalletId wid,
                                 const char *recvAddress,
-                                BREthereumAmount amount,
-                                const char *data,
-                                const char *gasL,
-                                const char *gasP);
+                                BREthereumAmount amount);
+
+/**
+ * Create a transaction for generic execution, typically for a smart contract encoded in `data'
+ *
+ * @param node
+ * @param wid
+ * @param recvAddress
+ * @param amount
+ * @param gasPrice
+ * @param gasLimit
+ * @param data
+ * @return
+ */
+extern BREthereumTransactionId
+ethereumWalletCreateTransactionGeneric(BREthereumLightNode node,
+                                       BREthereumWalletId wid,
+                                       const char *recvAddress,
+                                       BREthereumEther amount,
+                                       BREthereumGasPrice gasPrice,
+                                       BREthereumGas gasLimit,
+                                       const char *data);
 
 /**
  * Sign the transaction using the wallet's account (for the sender's address).  The paperKey
@@ -726,8 +747,6 @@ lightNodeAnnounceTransaction(BREthereumLightNode node,
                              const char *gasLimit,
                              const char *gasPrice,
                              const char *data,
-//                             const char *gasL,
-//                             const char *gasP,
                              const char *nonce,
                              const char *gasUsed,
                              const char *blockNumber,
@@ -781,6 +800,16 @@ lightNodeAnnounceSubmitTransaction(BREthereumLightNode node,
                                    const char *hash,
                                    int rid);
 
+extern void
+lightNodeAnnounceToken (BREthereumLightNode node,
+                        const char *address,
+                        const char *symbol,
+                        const char *name,
+                        const char *description,
+                        int decimals,
+                        const char *defaultGasLimit,
+                        const char *defaultGasPrice,
+                        int rid);
 #endif // ETHEREUM_LIGHT_NODE_USE_JSON_RPC
 
 // ==========================

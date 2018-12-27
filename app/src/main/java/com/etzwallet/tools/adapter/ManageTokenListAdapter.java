@@ -24,9 +24,12 @@ import com.etzwallet.tools.animation.ItemTouchHelperViewHolder;
 import com.etzwallet.tools.listeners.OnStartDragListener;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import com.etzwallet.wallet.wallets.ethereum.WalletTokenManager;
+import com.platform.APIClient;
 import com.platform.entities.TokenListMetaData;
 import com.platform.tools.KVStoreManager;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,22 +62,29 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
 
         final TokenItem item = mTokens.get(position);
         String tickerName = item.symbol.toLowerCase();
-
-        if (tickerName.equals("1st")) {
-            tickerName = "first";
-        }
-
         String iconResourceName = tickerName;
         int iconResourceId = mContext.getResources().getIdentifier(tickerName, "drawable", mContext.getPackageName());
+        if (iconResourceName.equalsIgnoreCase("btc") || iconResourceName.equalsIgnoreCase("etz")) {
+            try {
+                Picasso.get().load(iconResourceId).into(holder.tokenIcon);
+            } catch (Exception e) {
+                e.printStackTrace();
+                MyLog.d("Error finding icon for -> " + iconResourceName);
+            }
+
+        } else {
+            String pathDir = mContext.getFilesDir().getAbsolutePath() + APIClient.ETZ_TOKEN_ICON_EXTRACTED + iconResourceName + ".png";
+            File imageIcon = new File(pathDir);
+            if (imageIcon.exists()){
+                Picasso.get().load(imageIcon).into(holder.tokenIcon);
+            }else {
+                Picasso.get().load(iconResourceId).into(holder.tokenIcon);
+            }
+
+        }
 
         holder.tokenName.setText(mTokens.get(position).name);
         holder.tokenTicker.setText(mTokens.get(position).symbol);
-        try {
-            holder.tokenIcon.setBackground(mContext.getDrawable(iconResourceId));
-        } catch (Exception e) {
-            e.printStackTrace();
-            MyLog.d( "Error finding icon for -> " + iconResourceName);
-        }
 
         boolean isHidden = KVStoreManager.getInstance().getTokenListMetaData(mContext).isCurrencyHidden(item.symbol);
 
@@ -97,7 +107,7 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
 
         BigDecimal tokenBalance;
         String iso = item.symbol.toUpperCase();
-        MyLog.i( "CryptoRequest");
+        MyLog.i("CryptoRequest");
         WalletEthManager ethManager = WalletEthManager.getInstance(mContext);
         WalletTokenManager tokenManager = WalletTokenManager.getTokenWalletByIso(mContext, ethManager, item.symbol);
 

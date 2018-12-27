@@ -178,6 +178,10 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                     clearWords();
                     if (fromCrate == 1) {
                         if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {//验证创建的助记词
+                            //执行恢复钱包代码
+                            PostAuth.getInstance().setCachedPaperKey(cleanPhrase);
+                            PostAuth.getInstance().onRecoverWalletAuth(app, false, true);
+
                             BRSharedPrefs.putPhraseWroteDown(InputWordsActivity.this, true);
                             BRAnimator.showBreadSignal(InputWordsActivity.this, getString(R.string.Alerts_paperKeySet), getString(R.string.Alerts_paperKeySetSubheader), R.drawable.ic_check_mark_white, new BROnSignalCompletion() {
                                 @Override

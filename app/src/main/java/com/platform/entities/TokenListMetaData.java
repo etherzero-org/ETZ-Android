@@ -53,8 +53,7 @@ import java.util.List;
             this.enabledCurrencies = new ArrayList<>();
             this.enabledCurrencies.add(new TokenInfo("BTC", false, null));
             this.enabledCurrencies.add(new TokenInfo("ETH", false, null));
-//            this.enabledCurrencies.add(new TokenListMetaData.TokenInfo("EASH", true, "0x013b6e279989aa20819a623630fe678c9f43a48f"));
-            this.enabledCurrencies.add(new TokenInfo("EASH", true, null));
+            this.enabledCurrencies.add(new TokenListMetaData.TokenInfo("EASH", true, "0x013b6e279989aa20819a623630fe678c9f43a48f"));
         }
         if (this.hiddenCurrencies == null) this.hiddenCurrencies = new ArrayList<>();
     }

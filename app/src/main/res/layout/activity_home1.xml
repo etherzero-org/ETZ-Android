@@ -12,7 +12,7 @@
     android:fitsSystemWindows="true"
     android:focusableInTouchMode="true"
     android:orientation="vertical"
-    tools:context="com.etzwallet.presenter.activities.HomeActivity">
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"

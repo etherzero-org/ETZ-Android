@@ -26,6 +26,7 @@ public class JsInterface {
     }
     @JavascriptInterface
     public void etzTransaction(String address,String value, String data,String tid,String gasL,String gasP) {
+//    public void etzTransaction(String json) {
         MyLog.i("etzTransaction----address="+address);
         MyLog.i("etzTransaction----value="+value);
         MyLog.i("etzTransaction----data="+data);

@@ -367,7 +367,7 @@ public class FragmentSend extends Fragment {
             public void onClick(View v) {
                 Intent intent=new Intent(getActivity(), ContactsActivity.class);
                 intent.putExtra("from",1);
-                startActivityForResult(intent,BRConstants.REQUEST_CONTACTS);
+                startActivity(intent);
             }
         });
         paste.setOnClickListener(new View.OnClickListener() {
@@ -1149,12 +1149,4 @@ public class FragmentSend extends Fragment {
         }
     };
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode==BRConstants.REQUEST_CONTACTS&&resultCode==Activity.RESULT_OK){
-            String address=data.getStringExtra("address");
-            addressEdit.setText(address);
-        }
-    }
 }

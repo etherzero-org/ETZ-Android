@@ -166,6 +166,7 @@ public class ManageContactsActivity extends BRActivity implements View.OnClickLi
                 break;
             case R.id.contacts_manage_copy_btn:
                 BRClipboardManager.putClipboard(ManageContactsActivity.this, tAddress.getText().toString());
+                Toast.makeText(ManageContactsActivity.this, getString(R.string.Receive_copied), Toast.LENGTH_LONG).show();
                 break;
             case R.id.contacts_manage_scan_btn:
                 BRAnimator.openScanner(this, BRConstants.SCANNER_REQUEST);

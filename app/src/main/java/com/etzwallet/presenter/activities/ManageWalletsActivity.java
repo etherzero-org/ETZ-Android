@@ -45,62 +45,8 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
         super.onCreate(savedInstanceState);
 
         mTokenList = findViewById(R.id.token_list);
-        findViewById(R.id.add_wallet_card).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //添加钱包
-                Intent intent = new Intent(ManageWalletsActivity.this, AddWalletsActivity.class);
-                startActivity(intent);
-                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-            }
-        });
 
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        final ArrayList<TokenItem> tokenItems = new ArrayList<>();
-        TokenListMetaData tlMetaData = KVStoreManager.getInstance().getTokenListMetaData(ManageWalletsActivity.this);
-        if (tlMetaData == null || tlMetaData.enabledCurrencies.size() <= 0) {
-            MyLog.e("数组为空  返回");
-            return;
-        } else {
-            mTokens = tlMetaData.enabledCurrencies;
-
-            for (int i = 0; i < mTokens.size(); i++) {
-
-                TokenListMetaData.TokenInfo info = mTokens.get(i);
-                TokenItem tokenItem = null;
-                String tokenSymbol = mTokens.get(i).symbol;
-
-//            if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("bch") &&
-//                    !tokenSymbol.equalsIgnoreCase("eth") && !tokenSymbol.equalsIgnoreCase("brd")) {
-                if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("etz")) {
-                    BREthereumToken tk = WalletEthManager.getInstance(this).node.lookupToken(info.contractAddress);
-                    if (tk == null) {
-                        BRReportsManager.reportBug(new NullPointerException("No token for contract: " + info.contractAddress));
-                    } else {
-                        tokenItem = new TokenItem(tk.getAddress(), tk.getSymbol(), tk.getName(), null);
-                    }
-                } else if (tokenSymbol.equalsIgnoreCase("btc")) {
-                    tokenItem = new TokenItem(null, "BTC", "Bitcoin", null);
-                } else if (tokenSymbol.equalsIgnoreCase("etz")) {
-                    tokenItem = new TokenItem(null, "ETZ", "EtherZero", "@drawable/etz");
-                }
-
-
-                if (tokenItem != null) {
-                    tokenItems.add(tokenItem);
-                }
-
-            }
-
-        }
-
-
-        mAdapter = new ManageTokenListAdapter(ManageWalletsActivity.this, tokenItems, new ManageTokenListAdapter.OnTokenShowOrHideListener() {
+        mAdapter = new ManageTokenListAdapter(ManageWalletsActivity.this, new ManageTokenListAdapter.OnTokenShowOrHideListener() {
             @Override
             public void onShowToken(TokenItem token) {
                 MyLog.d("onShowToken");
@@ -144,12 +90,70 @@ public class ManageWalletsActivity extends BaseSettingsActivity implements OnSta
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mTokenList);
+        findViewById(R.id.add_wallet_card).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //添加钱包
+                Intent intent = new Intent(ManageWalletsActivity.this, AddWalletsActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+            }
+        });
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mAdapter!=null)mAdapter.refreshList(getTokenList());
+    }
+
+    private ArrayList<TokenItem> getTokenList(){
+        final ArrayList<TokenItem> tokenItems = new ArrayList<>();
+        TokenListMetaData tlMetaData = KVStoreManager.getInstance().getTokenListMetaData(ManageWalletsActivity.this);
+        if (tlMetaData == null || tlMetaData.enabledCurrencies.size() <= 0) {
+            MyLog.e("数组为空  返回");
+        } else {
+            mTokens = tlMetaData.enabledCurrencies;
+
+            for (int i = 0; i < mTokens.size(); i++) {
+
+                TokenListMetaData.TokenInfo info = mTokens.get(i);
+                TokenItem tokenItem = null;
+                String tokenSymbol = mTokens.get(i).symbol;
+
+//            if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("bch") &&
+//                    !tokenSymbol.equalsIgnoreCase("eth") && !tokenSymbol.equalsIgnoreCase("brd")) {
+                if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("etz") && !tokenSymbol.equalsIgnoreCase("eash")) {
+                    BREthereumToken tk = WalletEthManager.getInstance(this).node.lookupToken(info.contractAddress);
+                    if (tk == null) {
+                        BRReportsManager.reportBug(new NullPointerException("No token for contract: " + info.contractAddress));
+                    } else {
+                        tokenItem = new TokenItem(tk.getAddress(), tk.getSymbol(), tk.getName(), null);
+                    }
+                } else if (tokenSymbol.equalsIgnoreCase("btc")) {
+                    tokenItem = new TokenItem(null, "BTC", "Bitcoin", null);
+                } else if (tokenSymbol.equalsIgnoreCase("etz")) {
+                    tokenItem = new TokenItem(null, "ETZ", "EtherZero", "@drawable/etz");
+                } else if (tokenSymbol.equalsIgnoreCase("eash")) {
+                    tokenItem = new TokenItem(null, "EASH", "EASH", null);
+                }
+
+
+                if (tokenItem != null) {
+                    tokenItems.add(tokenItem);
+                }
+
+            }
+
+        }
+        return tokenItems;
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+        BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
             @Override
             public void run() {
                 WalletsMaster.getInstance(getApplication()).updateWallets(getApplication());

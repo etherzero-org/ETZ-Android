@@ -18,6 +18,7 @@ import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
+import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.platform.APIClient;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -34,12 +35,19 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
     private static final String TAG = AddTokenListAdapter.class.getSimpleName();
     private OnTokenAddOrRemovedListener mListener;
 
-    public AddTokenListAdapter(Context context, ArrayList<TokenItem> tokens, OnTokenAddOrRemovedListener listener) {
+    public AddTokenListAdapter(Context context, OnTokenAddOrRemovedListener listener) {
 
         this.mContext = context;
-        this.mTokens = tokens;
+        this.mTokens = new ArrayList<>();
         this.mListener = listener;
         this.mBackupTokens = mTokens;
+    }
+
+    public void refreshList(ArrayList<TokenItem> list) {
+        if (list.size() > 0) mTokens.clear();
+        mTokens.addAll(list);
+        mBackupTokens = mTokens;
+        notifyDataSetChanged();
     }
 
     public interface OnTokenAddOrRemovedListener {
@@ -65,31 +73,27 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
         holder.name.setText(mTokens.get(position).name);
         holder.symbol.setText(mTokens.get(position).symbol);
 
-        String iconName=mTokens.get(position).symbol.toLowerCase();
-        String pathDir=mContext.getFilesDir().getAbsolutePath()+ APIClient.ETZ_TOKEN_ICON_EXTRACTED;
-        File imageDir=new File(pathDir);
-        if (!imageDir.exists()){
+        String iconName = mTokens.get(position).symbol.toLowerCase();
+        String pathDir = mContext.getFilesDir().getAbsolutePath() + APIClient.ETZ_TOKEN_ICON_EXTRACTED;
+        File imageDir = new File(pathDir);
+        if (!imageDir.exists()) {
             imageDir.mkdir();
         }
-        File image=new File(imageDir,iconName+".png");
+        final File image = new File(imageDir, iconName + ".png");
 
-        if (image.exists()){
+        if (image.exists()) {
+            MyLog.i("+++++++++++++文件");
             Picasso.get().load(image).into(holder.logo);
-        }else {
+        } else {
+            MyLog.i("+++++++++++++网络"+mTokens.get(position).image);
             Picasso.get().load(mTokens.get(position).image).into(holder.logo);
-            downloadIcon(mTokens.get(position).image,image.getAbsolutePath());
+            MyLog.i(mTokens.get(position).image);
+            downloadIcon(mTokens.get(position).image, image.getAbsolutePath());
 
 
         }
 
 
-        Picasso.get().load(mTokens.get(position).image).into(holder.logo);
-        try {
-//            holder.logo.setBackground(mContext.getDrawable(iconResourceId));
-        } catch (Exception e) {
-            e.printStackTrace();
-            MyLog.d("Error finding icon for -> " + iconResourceName);
-        }
 
         holder.addRemoveButton.setText(mContext.getString(item.isAdded ? R.string.TokenList_remove : R.string.TokenList_add));
         holder.addRemoveButton.setBackground(mContext.getDrawable(item.isAdded ? R.drawable.remove_wallet_button : R.drawable.add_wallet_button));
@@ -182,12 +186,12 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
         //获得图片的地址
 
         //Target
-        Target target = new Target(){
+        Target target = new Target() {
 
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                File dcimFile =new File(iconName);
+                File dcimFile = new File(iconName);
 
                 FileOutputStream ostream = null;
                 try {
@@ -210,7 +214,6 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
             }
         };
 
-        //Picasso下载
         Picasso.get().load(url).into(target);
 
     }

@@ -49,11 +49,16 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
         void onHideToken(TokenItem item);
     }
 
-    public ManageTokenListAdapter(Context context, ArrayList<TokenItem> tokens, OnTokenShowOrHideListener listener, OnStartDragListener dragListener) {
+    public ManageTokenListAdapter(Context context, OnTokenShowOrHideListener listener, OnStartDragListener dragListener) {
         this.mContext = context;
-        this.mTokens = tokens;
+        this.mTokens = new ArrayList<>();
         this.mListener = listener;
         this.mStartDragListener = dragListener;
+    }
+    public void refreshList(ArrayList<TokenItem> list){
+        if (list.size()>0)mTokens.clear();
+        mTokens.addAll(list);
+        notifyDataSetChanged();
     }
 
     @SuppressLint({"ClickableViewAccessibility", "SetTextI18n"})

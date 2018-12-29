@@ -81,13 +81,6 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
         super.onViewCreated(view, savedInstanceState);
         mWalletRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         populateWallets();
-//        getActivity().getWindow().getDecorView().post(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (mAdapter != null)
-//                    mAdapter.startObserving();
-//            }
-//        });
         mWalletRecycler.addOnItemTouchListener(new RecyclerItemClickListener(getActivity(), mWalletRecycler, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position, float x, float y) {
@@ -97,11 +90,6 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
                     BRSharedPrefs.putCurrentWalletIso(getActivity(), mAdapter.getItemAt(position).getIso());
                     Intent newIntent = new Intent(getActivity(), WalletActivity.class);
                     startActivity(newIntent);
-                    getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
-                } else {
-                    //添加钱包
-                    Intent intent = new Intent(getActivity(), ManageWalletsActivity.class);
-                    startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
                 }
             }
@@ -242,8 +230,6 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
     @Override
     public void onPause() {
         super.onPause();
-        InternetManager.unregisterConnectionReceiver(getActivity(), this);
-        mAdapter.stopObserving();
     }
 
 
@@ -275,5 +261,7 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
     @Override
     public void onDestroy() {
         super.onDestroy();
+        InternetManager.unregisterConnectionReceiver(getActivity(), this);
+        mAdapter.stopObserving();
     }
 }

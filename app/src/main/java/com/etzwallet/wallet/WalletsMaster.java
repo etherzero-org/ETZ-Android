@@ -99,8 +99,7 @@ public class WalletsMaster {
             enabled.add(new TokenListMetaData.TokenInfo("BTC", false, null));
             enabled.add(new TokenListMetaData.TokenInfo("ETZ", false, null));
             //添加token钱包
-//            enabled.add(new TokenListMetaData.TokenInfo("EASH", true, "0x013b6e279989aa20819a623630fe678c9f43a48f"));
-            enabled.add(new TokenListMetaData.TokenInfo("EASH", true, null));
+            enabled.add(new TokenListMetaData.TokenInfo("EASH", true, "0x013b6e279989aa20819a623630fe678c9f43a48f"));
             mTokenListMetaData = new TokenListMetaData(enabled, null);
             KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
         }

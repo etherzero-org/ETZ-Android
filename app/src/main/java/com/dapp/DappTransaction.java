@@ -157,15 +157,16 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
 
                 try {
                     JSONObject json = new JSONObject();
-                    json.put("from", WalletEthManager.getInstance(DappTransaction.this).getAddress());
-                    json.put("to", to);
-                    if (Utils.isNullOrEmpty(amount) || new BigDecimal(amount) == BigDecimal.ZERO) {
-                        json.put("value", "");
-                    } else {
-                        json.put("value", "0x" + new BigInteger(amount, 10).toString(16));
-                    }
+                    json.put("from", "0x28a1a5f647c5c9686eF460b8447A5C88fdaC96c9");
+                    json.put("to", "0xa62de23ea942e68d3600be8f1ab7a13376dcd0ec");
+                    json.put("value", "0x0");
+//                    if (Utils.isNullOrEmpty(amount) || new BigDecimal(amount) == BigDecimal.ZERO) {
+//                        json.put("value", "");
+//                    } else {
+//                        json.put("value", "0x" + new BigInteger(amount, 10).toString(16));
+//                    }
 
-                    json.put("data", data);
+                    json.put("data", "0xb20026910000000000000000000000000000000000000000000000000000000000000001");
                     params.put(json);
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -1,6 +1,5 @@
 package com.etzwallet.presenter.activities;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,11 +14,8 @@ import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.ContactsEntity;
 import com.etzwallet.presenter.fragments.FragmentSend;
-import com.etzwallet.presenter.interfaces.BRContactsInterface;
 import com.etzwallet.tools.adapter.ListBaseAdapter;
-import com.etzwallet.tools.sqlite.BRSQLiteHelper;
 import com.etzwallet.tools.sqlite.ETZContactsDataStore;
-import com.etzwallet.tools.util.BRConstants;
 
 import java.util.List;
 

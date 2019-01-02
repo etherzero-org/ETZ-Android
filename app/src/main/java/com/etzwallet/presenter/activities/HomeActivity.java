@@ -14,6 +14,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.LinearLayout;
 
 import com.allenliu.versionchecklib.core.http.HttpRequestMethod;
 import com.allenliu.versionchecklib.v2.AllenVersionChecker;
@@ -37,6 +38,7 @@ public class HomeActivity extends BRActivity implements OnClickListener {
     private String[] mFragmentTagList = {"FragmentWallet", "FragmentDiscovery", "FragmentMy"};
     private Fragment mCurrentFragmen = null; // 记录当前显示的Fragment
     private FragmentManager mFm;
+    private LinearLayout main_daohanglan;
 
     protected static HomeActivity mActivity = null;
 
@@ -49,6 +51,7 @@ public class HomeActivity extends BRActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        main_daohanglan = findViewById(R.id.main_daohanglan);
         mFm = getSupportFragmentManager();
         mCurrentFragmen = createFragment(0);
         mActivity = this;
@@ -146,6 +149,14 @@ public class HomeActivity extends BRActivity implements OnClickListener {
 
         }
         return null;
+    }
+
+    public void isShowNavigationBar(boolean isShow) {
+        if (isShow) {
+            main_daohanglan.setVisibility(View.VISIBLE);
+        } else {
+            main_daohanglan.setVisibility(View.GONE);
+        }
     }
 
     public void checkVersionUpdate() {

@@ -30,7 +30,9 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
+import android.webkit.WebHistoryItem;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -41,10 +43,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dapp.JsInterface;
 import com.etzwallet.R;
+import com.etzwallet.presenter.activities.HomeActivity;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRSharedPrefs;
@@ -66,6 +70,7 @@ public class FragmentDiscovery extends Fragment {
     private BRText webTitle;
     private EditText input;
     private Button btn;
+    private RelativeLayout webBar;
 
     private String mFailingUrl = null;
     private Map<String, Object> map = null;
@@ -88,6 +93,7 @@ public class FragmentDiscovery extends Fragment {
         web_refresh = rootView.findViewById(R.id.web_refresh);
         input = rootView.findViewById(R.id.web_input);
         btn = rootView.findViewById(R.id.web_btn);
+        webBar=rootView.findViewById(R.id.web_rl_title);
         return rootView;
     }
 
@@ -221,6 +227,7 @@ public class FragmentDiscovery extends Fragment {
 
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if ((keyCode == KeyEvent.KEYCODE_BACK) && web.canGoBack()) {
+                    myLastUrl();
                     web.goBack(); // goBack()表示返回WebView的上一页面
                     return true;
                 }
@@ -235,10 +242,17 @@ public class FragmentDiscovery extends Fragment {
 
                 mFailingUrl = url;
                 MyLog.i("weburl=" + url);
-                if (url.equalsIgnoreCase("http://52.197.189.155/")) {
+                if (url.indexOf("http://52.197.189.155/")!=-1) {
+                    MyLog.i("weburl-----------=" + url);
                     webHome.setVisibility(View.GONE);
+                    webBar.setVisibility(View.VISIBLE);
+                    HomeActivity.getApp().isShowNavigationBar(true);
+
                 } else {
+                    MyLog.i("weburl++++++++++++=" + url);
                     webHome.setVisibility(View.VISIBLE);
+                    webBar.setVisibility(View.GONE);
+                    HomeActivity.getApp().isShowNavigationBar(false);
                 }
 
                 view.loadUrl(url);
@@ -316,7 +330,6 @@ public class FragmentDiscovery extends Fragment {
             if (!Utils.isNullOrEmpty(hash) && !Utils.isNullOrEmpty(tid)) {
                 hash = hash.substring(2, hash.length());
                 MyLog.i("hash**********=" + hash);
-//                web.loadUrl("javascript:makeSaveData(" + hash + "," + tid + ")");
                 web.evaluateJavascript("javascript:makeSaveData('" + hash + "','" + tid + "')", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {
@@ -385,6 +398,34 @@ public class FragmentDiscovery extends Fragment {
             }
         }
     }
+
+    /**
+     * 拿到上一页的路径
+     */
+    private  void myLastUrl(){
+        WebBackForwardList backForwardList = web.copyBackForwardList();
+        if (backForwardList != null && backForwardList.getSize() != 0) {
+            //当前页面在历史队列中的位置
+            int currentIndex = backForwardList.getCurrentIndex();
+            WebHistoryItem historyItem =
+                    backForwardList.getItemAtIndex(currentIndex - 1);
+            if (historyItem != null) {
+                String backPageUrl = historyItem.getUrl();
+                if (backPageUrl.indexOf("http://52.197.189.155/")!=-1) {
+                    webHome.setVisibility(View.GONE);
+                    webBar.setVisibility(View.VISIBLE);
+                    HomeActivity.getApp().isShowNavigationBar(true);
+
+                } else {
+                    webHome.setVisibility(View.VISIBLE);
+                    webBar.setVisibility(View.GONE);
+                    HomeActivity.getApp().isShowNavigationBar(false);
+                }
+                MyLog.i("weburl========="+backPageUrl);
+            }
+        }
+    }
+
 
     @SuppressWarnings("null")
     @TargetApi(Build.VERSION_CODES.ECLAIR_MR1)

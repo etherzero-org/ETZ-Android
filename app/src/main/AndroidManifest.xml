@@ -149,6 +149,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".presenter.activities.HomeActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".presenter.activities.settings.SyncBlockchainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
@@ -263,7 +267,6 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity android:name="com.dapp.DappTransaction" />
-        <activity android:name=".presenter.activities.HomeActivity" />
         <activity android:name=".presenter.activities.ContactsActivity" />
         <activity android:name=".presenter.activities.ManageContactsActivity"></activity>
     </application>

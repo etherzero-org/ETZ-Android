@@ -103,19 +103,6 @@ public class WalletsMaster {
             mTokenListMetaData = new TokenListMetaData(enabled, null);
             KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
         }
-//        else {
-//            boolean istrue=false;
-//            for (TokenListMetaData.TokenInfo enabled : mTokenListMetaData.enabledCurrencies) {
-//                if (enabled.symbol.equalsIgnoreCase("EASH") ) {
-//                    istrue=true;
-//                }
-//            }
-//            if (!istrue){
-//                //添加token钱包
-//                mTokenListMetaData.enabledCurrencies.add(new TokenListMetaData.TokenInfo("EASH", true, "0x013b6e279989aa20819a623630fe678c9f43a48f"));
-//                KVStoreManager.getInstance().putTokenListMetaData(app, mTokenListMetaData); //put default currencies if null
-//            }
-//        }
 
         for (TokenListMetaData.TokenInfo enabled : mTokenListMetaData.enabledCurrencies) {
 
@@ -125,7 +112,7 @@ public class WalletsMaster {
                 //BTC wallet
                 mWallets.add(WalletBitcoinManager.getInstance(app));
             }  else if (enabled.symbol.equalsIgnoreCase("ETZ") && !isHidden) {
-                //ETH wallet
+                //ETz wallet
                 mWallets.add(ethWallet);
             }  else {
                 //其他代币
@@ -149,11 +136,6 @@ public class WalletsMaster {
     //return the needed wallet for the iso
     public BaseWalletManager getWalletByIso(Context app, String iso) {
 
-        if (iso == "ETH") {
-            iso = "ETZ";
-            MyLog.i( "getWalletByIso: iso==" + iso);
-            MyLog.i( "getWalletByIso: +++" + iso.equalsIgnoreCase("ETZ"));
-        }
         if (Utils.isNullOrEmpty(iso)) {
             throw new RuntimeException("getWalletByIso with iso = null, Cannot happen!");
         }else if (iso.equalsIgnoreCase("BTC")) {

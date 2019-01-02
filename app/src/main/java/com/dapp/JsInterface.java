@@ -17,6 +17,9 @@ import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
 
 public class JsInterface {
@@ -25,30 +28,30 @@ public class JsInterface {
         this.ctx=app;
     }
     @JavascriptInterface
-    public void etzTransaction(String address,String value, String data,String tid,String gasL,String gasP) {
-//    public void etzTransaction(String json) {
-        MyLog.i("etzTransaction----address="+address);
-        MyLog.i("etzTransaction----value="+value);
-        MyLog.i("etzTransaction----data="+data);
-        MyLog.i("etzTransaction----tid="+tid);
-        MyLog.i("etzTransaction----gasL="+gasL);
-        MyLog.i("etzTransaction----gasP="+gasP);
-
+//    public void etzTransaction(String address,String value, String data,String tid,String gasL,String gasP) {
+    public void etzTransaction(String strJson) {
         BRSharedPrefs.putlastDappHash(ctx,"");
-        FragmentDiscovery.tid=tid;
-//        if (Utils.isNullOrEmpty(data)||!data.startsWith("0x")){
-//            sayInvalidClipboardData(ctx.getResources().getString(R.string.Dapp_dataError));
-//            return;
-//        }
 
-        BRSharedPrefs.putCurrentWalletIso(ctx, "etz");
-        Intent intent = new Intent(ctx, DappTransaction.class);
-        intent.putExtra("to", address);
-        intent.putExtra("value", value);
-        intent.putExtra("data", data);
-        intent.putExtra("gasL", gasL);
-        intent.putExtra("gasP", gasP);
-        ctx.startActivity(intent);
+        MyLog.i("etzTransaction----address="+strJson);
+        try {
+            JSONObject jsonObject=new JSONObject(strJson);
+            FragmentDiscovery.tid=jsonObject.optString("keyTime");
+            BRSharedPrefs.putCurrentWalletIso(ctx, "etz");
+            Intent intent = new Intent(ctx, DappTransaction.class);
+            intent.putExtra("to", jsonObject.optString("contractAddress"));
+            intent.putExtra("value", jsonObject.optString("etzValue"));
+            intent.putExtra("data", jsonObject.optString("datas"));
+            intent.putExtra("gasL", jsonObject.optString("gasLimit"));
+            intent.putExtra("gasP", jsonObject.optString("gasPrice"));
+            ctx.startActivity(intent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
     }
 
     @JavascriptInterface

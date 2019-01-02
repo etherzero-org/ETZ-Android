@@ -1,5 +1,6 @@
 package com.etzwallet.presenter.activities;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,7 +28,7 @@ import com.platform.tools.KVStoreManager;
 import java.io.File;
 import java.util.ArrayList;
 
-public class AddWalletsActivity extends BRActivity {
+public class AddWalletsActivity extends Activity {
 
 
     private AddTokenListAdapter mAdapter;
@@ -147,11 +148,12 @@ public class AddWalletsActivity extends BRActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-            @Override
-            public void run() {
-                WalletsMaster.getInstance(getApplication()).updateWallets(getApplication());
-            }
-        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        WalletsMaster.getInstance(getApplication()).updateWallets(getApplication());
+        super.onBackPressed();
+
     }
 }

@@ -78,6 +78,7 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     }
 
     private synchronized static WalletTokenManager getTokenWallet(WalletEthManager walletEthManager, BREthereumToken token) {
+        MyLog.i("++++++++++++++++++++token.getAddress()"+token.getAddress());
         if (mTokenWallets.containsKey(token.getAddress().toLowerCase())) {
             return mTokenWallets.get(token.getAddress().toLowerCase());
         } else {
@@ -113,7 +114,6 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     }
 
     public synchronized static WalletTokenManager getTokenWalletByIso(Context app, WalletEthManager walletEthManager, String iso) {
-        long start = System.currentTimeMillis();
         if (mTokenIsos.size() <= 0) mapTokenIsos(app);
 
         String address = mTokenIsos.get(iso.toLowerCase());
@@ -129,11 +129,14 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
 
         BREthereumToken token = walletEthManager.node.lookupToken(address);
         if (token != null) {
+            MyLog.i("+++++++++++++++++++++TOKEN="+token.toString());
             return getTokenWallet(walletEthManager, token);
         } else
             BRReportsManager.reportBug(new NullPointerException("Failed to getTokenWalletByIso: " + iso + ":" + address));
         return null;
     }
+
+
 
     public static synchronized void mapTokenIsos(Context app) {
         for (TokenItem tokenItem : TokenUtil.getTokenItems(app)) {

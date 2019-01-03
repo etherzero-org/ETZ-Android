@@ -62,7 +62,7 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     private static final String TAG = WalletTokenManager.class.getSimpleName();
 
     private WalletEthManager mWalletEthManager;
-    private static Map<String, String> mTokenIsos = new HashMap<>();
+    public static Map<String, String> mTokenIsos = new HashMap<>();
     private static Map<String, WalletTokenManager> mTokenWallets = new HashMap<>();
     private BREthereumWallet mWalletToken;
 
@@ -116,6 +116,8 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     public synchronized static WalletTokenManager getTokenWalletByIso(Context app, WalletEthManager walletEthManager, String iso) {
         if (mTokenIsos.size() <= 0) mapTokenIsos(app);
 
+            MyLog.i("mTokenIsos----size="+mTokenIsos.size()+";address="+mTokenIsos.get(iso.toLowerCase()));
+
         String address = mTokenIsos.get(iso.toLowerCase());
         address = address == null ? null : address.toLowerCase();
         if (address == null) {
@@ -128,8 +130,8 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         }
 
         BREthereumToken token = walletEthManager.node.lookupToken(address);
+        MyLog.i("+++++++++++++++++++++TOKEN="+token.toString());
         if (token != null) {
-            MyLog.i("+++++++++++++++++++++TOKEN="+token.toString());
             return getTokenWallet(walletEthManager, token);
         } else
             BRReportsManager.reportBug(new NullPointerException("Failed to getTokenWalletByIso: " + iso + ":" + address));
@@ -270,7 +272,8 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     @WorkerThread
     @Override
     public void refreshCachedBalance(final Context app) {
-        final BigDecimal balance = new BigDecimal(mWalletToken.getBalance(BREthereumAmount.Unit.TOKEN_DECIMAL));
+        BigDecimal balance = new BigDecimal(mWalletToken.getBalance(BREthereumAmount.Unit.TOKEN_DECIMAL));
+        if (balance==null)balance=new BigDecimal("0");
         BRSharedPrefs.putCachedBalance(app, getIso(), balance);
     }
 

@@ -152,7 +152,6 @@ public class AddWalletsActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        WalletsMaster.getInstance(getApplication()).updateWallets(getApplication());
         super.onBackPressed();
 
     }

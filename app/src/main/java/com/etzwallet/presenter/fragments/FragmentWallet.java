@@ -106,7 +106,7 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
                 //添加钱包
                 Intent intent = new Intent(getActivity(), ManageWalletsActivity.class);
                 startActivity(intent);
-                getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
+//                getActivity().overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
             }
         });
 

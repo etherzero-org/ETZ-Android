@@ -47,11 +47,6 @@ public class JsInterface {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-
-
-
     }
 
     @JavascriptInterface
@@ -68,8 +63,6 @@ public class JsInterface {
         } else {
             balance = String.valueOf(BRSharedPrefs.getCachedBalance(ctx, iso));
         }
-
-//        Toast.makeText(getApplicationContext(), balance, Toast.LENGTH_LONG).show();
         return balance;
     }
 

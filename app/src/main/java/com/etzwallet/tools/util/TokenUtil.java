@@ -32,8 +32,10 @@ import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
+import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.wallet.util.JsonRpcHelper;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
+import com.etzwallet.wallet.wallets.ethereum.WalletTokenManager;
 import com.platform.APIClient;
 
 import org.json.JSONArray;
@@ -154,6 +156,12 @@ public final class TokenUtil {
                 String responseBody = response.getBodyText();
                 saveTokenListToFile(context, responseBody);
                 mTokenItems = parseJsonToTokenList(context, responseBody);
+                BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
 
             }
         }
@@ -220,6 +228,7 @@ public final class TokenUtil {
                     item.setEndColor(mEndColor);
                     item.setContractInitialValue(contractInitialValue);
                     tokenItems.add(item);
+                    WalletTokenManager.mTokenIsos.put(item.symbol.toLowerCase(), item.address.toLowerCase());
                 }
             }
 

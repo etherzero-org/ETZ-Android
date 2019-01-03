@@ -87,7 +87,10 @@ public class WalletsMaster {
 
     //expensive operation (uses the KVStore), only update when needed and not in a loop.
     public synchronized void updateWallets(Context app) {
+        int a=0,b=0;
+        MyLog.i("updateWallets--A="+a++);
         WalletEthManager ethWallet = WalletEthManager.getInstance(app);
+
         if (ethWallet == null) {
             return; //return empty wallet list if ETH is null (meaning no public key yet)
         }
@@ -123,6 +126,7 @@ public class WalletsMaster {
             }
 
         }
+        MyLog.i("updateWallets--B="+b++);
     }
 
     public synchronized List<BaseWalletManager> getAllWallets(Context app) {

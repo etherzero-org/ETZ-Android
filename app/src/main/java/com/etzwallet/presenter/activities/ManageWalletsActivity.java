@@ -92,7 +92,7 @@ public class ManageWalletsActivity extends Activity implements OnStartDragListen
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(mTokenList);
-        findViewById(R.id.add_wallet_card).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.add_wallets).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //添加钱包
@@ -131,8 +131,6 @@ public class ManageWalletsActivity extends Activity implements OnStartDragListen
                 TokenItem tokenItem = null;
                 String tokenSymbol = mTokens.get(i).symbol;
 
-//            if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("bch") &&
-//                    !tokenSymbol.equalsIgnoreCase("eth") && !tokenSymbol.equalsIgnoreCase("brd")) {
                 if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("etz") && !tokenSymbol.equalsIgnoreCase("eash")) {
                     BREthereumToken tk = WalletEthManager.getInstance(this).node.lookupToken(info.contractAddress);
                     if (tk == null) {

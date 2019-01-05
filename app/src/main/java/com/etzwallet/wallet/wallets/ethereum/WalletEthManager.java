@@ -19,6 +19,7 @@ import com.etzwallet.core.ethereum.BREthereumWallet;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CurrencyEntity;
+import com.etzwallet.presenter.entities.TransactionRecordEntity;
 import com.etzwallet.presenter.entities.TxUiHolder;
 import com.etzwallet.presenter.interfaces.BROnSignalCompletion;
 import com.etzwallet.tools.animation.BRAnimator;
@@ -31,6 +32,7 @@ import com.etzwallet.tools.manager.InternetManager;
 import com.etzwallet.tools.security.BRKeyStore;
 import com.etzwallet.tools.security.PostAuth;
 import com.etzwallet.tools.sqlite.RatesDataSource;
+import com.etzwallet.tools.sqlite.TransactionRecordDataSource;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.tools.util.Bip39Reader;
@@ -128,7 +130,6 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 paperKey = new String(BRKeyStore.getPhrase(app, 0));
                 pKey = paperKey;
 
-
             } catch (UserNotAuthenticatedException e) {
                 e.printStackTrace();
                 return;
@@ -180,7 +181,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
         Boolean isFirst = BRSharedPrefs.getFristCreate(app);
         MyLog.i("WalletEthManager: isFirst==" + isFirst);
-        if (isFirst) {
+        if (BRSharedPrefs.getIsSetPinCode(app)) {
             if (pKey == null || pKey.equals("")) {
                 try {
                     pKey = new String(BRKeyStore.getPhrase(app, 0));
@@ -230,7 +231,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
 
         if (!fullAddress.equals(addr.toLowerCase())) {
-            alertDialog(app, app.getString(R.string.Alert_keystore_generic_android_bug));
+            alertDialog(app, app.getString(R.string.Alert_keystore_generic_android_bug)+"y=="+addr+":x=="+fullAddress);
             MyLog.i("WalletEthManager: mAddress=1000==地址不一致");
         }
         BRSharedPrefs.putFirstCreate(app, false);
@@ -247,12 +248,12 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 new BRDialogView.BROnClickListener() {
                     @Override
                     public void onClick(BRDialogView brDialogView) {
-                        app2.finish();
+                        System.exit(0);
                     }
                 }, null, new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        app2.finish();
+                        System.exit(0);
                     }
                 }, 0);
         BRSharedPrefs.putAddressError(app, false);
@@ -491,10 +492,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
     public void refreshCachedBalance(final Context app) {
         if (mWallet != null) {
             final BigDecimal balance = new BigDecimal(mWallet.getBalance(getUnit()));
+            MyLog.i("**********************balance="+mWallet.getBalance(getUnit()));
             BRSharedPrefs.putCachedBalance(app, getIso(), balance);
         } else {
-            final BigDecimal b = new BigDecimal('0');
-            BRSharedPrefs.putCachedBalance(app, getIso(), b);
+//            final BigDecimal b = new BigDecimal('0');
+//            BRSharedPrefs.putCachedBalance(app, getIso(), b);
         }
     }
 
@@ -667,7 +669,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         BigDecimal cryptoAmount = amount.divide(ONE_ETH, 8, BRConstants.ROUNDING_MODE);
 
         BigDecimal fiatData = getFiatForEth(app, cryptoAmount, iso);
-        if (fiatData == null) return null;
+        if (fiatData == null) return new BigDecimal("0");
         return fiatData;
     }
 
@@ -707,7 +709,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         CurrencyEntity btcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, "BTC", code);
         //Btc rate for ether
         CurrencyEntity ethBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
-        MyLog.i("ethBtcRate===="+ethBtcRate.rate);
+//        MyLog.i("ethBtcRate===="+ethBtcRate.rate);
         if (btcRate == null) {
             MyLog.e("getUsdFromBtc: No USD rates for BTC");
             return null;
@@ -1107,9 +1109,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                 String txBlockTransactionIndex = "";
                                 String txBlockTimestamp = "";
                                 String txIsError = "";
+                                String txStatus = "";
 
                                 // Iterate through the list of transactions and call node.announceTransaction()
                                 // to notify the core
+                                final List<TransactionRecordEntity> trList = new ArrayList<>();
                                 for (int i = 0; i < transactionsArray.length(); i++) {
                                     JSONObject txObject = transactionsArray.getJSONObject(i);
 
@@ -1211,19 +1215,31 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                         // MyLog.d( "TxObject isError -> " + txIsError);
 
                                     }
+                                    if (txObject.has(JsonRpcHelper.TRANSACTION_STATUS)) {
+                                        txStatus = txObject.getString(JsonRpcHelper.TRANSACTION_STATUS);
+                                        // MyLog.d( "TxObject isError -> " + txIsError);
+
+                                    }
 
                                     node.announceTransaction(id, txHash,
                                             (mWallet.getAccount().getPrimaryAddress().equalsIgnoreCase(txFrom) ? address : txFrom),
                                             (mWallet.getAccount().getPrimaryAddress().equalsIgnoreCase(txTo) ? address : txTo),
                                             txContract, txValue, txGas, txGasPrice, txData, txNonce, txGasUsed, txBlockNumber, txBlockHash, txBlockConfirmations, txBlockTransactionIndex, txBlockTimestamp, txIsError);
                                     Context app = BreadApp.getBreadContext();
-
+                                    trList.add(new TransactionRecordEntity(txBlockHash,txBlockNumber,txFrom,txGas,txGasPrice,txHash,txData,txNonce,txTo,txBlockTransactionIndex,
+                                            txValue,txBlockTimestamp,txGasUsed,txContract,txStatus,txBlockConfirmations,txIsError,"etz"));
                                     int blockHeight = (int) node.getBlockHeight();
                                     if (app != null && blockHeight != Integer.MAX_VALUE && blockHeight > 0) {
                                         MyLog.i("onRpcRequestCompleted: responseObject=222==" + blockHeight);
                                         BRSharedPrefs.putLastBlockHeight(app, getIso(), blockHeight);
                                     }
                                 }
+//                                BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        TransactionRecordDataSource.getInstance(BreadApp.getMyApp()).putCurrencies(trList);
+//                                    }
+//                                });
 
                                 MyLog.d("Rpc Transactions array length -> " + transactionsArray.length());
                             } catch (JSONException e) {
@@ -1321,6 +1337,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                             log.getString(JsonRpcHelper.TRANSACTION_INDEX),
                                             log.getString(JsonRpcHelper.TIMESTAMP));
                                 }
+
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

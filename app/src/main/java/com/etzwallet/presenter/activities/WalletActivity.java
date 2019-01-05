@@ -259,7 +259,7 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
             public void run() {
                 Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
                 Activity app = WalletActivity.this;
-                WalletsMaster.getInstance(app).refreshBalances(app);
+//                WalletsMaster.getInstance(app).refreshBalances(app);
                 WalletsMaster.getInstance(app).getCurrentWallet(app).refreshAddress(app);
             }
         });
@@ -558,7 +558,7 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
             @Override
             public void run() {
                 WalletEthManager.getInstance(WalletActivity.this).estimateGasPrice();
-                wallet.refreshCachedBalance(WalletActivity.this);
+//                wallet.refreshCachedBalance(WalletActivity.this);
                 BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                     @Override
                     public void run() {

@@ -152,8 +152,8 @@ public class PostAuth {
 
     public void onRecoverWalletAuth(Activity app, boolean authAsked, boolean ishuifu) {
         if (Utils.isNullOrEmpty(mCachedPaperKey)) {
-            MyLog.e( "onRecoverWalletAuth: phraseForKeyStore is null or empty");
-            BRReportsManager.reportBug(new NullPointerException("onRecoverWalletAuth: phraseForKeyStore is or empty"));
+            MyLog.e( "RecoverWalletAuth: phraseForKeyStore is null or empty");
+            BRReportsManager.reportBug(new NullPointerException("RecoverWalletAuth: phraseForKeyStore is or empty"));
             return;
         }
         try {
@@ -170,7 +170,7 @@ public class PostAuth {
                         app, BRConstants.PUT_PHRASE_RECOVERY_WALLET_REQUEST_CODE);
             } catch (UserNotAuthenticatedException e) {
                 if (authAsked) {
-                    MyLog.e( "onRecoverWalletAuth: WARNING!!!! LOOP");
+                    MyLog.e( "RecoverWalletAuth: WARNING!!!! LOOP");
                     mAuthLoopBugHappened = true;
 
                 }
@@ -179,7 +179,7 @@ public class PostAuth {
 
             if (!success) {
                 if (authAsked)
-                    MyLog.e( "onRecoverWalletAuth, !success && authAsked");
+                    MyLog.e( "RecoverWalletAuth, !success && authAsked");
             } else {
                 if (mCachedPaperKey.length() != 0) {
                     BRSharedPrefs.putPhraseWroteDown(app, true);

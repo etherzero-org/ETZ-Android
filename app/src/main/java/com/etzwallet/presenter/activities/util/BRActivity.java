@@ -206,18 +206,18 @@ public class BRActivity extends Activity implements BreadApp.OnAppBackgrounded {
                     });
                 }
                 break;
-            case BRConstants.PUT_PHRASE_RECOVERY_WALLET_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
-                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            PostAuth.getInstance().onRecoverWalletAuth(BRActivity.this, true, false);
-                        }
-                    });
-                } else {
-                    finish();
-                }
-                break;
+//            case BRConstants.PUT_PHRASE_RECOVERY_WALLET_REQUEST_CODE:
+//                if (resultCode == RESULT_OK) {
+//                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            PostAuth.getInstance().onRecoverWalletAuth(BRActivity.this, true, false);
+//                        }
+//                    });
+//                } else {
+//                    finish();
+//                }
+//                break;
 
             case BRConstants.SCANNER_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {

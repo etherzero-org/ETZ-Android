@@ -80,6 +80,7 @@ public class JsonRpcHelper {
     public static final String TOPICS = "topics";
     public static final String DATA = "data";
     public static final String TRANSACTION_HASH = "transactionHash";
+    public static final String TRANSACTION_STATUS = "status";
 
     public static final String EASY_HOME = "easyetz.io/etzq/";
     public static final String VERSION_PATH = "easyetz.io/airdropapi/";

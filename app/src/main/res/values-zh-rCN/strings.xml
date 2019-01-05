@@ -46,7 +46,7 @@
     <string name="Alert.error">错误</string>
     <!-- Keystore error -->
     <string name="Alert.keystore.generic.android">您的安卓操作系统密钥库存在问题，请联系support@etherzero.org</string>
-    <string name="Alert.keystore.generic.android.bug">您的安卓操作系统生成密钥出错，请卸载APP重装!!!</string>
+    <string name="Alert.keystore.generic.android.bug">您的安卓操作系统密钥出错，请卸载APP重装!!!</string>
     <!-- KeyStore error, keys are invalidated -->
     <string name="Alert.keystore.invalidated.android">您的 EasyETZ 加密数据最近因为您的安卓系统屏幕锁定被禁用而失效。</string>
     <!-- Keystore error title -->

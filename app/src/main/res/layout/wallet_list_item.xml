@@ -29,6 +29,7 @@
         android:layout_marginStart="16sp"
         android:textColor="@color/balance_crypto_color"
         android:textSize="14sp"
+        android:text=""
         app:customTFont="CircularPro-Bold.otf"/>
 
     <com.etzwallet.presenter.customviews.BRText

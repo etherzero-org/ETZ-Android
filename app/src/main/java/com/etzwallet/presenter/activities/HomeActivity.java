@@ -202,7 +202,6 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
 
     private void alertDialog() {
         Boolean addErr = BRSharedPrefs.getAddressError(app);
-        MyLog.i("onRecoverWalletAuth: adderr===" + addErr);
         if (!addErr) {
             BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
                     app.getString(R.string.Alert_keystore_generic_android_bug),
@@ -357,7 +356,7 @@ public class HomeActivity extends BRActivity implements InternetManager.Connecti
             @Override
             public void run() {
                 Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
-                WalletsMaster.getInstance(app).refreshBalances(app);
+//                WalletsMaster.getInstance(app).refreshBalances(app);
                 WalletsMaster.getInstance(app).getCurrentWallet(app).refreshAddress(app);
             }
         });

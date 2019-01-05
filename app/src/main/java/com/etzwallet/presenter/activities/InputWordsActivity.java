@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
-import com.etzwallet.presenter.activities.intro.IntroActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.LoadingDialog;
@@ -173,10 +172,10 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                 }
 
                 if (SmartValidator.isPaperKeyValid(app, cleanPhrase)) {
-//                    //创建钱包  验证助记词  输入助记词
                     Utils.hideKeyboard(app);
                     clearWords();
                     if (fromCrate == 1) {
+                        //创建钱包  验证助记词  输入助记词
                         if (SmartValidator.isPaperKeyCorrect(cleanPhrase, app)) {//验证创建的助记词
                             //执行恢复钱包代码
                             PostAuth.getInstance().setCachedPaperKey(cleanPhrase);
@@ -217,10 +216,8 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                                                     WalletsMaster m = WalletsMaster.getInstance(InputWordsActivity.this);
                                                     m.wipeWalletButKeystore(app);
                                                     m.wipeKeyStore(app);
-//                                                    Intent intent = new Intent(app, IntroActivity.class);
                                                     BRSharedPrefs.putFirstAddress(app, "");
 
-//                                                    finalizeIntent(intent);
                                                     RestartAPPTool.restartAPP(getApplicationContext());
 
                                                 }
@@ -232,7 +229,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                                             }, null, 0);
 
                                 } else {
-                                    //导入钱包输入助记词
+                                    //复位PIN码输入助记词
                                     AuthManager.getInstance().setPinCode("", InputWordsActivity.this);
                                     Intent intent = new Intent(app, SetPinActivity.class);
                                     intent.putExtra("noPin", true);
@@ -251,6 +248,7 @@ public class InputWordsActivity extends BRActivity implements View.OnFocusChange
                             }
 
                         } else {
+                            //IntriActivity页面回恢复进入
                             Utils.hideKeyboard(app);
                             if (loadingDialog == null)
                                 loadingDialog = new LoadingDialog(InputWordsActivity.this);

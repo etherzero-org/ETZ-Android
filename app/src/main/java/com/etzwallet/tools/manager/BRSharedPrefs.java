@@ -175,13 +175,13 @@ import java.util.UUID;
 
     public static BigDecimal getCachedBalance(Context context, String iso) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-        return new BigDecimal(prefs.getString("balance" + iso.toUpperCase(),
-                String.valueOf(prefs.getLong("balance_" + iso.toUpperCase(), 0))));
+        return new BigDecimal(prefs.getString("balance" + iso.toUpperCase(), String.valueOf(prefs.getLong("balance_" + iso.toUpperCase(), 0))));
     }
 
     public static void putCachedBalance(Context context, String iso, BigDecimal balance) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
+        MyLog.i("*********************"+iso+"="+balance);
         editor.putString("balance" + iso.toUpperCase(), balance.toPlainString());
         editor.apply();
     }

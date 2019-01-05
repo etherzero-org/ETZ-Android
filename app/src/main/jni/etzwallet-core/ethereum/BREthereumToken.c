@@ -304,7 +304,7 @@ static struct BREthereumTokenRecord tokens[] = {
                 1
         },
         {
-                "0x3b7020a5e28ba4c3383dd69b72df6084321cfaee",
+                "0x013b6e279989aa20819a623630fe678c9f43a48f",
                 "EASH",
                 "EASH",
                 "",

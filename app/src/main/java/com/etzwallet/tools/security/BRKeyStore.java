@@ -336,6 +336,11 @@ public class BRKeyStore {
             keyStore.load(null);
             SecretKey secretKey = null;
             PrivateKey privateKey = null;
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                privateKey = (PrivateKey) keyStore.getKey(alias, null);
+            } else {
+                secretKey = (SecretKey) keyStore.getKey(alias, null);
+            }
             byte[] encryptedData = retrieveEncryptedData(context, alias);
             if (encryptedData != null) {
                 //new format data is present, good
@@ -350,11 +355,9 @@ public class BRKeyStore {
                 Cipher outCipher;
 
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-                    privateKey = (PrivateKey) keyStore.getKey(alias, null);
                     outCipher = Cipher.getInstance(RSA_MODE);
                     outCipher.init(Cipher.DECRYPT_MODE, privateKey);
                 } else {
-                    secretKey = (SecretKey) keyStore.getKey(alias, null);
                     outCipher = Cipher.getInstance(NEW_CIPHER_ALGORITHM);
                     outCipher.init(Cipher.DECRYPT_MODE, secretKey, new GCMParameterSpec(128, iv));
                 }
@@ -372,7 +375,18 @@ public class BRKeyStore {
             //no new format data, get the old one and migrate it to the new format
             String encryptedDataFilePath = getFilePath(alias_file, context);
 
-            if (secretKey == null || privateKey == null) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M && privateKey == null) {
+                /* no such key, the key is just simply not there */
+                boolean fileExists = new File(encryptedDataFilePath).exists();
+//                MyLog.e( "_getData: " + alias + " file exist: " + fileExists);
+                if (!fileExists) {
+                    return null;/* file also not there, fine then */
+                }
+                BRKeystoreErrorException ex = new BRKeystoreErrorException("file is present but the key is gone: " + alias);
+                BRReportsManager.reportBug(ex);
+                return null;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && secretKey == null) {
                 /* no such key, the key is just simply not there */
                 boolean fileExists = new File(encryptedDataFilePath).exists();
 //                MyLog.e( "_getData: " + alias + " file exist: " + fileExists);
@@ -704,10 +718,10 @@ public class BRKeyStore {
         byte[] bytesToStore = pinCode.getBytes();
         try {
             boolean isSetPin = _setData(context, bytesToStore, obj.alias, obj.datafileName, obj.ivFileName, 0, false);
-            if (isSetPin&&!pinCode.isEmpty()) {
-                BRSharedPrefs.putIsSetPinCode(context,true);
+            if (isSetPin && !pinCode.isEmpty()) {
+                BRSharedPrefs.putIsSetPinCode(context, true);
             } else {
-                BRSharedPrefs.putIsSetPinCode(context,false);
+                BRSharedPrefs.putIsSetPinCode(context, false);
             }
             return isSetPin;
         } catch (UserNotAuthenticatedException e) {

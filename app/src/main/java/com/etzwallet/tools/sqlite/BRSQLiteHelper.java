@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import com.etzwallet.BuildConfig;
 import com.etzwallet.presenter.customviews.MyLog;
@@ -127,19 +128,67 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
             "PRIMARY KEY (" + CURRENCY_CODE + ", " + CURRENCY_ISO + ")" +
             ");";
 
+    /**
+     * 交易记录列表
+     */
+    public static final String TRANSACTION_RECORD_TABLE_NAME = "transactionRecordTable";
+    public static final String RECORD_BLOCKHASH = "blockHash";
+    public static final String RECORD_NUMBER = "blockNumber";
+    public static final String RECORD_FROM = "fromAddress";
+    public static final String RECORD_GAS = "gas";
+    public static final String RECORD_GASPRICE = "gasPrice";
+    public static final String RECORD_HASH = "hash";
+    public static final String RECORD_INPUT = "input";
+    public static final String RECORD_NONCE = "nonce";
+    public static final String RECORD_TO = "toAddress";
+    public static final String RECORD_TRANSACTIONINDEX = "transactionIndex";
+    public static final String RECORD_VALUE= "value";
+    public static final String RECORD_TIMESTAMP = "timestamp";
+    public static final String RECORD_GASUSED = "gasUsed";
+    public static final String RECORD_CONTRACTADDRESS = "contractAddress";
+    public static final String RECORD_STATUS = "status";
+    public static final String RECORD_CONFIRMATIONS = "confirmations";
+    public static final String RECORD_ISERROR = "isError";
+    public static final String RECORD_ISO = "iso";
+
+    private static final String TRANSACTION_RECORD_DATABASE_CREATE = "create table if not exists " + TRANSACTION_RECORD_TABLE_NAME + " (" +
+            RECORD_BLOCKHASH + " text," +
+            RECORD_NUMBER + " text," +
+            RECORD_FROM + " text," +
+            RECORD_GAS + " text," +
+            RECORD_GASPRICE + " text," +
+            RECORD_HASH + " text unique," +
+            RECORD_INPUT + " text," +
+            RECORD_NONCE + " text," +
+            RECORD_TO + " text," +
+            RECORD_TRANSACTIONINDEX + " text," +
+            RECORD_VALUE + " text," +
+            RECORD_TIMESTAMP + " text," +
+            RECORD_GASUSED + " text," +
+            RECORD_CONTRACTADDRESS + " text," +
+            RECORD_STATUS + " text," +
+            RECORD_CONFIRMATIONS + " text," +
+            RECORD_ISERROR + " text, " +
+            RECORD_ISO+" text);";
+
 
     @Override
     public void onCreate(SQLiteDatabase database) {
         //drop peers table due to multiple changes
 
-        MyLog.e( "onCreate: " + MB_DATABASE_CREATE);
-        MyLog.e( "onCreate: " + TX_DATABASE_CREATE);
-        MyLog.e( "onCreate: " + PEER_DATABASE_CREATE);
-        MyLog.e( "onCreate: " + CURRENCY_DATABASE_CREATE);
+        Log.e(TAG, "onCreate: " + MB_DATABASE_CREATE);
+        Log.e(TAG, "onCreate: " + TX_DATABASE_CREATE);
+        Log.e(TAG, "onCreate: " + PEER_DATABASE_CREATE);
+        Log.e(TAG, "onCreate: " + CURRENCY_DATABASE_CREATE);
         database.execSQL(MB_DATABASE_CREATE);
         database.execSQL(TX_DATABASE_CREATE);
         database.execSQL(PEER_DATABASE_CREATE);
         database.execSQL(CURRENCY_DATABASE_CREATE);
+        try {
+            database.execSQL(TRANSACTION_RECORD_DATABASE_CREATE);
+        }catch (Exception e){
+        }
+
 
 //        printTableStructures(database, MB_TABLE_NAME);
 //        printTableStructures(database, TX_TABLE_NAME);
@@ -158,13 +207,11 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
 
             if (migrationNeeded)
                 migrateDatabases(db);
-        } else {
-            //drop everything maybe?
-//            db.execSQL("DROP TABLE IF EXISTS " + MB_TABLE_NAME);
-//            db.execSQL("DROP TABLE IF EXISTS " + TX_TABLE_NAME);
-//            db.execSQL("DROP TABLE IF EXISTS " + PEER_TABLE_NAME);
-//            db.execSQL("DROP TABLE IF EXISTS " + CURRENCY_TABLE_NAME);
-//            db.execSQL("PRAGMA journal_mode=WRITE_AHEAD_LOGGING;");
+        }
+        else if(oldVersion < 15 && (newVersion >= 16)){
+            boolean isRecorde=tableExists(TRANSACTION_RECORD_TABLE_NAME,db);
+            if (!isRecorde)
+                db.execSQL(TRANSACTION_RECORD_DATABASE_CREATE);
         }
         //recreate if needed
 
@@ -186,11 +233,11 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
             copyTxsForBch(db);
 
             db.setTransactionSuccessful();
-            MyLog.e( "migrateDatabases: SUCCESS");
+            Log.e(TAG, "migrateDatabases: SUCCESS");
         } catch (SQLiteException ex) {
 
         } finally {
-            MyLog.e( "migrateDatabases: ENDED");
+            Log.e(TAG, "migrateDatabases: ENDED");
             db.endTransaction();
         }
     }
@@ -238,7 +285,7 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
                 count++;
 
             }
-            MyLog.e( "copyTxsForBch: copied: " + count);
+            Log.e(TAG, "copyTxsForBch: copied: " + count);
             db.setTransactionSuccessful();
 
         } finally {
@@ -249,7 +296,7 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
     }
 
     public void printTableStructures(SQLiteDatabase db, String tableName) {
-        MyLog.e( "printTableStructures: " + tableName);
+        Log.e(TAG, "printTableStructures: " + tableName);
         String tableString = String.format("Table %s:\n", tableName);
         Cursor allRows = db.rawQuery("SELECT * FROM " + tableName, null);
         if (allRows.moveToFirst()) {
@@ -264,7 +311,7 @@ public class BRSQLiteHelper extends SQLiteOpenHelper {
             } while (allRows.moveToNext());
         }
 
-        MyLog.e( "SQL:" + tableString);
+        Log.e(TAG, "SQL:" + tableString);
     }
 
 }

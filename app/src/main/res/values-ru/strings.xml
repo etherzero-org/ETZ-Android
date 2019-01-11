@@ -934,4 +934,19 @@
   <string name="WritePaperPhrase.step">%1$d из %2$d</string>
   <string name="loading">Загружается...</string>
   <string name="Dapp.dataError">неэффективные данные о контрактах  </string>
+  <string name="My.contacts">контактное лицо </string>
+  <string name="My.contacts.save">Сохранить</string>
+  <string name="My.contacts.edit">Устранить</string>
+  <string name="My.contacts.name">имя</string>
+  <string name="My.contacts.remarks">Памятка (необязательно)</string>
+  <string name="My.contacts.remark">Памятка</string>
+  <string name="My.contacts.address">Адрес</string>
+  <string name="My.contacts.delete">Удалить контакт</string>
+  <string name="TransactionDetails.beneficiary.address">Адрес</string>
+  <string name="My.contacts.no">Нет контакта!</string>
+  <string name="My.successfully.saved">Сохранено успешно</string>
+  <string name="My.successfully.deleted">Успешно удален</string>
+  <string name="Home.my">Я</string>
+  <string name="Home.wallet">Кошелек</string>
+  <string name="Home.Discovery">Приложения</string>
 </resources>

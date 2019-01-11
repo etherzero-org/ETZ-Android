@@ -10,24 +10,18 @@ import android.widget.ImageButton;
 
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
-import com.etzwallet.presenter.activities.WebActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRButton;
-import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.BREdit;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
-import com.etzwallet.tools.animation.BRAnimator;
-import com.etzwallet.tools.animation.BRDialog;
-import com.etzwallet.tools.animation.SpringAnimator;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.SendManager;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
-import com.etzwallet.wallet.util.CryptoUriParser;
 import com.etzwallet.wallet.util.JsonRpcHelper;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 
@@ -73,15 +67,8 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
         String strv = bv.divide(new BigDecimal(WalletEthManager.ETHER_WEI)).toPlainString();
         d_value.setText(strv);
         d_data.setText(data);
-
-        if (!Utils.isNullOrEmpty(gasP)) {
-            d_gasp.setText(gasP);
-        }
-        if (!Utils.isNullOrEmpty(gasL)) {
-            d_gasl.setText(gasL);
-        } else {
-            getGasEstimate(to, vaule, data);
-        }
+        //评估GasL
+        getGasEstimate(to, vaule, data);
         d_gasl.addTextChangedListener(addET);
         d_gasp.addTextChangedListener(addET);
         d_btn_send.setOnClickListener(this);
@@ -110,38 +97,62 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         MyLog.d("jsonResult=: " + jsonResult);
-                        try {
-                            if (!Utils.isNullOrEmpty(jsonResult)) {
-                                JSONObject responseObject = new JSONObject(jsonResult);
+                        if (!Utils.isNullOrEmpty(jsonResult)) {
+                            try {
+                                if (!Utils.isNullOrEmpty(jsonResult)) {
+                                    JSONObject responseObject = new JSONObject(jsonResult);
 
-                                if (responseObject.has(JsonRpcHelper.RESULT)) {
-                                    String gp = responseObject.getString(JsonRpcHelper.RESULT);
-                                    String g = new BigInteger(gp.substring(2, gp.length()), 16).toString(10);
-                                    gasPrice[0] = new BigDecimal(g).divide(new BigDecimal("1000000000")).toPlainString();
-                                    MyLog.d("getGasPrice=: " + gasPrice[0]);
+                                    if (responseObject.has(JsonRpcHelper.RESULT)) {
+                                        String gp = responseObject.getString(JsonRpcHelper.RESULT);
+                                        String g = new BigInteger(gp.substring(2, gp.length()), 16).toString(10);
+                                        gasPrice[0] = new BigDecimal(g).divide(new BigDecimal("1000000000")).toPlainString();
+                                        MyLog.d("getGasPrice=: " + gasPrice[0]);
+                                        DappTransaction.this.runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                if (Utils.isNullOrEmpty(gasP)) {
+                                                    d_gasp.setText(gasPrice[0]);
+                                                } else {
+                                                    d_gasp.setText(gasP);
+                                                }
+                                            }
+                                        });
+
+                                    }
+                                } else {
                                     DappTransaction.this.runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            d_gasp.setText(gasPrice[0]);
+                                            if (Utils.isNullOrEmpty(gasP)) {
+                                                d_gasp.setText(gasPrice[0]);
+                                            } else {
+                                                d_gasp.setText(gasP);
+                                            }
+
                                         }
                                     });
+                                }
+                            } catch (JSONException je) {
+                                je.printStackTrace();
+                            }
+                        } else {
+                            DappTransaction.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (Utils.isNullOrEmpty(gasP)) {
+                                        d_gasp.setText(gasPrice[0]);
+                                    } else {
+                                        d_gasp.setText(gasP);
+                                    }
 
                                 }
-                            } else {
-                                DappTransaction.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        d_gasp.setText(gasPrice[0]);
-                                    }
-                                });
-                            }
-                        } catch (JSONException je) {
-                            je.printStackTrace();
+                            });
                         }
-
                     }
                 });
+
             }
+
         });
 
     }
@@ -183,36 +194,56 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         MyLog.i("gasLimit=== " + jsonResult);
-                        try {
-                            JSONObject responseObject = new JSONObject(jsonResult);
-                            if (responseObject.has(JsonRpcHelper.RESULT)) {
-                                gasEstimate[0] = responseObject.getString(JsonRpcHelper.RESULT);
-                                MyLog.i("getGasEstimate: gasLimit==" + gasEstimate[0]);
-                                final String g = new BigInteger(gasEstimate[0].substring(2, gasEstimate[0].length()), 16).toString(10);
-                                DappTransaction.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
+                        if (!Utils.isNullOrEmpty(jsonResult)) {
+                            try {
+                                JSONObject responseObject = new JSONObject(jsonResult);
+                                if (responseObject.has(JsonRpcHelper.RESULT)) {
+                                    gasEstimate[0] = responseObject.getString(JsonRpcHelper.RESULT);
+                                    MyLog.i("getGasEstimate: gasLimit==" + gasEstimate[0]);
+                                    final String g = new BigInteger(gasEstimate[0].substring(2, gasEstimate[0].length()), 16).toString(10);
+                                    DappTransaction.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
 
-                                        if (Long.valueOf(g) > 21000) {
-                                            d_gasp.setText("2");
-                                        }else {
+                                            if (Long.valueOf(g) > 21000) {
+                                                d_gasp.setText("2");
+                                            } else {
+                                                getGasPrice();
+                                            }
+                                            d_gasl.setText(g);
+                                        }
+                                    });
+
+                                } else {
+                                    DappTransaction.this.runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            if (Utils.isNullOrEmpty(gasL)) {
+                                                d_gasl.setText(gasEstimate[0]);
+                                            } else {
+                                                d_gasl.setText(gasL);
+                                            }
+
                                             getGasPrice();
                                         }
-                                        d_gasl.setText(g);
-                                    }
-                                });
-
-                            } else {
-                                DappTransaction.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        d_gasl.setText(gasEstimate[0]);
-                                        getGasPrice();
-                                    }
-                                });
+                                    });
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        } else {
+                            DappTransaction.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (Utils.isNullOrEmpty(gasL)) {
+                                        d_gasl.setText(gasEstimate[0]);
+                                    } else {
+                                        d_gasl.setText(gasL);
+                                    }
+
+                                    getGasPrice();
+                                }
+                            });
                         }
                     }
                 });
@@ -274,12 +305,20 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
                     @Override
                     public void run() {
                         SendManager.sendTransaction(DappTransaction.this, item, wm, null);
+
                     }
                 });
+
+                d_btn_send.setEnabled(true);
                 break;
             case R.id.dapp_back_btn:
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

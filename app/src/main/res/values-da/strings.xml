@@ -931,6 +931,21 @@
   <string name="WritePaperPhrase.previous">Forrige</string>
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%1$d af %2$d</string>
-  <string name="loading">belastning...</string>
-  <string name="Dapp.dataError">ugyldig kontrakt data </string>
+  <string name="loading">Belastning...</string>
+  <string name="Dapp.dataError">Ugyldig kontrakt data </string>
+  <string name="My.contacts">Linkman</string>
+  <string name="My.contacts.save">Redde</string>
+  <string name="My.contacts.edit">Edit</string>
+  <string name="My.contacts.name">Navn</string>
+  <string name="My.contacts.remarks">Note(valgfrit)</string>
+  <string name="My.contacts.remark">Note</string>
+  <string name="My.contacts.address">Adresse</string>
+  <string name="My.contacts.delete">Slette kontakter</string>
+  <string name="TransactionDetails.beneficiary.address">Adresse</string>
+  <string name="My.contacts.no">Ingen kontakt!</string>
+  <string name="My.successfully.saved">Gemt med succes</string>
+  <string name="My.successfully.deleted">Slettet med succes</string>
+  <string name="Home.my">Min</string>
+  <string name="Home.wallet">Tegnebog</string>
+  <string name="Home.Discovery">Discovery</string>
 </resources>

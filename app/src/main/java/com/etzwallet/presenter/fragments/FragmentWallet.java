@@ -3,11 +3,13 @@ package com.etzwallet.presenter.fragments;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +63,7 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
         // properly.
 
         View rootView = inflater.inflate(R.layout.activity_home1, container, false);
-        mWalletRecycler =rootView.findViewById(R.id.rv_wallet_list);
+        mWalletRecycler = rootView.findViewById(R.id.rv_wallet_list);
         mFiatTotal = rootView.findViewById(R.id.total_assets_usd);
 
         wallets_manage = rootView.findViewById(R.id.wallets_manage);
@@ -138,6 +140,7 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
         });
 
     }
+
     public void hidePrompt() {
         mPromptCard.setVisibility(View.GONE);
         MyLog.e("hidePrompt: " + mCurrentPrompt);
@@ -152,20 +155,27 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
         mCurrentPrompt = null;
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
         showNextPromptIfNeeded();
-        if (mAdapter!=null) mAdapter.refreshList();
-//        populateWallets();
-        getActivity().getWindow().getDecorView().post(new Runnable() {
+        if (mAdapter != null) {
+            BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mAdapter.refreshList();
+                }
+            });
+
+        }
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (mAdapter != null)
                     mAdapter.startObserving();
-
             }
-        });
+        }, DateUtils.SECOND_IN_MILLIS / 2);
         InternetManager.registerConnectionReceiver(getActivity(), this);
         updateUi();
         RatesDataSource.getInstance(getActivity()).addOnDataChangedListener(this);
@@ -173,17 +183,19 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
             @Override
             public void run() {
                 Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
-                WalletsMaster.getInstance(getActivity()).refreshBalances(getActivity());
+//                WalletsMaster.getInstance(getActivity()).refreshBalances(getActivity());
                 WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity()).refreshAddress(getActivity());
             }
         });
         onConnectionChanged(InternetManager.getInstance().isConnected(getActivity()));
     }
+
     private void populateWallets() {
         mAdapter = new WalletListAdapter(getActivity());
         mWalletRecycler.setAdapter(mAdapter);
 
     }
+
     private void updateUi() {
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override
@@ -205,6 +217,7 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
             }
         });
     }
+
     private void showNextPromptIfNeeded() {
         PromptManager.PromptItem toShow = PromptManager.getInstance().nextPrompt(getActivity());
         MyLog.i("showNextPromptIfNeeded: toShow===" + toShow);
@@ -221,6 +234,7 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
             MyLog.i("showNextPrompt: nothing to show");
         }
     }
+
     @Override
     public void onStop() {
         super.onStop();
@@ -230,6 +244,8 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
     @Override
     public void onPause() {
         super.onPause();
+        InternetManager.unregisterConnectionReceiver(getActivity(), this);
+        mAdapter.stopObserving();
     }
 
 
@@ -250,9 +266,11 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
             }
         }
     }
+
     public void closeNotificationBar() {
         mNotificationBar.setVisibility(View.INVISIBLE);
     }
+
     @Override
     public void onChanged() {
         updateUi();
@@ -261,7 +279,6 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
     @Override
     public void onDestroy() {
         super.onDestroy();
-        InternetManager.unregisterConnectionReceiver(getActivity(), this);
-        mAdapter.stopObserving();
+
     }
 }

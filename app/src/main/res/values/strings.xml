@@ -940,12 +940,17 @@
     <string name="My.contacts.save">Save</string>
     <string name="My.contacts.edit">Edit</string>
     <string name="My.contacts.name">Name</string>
-    <string name="My.contacts.remarks">备注(选填)</string>
+    <string name="My.contacts.remarks">Remarks (optional)</string>
     <string name="My.contacts.remark">Remarks</string>
     <string name="My.contacts.address">Address</string>
-    <string name="My.contacts.delete">删除联系人</string>
+    <string name="My.contacts.delete">Delete contact</string>
     <string name="TransactionDetails.beneficiary.address">Beneficiary Address</string>
-    <string name="Home.my">Mine</string>
+    <string name="My.contacts.no">Temporary no cotacts!</string>
+    <string name="My.successfully.saved">Successfully saved</string>
+    <string name="My.successfully.deleted">Successfully deleted</string>
+    <string name="Home.my">Me</string>
     <string name="Home.wallet">Wallet</string>
     <string name="Home.Discovery">Discover</string>
+    <string name="Home.Discovery.input.hint">Enter dapp address</string>
+    <string name="Home.Discovery.error.url">Please enter the correct address....</string>
 </resources>

@@ -216,21 +216,6 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         });
 
 
-//        mBuyButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                startWebActivity(HTTPServer.URL_BUY);
-//            }
-//        });
-//
-//        mSellButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startWebActivity(HTTPServer.URL_SELL);
-//            }
-//        });
-
-
         mBalancePrimary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,7 +243,7 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
             public void run() {
                 Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
                 Activity app = WalletActivity.this;
-                WalletsMaster.getInstance(app).refreshBalances(app);
+//                WalletsMaster.getInstance(app).refreshBalances(app);
                 WalletsMaster.getInstance(app).getCurrentWallet(app).refreshAddress(app);
             }
         });
@@ -294,12 +279,6 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
             }
         }
     };
-//    private void setPowerMax(){
-//        //设置power max value
-//        final int balance = 1;
-//        String powerMax = String.valueOf(exp(-1/(balance*50)*10000) * 10000000 + 200000);
-//        powerTextValue.setText(powerMax);
-//    }
 
     private void startWebActivity(String action) {
         Intent intent = new Intent(this, WebViewActivity.class);

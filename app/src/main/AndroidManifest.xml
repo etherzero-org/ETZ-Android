@@ -57,7 +57,6 @@
         android:name=".BreadApp"
         android:allowBackup="true"
         android:fullBackupContent="false"
-        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="EasyETZ"
         android:largeHeap="true"
@@ -262,13 +261,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".presenter.activities.WebActivity"
-            android:hardwareAccelerated="true"
+            android:name="com.dapp.DappTransaction"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
-        <activity android:name="com.dapp.DappTransaction" />
+            android:screenOrientation="portrait"/>
         <activity android:name=".presenter.activities.ContactsActivity" />
-        <activity android:name=".presenter.activities.ManageContactsActivity"></activity>
+        <activity android:name=".presenter.activities.ManageContactsActivity"/>
     </application>
 
 </manifest>

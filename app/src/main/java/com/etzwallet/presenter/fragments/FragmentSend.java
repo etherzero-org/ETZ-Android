@@ -5,6 +5,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.ContactsContract;
@@ -64,7 +65,10 @@ import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+import java.security.PrivateKey;
 import java.util.regex.*;
+
+import javax.crypto.SecretKey;
 
 import static com.etzwallet.wallet.util.CryptoUriParser.parseRequest;
 
@@ -117,7 +121,7 @@ public class FragmentSend extends Fragment {
     private Button advancedBtn;
     private BigDecimal curBalance;
     private String selectedIso;
-    private Button isoButton;
+    private TextView isoButton;
     private int keyboardIndex;
     private LinearLayout keyboardLayout;
     private RelativeLayout advBtnView;
@@ -177,7 +181,11 @@ public class FragmentSend extends Fragment {
         BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
         selectedIso = BRSharedPrefs.isCryptoPreferred(getActivity()) ? wm.getIso() : BRSharedPrefs.getPreferredFiatIso(getActivity());
         MyLog.i(selectedIso + "**********" + BRSharedPrefs.getPreferredFiatIso(getActivity()) + "*****" + BRSharedPrefs.isCryptoPreferred(getActivity()));
-
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            contacts.setVisibility(View.GONE);
+        } else {
+            contacts.setVisibility(View.VISIBLE);
+        }
         amountBuilder = new StringBuilder(0);
         setListeners();
         visibleAdvView();
@@ -207,21 +215,6 @@ public class FragmentSend extends Fragment {
         });
         keyboardIndex = signalLayout.indexOfChild(keyboardLayout);
 
-//        ImageButton faq = rootView.findViewById(R.id.faq_button);
-//
-//        faq.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!BRAnimator.isClickAllowed()) return;
-//                Activity app = getActivity();
-//                if (app == null) {
-//                    MyLog.e( "onClick: app is null, can't start the webview with url: " + URL_SUPPORT);
-//                    return;
-//                }
-//                BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
-//                BRAnimator.showSupportFragment(app, BRConstants.FAQ_SEND, wm);
-//            }
-//        });
 
         showKeyboard(false);
 //        setButton(true);
@@ -814,6 +807,7 @@ public class FragmentSend extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        backgroundLayout.setBackgroundResource(R.color.black_trans);
         loadMetaData();
 
     }

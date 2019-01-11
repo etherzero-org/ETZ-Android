@@ -46,7 +46,7 @@
     <string name="Alert.error">错误</string>
     <!-- Keystore error -->
     <string name="Alert.keystore.generic.android">您的安卓操作系统密钥库存在问题，请联系support@etherzero.org</string>
-    <string name="Alert.keystore.generic.android.bug">您的安卓操作系统生成密钥出错，请卸载APP重装!!!</string>
+    <string name="Alert.keystore.generic.android.bug">您的安卓操作系统密钥出错，请卸载APP重装!!!</string>
     <!-- KeyStore error, keys are invalidated -->
     <string name="Alert.keystore.invalidated.android">您的 EasyETZ 加密数据最近因为您的安卓系统屏幕锁定被禁用而失效。</string>
     <!-- Keystore error title -->
@@ -547,7 +547,7 @@
     <!-- We are loading the request (now) -->
     <string name="Send.loadingRequest">加载请求中</string>
     <!-- Transaction fee could not be be caluculated error. -->
-    <string name="Send.nilFeeError">资金不够支付交易费。</string>
+    <string name="Send.nilFeeError">保留帐户资金0.01ETZ。</string>
     <!-- Empty address alert message -->
     <string name="Send.noAddress">请输入收件人地址。</string>
     <!-- Emtpy amount alert message -->
@@ -944,8 +944,13 @@
     <string name="My.contacts.address">地址</string>
     <string name="My.contacts.delete">删除联系人</string>
     <string name="TransactionDetails.beneficiary.address">收款地址</string>
+    <string name="My.contacts.no">暂无联系人!</string>
+    <string name="My.successfully.saved">保存成功</string>
+    <string name="My.successfully.deleted">删除成功</string>
     <string name="Home.my">我的</string>
     <string name="Home.wallet">钱包</string>
     <string name="Home.Discovery">发现</string>
+    <string name="Home.Discovery.input.hint">请输入Dapp地址</string>
+    <string name="Home.Discovery.error.url">请输入正确的地址....</string>
 
 </resources>

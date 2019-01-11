@@ -930,5 +930,20 @@
   <!-- 1 of 3 -->
   <string name="WritePaperPhrase.step">%2$d 之 %1$d</string>
   <string name="loading">正在加載…</string>
-  <string name="Dapp.dataError">无效的合约数据....</string>
+  <string name="Dapp.dataError">無效的合約數據....</string>
+  <string name="My.contacts">常用聯繫人</string>
+  <string name="My.contacts.save">保存</string>
+  <string name="My.contacts.edit">編輯</string>
+  <string name="My.contacts.name">名稱</string>
+  <string name="My.contacts.remarks">備註(選填)</string>
+  <string name="My.contacts.remark">備註</string>
+  <string name="My.contacts.address">地址</string>
+  <string name="My.contacts.delete">刪除聯繫人</string>
+  <string name="TransactionDetails.beneficiary.address">收款地址</string>
+  <string name="My.contacts.no">暫無聯繫人!</string>
+  <string name="My.successfully.saved">保存成功</string>
+  <string name="My.successfully.deleted">刪除成功</string>
+  <string name="Home.my">我的</string>
+  <string name="Home.wallet">錢包</string>
+  <string name="Home.Discovery">發現</string>
 </resources>

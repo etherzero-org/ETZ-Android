@@ -119,6 +119,7 @@ public class BRDialog {
                 dialog = new BRDialogView();
                 dialog.setTitle(title);
                 dialog.setSpan(message);//setting Span instead of String
+                dialog.setMessage(message.toString());
                 dialog.setPosButton(posButton);
                 dialog.setNegButton(negButton);
                 dialog.setPosListener(posListener);

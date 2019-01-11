@@ -86,7 +86,7 @@ public class AddTokenListAdapter extends RecyclerView.Adapter<AddTokenListAdapte
             Picasso.get().load(image).into(holder.logo);
         } else {
             MyLog.i("+++++++++++++网络"+mTokens.get(position).image);
-            Picasso.get().load(mTokens.get(position).image).into(holder.logo);
+            Picasso.get().load(mTokens.get(position).image).error(R.drawable.error_img).into(holder.logo);
             MyLog.i(mTokens.get(position).image);
             downloadIcon(mTokens.get(position).image, image.getAbsolutePath());
 

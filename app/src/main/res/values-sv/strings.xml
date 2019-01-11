@@ -934,4 +934,19 @@
   <string name="WritePaperPhrase.step">%1$d av %2$d</string>
   <string name="loading">snälla senare i...</string>
   <string name="Dapp.dataError">ogiltigt avtal uppgifter</string>
+  <string name="My.contacts">kontaktperson</string>
+  <string name="My.contacts.save">Spara</string>
+  <string name="My.contacts.edit">ändring</string>
+  <string name="My.contacts.name">Namn</string>
+  <string name="My.contacts.remarks">Memo (tillval)</string>
+  <string name="My.contacts.remark">Memo</string>
+  <string name="My.contacts.address">Adress</string>
+  <string name="My.contacts.delete">Ta bort kontakt</string>
+  <string name="TransactionDetails.beneficiary.address">Samlingsadress</string>
+  <string name="My.contacts.no">Ingen kontakt!</string>
+  <string name="My.successfully.saved">Sparade framgångsrikt</string>
+  <string name="My.successfully.deleted">Borttagen framgångsrikt</string>
+  <string name="Home.my">min</string>
+  <string name="Home.wallet">plånbok</string>
+  <string name="Home.Discovery">Discovery</string>
 </resources>

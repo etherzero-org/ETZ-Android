@@ -16,6 +16,7 @@ import com.etzwallet.core.ethereum.BREthereumToken;
 import com.etzwallet.core.ethereum.BREthereumWallet;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.MyLog;
+import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.exceptions.UserNotAuthenticatedException;
@@ -25,6 +26,7 @@ import com.etzwallet.tools.security.BRKeyStore;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.tools.util.Bip39Reader;
+import com.etzwallet.tools.util.TokenUtil;
 import com.etzwallet.tools.util.TrustedNode;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
@@ -87,8 +89,6 @@ public class WalletsMaster {
 
     //expensive operation (uses the KVStore), only update when needed and not in a loop.
     public synchronized void updateWallets(Context app) {
-        int a=0,b=0;
-        MyLog.i("updateWallets--A="+a++);
         WalletEthManager ethWallet = WalletEthManager.getInstance(app);
 
         if (ethWallet == null) {
@@ -126,7 +126,6 @@ public class WalletsMaster {
             }
 
         }
-        MyLog.i("updateWallets--B="+b++);
     }
 
     public synchronized List<BaseWalletManager> getAllWallets(Context app) {
@@ -262,9 +261,11 @@ public class WalletsMaster {
     public boolean isIsoErc20(Context app, String iso) {
         if (Utils.isNullOrEmpty(iso)) return false;
         try {
-            BREthereumToken[] tokens = WalletEthManager.getInstance(app).node.tokens;
-            for (BREthereumToken token : tokens) {
-                if ((token!=null&&!Utils.isNullOrEmpty(token.getSymbol()))&&iso.equals(token.getSymbol())) {
+//            BREthereumToken[] tokens = WalletEthManager.getInstance(app).node.tokens;
+            ArrayList<TokenItem> tokens=TokenUtil.getTokenItems(app);
+            MyLog.i("---------------------iso="+iso+":tokenslen="+tokens.size());
+            for (TokenItem token : tokens) {
+                if ((token!=null&&!Utils.isNullOrEmpty(token.symbol))&&iso.equals(token.symbol)) {
                     return true;
                 }
             }
@@ -432,7 +433,6 @@ public class WalletsMaster {
                 BRAnimator.startBreadActivity(app, true);
             }
             //else just sit in the intro screen
-
         }
     }
 

@@ -23,12 +23,15 @@ import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.services.SyncService;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.CurrencyUtils;
+import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Vector;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by byfieldj on 1/31/18.
@@ -39,7 +42,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
     public static final String TAG = WalletListAdapter.class.getName();
 
     private final Context mContext;
-    private ArrayList<WalletItem> mWalletItems;
+    private Vector<WalletItem> mWalletItems;
     private WalletItem mCurrentWalletSyncing;
     private boolean mObesrverIsStarting;
     private SyncNotificationBroadcastReceiver mSyncNotificationBroadcastReceiver;
@@ -49,7 +52,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
     public WalletListAdapter(Context context) {
         this.mContext = context;
-        mWalletItems = new ArrayList<>();
+        mWalletItems = new Vector<>();
 //        for (BaseWalletManager w : walletList) {
 //            this.mWalletItems.add(new WalletItem(w));
 //        }
@@ -104,10 +107,10 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
             String name = wallet.getName();
             String iso = wallet.getIso();
-
+            if (Utils.isNullOrEmpty(iso))return;
 
             String fiatBalance = CurrencyUtils.getFormattedAmount(mContext, BRSharedPrefs.getPreferredFiatIso(mContext), wallet.getFiatBalance(mContext));
-            String cryptoBalance = CurrencyUtils.getFormattedAmount(mContext, wallet.getIso(), wallet.getCachedBalance(mContext));
+            String cryptoBalance = CurrencyUtils.getFormattedAmount(mContext, iso, wallet.getCachedBalance(mContext));
 
             // Set wallet fields
             holder.mWalletName.setText(name);
@@ -209,7 +212,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
     }
 
     //return the next wallet that is not connected or null if all are connected
-    private WalletItem getNextWalletToSync() {
+    private synchronized WalletItem getNextWalletToSync() {
         BaseWalletManager currentWallet = WalletsMaster.getInstance(mContext).getCurrentWallet(mContext);
         if (currentWallet != null && currentWallet.getSyncProgress(BRSharedPrefs.getStartHeight(mContext, currentWallet.getIso())) == 1) {
             currentWallet = null;

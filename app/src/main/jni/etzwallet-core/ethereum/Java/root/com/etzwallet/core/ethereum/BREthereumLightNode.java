@@ -839,14 +839,14 @@ public class BREthereumLightNode extends BRCoreJniReference {
         BREthereumToken ethToken=null;
         if (tokens!=null&&tokens.length>0){
             for (BREthereumToken token : tokens) {
-                if (token.getSymbol().equalsIgnoreCase(iso))
+                if (token!=null&&token.getSymbol().equalsIgnoreCase(iso))
                     ethToken=token;
 
             }
         }else {
 
             for (BREthereumToken token : tokens) {
-                if (token.getSymbol().equalsIgnoreCase(iso))
+                if (token!=null&&token.getSymbol().equalsIgnoreCase(iso))
                     ethToken=token;
 
             }

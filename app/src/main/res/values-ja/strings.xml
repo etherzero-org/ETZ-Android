@@ -931,4 +931,19 @@
   <string name="WritePaperPhrase.step">%2$dの%1$d</string>
   <string name="loading">ロードしている...</string>
   <string name="Dapp.dataError">無効な契約データ </string>
+  <string name="My.contacts">常用人</string>
+  <string name="My.contacts.save">保存</string>
+  <string name="My.contacts.edit">編集</string>
+  <string name="My.contacts.name">お名前</string>
+  <string name="My.contacts.remarks">備考（オプション）</string>
+  <string name="My.contacts.remark">備考</string>
+  <string name="My.contacts.address">住所</string>
+  <string name="My.contacts.delete">連絡先を削除</string>
+  <string name="TransactionDetails.beneficiary.address">収集アドレス</string>
+  <string name="My.contacts.no">連絡なし!</string>
+  <string name="My.successfully.saved">保存しました</string>
+  <string name="My.successfully.deleted">削除しました</string>
+  <string name="Home.my">本人</string>
+  <string name="Home.wallet">財布</string>
+  <string name="Home.Discovery">発見</string>
 </resources>

@@ -22,6 +22,7 @@ import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.tools.animation.ItemTouchHelperAdapter;
 import com.etzwallet.tools.animation.ItemTouchHelperViewHolder;
 import com.etzwallet.tools.listeners.OnStartDragListener;
+import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import com.etzwallet.wallet.wallets.ethereum.WalletTokenManager;
 import com.platform.APIClient;
@@ -66,24 +67,27 @@ public class ManageTokenListAdapter extends RecyclerView.Adapter<ManageTokenList
     public void onBindViewHolder(@NonNull final ManageTokenListAdapter.ManageTokenItemViewHolder holder, int position) {
 
         final TokenItem item = mTokens.get(position);
+        if (item==null|| Utils.isNullOrEmpty(item.symbol))return;
         String tickerName = item.symbol.toLowerCase();
-        String iconResourceName = tickerName;
         int iconResourceId = mContext.getResources().getIdentifier(tickerName, "drawable", mContext.getPackageName());
-        if (iconResourceName.equalsIgnoreCase("btc") || iconResourceName.equalsIgnoreCase("etz")) {
+        if (tickerName.equalsIgnoreCase("btc") || tickerName.equalsIgnoreCase("etz")) {
             try {
                 Picasso.get().load(iconResourceId).into(holder.tokenIcon);
             } catch (Exception e) {
                 e.printStackTrace();
-                MyLog.d("Error finding icon for -> " + iconResourceName);
+                MyLog.d("Error finding icon for -> " + tickerName);
             }
 
         } else {
-            String pathDir = mContext.getFilesDir().getAbsolutePath() + APIClient.ETZ_TOKEN_ICON_EXTRACTED + iconResourceName + ".png";
+            String pathDir = mContext.getFilesDir().getAbsolutePath() + APIClient.ETZ_TOKEN_ICON_EXTRACTED + tickerName + ".png";
             File imageIcon = new File(pathDir);
             if (imageIcon.exists()){
                 Picasso.get().load(imageIcon).into(holder.tokenIcon);
-            }else {
+            }else if(iconResourceId!=0){
                 Picasso.get().load(iconResourceId).into(holder.tokenIcon);
+            }else {
+                Picasso.get().load(mTokens.get(position).image).error(R.drawable.error_img).into(holder.tokenIcon);
+                MyLog.i(mTokens.get(position).image);
             }
 
         }

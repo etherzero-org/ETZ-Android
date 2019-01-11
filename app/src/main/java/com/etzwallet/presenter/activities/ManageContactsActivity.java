@@ -115,7 +115,7 @@ public class ManageContactsActivity extends BRActivity implements View.OnClickLi
                 values.put(BRSQLiteHelper.CONTACTS_REMARKS, remarks);
                 boolean is = ETZContactsDataStore.getInstance(this).insertContacts(values);
                 if (is){
-                    Toast.makeText(this,"保存成功",Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,R.string.My_successfully_saved,Toast.LENGTH_LONG).show();
                     finish();
                 }
                 break;
@@ -159,7 +159,7 @@ public class ManageContactsActivity extends BRActivity implements View.OnClickLi
             case R.id.contacts_manage_delete_btn:
                boolean del= ETZContactsDataStore.getInstance(this).deleteContacts(caddress);
                if (del){
-                   Toast.makeText(this,"删除成功",Toast.LENGTH_LONG).show();
+                   Toast.makeText(this,R.string.My_successfully_deleted,Toast.LENGTH_LONG).show();
                    finish();
                }
 

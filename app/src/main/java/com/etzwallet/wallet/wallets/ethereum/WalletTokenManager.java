@@ -121,7 +121,7 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         String address = mTokenIsos.get(iso.toLowerCase());
         address = address == null ? null : address.toLowerCase();
         if (address == null) {
-            if (!iso.equalsIgnoreCase("BTC") && !iso.equalsIgnoreCase("BCH") && !iso.equalsIgnoreCase("ETH"))
+            if (!iso.equalsIgnoreCase("BTC") && !iso.equalsIgnoreCase("ETZ"))
                 BRReportsManager.reportBug(new NullPointerException("getTokenWalletByIso: address is null for: " + iso));
             return null;
         }
@@ -319,12 +319,12 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
 
     @Override
     public String getSymbol(Context app) {
-        return mWalletToken.getToken().getSymbol();
+        return mWalletToken==null?"ETZ":mWalletToken.getToken().getSymbol();
     }
 
     @Override
     public String getIso() {
-        return mWalletToken.getToken().getSymbol();
+        return mWalletToken==null?"ETZ":mWalletToken.getToken().getSymbol();
     }
 
     @Override

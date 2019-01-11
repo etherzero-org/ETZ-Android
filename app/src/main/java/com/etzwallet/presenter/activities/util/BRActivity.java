@@ -203,18 +203,18 @@ public class BRActivity extends FragmentActivity implements BreadApp.OnAppBackgr
                     });
                 }
                 break;
-            case BRConstants.PUT_PHRASE_RECOVERY_WALLET_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
-                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            PostAuth.getInstance().onRecoverWalletAuth(BRActivity.this, true, false);
-                        }
-                    });
-                } else {
-                    finish();
-                }
-                break;
+//            case BRConstants.PUT_PHRASE_RECOVERY_WALLET_REQUEST_CODE:
+//                if (resultCode == RESULT_OK) {
+//                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            PostAuth.getInstance().onRecoverWalletAuth(BRActivity.this, true, false);
+//                        }
+//                    });
+//                } else {
+//                    finish();
+//                }
+//                break;
 
             case BRConstants.SCANNER_REQUEST:
                 if (resultCode == Activity.RESULT_OK) {
@@ -241,22 +241,22 @@ public class BRActivity extends FragmentActivity implements BreadApp.OnAppBackgr
                 }
                 break;
 
-            case BRConstants.PUT_PHRASE_NEW_WALLET_REQUEST_CODE:
-                if (resultCode == RESULT_OK) {
-                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            PostAuth.getInstance().onCreateWalletAuth(BRActivity.this, true);
-                        }
-                    });
-
-                } else {
-                    MyLog.e("WARNING: resultCode != RESULT_OK");
-                    WalletsMaster m = WalletsMaster.getInstance(BRActivity.this);
-                    m.wipeWalletButKeystore(this);
-                    finish();
-                }
-                break;
+//            case BRConstants.PUT_PHRASE_NEW_WALLET_REQUEST_CODE:
+//                if (resultCode == RESULT_OK) {
+//                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            PostAuth.getInstance().onCreateWalletAuth(BRActivity.this, true);
+//                        }
+//                    });
+//
+//                } else {
+//                    MyLog.e("WARNING: resultCode != RESULT_OK");
+//                    WalletsMaster m = WalletsMaster.getInstance(BRActivity.this);
+//                    m.wipeWalletButKeystore(this);
+//                    finish();
+//                }
+//                break;
 
         }
     }

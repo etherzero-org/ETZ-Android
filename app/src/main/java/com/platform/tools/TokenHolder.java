@@ -61,7 +61,7 @@ public class TokenHolder {
     public static final String TAG = "TokenHolder";
 
     private synchronized static void fetchNewToken(Context app) {
-        mApiToken = APIClient.getInstance(app).getToken();
+//        mApiToken = APIClient.getInstance(app).getToken();
         if (!Utils.isNullOrEmpty(mApiToken)) {
             BRKeyStore.putToken(mApiToken.getBytes(), app);
         }

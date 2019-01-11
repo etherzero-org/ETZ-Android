@@ -19,36 +19,38 @@ import com.etzwallet.tools.sqlite.ETZContactsDataStore;
 
 import java.util.List;
 
-public class ContactsActivity extends BRActivity implements View.OnClickListener{
+public class ContactsActivity extends BRActivity implements View.OnClickListener {
     private ListView lView;
     private ContactsAdapter adapter;
-    public static final int ADD_CONTACTS=116;
-    public static final int SHOW_CONTACTS=117;
-    private int form=0;
+    private BRText contacts_no;
+    public static final int ADD_CONTACTS = 116;
+    public static final int SHOW_CONTACTS = 117;
+    private int form = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
-        form=getIntent().getIntExtra("from",0);
-        lView=findViewById(R.id.contacts_lv);
+        form = getIntent().getIntExtra("from", 0);
+        lView = findViewById(R.id.contacts_lv);
+        contacts_no = findViewById(R.id.contacts_no);
         findViewById(R.id.contacts_back_btn).setOnClickListener(this);
         findViewById(R.id.contacts_add_btn).setOnClickListener(this);
-        adapter=new ContactsAdapter(this);
+        adapter = new ContactsAdapter(this);
         lView.setAdapter(adapter);
         lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                ContactsEntity item= adapter.getItem(position);
-                if (form==0) {
+                ContactsEntity item = adapter.getItem(position);
+                if (form == 0) {
                     Intent intent = new Intent(ContactsActivity.this, ManageContactsActivity.class);
                     intent.putExtra("from", 2);
                     intent.putExtra("name", item.getCname());
                     intent.putExtra("address", item.getWalletAddress());
                     intent.putExtra("remarks", item.getRemarks());
                     startActivityForResult(intent, SHOW_CONTACTS);
-                }else {
+                } else {
                     FragmentSend.ci.getContactsAddress(item.getWalletAddress());
                     finish();
                 }
@@ -57,30 +59,36 @@ public class ContactsActivity extends BRActivity implements View.OnClickListener
     }
 
 
-    public void setListItem(){
-       List<ContactsEntity>list= ETZContactsDataStore.getInstance(this).queryAllContacts();
-        MyLog.i("ContactsActivity="+list.size());
+    public void setListItem() {
+        List<ContactsEntity> list = ETZContactsDataStore.getInstance(this).queryAllContacts();
+        MyLog.i("ContactsActivity=" + list.size());
+        if (list.size() <= 0) {
+            contacts_no.setVisibility(View.VISIBLE);
+        } else {
+            contacts_no.setVisibility(View.GONE);
+        }
+
         adapter.setmList(list);
         adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.contacts_back_btn:
                 onBackPressed();
                 break;
             case R.id.contacts_add_btn:
-                Intent intent=new Intent(this,ManageContactsActivity.class);
-                intent.putExtra("from",1);
-                startActivityForResult(intent,ADD_CONTACTS);
+                Intent intent = new Intent(this, ManageContactsActivity.class);
+                intent.putExtra("from", 1);
+                startActivityForResult(intent, ADD_CONTACTS);
 
                 break;
         }
 
     }
 
-    class ContactsAdapter extends ListBaseAdapter<ContactsEntity>{
+    class ContactsAdapter extends ListBaseAdapter<ContactsEntity> {
 
         public ContactsAdapter(Context mContext) {
             super(mContext);
@@ -93,7 +101,7 @@ public class ContactsActivity extends BRActivity implements View.OnClickListener
                 new viewHolder(convertView);
             }
             viewHolder vh = (viewHolder) convertView.getTag();
-            ContactsEntity item=getItem(position);
+            ContactsEntity item = getItem(position);
             vh.name.setText(item.getCname());
             vh.address.setText(item.getWalletAddress());
             return convertView;
@@ -117,6 +125,7 @@ public class ContactsActivity extends BRActivity implements View.OnClickListener
         }
 
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -125,7 +134,7 @@ public class ContactsActivity extends BRActivity implements View.OnClickListener
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode){
+        switch (requestCode) {
             case ADD_CONTACTS:
                 break;
             case SHOW_CONTACTS:

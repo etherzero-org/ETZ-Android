@@ -933,4 +933,19 @@
   <string name="WritePaperPhrase.step">%1$d van %2$d</string>
   <string name="loading">Laden...</string>
   <string name="Dapp.dataError">De gegevens van de overeenkomst.</string>
+  <string name="My.contacts">Contactpersoon</string>
+  <string name="My.contacts.save">Save</string>
+  <string name="My.contacts.edit">Uitgeven</string>
+  <string name="My.contacts.name">Naam</string>
+  <string name="My.contacts.remarks">Memo(optioneel)</string>
+  <string name="My.contacts.remark">Memo</string>
+  <string name="My.contacts.address">Adres</string>
+  <string name="My.contacts.delete">Contact verwijderen</string>
+  <string name="TransactionDetails.beneficiary.address">Verzameladres</string>
+  <string name="My.contacts.no">Geen contact!</string>
+  <string name="My.successfully.saved">Met succes opgeslagen</string>
+  <string name="My.successfully.deleted">Met succes verwijderd</string>
+  <string name="Home.my">Mijn</string>
+  <string name="Home.wallet">Wallet</string>
+  <string name="Home.Discovery">Ontdekking</string>
 </resources>

@@ -24,6 +24,7 @@
 //  THE SOFTWARE.
 
 #include <string.h>
+#include <android/log.h>
 #include "BRArray.h"
 #include "BRSet.h"
 #include "BREthereumToken.h"
@@ -107,21 +108,27 @@ struct BREthereumTokenRecord {
 
 extern const char *
 tokenGetAddress(BREthereumToken token) {
+//    assert(token->address!=NULL);
+    __android_log_print(ANDROID_LOG_INFO, "address=======", "address======%s\n", token->address);
+    __android_log_print(ANDROID_LOG_INFO, "address=======", "address======%s\n", token->symbol);
     return token->address;
 }
 
 extern const char *
 tokenGetSymbol(BREthereumToken token) {
+//    assert(token->symbol!=NULL);
     return token->symbol;
 }
 
 extern const char *
 tokenGetName(BREthereumToken token) {
+//    assert(token->name!=NULL);
     return token->name;
 }
 
 extern const char *
 tokenGetDescription(BREthereumToken token) {
+//    assert(token->description!=NULL);
     return token->description;
 }
 

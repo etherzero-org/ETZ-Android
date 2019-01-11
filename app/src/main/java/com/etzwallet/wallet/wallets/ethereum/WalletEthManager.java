@@ -178,11 +178,9 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         }
 
         mAddress = getReceiveAddress(app).stringify();
-        MyLog.e("" + mAddress);
 
-        Boolean isFirst = BRSharedPrefs.getFristCreate(app);
-        MyLog.i("WalletEthManager: isFirst==" + isFirst);
-        if (isFirst) {
+        if (BRSharedPrefs.getIsSetPinCode(app)) {
+
             if (pKey == null || pKey.equals("")) {
                 try {
                     pKey = new String(BRKeyStore.getPhrase(app, 0));
@@ -190,7 +188,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
             }
-            confirmAddress((Activity) app, pKey, mAddress);
+            confirmAddress( app, pKey, mAddress);
         }
 //        else{
 //            BRSharedPrefs.putFirstCreate(app, false);
@@ -210,7 +208,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     }
 
-    private void confirmAddress(final Activity app, String mn, String addr) {
+    private void confirmAddress(final Context app, String mn, String addr) {
         MyLog.i("WalletEthManager: addr==" + addr);
         AddressIndex addressIndex = BIP44
                 .m()
@@ -232,16 +230,12 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
 
         if (!fullAddress.equals(addr.toLowerCase())) {
-            alertDialog(app, app.getString(R.string.Alert_keystore_generic_android_bug));
-            MyLog.i("WalletEthManager: mAddress=1000==地址不一致");
+            alertDialog(app, app.getString(R.string.Alert_keystore_generic_android_bug)+"y=="+addr+":x=="+fullAddress);
         }
         BRSharedPrefs.putFirstCreate(app, false);
-        MyLog.i("WalletEthManager: mAddress=1000==" + addr.toLowerCase());
-        MyLog.i("WalletEthManager: mAddress==2000=" + fullAddress);
     }
 
     private void alertDialog(Context app, String dialogContent) {
-        final Activity app2 = (Activity) app;
         BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error),
                 dialogContent,
                 app.getString(R.string.Button_ok),
@@ -249,12 +243,12 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 new BRDialogView.BROnClickListener() {
                     @Override
                     public void onClick(BRDialogView brDialogView) {
-                        app2.finish();
+                        System.exit(0);
                     }
                 }, null, new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        app2.finish();
+                        System.exit(0);
                     }
                 }, 0);
         BRSharedPrefs.putAddressError(app, false);
@@ -274,7 +268,6 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     return null;
                 }
             }
-
             mInstance = new WalletEthManager(app, ethPubKey, BuildConfig.BITCOIN_TESTNET ? BREthereumNetwork.testnet : BREthereumNetwork.mainnet);
 
         }
@@ -295,14 +288,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             return null;
         }
         String[] words = list.toArray(new String[list.size()]);
-
-
-//        for (int i=0;i<words.length;i++){
-//            MyLog.e("-----------------", words.length+"--words--"+words[i]);
-//        }
-//        MyLog.e("-----------------","paperKey="+ paperKey);
         if (BRCoreMasterPubKey.validateRecoveryPhrase(words, paperKey)) {
-            // If the paperKey is valid for `words`, then return `words`
             return words;
         } else {
             // Otherwise, nothing
@@ -333,7 +319,6 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         mWallet.sign(tx.getEtherTx(), new String(phrase));
         mWallet.submit(tx.getEtherTx());
         String hash = tx.getEtherTx().getHash();
-        MyLog.i("+++++++"+hash);
         return hash == null ? new byte[0] : hash.getBytes();
     }
 
@@ -497,8 +482,8 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             final BigDecimal balance = new BigDecimal(mWallet.getBalance(getUnit()));
             BRSharedPrefs.putCachedBalance(app, getIso(), balance);
         } else {
-            final BigDecimal b = new BigDecimal('0');
-            BRSharedPrefs.putCachedBalance(app, getIso(), b);
+//            final BigDecimal b = new BigDecimal('0');
+//            BRSharedPrefs.putCachedBalance(app, getIso(), b);
         }
     }
 
@@ -659,7 +644,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
     @Override
     public BigDecimal getFiatExchangeRate(Context app) {
         BigDecimal fiatData = getFiatForEth(app, new BigDecimal(1), BRSharedPrefs.getPreferredFiatIso(app));
-        if (fiatData == null) return null;
+        if (fiatData == null) return new BigDecimal("0");
         return fiatData; //dollars
     }
 
@@ -1141,10 +1126,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                                     if (txObject.has(JsonRpcHelper.TO)) {
                                         txTo = txObject.getString(JsonRpcHelper.TO);
+
                                         // MyLog.d( "TxObject to -> " + txTo);
 
                                     }
-
+                                    if (Utils.isNullOrEmpty(txTo))continue;
                                     if (txObject.has(JsonRpcHelper.FROM)) {
                                         txFrom = txObject.getString(JsonRpcHelper.FROM);
                                         // MyLog.d( "TxObject from -> " + txFrom);

@@ -135,7 +135,7 @@ public class Utils {
     }
 
     public static boolean isNullOrEmpty(String str) {
-        return str == null || str.isEmpty();
+        return str == null || str.isEmpty()||str.equalsIgnoreCase("null");
     }
 
     public static boolean isNullOrEmpty(byte[] arr) {

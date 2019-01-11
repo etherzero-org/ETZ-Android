@@ -2,6 +2,7 @@ package com.etzwallet.tools.util;
 
 import android.content.Context;
 
+import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
@@ -62,6 +63,7 @@ public class CurrencyUtils {
         // This specifies the actual currency that the value is in, and provide
         // s the currency symbol.
         DecimalFormatSymbols decimalFormatSymbols = currencyFormat.getDecimalFormatSymbols();
+        MyLog.i("-----------------------iso="+iso);
         BaseWalletManager wallet = WalletsMaster.getInstance(app).getWalletByIso(app, iso);
         currencyFormat.setGroupingUsed(true);
         currencyFormat.setRoundingMode(BRConstants.ROUNDING_MODE);

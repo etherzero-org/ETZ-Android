@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.tools.util.BRConstants;
+import com.etzwallet.tools.util.Utils;
 
 import org.json.JSONArray;
 
@@ -175,6 +176,7 @@ import java.util.UUID;
 
     public static BigDecimal getCachedBalance(Context context, String iso) {
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if(Utils.isNullOrEmpty(iso))return  BigDecimal.ZERO;
         return new BigDecimal(prefs.getString("balance" + iso.toUpperCase(),
                 String.valueOf(prefs.getLong("balance_" + iso.toUpperCase(), 0))));
     }

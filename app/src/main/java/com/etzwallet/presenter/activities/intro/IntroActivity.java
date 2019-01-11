@@ -71,13 +71,12 @@ public class IntroActivity extends BRActivity implements Serializable {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        CrashReport.initCrashReport(getApplicationContext(), "2f6ebc529a", false);
         setContentView(R.layout.activity_intro);
         newWalletButton = findViewById(R.id.button_new_wallet);
         recoverWalletButton = findViewById(R.id.button_recover_wallet);
         splashScreen = findViewById(R.id.splash_screen);
         setListeners();
-        updateBundles();
+
 //        ImageButton faq = findViewById(R.id.faq_button);
 
 //        faq.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +104,7 @@ public class IntroActivity extends BRActivity implements Serializable {
             WalletsMaster.getInstance(this).wipeWalletButKeystore(this);
         }
 
-        PostAuth.getInstance().onCanaryCheck(this, false);
+        PostAuth.getInstance().onCanaryCheck(IntroActivity.this, false);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -116,19 +115,6 @@ public class IntroActivity extends BRActivity implements Serializable {
 
     }
 
-
-    private void updateBundles() {
-        BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {
-            @Override
-            public void run() {
-                final long startTime = System.currentTimeMillis();
-                APIClient apiClient = APIClient.getInstance(IntroActivity.this);
-                apiClient.updateBundle();
-                long endTime = System.currentTimeMillis();
-                MyLog.d( "updateBundle DONE in " + (endTime - startTime) + "ms");
-            }
-        });
-    }
 
     private void setListeners() {
         newWalletButton.setOnClickListener(new View.OnClickListener() {

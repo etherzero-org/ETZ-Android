@@ -933,4 +933,19 @@
   <string name="WritePaperPhrase.step">%1$d de %2$d</string>
   <string name="loading">Está cargando...</string>
   <string name="Dapp.dataError">Datos del contrato inválidos</string>
+  <string name="My.contacts">Persona de contacto</string>
+  <string name="My.contacts.save">Guardar</string>
+  <string name="My.contacts.edit">Editar</string>
+  <string name="My.contacts.name">Nombre</string>
+  <string name="My.contacts.remarks">Memo (opcional)</string>
+  <string name="My.contacts.remark">Memo</string>
+  <string name="My.contacts.address">Dirección</string>
+  <string name="My.contacts.delete">Eliminar contacto</string>
+  <string name="TransactionDetails.beneficiary.address">Dirección</string>
+  <string name="My.contacts.no">Sin contacto!</string>
+  <string name="My.successfully.saved">Guardado exitosamente</string>
+  <string name="My.successfully.deleted">Eliminado exitosamente</string>
+  <string name="Home.my">Yo</string>
+  <string name="Home.wallet">Monedero</string>
+  <string name="Home.Discovery">Descubir</string>
 </resources>

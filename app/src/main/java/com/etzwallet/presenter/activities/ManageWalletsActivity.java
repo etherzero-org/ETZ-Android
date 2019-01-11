@@ -21,6 +21,7 @@ import com.etzwallet.tools.animation.SimpleItemTouchHelperCallback;
 import com.etzwallet.tools.listeners.OnStartDragListener;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.tools.util.TokenUtil;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import com.platform.entities.TokenListMetaData;
@@ -131,19 +132,17 @@ public class ManageWalletsActivity extends Activity implements OnStartDragListen
                 TokenItem tokenItem = null;
                 String tokenSymbol = mTokens.get(i).symbol;
 
-                if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("etz") && !tokenSymbol.equalsIgnoreCase("eash")) {
-                    BREthereumToken tk = WalletEthManager.getInstance(this).node.lookupToken(info.contractAddress);
-                    if (tk == null) {
+                if (!tokenSymbol.equalsIgnoreCase("btc") && !tokenSymbol.equalsIgnoreCase("etz") ) {
+                    TokenItem ti=TokenUtil.getTokenItem(BreadApp.getBreadContext(),info.contractAddress);
+                    if (ti == null) {
                         BRReportsManager.reportBug(new NullPointerException("No token for contract: " + info.contractAddress));
                     } else {
-                        tokenItem = new TokenItem(tk.getAddress(), tk.getSymbol(), tk.getName(), null);
+                        tokenItem = new TokenItem(ti.address, ti.symbol, ti.name, ti.image);
                     }
                 } else if (tokenSymbol.equalsIgnoreCase("btc")) {
                     tokenItem = new TokenItem(null, "BTC", "Bitcoin", null);
                 } else if (tokenSymbol.equalsIgnoreCase("etz")) {
                     tokenItem = new TokenItem(null, "ETZ", "EtherZero", "@drawable/etz");
-                } else if (tokenSymbol.equalsIgnoreCase("eash")) {
-                    tokenItem = new TokenItem(null, "EASH", "EASH", null);
                 }
 
 

@@ -64,8 +64,13 @@ public class InternetManager extends BroadcastReceiver {
     }
 
     public static void unregisterConnectionReceiver(Context context, ConnectionReceiverListener connectionReceiverListener) {
-        removeConnectionListener(connectionReceiverListener);
-        context.getApplicationContext().unregisterReceiver(InternetManager.getInstance());
+        try {
+            removeConnectionListener(connectionReceiverListener);
+            context.getApplicationContext().unregisterReceiver(InternetManager.getInstance());
+        }catch (Exception e){
+            MyLog.e(e.toString());
+        }
+
     }
 
     private static void addConnectionListener(ConnectionReceiverListener listener) {

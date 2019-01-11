@@ -43,12 +43,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import okhttp3.Request;
@@ -84,24 +88,26 @@ public final class TokenUtil {
         File tokensFile = new File(filePath);
 
         if (!tokensFile.exists()) {
+            MyLog.i("++++++++++++++++++++++未获取");
             InputStream tokensInputStream = context.getResources().openRawResource(R.raw.tokens);
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(tokensInputStream));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-
+            BufferedReader bufferedReader = null;
             try {
+                bufferedReader = new BufferedReader(new InputStreamReader(tokensInputStream,"UTF-8"));
+                StringBuilder stringBuilder = new StringBuilder();
+                String line;
                 while ((line = bufferedReader.readLine()) != null) {
                     stringBuilder.append(line).append('\n');
                 }
+                bufferedReader.close();
+                tokensInputStream.close();
+                mTokenItems=parseJsonToTokenList(context,stringBuilder.toString());
 
-                // Copy the APK tokens.json to a file on internal storage
-                saveTokenListToFile(context, stringBuilder.toString());
-
-                mTokenItems = parseJsonToTokenList(context, stringBuilder.toString());
-
-            } catch (IOException e) {
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }catch (IOException e) {
                 Log.e(TAG, "Could not read from resource file at res/raw/tokens.json ", e);
             }
+
         }
     }
 
@@ -128,15 +134,13 @@ public final class TokenUtil {
      * @param saleAddress Optional sale address value if we are looking for a specific token response.
      */
     public static TokenItem getTokenItem(Context context, String saleAddress) {
-        APIClient.BRResponse response = fetchTokensFromServer(context,
-                BRConstants.HTTPS_PROTOCOL + BreadApp.HOST + ENDPOINT_CURRENCIES_SALE_ADDRESS + saleAddress);
-        if (response != null && !response.getBodyText().isEmpty()) {
-            ArrayList<TokenItem> tokenItems = parseJsonToTokenList(context, response.getBodyText());
-
-            // The response in this case should contain exactly 1 token item.
-            return tokenItems == null || tokenItems.size() != 1 ? null : tokenItems.get(0);
+        if (mTokenItems != null && mTokenItems.size()>0) {
+            for (TokenItem item:  mTokenItems      ) {
+                if (item.address.equalsIgnoreCase(saleAddress)){
+                    return item;
+                }
+            }
         }
-
         return null;
     }
 
@@ -155,14 +159,8 @@ public final class TokenUtil {
             synchronized (TokenItem.class) {
                 String responseBody = response.getBodyText();
                 saveTokenListToFile(context, responseBody);
+                MyLog.i("++++++++++++++++++++++已获取");
                 mTokenItems = parseJsonToTokenList(context, responseBody);
-                BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-
             }
         }
     }
@@ -174,7 +172,7 @@ public final class TokenUtil {
         try {
             JSONObject boyJson = new JSONObject(jsonString);
             JSONArray tokenListArray = boyJson.optJSONArray("result");
-            WalletEthManager ethWalletManager = WalletEthManager.getInstance(context);
+            WalletEthManager ethWalletManager = WalletEthManager.getInstance(BreadApp.getBreadContext());
 
             for (int i = 0; i < tokenListArray.length(); i++) {
                 JSONObject tokenObject = tokenListArray.getJSONObject(i);
@@ -188,19 +186,19 @@ public final class TokenUtil {
                 int decimals = 0;
 
                 if (tokenObject.has(FIELD_CONTRACT_ADDRESS)) {
-                    address = tokenObject.getString(FIELD_CONTRACT_ADDRESS);
+                    address = tokenObject.optString(FIELD_CONTRACT_ADDRESS);
                 }
 
                 if (tokenObject.has(FIELD_NAME)) {
-                    name = tokenObject.getString(FIELD_NAME);
+                    name = tokenObject.optString(FIELD_NAME);
                 }
 
                 if (tokenObject.has(FIELD_CODE)) {
-                    symbol = tokenObject.getString(FIELD_CODE);
+                    symbol = tokenObject.optString(FIELD_CODE);
                 }
 
                 if (tokenObject.has(FIELD_SCALE)) {
-                    decimals = tokenObject.getInt(FIELD_SCALE);
+                    decimals = tokenObject.optInt(FIELD_SCALE);
                 }
 
                 if (tokenObject.has(FIELD_CONTRACT_INITIAL_VALUE)) {
@@ -221,6 +219,8 @@ public final class TokenUtil {
                     if (tokenObject.has(FIELD_END_COLOR)) {
                         mEndColor = tokenObject.optString(FIELD_END_COLOR);
                     }
+                    MyLog.i("-------------------------ADDRESS-"+address);
+                    MyLog.i("-------------------------ADDRESS-"+symbol);
 
                     TokenItem item = new TokenItem(address, symbol, name, image);
 
@@ -241,7 +241,8 @@ public final class TokenUtil {
     private static void saveTokenListToFile(Context context, String jsonResponse) {
         String filePath = context.getFilesDir().getAbsolutePath() + File.separator + TOKENS_FILENAME;
         try {
-            FileWriter fileWriter = new FileWriter(filePath);
+            BufferedWriter fileWriter = new BufferedWriter (new OutputStreamWriter(new FileOutputStream(filePath,true),"UTF-8"));
+//            FileWriter fileWriter = new FileWriter(filePath);
             fileWriter.write(jsonResponse);
             fileWriter.flush();
             fileWriter.close();
@@ -267,7 +268,7 @@ public final class TokenUtil {
                 json.read(fileBytes);
                 json.close();
             }
-            return parseJsonToTokenList(context, new String(fileBytes));
+            return parseJsonToTokenList(context, new String(fileBytes,"UTF-8"));
 
         } catch (IOException e) {
             Log.e(TAG, "Error reading tokens.json file: ", e);

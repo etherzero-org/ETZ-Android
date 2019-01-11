@@ -2,6 +2,7 @@ package com.etzwallet.presenter.fragments;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ComponentName;
 import android.content.ContentUris;
@@ -16,6 +17,8 @@ import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Parcelable;
 import android.provider.DocumentsContract;
@@ -23,11 +26,13 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
 import android.webkit.WebBackForwardList;
@@ -41,23 +46,37 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.dapp.JsInterface;
+import com.dapp.DappTransaction;
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.HomeActivity;
+import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
+import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRSharedPrefs;
+import com.etzwallet.tools.qrcode.QRUtils;
 import com.etzwallet.tools.util.Utils;
+import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+
+import io.github.novacrypto.bip44.M;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -67,18 +86,22 @@ public class FragmentDiscovery extends Fragment {
     private ProgressBar pb;
     private ImageView webHome;
     private ImageView web_refresh;
+    private ImageButton web_back_up;
     private BRText webTitle;
+    private BRText web_close;
     private EditText input;
-    private Button btn;
+    private ImageButton btn;
     private RelativeLayout webBar;
+    private LinearLayout web_input_dapp;
 
-    private String mFailingUrl = null;
+    private String mFailingUrl = "https://dapp.easyetz.io/";
     private Map<String, Object> map = null;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
     private final static int FILECHOOSER_RESULTCODE = 1;// 表单的结果回调</span>
     private Uri imageUri;
     public static String tid = "";
+    String languageCode;
 
     private Map<String, Object> mapf = null;
 
@@ -93,36 +116,90 @@ public class FragmentDiscovery extends Fragment {
         web_refresh = rootView.findViewById(R.id.web_refresh);
         input = rootView.findViewById(R.id.web_input);
         btn = rootView.findViewById(R.id.web_btn);
-        webBar=rootView.findViewById(R.id.web_rl_title);
+        web_back_up = rootView.findViewById(R.id.web_back_up);
+        web_close = rootView.findViewById(R.id.web_close);
+        webBar = rootView.findViewById(R.id.web_rl_title);
+        web_input_dapp = rootView.findViewById(R.id.web_input_dapp);
         return rootView;
     }
 
+    //https://easyetz.io/download_cn.html?Type=ANDROID&id=2
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        languageCode = Locale.getDefault().getLanguage();
         initView();
         webHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                web.loadUrl("http://52.197.189.155/");
+                isShowTitle();
+                web.loadUrl("https://dapp.easyetz.io/");
+            }
+        });
+        web_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isShowTitle();
+                web.loadUrl("https://dapp.easyetz.io/");
             }
         });
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String url = input.getText().toString().trim();
-                if (!Utils.isNullOrEmpty(url))
+                if (Patterns.WEB_URL.matcher(url).matches()) {
                     web.loadUrl(url);
-                else
-                    Toast.makeText(getActivity(), "请输入正确的地地。。。。。。", Toast.LENGTH_LONG).show();
+                    web.evaluateJavascript("javascript:saveUrl('" + url + "')", new ValueCallback<String>() {
+                        @Override
+                        public void onReceiveValue(String value) {
+
+                        }
+
+                    });
+                    isShowTab();
+                } else {
+                    Toast.makeText(getActivity(), R.string.Home_Discovery_error_url, Toast.LENGTH_LONG).show();
+                }
             }
         });
         web_refresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                web.reload();
+//                web.reload();
+
+                QRUtils.share("sms:", getActivity(), "https://easyetz.io/download_cn.html?Type=ANDROID&id=2");
             }
         });
+        web_back_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myLastUrl();
+                web.goBack();
+            }
+        });
+    }
+
+    void isShowTitle() {
+        web_close.setVisibility(View.GONE);
+        webHome.setVisibility(View.GONE);
+        web_back_up.setVisibility(View.GONE);
+//        webTitle.setVisibility(View.GONE);
+//        web_input_dapp.setVisibility(View.VISIBLE);
+        HomeActivity.getApp().isShowNavigationBar(true);
+    }
+
+    void isShowTab(){
+        if (languageCode.equalsIgnoreCase("zh")) {
+            web_close.setVisibility(View.VISIBLE);
+            webHome.setVisibility(View.GONE);
+        } else {
+            web_close.setVisibility(View.GONE);
+            webHome.setVisibility(View.VISIBLE);
+        }
+        web_back_up.setVisibility(View.VISIBLE);
+//        webTitle.setVisibility(View.VISIBLE);
+//        web_input_dapp.setVisibility(View.GONE);
+        HomeActivity.getApp().isShowNavigationBar(false);
     }
 
     @SuppressLint({"NewApi", "SetJavaScriptEnabled"})
@@ -215,11 +292,9 @@ public class FragmentDiscovery extends Fragment {
                 }
                 if (!Utils.isNullOrEmpty(title) && !title.toLowerCase().contains("error")) {
                     webTitle.setText(title);
-                } else {
-                    webTitle.setText("Dapp");
                 }
 
-                super.onReceivedTitle(view, title);
+//                super.onReceivedTitle(view, title);
             }
 
         });
@@ -242,17 +317,11 @@ public class FragmentDiscovery extends Fragment {
 
                 mFailingUrl = url;
                 MyLog.i("weburl=" + url);
-                if (url.indexOf("http://52.197.189.155/")!=-1) {
-                    MyLog.i("weburl-----------=" + url);
-                    webHome.setVisibility(View.GONE);
-                    webBar.setVisibility(View.VISIBLE);
-                    HomeActivity.getApp().isShowNavigationBar(true);
+                if (url.contains("dapp.easyetz.io")) {
+                    isShowTitle();
 
                 } else {
-                    MyLog.i("weburl++++++++++++=" + url);
-                    webHome.setVisibility(View.VISIBLE);
-                    webBar.setVisibility(View.GONE);
-                    HomeActivity.getApp().isShowNavigationBar(false);
+                    isShowTab();
                 }
 
                 view.loadUrl(url);
@@ -311,14 +380,105 @@ public class FragmentDiscovery extends Fragment {
         });
 
         web.addJavascriptInterface(new JsInterface(getActivity()), "easyetz");
-//        web.loadUrl("file:///android_asset/anomalies/index.html");
-        web.loadUrl("http://52.197.189.155/");
+        web.loadUrl("https://dapp.easyetz.io/");
+//          web.loadUrl("http://127.0.0.1:3001");
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
+
+    /**
+     * H5交互
+     */
+    public class JsInterface {
+        Context ctx;
+
+        public JsInterface(Context app) {
+            this.ctx = app;
+        }
+
+        @JavascriptInterface
+        public void etzTransaction(String strJson) {
+            BRSharedPrefs.putlastDappHash(ctx, "");
+
+            MyLog.i("etzTransaction----address=" + strJson);
+            try {
+                JSONObject jsonObject = new JSONObject(strJson);
+                FragmentDiscovery.tid = jsonObject.optString("keyTime");
+                BRSharedPrefs.putCurrentWalletIso(ctx, "etz");
+                String value = jsonObject.optString("etzValue");
+                if (!Utils.isNullOrEmpty(value)) {
+                    value = new BigDecimal(value).toPlainString();
+                } else {
+                    value = "0";
+                }
+                MyLog.i("etzTransaction----address=" + value);
+                Intent intent = new Intent(ctx, DappTransaction.class);
+                intent.putExtra("to", jsonObject.optString("contractAddress"));
+                intent.putExtra("value", value);
+                intent.putExtra("data", jsonObject.optString("datas"));
+                intent.putExtra("gasL", jsonObject.optString("gasLimit"));
+                intent.putExtra("gasP", jsonObject.optString("gasPrice"));
+                ctx.startActivity(intent);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @JavascriptInterface
+        public String getAddress() {
+//        Toast.makeText(BreadApp.getMyApp(), WalletEthManager.getInstance(getApplication()).getAddress(), Toast.LENGTH_LONG).show();
+            return WalletEthManager.getInstance(ctx).getAddress();
+        }
+
+        @JavascriptInterface
+        public String getBalance(String iso) {
+            String balance = null;
+            if (iso.equalsIgnoreCase("ETZ")) {
+                balance = String.valueOf(BRSharedPrefs.getCachedBalance(ctx, iso).divide(new BigDecimal(WalletEthManager.ETHER_WEI)));
+            } else {
+                balance = String.valueOf(BRSharedPrefs.getCachedBalance(ctx, iso));
+            }
+            return balance;
+        }
+
+        @JavascriptInterface
+        public void closeWeb() {
+            ((Activity) ctx).finish();
+        }
+
+        @JavascriptInterface
+        public String getTransactionHash() {
+            String hash = BRSharedPrefs.getlastDappHash(BreadApp.getMyApp());
+            return hash;
+        }
+
+        private void sayInvalidClipboardData(String title) {
+            BRDialog.showCustomDialog(ctx, "", title,
+                    ctx.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
+                        @Override
+                        public void onClick(BRDialogView brDialogView) {
+                            brDialogView.dismiss();
+                        }
+                    }, null, null, 0);
+        }
+
+        @JavascriptInterface
+        public void errorReload() {
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    if (mFailingUrl != null) {
+                        web.loadUrl(mFailingUrl);
+                    }
+                }
+            });
+        }
+
+    }
+
 
     @Override
     public void onResume() {
@@ -333,8 +493,9 @@ public class FragmentDiscovery extends Fragment {
                 web.evaluateJavascript("javascript:makeSaveData('" + hash + "','" + tid + "')", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {
-
+                        MyLog.i("onReceiveValue-----"+value);
                     }
+
                 });
             }
             web.resumeTimers();
@@ -402,7 +563,7 @@ public class FragmentDiscovery extends Fragment {
     /**
      * 拿到上一页的路径
      */
-    private  void myLastUrl(){
+    private void myLastUrl() {
         WebBackForwardList backForwardList = web.copyBackForwardList();
         if (backForwardList != null && backForwardList.getSize() != 0) {
             //当前页面在历史队列中的位置
@@ -411,20 +572,18 @@ public class FragmentDiscovery extends Fragment {
                     backForwardList.getItemAtIndex(currentIndex - 1);
             if (historyItem != null) {
                 String backPageUrl = historyItem.getUrl();
-                if (backPageUrl.indexOf("http://52.197.189.155/")!=-1) {
-                    webHome.setVisibility(View.GONE);
-                    webBar.setVisibility(View.VISIBLE);
-                    HomeActivity.getApp().isShowNavigationBar(true);
+                MyLog.i("backPageUrl=" + backPageUrl);
+                if (backPageUrl.contains("dapp.easyetz.io")) {
+                    isShowTitle();
 
                 } else {
-                    webHome.setVisibility(View.VISIBLE);
-                    webBar.setVisibility(View.GONE);
-                    HomeActivity.getApp().isShowNavigationBar(false);
+                    isShowTab();
                 }
-                MyLog.i("weburl========="+backPageUrl);
+                MyLog.i("weburl=========" + backPageUrl);
             }
         }
     }
+
 
 
     @SuppressWarnings("null")

@@ -949,4 +949,11 @@
   <string name="Home.my">Я</string>
   <string name="Home.wallet">Кошелек</string>
   <string name="Home.Discovery">Приложения</string>
+  <string name="My.ETZ.node.set">Эфир ноль узел</string>
+  <string name="My.ETZ.node.other">Необязательный узел</string>
+  <string name="My.ETZ.node.hongkong">Гонконг</string>
+  <string name="My.ETZ.node.usa">Соединенные Штаты</string>
+  <string name="My.ETZ.node.singapore">Сингапур</string>
+  <string name="NodeSelector.etzenterBody">Ввести IP-адрес и порт узла (необязательно)\n обеспечивать RPC chianId=90</string>
+  <string name="NodeSelector.link.dead">RPC Ссылка не удалась</string>
 </resources>

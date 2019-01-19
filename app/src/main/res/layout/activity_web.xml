@@ -12,7 +12,7 @@
         android:layout_height="40dp"
         android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:background="@color/bbtm"
+        android:background="@color/extra_light_blue_background"
         android:paddingRight="10dp">
         <LinearLayout
             android:id="@+id/web_input_dapp"

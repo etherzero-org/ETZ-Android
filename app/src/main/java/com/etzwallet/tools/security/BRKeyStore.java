@@ -775,7 +775,6 @@ public class BRKeyStore {
     }
 
     public static int getFailCount(final Context context) {
-        long start = System.currentTimeMillis();
         AliasObject obj = aliasObjectMap.get(FAIL_COUNT_ALIAS);
         byte[] result = null;
         try {

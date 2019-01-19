@@ -946,4 +946,11 @@
   <string name="Home.my">我的</string>
   <string name="Home.wallet">錢包</string>
   <string name="Home.Discovery">發現</string>
+  <string name="My.ETZ.node.set">以太零節點</string>
+  <string name="My.ETZ.node.other">可選節點</string>
+  <string name="My.ETZ.node.hongkong">香港</string>
+  <string name="My.ETZ.node.usa">美國</string>
+  <string name="My.ETZ.node.singapore">新加坡</string>
+  <string name="NodeSelector.etzenterBody">輸入節點的 IP 位址及連接埠（選擇性）\n 確保 RPC chianId=90</string>
+  <string name="NodeSelector.link.dead">RPC 鏈接失敗</string>
 </resources>

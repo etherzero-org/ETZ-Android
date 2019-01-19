@@ -31,7 +31,6 @@
 #include "BREthereumBase.h"
 #include "BRUtil.h"
 
-
 /* Forward Declarations */
 static void
 encodeReverseBytes (uint8_t *t, const uint8_t *s, size_t slen);

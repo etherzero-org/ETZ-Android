@@ -3,6 +3,8 @@ package com.etzwallet.presenter.customviews;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +22,9 @@ import com.etzwallet.R;
 import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.util.Utils;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 
 /**
  * BreadWallet
@@ -240,5 +245,24 @@ public class BRDialogView extends DialogFragment {
 
     }
 
-
+    @Override
+    public void show(FragmentManager manager, String tag) {
+//        super.show(manager, tag);
+        try {
+            Class c=Class.forName("android.app.DialogFragment");
+            Constructor con = c.getConstructor();
+            Object obj = con.newInstance();
+            Field dismissed = c.getDeclaredField(" mDismissed");
+            dismissed.setAccessible(true);
+            dismissed.set(obj,false);
+            Field shownByMe = c.getDeclaredField("mShownByMe");
+            shownByMe.setAccessible(true);
+            shownByMe.set(obj,false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        FragmentTransaction ft = manager.beginTransaction();
+        ft.add(this, tag);
+        ft.commitAllowingStateLoss();
+    }
 }

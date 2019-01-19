@@ -121,7 +121,7 @@ public class BreadApp extends Application {
                 .debuggable(BuildConfig.DEBUG)// Enables Crashlytics debugger
                 .build();
         Fabric.with(fabric);
-        CrashReport.initCrashReport(getApplicationContext(), "2f6ebc529a", true);
+        CrashReport.initCrashReport(getApplicationContext(), "2f6ebc529a", false);
 //            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
 //                    .detectDiskReads()
 //                    .detectDiskWrites()

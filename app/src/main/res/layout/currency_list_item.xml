@@ -7,8 +7,7 @@
                 android:filterTouchesWhenObscured="true"
                 android:orientation="vertical">
 
-    <com.etzwallet.presenter.customviews.BRText
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <com.etzwallet.presenter.customviews.BRText xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/currency_item_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -23,7 +22,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/dark_gray"
         android:textSize="@dimen/sub_header"
-        app:customTFont="CircularPro-Medium.otf"/>
+        app:customTFont="CircularPro-Medium.otf" />
 
     <ImageView
         android:id="@+id/currency_checkmark"

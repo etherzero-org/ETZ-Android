@@ -4,11 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.etzwallet.presenter.customviews.MyLog;
+import com.etzwallet.presenter.entities.NodeEntity;
 import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.tools.util.Utils;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Currency;
@@ -461,17 +465,17 @@ import java.util.UUID;
         editor.putString("userId", uuid);
         editor.apply();
     }
-    public static long getAddressNonce(Context context,String address) {
-        SharedPreferences settingsToGet = context.getSharedPreferences(PREFS_NAME, 0);
-        return (settingsToGet.getLong(address, 0));
-    }
-
-    public static void setAddressNonce(Context context, String address,long nonce) {
-        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putLong(address, nonce);
-        editor.apply();
-    }
+//    public static long getAddressNonce(Context context,String address) {
+//        SharedPreferences settingsToGet = context.getSharedPreferences(PREFS_NAME, 0);
+//        return (settingsToGet.getLong(address, 0));
+//    }
+//
+//    public static void setAddressNonce(Context context, String address,long nonce) {
+//        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+//        SharedPreferences.Editor editor = settings.edit();
+//        editor.putLong(address, nonce);
+//        editor.apply();
+//    }
 
     public static void clearAllPrefs(Context activity) {
         SharedPreferences.Editor editor = activity.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE).edit();
@@ -562,6 +566,35 @@ import java.util.UUID;
         SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString("dappHash", hash);
+        editor.apply();
+    }
+    public static String getCurrentNode(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        return prefs.getString("etzNode" , "");
+    }
+
+    public static void putCurrentNode(Context context, String node) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString("etzNode", node);
+        editor.apply();
+    }
+    public static List<NodeEntity> getNodeList(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        Gson gson=new Gson();
+        String nList=prefs.getString("NodeList" , "");
+
+        List<NodeEntity> list=gson.fromJson(nList, new TypeToken<List<NodeEntity>>(){
+        }.getType());
+        return list;
+
+    }
+    public static void putNodeList(Context context, List<NodeEntity> nList) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson=new Gson();
+        String jsonSting=gson.toJson(nList);
+        editor.putString("NodeList", jsonSting);
         editor.apply();
     }
 }

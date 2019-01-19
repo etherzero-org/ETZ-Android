@@ -40,11 +40,11 @@
 
     <ListView
         android:id="@+id/settings_list"
-        android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
         android:background="@color/extra_light_blue_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:divider="#f5f5f5"
+        android:dividerHeight="2px"
         android:layout_marginTop="2dp"
         android:layout_below="@id/title"
 

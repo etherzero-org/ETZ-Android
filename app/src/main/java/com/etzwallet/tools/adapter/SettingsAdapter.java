@@ -48,11 +48,19 @@ public class SettingsAdapter extends ArrayAdapter<String> {
 
     private List<BRSettingsItem> items;
     private Context mContext;
+    private int resource;
 
     public SettingsAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<BRSettingsItem> items) {
         super(context, resource);
+        this.resource=resource;
         this.items = items;
         this.mContext = context;
+    }
+
+    public void refreshList(List<BRSettingsItem> list){
+        if (items!=null&&items.size()>0)items.clear();
+        items.addAll(list);
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -66,7 +74,7 @@ public class SettingsAdapter extends ArrayAdapter<String> {
         if (item.isSection) {
             v = inflater.inflate(settings_list_section, parent, false);
         } else {
-            v = inflater.inflate(settings_list_item, parent, false);
+            v = inflater.inflate(resource, parent, false);
             TextView addon = v.findViewById(R.id.item_addon);
 
             if (!addon.getText().toString().isEmpty()) {

@@ -208,7 +208,7 @@ transactionCreateGeneric(BREthereumAddress sourceAddress,
     transaction->gasLimit = gasLimit;
     transaction->data = strdup(data); // Avoid 'provideData()'
     transaction->nonce = nonce;
-    transaction->chainId = 0;
+    transaction->chainId = 90;
     transaction->hash = hashCreateEmpty();
     transaction->gasEstimate = gasLimit;
 

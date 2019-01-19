@@ -208,7 +208,7 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
                 BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                     @Override
                     public void run() {
-                        mFiatTotal.setText(CurrencyUtils.getFormattedAmount(getActivity(), BRSharedPrefs.getPreferredFiatIso(BreadApp.getMyApp()), fiatTotalAmount));
+                        mFiatTotal.setText(CurrencyUtils.getFormattedAmount(BreadApp.getMyApp(), BRSharedPrefs.getPreferredFiatIso(BreadApp.getMyApp()), fiatTotalAmount));
                         if (mAdapter != null)
                             mAdapter.notifyDataSetChanged();
                     }

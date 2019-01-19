@@ -334,7 +334,7 @@
     <!-- Switch to manual mode button label -->
     <string name="NodeSelector.manualButton">切换到手动模式</string>
     <!-- Node address label -->
-    <string name="NodeSelector.nodeLabel">当前主要节点</string>
+    <string name="NodeSelector.nodeLabel">当前主节点</string>
     <!-- Node is not connected label -->
     <string name="NodeSelector.notConnected">未连接</string>
     <!-- Node status label -->
@@ -952,5 +952,16 @@
     <string name="Home.Discovery">发现</string>
     <string name="Home.Discovery.input.hint">请输入Dapp地址</string>
     <string name="Home.Discovery.error.url">请输入正确的地址....</string>
+    <string name="My.ETZ.node.set">以太零节点</string>
+    <string name="My.ETZ.node.other">可选节点</string>
+    <string name="My.ETZ.node.hongkong">香港</string>
+    <string name="My.ETZ.node.usa">美国</string>
+    <string name="My.ETZ.node.singapore">新加坡</string>
+    <string name="NodeSelector.Custom.rpc">Custom RPC</string>
+    <string name="NodeSelector.etzenterBody">输入节点 IP 地址和端口（可选）\n确保RPC chianId=90</string>
+    <string name="NodeSelector.link.dead">RPC 链接失败</string>
+    <string name="NodeSelector.error.node">请输入正确的节点例如“http://13.211.229.106:9646 or https://sg.etznumberone.com:443”</string>
+    <string name="NodeSelector.del.node">删除节点</string>
+    <string name="NodeSelector.del.noderpc">长按 Custom RPC 移除</string>
 
 </resources>

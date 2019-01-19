@@ -271,7 +271,7 @@ public class PostAuth {
                     txMetaData.creationTime = (int) (System.currentTimeMillis() / 1000);//seconds
                     txMetaData.deviceId = BRSharedPrefs.getDeviceId(app);
                     txMetaData.classVersion = 1;
-                    BRSharedPrefs.setAddressNonce(app, mWalletManager.getAddress(), tx.getEtherTx().getNonce() + 1);
+//                    BRSharedPrefs.setAddressNonce(app, mWalletManager.getAddress(), tx.getEtherTx().getNonce() + 1);
 
                     if (Utils.isNullOrEmpty(txHash)) {
                         if (tx.getEtherTx() != null) {

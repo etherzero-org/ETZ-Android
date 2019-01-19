@@ -948,4 +948,11 @@
   <string name="Home.my">Min</string>
   <string name="Home.wallet">Tegnebog</string>
   <string name="Home.Discovery">Discovery</string>
+  <string name="My.ETZ.node.set">EtherZero Node</string>
+  <string name="My.ETZ.node.other">Valgfri node</string>
+  <string name="My.ETZ.node.hongkong">Hong Kong</string>
+  <string name="My.ETZ.node.usa">USA</string>
+  <string name="My.ETZ.node.singapore">Singapore</string>
+  <string name="NodeSelector.etzenterBody">Indtast node-IP-adresse og port (valgfrit)\n Sørg RPC chianId=90</string>
+  <string name="NodeSelector.link.dead">RPC Link mislykkedes</string>
 </resources>

@@ -158,7 +158,7 @@ private_extern void
 addressSetNonce(BREthereumAddress address,
                 uint64_t nonce,
                 BREthereumBoolean force) {
-//    if (ETHEREUM_BOOLEAN_IS_TRUE(force))
+    if (ETHEREUM_BOOLEAN_IS_TRUE(force) || nonce > address->nonce)
         address->nonce = nonce;
 }
 

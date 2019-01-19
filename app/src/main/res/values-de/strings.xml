@@ -948,4 +948,11 @@
   <string name="Home.my">Ich</string>
   <string name="Home.wallet">Wallet</string>
   <string name="Home.Discovery">Entdecken</string>
+  <string name="My.ETZ.node.set">Etherzero-Knoten</string>
+  <string name="My.ETZ.node.other">Optionaler Knoten</string>
+  <string name="My.ETZ.node.hongkong">Hong kong</string>
+  <string name="My.ETZ.node.usa">Vereinigte Staaten</string>
+  <string name="My.ETZ.node.singapore">Singapur</string>
+  <string name="NodeSelector.etzenterBody">Geben Sie die Node-IP-Adresse und den Port ein (optional)\n Sicherstellen RPC chianId=90</string>
+  <string name="NodeSelector.link.dead">RPC Link fehlgeschlagen</string>
 </resources>

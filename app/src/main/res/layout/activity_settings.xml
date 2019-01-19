@@ -40,9 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
         android:background="@color/extra_light_blue_background"
+        android:divider="#f5f5f5"
+        android:dividerHeight="2px"
         android:footerDividersEnabled="true"
-        android:headerDividersEnabled="true"
-
-        />
+        android:headerDividersEnabled="true" />
 
 </LinearLayout>

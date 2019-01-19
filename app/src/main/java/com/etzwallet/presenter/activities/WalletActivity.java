@@ -2,18 +2,14 @@ package com.etzwallet.presenter.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
-import android.support.annotation.WorkerThread;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.Toolbar;
@@ -25,11 +21,8 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.settings.WebViewActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
@@ -56,17 +49,13 @@ import com.etzwallet.wallet.abstracts.OnTxListModified;
 import com.etzwallet.wallet.abstracts.SyncListener;
 import com.etzwallet.wallet.util.CryptoUriParser;
 import com.etzwallet.wallet.util.HttpUtils;
-import com.etzwallet.wallet.util.JsonRpcHelper;
-import com.etzwallet.wallet.util.PowerResponse;
 import com.etzwallet.wallet.wallets.CryptoAddress;
 import com.etzwallet.wallet.wallets.bitcoin.BaseBitcoinWalletManager;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import  java.lang.Double;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -79,7 +68,6 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-import static java.lang.Math.*;
 
 /**
  * Created by byfieldj on 1/16/18.
@@ -242,9 +230,8 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
             @Override
             public void run() {
                 Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
-                Activity app = WalletActivity.this;
 //                WalletsMaster.getInstance(app).refreshBalances(app);
-                WalletsMaster.getInstance(app).getCurrentWallet(app).refreshAddress(app);
+                WalletsMaster.getInstance(getApplication()).getCurrentWallet(getApplication()).refreshAddress(getApplication());
             }
         });
 
@@ -520,6 +507,11 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
 
         updateUi();
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
     }
 
     @Override

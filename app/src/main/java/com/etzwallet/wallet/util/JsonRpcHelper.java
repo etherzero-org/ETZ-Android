@@ -6,11 +6,14 @@ import android.support.annotation.WorkerThread;
 import com.etzwallet.BreadApp;
 import com.etzwallet.BuildConfig;
 import com.etzwallet.tools.manager.BRReportsManager;
+import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.wallets.CryptoAddress;
 import com.platform.APIClient;
 
 import org.json.JSONObject;
+
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.Request;
@@ -84,6 +87,7 @@ public class JsonRpcHelper {
 
     public static final String EASY_HOME = "easyetz.io/etzq/";
     public static final String VERSION_PATH = "easyetz.io/airdropapi/";
+    public static String node="";
 
     private JsonRpcHelper() {
     }
@@ -94,15 +98,23 @@ public class JsonRpcHelper {
     }
 
     public static String getEthereumRpcUrl() {
-//        return PROTOCOL + "://" + BreadApp.HOST + JsonRpcHelper.BRD_ETH_RPC_ENDPOINT;
-        return PROTOCOL + "://" + "etzrpc.org:443";
+        if (Utils.isNullOrEmpty(node)) {
+            node = BRSharedPrefs.getCurrentNode(BreadApp.getMyApp());
+            if (Utils.isNullOrEmpty(node)) {
+                String languageCode = Locale.getDefault().getLanguage();//手机语言
+                node = languageCode.equalsIgnoreCase("zh") ? "http://47.90.101.201:9646" : "https://sg.etznumberone.com:443";
+                BRSharedPrefs.putCurrentNode(BreadApp.getMyApp(), node);
+            }
+        }
+        return  node;
+//        return "http://192.168.199.214:9646";
 
     }
 
     //請求版本更新
     public static String versionCheekUrl(){
         return PROTOCOL + "://" + VERSION_PATH + "api/v1/versionCheck";
-//        return "http://10.0.3.2:8080/api/v1/versionCheck";
+//        return "http://10.0.3.2:8080/api/v1/versionCheck";https://easyetz.io/airdropapi/api/v1/versionCheck
         //模拟器 10.0.3.2  真机 10.0.2.2
     }
 

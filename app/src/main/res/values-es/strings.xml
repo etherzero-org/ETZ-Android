@@ -948,4 +948,11 @@
   <string name="Home.my">Yo</string>
   <string name="Home.wallet">Monedero</string>
   <string name="Home.Discovery">Descubir</string>
+  <string name="My.ETZ.node.set">Nodo EtherZero</string>
+  <string name="My.ETZ.node.other">Nodo opcional</string>
+  <string name="My.ETZ.node.hongkong">Hong Kong</string>
+  <string name="My.ETZ.node.usa">Estados Unidos</string>
+  <string name="My.ETZ.node.singapore">Singapur</string>
+  <string name="NodeSelector.etzenterBody">Introduce el puerto y la dirección IP del nodo (opcional)\n Asegurar RPC chianId=90</string>
+  <string name="NodeSelector.link.dead">RPC Enlace fallado</string>
 </resources>

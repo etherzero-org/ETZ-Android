@@ -946,4 +946,11 @@
   <string name="Home.my">나</string>
   <string name="Home.wallet">지갑</string>
   <string name="Home.Discovery">검색</string>
+  <string name="My.ETZ.node.set">이더 제로 노드</string>
+  <string name="My.ETZ.node.other">선택적 노드</string>
+  <string name="My.ETZ.node.hongkong">홍콩</string>
+  <string name="My.ETZ.node.usa">미국</string>
+  <string name="My.ETZ.node.singapore">싱가포르</string>
+  <string name="NodeSelector.etzenterBody">노드 IP 주소와 포트를 입력하십시오(선택) \n 보장하다 RPC chianId=90</string>
+  <string name="NodeSelector.link.dead">RPC 링크 실패</string>
 </resources>

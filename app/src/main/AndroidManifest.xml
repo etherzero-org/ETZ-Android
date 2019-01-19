@@ -16,14 +16,16 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.BIND_JOB_SERVICE"
+    <uses-permission
+        android:name="android.permission.BIND_JOB_SERVICE"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android:sharedUserId=”android.uid.system" />
     <!-- bugly权限 <uses-permission android:name="android.permission.READ_PHONE_STATE" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS"
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
     <!-- bugly权限 -->
     <uses-permission
@@ -32,9 +34,11 @@
     <!-- Allows unlocking your device and activating its screen so UI tests can succeed -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <!-- Allows changing locales -->
-    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"
+    <uses-permission
+        android:name="android.permission.CHANGE_CONFIGURATION"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.OBSERVE_GRANT_REVOKE_PERMISSIONS"
+    <uses-permission
+        android:name="android.permission.OBSERVE_GRANT_REVOKE_PERMISSIONS"
         tools:ignore="ProtectedPermissions" />
 
     <uses-feature
@@ -57,6 +61,7 @@
         android:name=".BreadApp"
         android:allowBackup="true"
         android:fullBackupContent="false"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="EasyETZ"
         android:largeHeap="true"
@@ -263,9 +268,16 @@
         <activity
             android:name="com.dapp.DappTransaction"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".presenter.activities.ContactsActivity" />
-        <activity android:name=".presenter.activities.ManageContactsActivity"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presenter.activities.ContactsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presenter.activities.ManageContactsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".presenter.activities.ETZNodeSelectionActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

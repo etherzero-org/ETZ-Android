@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="55dp"
+    android:layout_height="50dp"
     android:gravity="center"
     android:paddingLeft="24dp"
     android:paddingRight="10dp"
@@ -12,7 +12,7 @@
 
     <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/item_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:layout_weight="1"
@@ -21,14 +21,18 @@
 
     <com.etzwallet.presenter.customviews.BRText
         android:id="@+id/item_addon"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="$USD"
         android:textColor="@color/total_assets_label_color"
-        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:gravity="center_vertical|right"
         android:textSize="@dimen/sub_header"
         android:visibility="visible"
-        app:customTFont="CircularPro-Medium.otf" />
+        app:customTFont="CircularPro-Medium.otf"
+        />
 
     <ImageButton
         android:id="@+id/right_icon"

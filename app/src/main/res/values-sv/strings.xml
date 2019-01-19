@@ -949,4 +949,11 @@
   <string name="Home.my">min</string>
   <string name="Home.wallet">plånbok</string>
   <string name="Home.Discovery">Discovery</string>
+  <string name="My.ETZ.node.set">EtherZero Node</string>
+  <string name="My.ETZ.node.other">Valfri node</string>
+  <string name="My.ETZ.node.hongkong">Hong Kong</string>
+  <string name="My.ETZ.node.usa">Förenta staterna</string>
+  <string name="My.ETZ.node.singapore">Singapore</string>
+  <string name="NodeSelector.etzenterBody">Ange nodens IP-adress och port (valfritt)\n Säker RPC chianId=90</string>
+  <string name="NodeSelector.link.dead">RPC Länk misslyckades</string>
 </resources>

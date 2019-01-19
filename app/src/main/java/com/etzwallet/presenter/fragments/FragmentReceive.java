@@ -254,11 +254,12 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
         observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                if (observer!=null) observer.removeOnGlobalLayoutListener(this);
+                signalLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 animateBackgroundDim(backgroundLayout, false);
                 animateSignalSlide(signalLayout, false, null);
             }
         });
+
         BaseWalletManager wm = WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity());
 
         Bundle extras = getArguments();
@@ -324,19 +325,12 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
     public void onStop() {
         super.onStop();
         animateBackgroundDim(backgroundLayout, true);
-        animateSignalSlide(signalLayout, true, new BRAnimator.OnSlideAnimationEnd() {
-            @Override
-            public void onAnimationEnd() {
-                Activity app = getActivity();
-                if (app != null && !app.isDestroyed())
-                    app.getFragmentManager().popBackStack();
-            }
-        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        backgroundLayout.setBackgroundResource(R.color.black_trans);
     }
 
     @Override

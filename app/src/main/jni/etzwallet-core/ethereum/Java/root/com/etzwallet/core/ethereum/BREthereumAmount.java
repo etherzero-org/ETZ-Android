@@ -54,5 +54,5 @@ public abstract class BREthereumAmount {
                     return false;
             }
         }
-    };
+    }
 }

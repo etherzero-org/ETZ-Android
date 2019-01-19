@@ -279,19 +279,18 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
 
     @Override
     public List<TxUiHolder> getTxUiHolders(Context app) {
-        long start = System.currentTimeMillis();
         BREthereumTransaction txs[] = mWalletToken.getTransactions();
         int blockHeight = (int) mWalletEthManager.node.getBlockHeight();
         if (app != null && blockHeight != Integer.MAX_VALUE && blockHeight > 0) {
             BRSharedPrefs.putLastBlockHeight(app, getIso(), blockHeight);
         }
         BaseWalletManager wm = WalletsMaster.getInstance(app).getCurrentWallet(app);
-        long nonce=BRSharedPrefs.getAddressNonce(app,wm.getAddress());
+//        long nonce=BRSharedPrefs.getAddressNonce(app,wm.getAddress());
         if (txs == null || txs.length <= 0) return null;
         List<TxUiHolder> uiTxs = new ArrayList<>();
         for (int i = txs.length - 1; i >= 0; i--) { //revere order
             BREthereumTransaction tx = txs[i];
-            if(tx.getNonce()>=nonce)continue;
+//            if(tx.getNonce()>=nonce)continue;
 //            printTxInfo(tx);
             uiTxs.add(new TxUiHolder(tx, tx.getTargetAddress().equalsIgnoreCase(mWalletEthManager.getReceiveAddress(app).stringify()),
                     tx.getBlockTimestamp(), (int) tx.getBlockNumber(), Utils.isNullOrEmpty(tx.getHash()) ? null :

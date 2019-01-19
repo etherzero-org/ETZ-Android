@@ -953,4 +953,14 @@
     <string name="Home.Discovery">Discover</string>
     <string name="Home.Discovery.input.hint">Enter dapp address</string>
     <string name="Home.Discovery.error.url">Please enter the correct address....</string>
+    <string name="My.ETZ.node.set">Etherzero node</string>
+    <string name="My.ETZ.node.other">Optional node</string>
+    <string name="My.ETZ.node.hongkong">Hong Kong</string>
+    <string name="My.ETZ.node.usa">USA</string>
+    <string name="My.ETZ.node.singapore">Singapore</string>
+    <string name="NodeSelector.Custom.rpc">Custom RPC</string>
+    <string name="NodeSelector.etzenterBody">Enter Node IP address and port (optional)\n Guarantee RPC chianId=90</string>
+    <string name="NodeSelector.link.dead">RPC Link failed</string>
+    <string name="NodeSelector.error.node">Please enter the correct node such as "http://13.211.229.106:9646 or https://sg.etznumberone.com:443"</string>
+    <string name="NodeSelector.del.noderpc">Long press "Custom RPC" to move</string>
 </resources>

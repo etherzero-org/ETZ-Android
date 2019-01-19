@@ -47,6 +47,7 @@ public class SecurityCenterActivity extends BRActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -70,17 +71,6 @@ public class SecurityCenterActivity extends BRActivity {
         });
 
         updateList();
-
-//        ImageButton faq = findViewById(R.id.faq_button);
-//
-//        faq.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!BRAnimator.isClickAllowed()) return;
-//                BaseWalletManager wm = WalletsMaster.getInstance(SecurityCenterActivity.this).getCurrentWallet(SecurityCenterActivity.this);
-//                BRAnimator.showSupportFragment(SecurityCenterActivity.this, BRConstants.FAQ_SECURITY_CENTER, wm);
-//            }
-//        });
 
     }
 

@@ -946,4 +946,11 @@
   <string name="Home.my">本人</string>
   <string name="Home.wallet">財布</string>
   <string name="Home.Discovery">発見</string>
+  <string name="My.ETZ.node.set">エーテルゼロノード</string>
+  <string name="My.ETZ.node.other">オプションのノード</string>
+  <string name="My.ETZ.node.hongkong">香港</string>
+  <string name="My.ETZ.node.usa">アメリカ</string>
+  <string name="My.ETZ.node.singapore">シンガポール</string>
+  <string name="NodeSelector.etzenterBody">ノードのIPアドレスとポートを入力する（任意）\n 確認する RPC chianId=90</string>
+  <string name="NodeSelector.link.dead">RPC リンク失敗</string>
 </resources>

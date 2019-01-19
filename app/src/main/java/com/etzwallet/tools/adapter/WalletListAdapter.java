@@ -42,7 +42,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
     public static final String TAG = WalletListAdapter.class.getName();
 
     private final Context mContext;
-    private Vector<WalletItem> mWalletItems;
+    private CopyOnWriteArrayList<WalletItem> mWalletItems;
     private WalletItem mCurrentWalletSyncing;
     private boolean mObesrverIsStarting;
     private SyncNotificationBroadcastReceiver mSyncNotificationBroadcastReceiver;
@@ -52,7 +52,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
     public WalletListAdapter(Context context) {
         this.mContext = context;
-        mWalletItems = new Vector<>();
+        mWalletItems = new CopyOnWriteArrayList<>();
 //        for (BaseWalletManager w : walletList) {
 //            this.mWalletItems.add(new WalletItem(w));
 //        }
@@ -219,14 +219,16 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
         }
 
         for (WalletItem w : mWalletItems) {
+            String iso=w.walletManager.getIso();
+            if (Utils.isNullOrEmpty(iso))continue;
             if (currentWallet == null) {
-                if (w.walletManager.getSyncProgress(BRSharedPrefs.getStartHeight(mContext, w.walletManager.getIso())) < 1
+                if (w.walletManager.getSyncProgress(BRSharedPrefs.getStartHeight(mContext, iso)) < 1
                         || w.walletManager.getConnectStatus() != 2) {
                     w.walletManager.connect(mContext);
                     return w;
                 }
             } else {
-                if (w.walletManager.getIso().equalsIgnoreCase(currentWallet.getIso())) {
+                if (iso.equalsIgnoreCase(currentWallet.getIso())) {
                     return w;
                 }
             }

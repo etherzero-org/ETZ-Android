@@ -68,6 +68,7 @@ import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.web3j.crypto.Hash;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -431,6 +432,18 @@ public class FragmentDiscovery extends Fragment {
         public String getAddress() {
 //        Toast.makeText(BreadApp.getMyApp(), WalletEthManager.getInstance(getApplication()).getAddress(), Toast.LENGTH_LONG).show();
             return WalletEthManager.getInstance(ctx).getAddress();
+        }
+
+        /**
+         ** Keccak-256 hash function that operates on a UTF-8 encoded String.
+         *
+         * @param utf8String UTF-8 encoded string
+         * @return hash value as hex encoded string
+         */
+        @JavascriptInterface
+        public String getSha3String(String utf8String) {
+        Toast.makeText(BreadApp.getMyApp(),utf8String , Toast.LENGTH_LONG).show();
+            return Hash.sha3String(utf8String);
         }
 
         @JavascriptInterface

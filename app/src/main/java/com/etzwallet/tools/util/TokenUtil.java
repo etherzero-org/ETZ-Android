@@ -55,7 +55,10 @@ import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
+import okhttp3.Call;
+import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 public final class TokenUtil {
 
@@ -92,7 +95,7 @@ public final class TokenUtil {
             InputStream tokensInputStream = context.getResources().openRawResource(R.raw.tokens);
             BufferedReader bufferedReader = null;
             try {
-                bufferedReader = new BufferedReader(new InputStreamReader(tokensInputStream,"UTF-8"));
+                bufferedReader = new BufferedReader(new InputStreamReader(tokensInputStream, "UTF-8"));
                 StringBuilder stringBuilder = new StringBuilder();
                 String line;
                 while ((line = bufferedReader.readLine()) != null) {
@@ -100,11 +103,11 @@ public final class TokenUtil {
                 }
                 bufferedReader.close();
                 tokensInputStream.close();
-                mTokenItems=parseJsonToTokenList(context,stringBuilder.toString());
+                mTokenItems = parseJsonToTokenList(context, stringBuilder.toString());
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-            }catch (IOException e) {
+            } catch (IOException e) {
                 Log.e(TAG, "Could not read from resource file at res/raw/tokens.json ", e);
             }
 
@@ -134,9 +137,9 @@ public final class TokenUtil {
      * @param saleAddress Optional sale address value if we are looking for a specific token response.
      */
     public static TokenItem getTokenItem(Context context, String saleAddress) {
-        if (mTokenItems != null && mTokenItems.size()>0) {
-            for (TokenItem item:  mTokenItems      ) {
-                if (item.address.equalsIgnoreCase(saleAddress)){
+        if (mTokenItems != null && mTokenItems.size() > 0) {
+            for (TokenItem item : mTokenItems) {
+                if (item.address.equalsIgnoreCase(saleAddress)) {
                     return item;
                 }
             }
@@ -158,9 +161,8 @@ public final class TokenUtil {
             // rather than on an instance of the class.
             synchronized (TokenItem.class) {
                 String responseBody = response.getBodyText();
-                saveTokenListToFile(context, responseBody);
-                MyLog.i("++++++++++++++++++++++已获取");
                 mTokenItems = parseJsonToTokenList(context, responseBody);
+                saveTokenListToFile(context, responseBody);
             }
         }
     }
@@ -206,6 +208,7 @@ public final class TokenUtil {
                 }
 
                 if (!Utils.isNullOrEmpty(address) && !Utils.isNullOrEmpty(name) && !Utils.isNullOrEmpty(symbol)) {
+                    assert ethWalletManager != null;
                     ethWalletManager.node.announceToken(address, symbol, name, "", decimals, null, null, 0);
 
                     // Keep a local reference to the token list, so that we can make token symbols to their
@@ -219,8 +222,8 @@ public final class TokenUtil {
                     if (tokenObject.has(FIELD_END_COLOR)) {
                         mEndColor = tokenObject.optString(FIELD_END_COLOR);
                     }
-                    MyLog.i("-------------------------ADDRESS-"+address);
-                    MyLog.i("-------------------------ADDRESS-"+symbol);
+                    MyLog.i("-------------------------ADDRESS-" + address);
+                    MyLog.i("-------------------------ADDRESS-" + symbol);
 
                     TokenItem item = new TokenItem(address, symbol, name, image);
 
@@ -241,7 +244,7 @@ public final class TokenUtil {
     private static void saveTokenListToFile(Context context, String jsonResponse) {
         String filePath = context.getFilesDir().getAbsolutePath() + File.separator + TOKENS_FILENAME;
         try {
-            BufferedWriter fileWriter = new BufferedWriter (new OutputStreamWriter(new FileOutputStream(filePath,true),"UTF-8"));
+            BufferedWriter fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath, true), "UTF-8"));
 //            FileWriter fileWriter = new FileWriter(filePath);
             fileWriter.write(jsonResponse);
             fileWriter.flush();
@@ -256,19 +259,20 @@ public final class TokenUtil {
             File tokensFile = new File(context.getFilesDir().getPath() + File.separator + TOKENS_FILENAME);
             byte[] fileBytes;
             if (tokensFile.exists()) {
-                FileInputStream  fileInputStream = new FileInputStream(tokensFile);
+                FileInputStream fileInputStream = new FileInputStream(tokensFile);
                 int size = fileInputStream.available();
                 fileBytes = new byte[size];
                 fileInputStream.read(fileBytes);
                 fileInputStream.close();
-            } else{
-                InputStream json=context.getResources().openRawResource(R.raw.tokens);
-                int size=json.available();
-                 fileBytes = new byte[size];
+            } else {
+                InputStream json = context.getResources().openRawResource(R.raw.tokens);
+                int size = json.available();
+                fileBytes = new byte[size];
                 json.read(fileBytes);
                 json.close();
             }
-            return parseJsonToTokenList(context, new String(fileBytes,"UTF-8"));
+//            return parseJsonToTokenList(context, new String(fileBytes,"UTF-8"));
+            return parseJsonToTokenList(context, new String(fileBytes));
 
         } catch (IOException e) {
             Log.e(TAG, "Error reading tokens.json file: ", e);
@@ -305,7 +309,7 @@ public final class TokenUtil {
             }
         }
 
-        return "";
+        return "#ffffff";
     }
 
     public static String getTokenEndColor(String currencyCode) {
@@ -315,6 +319,6 @@ public final class TokenUtil {
             }
         }
 
-        return "";
+        return "#ffffff";
     }
 }

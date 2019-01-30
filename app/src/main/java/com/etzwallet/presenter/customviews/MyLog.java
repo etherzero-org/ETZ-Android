@@ -37,7 +37,7 @@ public class MyLog {
      */
     public static boolean isDebuggable() {
 //		return com.etzwallet.BuildConfig.DEBUG;
-        return false;
+        return true;
     }
 
     private static String createLog(String log) {

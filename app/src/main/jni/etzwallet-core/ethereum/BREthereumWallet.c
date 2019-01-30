@@ -29,6 +29,7 @@
 #include "BREthereumPrivate.h"
 #include "BRArray.h"
 #include "android/log.h"
+
 #define DEFAULT_ETHER_GAS_PRICE_NUMBER   18000000000 // 18 GWEI
 #define DEFAULT_ETHER_GAS_PRICE_UNIT     WEI
 
@@ -314,7 +315,6 @@ walletSignTransaction(BREthereumWallet wallet,
     // RLP Encode the UNSIGNED transaction
     BRRlpData transactionUnsignedRLP = transactionEncodeRLP
     (transaction, wallet->network, TRANSACTION_RLP_UNSIGNED);
-    
     // Sign the RLP Encoded bytes.
     BREthereumSignature signature = accountSignBytes
     (wallet->account,
@@ -323,10 +323,24 @@ walletSignTransaction(BREthereumWallet wallet,
      transactionUnsignedRLP.bytes,
      transactionUnsignedRLP.bytesCount,
      paperKey);
-    
     // Attach the signature
     transactionSign(transaction, wallet->account, signature);
 }
+//extern void
+//ToString(u_int8_t array[], int array_size)
+//{
+//    char *p;
+//    int i;
+//    p = (char*)malloc(array_size + 1);
+//    for(i = 0; i < array_size; i++)
+//    {
+//        __android_log_print(ANDROID_LOG_INFO, "addressObject=2==", "addressObject=2==%d\n",array[i]);
+//        sprintf((p+i),"%x",array[i]);
+//        //*(p+i) = aa;
+//    }
+//    *(p+i) = '\0';
+//        __android_log_print(ANDROID_LOG_INFO, "addressObject=2==", "addressObject=2==%s\n",p );
+//}
 
 // For now.
 extern void

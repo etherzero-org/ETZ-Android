@@ -51,12 +51,14 @@ public class HomeActivity extends BRActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fg = new Fragment[3];
         main_daohanglan = findViewById(R.id.main_daohanglan);
         mFm = getSupportFragmentManager();
         mCurrentFragmen = createFragment(0);
         mActivity = this;
-        initView();
-        initData();
+        findViewById(R.id.main_ll_wallet).setOnClickListener(this);
+        findViewById(R.id.main_ll_discivery).setOnClickListener(this);
+        findViewById(R.id.main_ll_my).setOnClickListener(this);
         isClickLL(true, false, false);
         showFagment(0);
         //检查新版本
@@ -68,16 +70,6 @@ public class HomeActivity extends BRActivity implements OnClickListener {
             }
         });
 
-    }
-
-    private void initView() {
-        findViewById(R.id.main_ll_wallet).setOnClickListener(this);
-        findViewById(R.id.main_ll_discivery).setOnClickListener(this);
-        findViewById(R.id.main_ll_my).setOnClickListener(this);
-    }
-
-    private void initData() {
-        fg = new Fragment[3];
     }
 
     @Override

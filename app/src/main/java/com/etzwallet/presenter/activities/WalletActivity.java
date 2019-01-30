@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ViewFlipper;
 
+import com.etzwallet.BreadApp;
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.settings.WebViewActivity;
 import com.etzwallet.presenter.activities.util.BRActivity;
@@ -52,7 +53,8 @@ import com.etzwallet.wallet.util.HttpUtils;
 import com.etzwallet.wallet.wallets.CryptoAddress;
 import com.etzwallet.wallet.wallets.bitcoin.BaseBitcoinWalletManager;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
-import  java.lang.Double;
+
+import java.lang.Double;
 
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -144,7 +146,6 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         mToolbar = findViewById(R.id.bread_bar);
 
 
-
         mBackButton = findViewById(R.id.back_icon);
         mSendButton = findViewById(R.id.send_button);
         mReceiveButton = findViewById(R.id.receive_button);
@@ -224,16 +225,16 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         updateUi();
 
 
-
-
-        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-            @Override
-            public void run() {
-                Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
+        if (WalletsMaster.getInstance(BreadApp.getBreadContext()).getCurrentWallet(BreadApp.getBreadContext()).getIso().equalsIgnoreCase("BTC")) {
+            BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+                @Override
+                public void run() {
+                    Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
 //                WalletsMaster.getInstance(app).refreshBalances(app);
-                WalletsMaster.getInstance(getApplication()).getCurrentWallet(getApplication()).refreshAddress(getApplication());
-            }
-        });
+                    WalletsMaster.getInstance(getApplication()).getCurrentWallet(getApplication()).refreshAddress(getApplication());
+                }
+            });
+        }
 
         // Check if the "Twilight" screen altering app is currently running
         if (Utils.checkIfScreenAlteringAppIsRunning(this, "com.urbandroid.lux")) {
@@ -248,10 +249,10 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
 
     }
 
-    InternetManager.ConnectionReceiverListener crListener=new InternetManager.ConnectionReceiverListener() {
+    InternetManager.ConnectionReceiverListener crListener = new InternetManager.ConnectionReceiverListener() {
         @Override
         public void onConnectionChanged(boolean isConnected) {
-            MyLog.d( "onConnectionChanged: isConnected: " + isConnected);
+            MyLog.d("onConnectionChanged: isConnected: " + isConnected);
             if (isConnected) {
                 if (mBarFlipper != null && mBarFlipper.getDisplayedChild() == 2) {
                     mBarFlipper.setDisplayedChild(0);
@@ -299,19 +300,20 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         }
     }
 
-    private void getPower(CryptoAddress receiveAddr){
-        String powerUrl = "https://easyetz.io/etzq/api/v1/getPower?address="+receiveAddr;
+    private void getPower(CryptoAddress receiveAddr) {
+        String powerUrl = "https://easyetz.io/etzq/api/v1/getPower?address=" + receiveAddr;
 
         HttpUtils.sendOkHttpRequest(powerUrl, new Callback() {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 final String responseText = response.body().string();
-                try{
+                try {
                     JSONObject resObject = new JSONObject(responseText);
 
                     final String PowerValue = resObject.getString("result");
+                    MyLog.i("PowerValue=" + PowerValue);
                     runOnUiThread(new Runnable() {
-                    @Override
+                        @Override
                         public void run() {
 
                             BigDecimal bg = new BigDecimal(PowerValue);
@@ -322,7 +324,7 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
                         }
                     });
 
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -358,7 +360,7 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
     private void updateUi() {
         final BaseWalletManager wm = WalletsMaster.getInstance(this).getCurrentWallet(this);
         if (wm == null) {
-            MyLog.e( "updateUi: wallet is null");
+            MyLog.e("updateUi: wallet is null");
             return;
         }
 
@@ -376,29 +378,31 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         mCurrencyTitle.setText(wm.getName());
 
         //只在etz显示power 值
-        if(!wm.getIso().equalsIgnoreCase("ETZ")){
+        if (!wm.getIso().equalsIgnoreCase("ETZ")) {
             powerContainer.setVisibility(View.GONE);
 //            breadBar 设置高度 160dp  etz 200dp
 
-        }else{
+        } else {
             getPower(addr);
             powerContainer.setVisibility(View.VISIBLE);
 
+
             int b = cryptoBalance.length();
 
-            String c = cryptoBalance.substring(0,b-3).trim();
+            String c = cryptoBalance.substring(0, b - 3).trim();
 
+            MyLog.i("PowerValue=MAX=" + c + "b=" + b);
             DecimalFormat df = new DecimalFormat("#.00");//保留小数点后2位
-
-            double d = convertToDouble(c,0);
+            if (c.contains(",")) c = c.replace(",", "");
+            double d = convertToDouble(c, 0);
 
             String d1 = df.format(d);
 
-            double d2 = convertToDouble(d1,0);
+            double d2 = convertToDouble(d1, 0);
 //            float d2 = Double.valueOf(d1).floatValue();//数字格式异常。当试图将一个String转换为指定的数字类型，而该字符串确不满足数字类型要求的格式时，抛出该异常
-            double e1  = (double)-1/(d2*50);
-            double e2 = e1*10000;
-            double e3 = ( Math.exp(e2) *10000000 + 200000)*18*Math.pow(10,9)/Math.pow(10,18);
+            double e1 = (double) -1 / (d2 * 50);
+            double e2 = e1 * 10000;
+            double e3 = (Math.exp(e2) * 10000000 + 200000) * 18 * Math.pow(10, 9) / Math.pow(10, 18);
 
             BigDecimal bg = new BigDecimal(e3);
             double e4 = bg.setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -636,7 +640,7 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         if (progress != SyncService.PROGRESS_FINISH) {
             StringBuffer labelText = new StringBuffer(getString(R.string.SyncingView_syncing));
             labelText.append(' ')
-                     .append(NumberFormat.getPercentInstance().format(progress));
+                    .append(NumberFormat.getPercentInstance().format(progress));
             mProgressLabel.setText(labelText);
             mProgressLayout.setVisibility(View.VISIBLE);
 
@@ -695,10 +699,10 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
                     if (progress >= SyncService.PROGRESS_START) {
                         WalletActivity.this.updateSyncProgress(progress);
                     } else {
-                        MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: Progress not set:" + progress);
+                        MyLog.e("SyncNotificationBroadcastReceiver.onReceive: Progress not set:" + progress);
                     }
                 } else {
-                    MyLog.e( "SyncNotificationBroadcastReceiver.onReceive: Wrong wallet. Expected:"
+                    MyLog.e("SyncNotificationBroadcastReceiver.onReceive: Wrong wallet. Expected:"
                             + mCurrentWalletIso + " Actual:" + intentWalletIso + " Progress:" + progress);
                 }
             }

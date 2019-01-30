@@ -1,6 +1,7 @@
 package com.dapp;
 
 import android.app.Activity;
+import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -293,11 +294,11 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
                     BRReportsManager.reportBug(new NullPointerException("Wallet is null and it can't happen."), true);
                     return;
                 }
-                String rawAddress = d_to.getText().toString();
-                String value = d_value.getText().toString();
-                String gasL = d_gasl.getText().toString();
-                String gasP = d_gasp.getText().toString();
-                String data = d_data.getText().toString();
+                String rawAddress = d_to.getText().toString().trim();
+                String value = d_value.getText().toString().trim();
+                String gasL = d_gasl.getText().toString().trim();
+                String gasP = d_gasp.getText().toString().trim();
+                String data = d_data.getText().toString().trim();
                 BigDecimal rawAmount = new BigDecimal(Utils.isNullOrEmpty(value) ? "0" : value);
                 BigDecimal cryptoAmount = wm.getSmallestCryptoForCrypto(DappTransaction.this, rawAmount);
                 final CryptoRequest item = new CryptoRequest(null, false, "", rawAddress, cryptoAmount, data, gasL, gasP);
@@ -320,5 +321,10 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
     }
 }

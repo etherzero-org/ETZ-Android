@@ -514,12 +514,12 @@ public class FragmentSend extends Fragment {
                     return;
                 }
                 boolean allFilled = true;
-                String rawAddress = addressEdit.getText().toString();
-                String amountStr = amountBuilder.toString();
-                String comment = commentEdit.getText().toString();
-                String dataValue = commentData.getText().toString();
-                String gasL = gasLimitIpt.getText().toString();
-                String gasP = gasPriceIpt.getText().toString();
+                String rawAddress = addressEdit.getText().toString().trim();
+                String amountStr = amountBuilder.toString().trim();
+                String comment = commentEdit.getText().toString().trim();
+                String dataValue = commentData.getText().toString().trim();
+                String gasL = gasLimitIpt.getText().toString().trim();
+                String gasP = gasPriceIpt.getText().toString().trim();
 
 
                 dataValue = dataValue.toLowerCase();

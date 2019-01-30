@@ -1,6 +1,7 @@
 package com.platform;
 
 
+import android.accounts.AuthenticatorException;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.net.Uri;
@@ -52,6 +53,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.etzwallet.tools.manager.BRApiManager.HEADER_WALLET_ID;
+
 import io.sigpipe.jbsdiff.InvalidHeaderException;
 import io.sigpipe.jbsdiff.ui.FileUI;
 import okhttp3.Interceptor;
@@ -252,10 +254,10 @@ public class APIClient {
                     .post(requestBody).build();
             BRResponse response = sendRequest(request, false);
 
-            MyLog.i( "getToken: response==="+response.getBodyText());
+            MyLog.i("getToken: response===" + response.getBodyText());
 
             if (Utils.isNullOrEmpty(response.getBodyText())) {
-                MyLog.e( "getToken: retrieving token failed");
+                MyLog.e("getToken: retrieving token failed");
                 return null;
             }
             JSONObject obj = null;
@@ -286,17 +288,16 @@ public class APIClient {
         try {
             byte[] authKey = getCachedAuthKey();
             if (Utils.isNullOrEmpty(authKey)) {
-                BRReportsManager.reportBug(new IllegalArgumentException("Auth key is null!"));
-                MyLog.e( "signRequest: authkey is null");
+                MyLog.e("signRequest: authkey is null");
                 return null;
             }
             key = new BRCoreKey(authKey);
         } catch (IllegalArgumentException ex) {
             key = null;
-            MyLog.e( "signRequest: "+request+"--->IllegalArgumentException:"+ ex);
+            MyLog.e("signRequest: " + request + "--->IllegalArgumentException:" + ex);
         }
         if (key == null) {
-            MyLog.e( "signRequest: key is null, failed to create BRKey");
+            MyLog.e("signRequest: key is null, failed to create BRKey");
             return null;
         }
         byte[] signedBytes = key.compactSign(doubleSha256);
@@ -306,7 +307,7 @@ public class APIClient {
 
     private Response sendHttpRequest(Request locRequest, boolean withAuth) {
         if (ActivityUTILS.isMainThread()) {
-            MyLog.e( "urlGET: network on main thread");
+            MyLog.e("urlGET: network on main thread");
             throw new RuntimeException("network on main thread");
         }
         Map<String, String> headers = new HashMap<>(BreadApp.getBreadHeaders());
@@ -336,7 +337,7 @@ public class APIClient {
                     newBuilder.addHeader(HEADER_WALLET_ID, walletId);
                 } catch (IllegalArgumentException ex) {
                     BRReportsManager.reportBug(ex);
-                    MyLog.e("sendHttpRequest: "+ ex);
+                    MyLog.e("sendHttpRequest: " + ex);
                 }
             }
         }
@@ -345,6 +346,9 @@ public class APIClient {
         Request request = newBuilder.build();
         if (withAuth) {
             AuthenticatedRequest authenticatedRequest = authenticateRequest(request);
+            if (authenticatedRequest == null) {
+                return null;
+            }
             request = authenticatedRequest.getRequest();
             if (request == null) {
                 return null;
@@ -360,16 +364,19 @@ public class APIClient {
             }
             request = request.newBuilder().header("User-agent", Utils.getAgentString(mContext, "OkHttp/3.4.1")).build();
             rawResponse = mHTTPClient.newCall(request).execute();
-            MyLog.i( "sendHttpRequest: rawResponse==="+rawResponse);
+            MyLog.i("sendHttpRequest: rawResponse===" + rawResponse);
         } catch (IOException e) {
-            MyLog.e( "sendRequest: "+ e);
-            return new Response.Builder().code(599).request(request)
-                    .body(ResponseBody.create(null, e.getMessage())).protocol(Protocol.HTTP_1_1).build();
+            MyLog.e("sendRequest: " + e);
+            String error=e.toString();
+            MyLog.i("sendHttpRequest: rawResponse==="+error);
+//            return new Response.Builder().code(599).request(request)
+//                    .body(ResponseBody.create(null, Utils.isNullOrEmpty(error)?"":error)).protocol(Protocol.HTTP_1_1).build();
+            return null;
         }
         byte[] bytesBody = new byte[0];
         try {
             bytesBody = rawResponse.body().bytes();
-            MyLog.i( "sendHttpRequest: bytesBody=="+bytesBody);
+            MyLog.i("sendHttpRequest: bytesBody==" + bytesBody);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -379,7 +386,7 @@ public class APIClient {
         }
 
         if (rawResponse.header("content-encoding") != null && rawResponse.header("content-encoding").equalsIgnoreCase("gzip")) {
-            MyLog.d( "sendRequest: the content is gzip, unzipping");
+            MyLog.d("sendRequest: the content is gzip, unzipping");
 
             byte[] decompressed = gZipExtract(bytesBody);
             if (decompressed == null) {
@@ -388,7 +395,7 @@ public class APIClient {
             }
             return createNewResponseWithBody(rawResponse, decompressed);
         } else {
-            MyLog.i( "sendHttpRequest: 6666==="+createNewResponseWithBody(rawResponse, bytesBody));
+            MyLog.i("sendHttpRequest: 6666===" + createNewResponseWithBody(rawResponse, bytesBody));
             return createNewResponseWithBody(rawResponse, bytesBody);
         }
 
@@ -408,24 +415,27 @@ public class APIClient {
             if (response == null) {
                 return new BRResponse();
             }
+            if (response.code() == 401) {
+                return new BRResponse();
+            }
             if (response.isRedirect()) {
                 String newLocation = request.url().scheme() + "://" + request.url().host() + response.header("location");
                 Uri newUri = Uri.parse(newLocation);
                 if (newUri == null) {
-                    MyLog.e( "sendRequest: redirect uri is null");
+                    MyLog.e("sendRequest: redirect uri is null");
                     return createBrResponse(response);
                 } else if (!Utils.isEmulatorOrDebug(mContext) && (!newUri.getHost().equalsIgnoreCase(JsonRpcHelper.EASY_HOME)
                         || !newUri.getScheme().equalsIgnoreCase(PROTO))) {
-                    MyLog.e( "sendRequest: WARNING: redirect is NOT safe: " + newLocation);
+                    MyLog.e("sendRequest: WARNING: redirect is NOT safe: " + newLocation);
                     return createBrResponse(new Response.Builder().code(500).request(request)
-                            .body(ResponseBody.create(null, new byte[0])).protocol(Protocol.HTTP_1_1).build());
+                            .body(ResponseBody.create(null, new byte[0])).message("").protocol(Protocol.HTTP_1_1).build());
                 } else {
-                    MyLog.w( "redirecting: " + request.url() + " >>> " + newLocation);
+                    MyLog.w("redirecting: " + request.url() + " >>> " + newLocation);
                     return createBrResponse(sendHttpRequest(new Request.Builder().url(newLocation).get().build(), withAuth));
                 }
 
             } else if (withAuth && isBreadChallenge(response)) {
-                MyLog.d( "sendRequest: got authentication challenge from API - will attempt to get token, url -> " + request.url().toString());
+                MyLog.d("sendRequest: got authentication challenge from API - will attempt to get token, url -> " + request.url().toString());
                 int i = 0;
                 Response newResponse;
                 do {
@@ -437,9 +447,6 @@ public class APIClient {
                 return createBrResponse(newResponse);
             }
             return createBrResponse(response);
-        }catch (Exception e) {
-            BRReportsManager.reportBug(e);
-            return null;
         }
 
     }
@@ -528,7 +535,7 @@ public class APIClient {
         }
         File bundleFile = new File(getBundleResource(mContext, mBundleFileName));
         if (bundleFile.exists()) {
-            MyLog.d( bundleFile + ": updateBundle: exists");
+            MyLog.d(bundleFile + ": updateBundle: exists");
 
             byte[] bFile = new byte[0];
             try {
@@ -545,13 +552,13 @@ public class APIClient {
             UserMetricsManager.setBundleHash(hash);
             assert hash != null;
             currentTarVersion = Utils.bytesToHex(hash);
-            MyLog.d( bundleFile + ": updateBundle: version of the current tar: " + currentTarVersion);
+            MyLog.d(bundleFile + ": updateBundle: version of the current tar: " + currentTarVersion);
             if (latestVersion != null) {
                 if (latestVersion.equals(currentTarVersion)) {
-                    MyLog.d( bundleFile + ": updateBundle: have the latest version");
+                    MyLog.d(bundleFile + ": updateBundle: have the latest version");
                     tryExtractTar();
                 } else {
-                    MyLog.d( bundleFile + ": updateBundle: don't have the most recent version, download diff");
+                    MyLog.d(bundleFile + ": updateBundle: don't have the most recent version, download diff");
                     downloadDiff(currentTarVersion);
                     tryExtractTar();
                 }
@@ -560,28 +567,28 @@ public class APIClient {
             }
 
         } else {
-            MyLog.d( bundleFile + ": updateBundle: bundle doesn't exist, downloading new copy");
+            MyLog.d(bundleFile + ": updateBundle: bundle doesn't exist, downloading new copy");
             long startTime = System.currentTimeMillis();
             Request request = new Request.Builder()
                     .url(String.format("%s/assets/bundles/%s/download", BASE_URL, mBundleName))
                     .get().build();
-            MyLog.i("**********"+String.format("%s/assets/bundles/%s/download", BASE_URL, mBundleName));
+            MyLog.i("**********" + String.format("%s/assets/bundles/%s/download", BASE_URL, mBundleName));
             byte[] body;
             BRResponse response = sendRequest(request, false);
-            MyLog.d( bundleFile + ": updateBundle: Downloaded, took: " + (System.currentTimeMillis() - startTime));
-            if(response != null){
+            MyLog.d(bundleFile + ": updateBundle: Downloaded, took: " + (System.currentTimeMillis() - startTime));
+            if (response != null) {
                 body = writeBundleToFile(response.getBody());
                 if (Utils.isNullOrEmpty(body)) {
-                    MyLog.e( "updateBundle: body is null, returning.");
+                    MyLog.e("updateBundle: body is null, returning.");
                     return;
                 }
-            }else{
-                MyLog.e( "updateBundle: response is null, returning.");
+            } else {
+                MyLog.e("updateBundle: response is null, returning.");
                 return;
             }
             boolean b = tryExtractTar();
             if (!b) {
-                MyLog.e( "updateBundle: Failed to extract tar");
+                MyLog.e("updateBundle: Failed to extract tar");
             }
         }
 
@@ -600,7 +607,7 @@ public class APIClient {
 
         BRResponse response = sendRequest(request, false);
         try {
-            if(response != null){
+            if (response != null) {
                 JSONObject versionsJson = new JSONObject(response.getBodyText());
                 JSONArray jsonArray = versionsJson.getJSONArray("versions");
                 if (jsonArray.length() == 0) {
@@ -608,7 +615,7 @@ public class APIClient {
                 }
                 latestVersion = (String) jsonArray.get(jsonArray.length() - 1);
 
-            }else{
+            } else {
                 return null;
             }
 
@@ -627,7 +634,7 @@ public class APIClient {
                 .get().build();
         BRResponse resp = sendRequest(diffRequest, false);
         if (Utils.isNullOrEmpty(resp.getBodyText())) {
-            MyLog.e( "downloadDiff: no response");
+            MyLog.e("downloadDiff: no response");
             return;
         }
         File patchFile = null;
@@ -636,7 +643,7 @@ public class APIClient {
         try {
             patchFile = new File(getBundleResource(mContext, mBundleName + "-patch.diff"));
             patchBytes = resp.getBody();
-            MyLog.e( "downloadDiff: trying to write to file");
+            MyLog.e("downloadDiff: trying to write to file");
             FileUtils.writeByteArrayToFile(patchFile, patchBytes);
             tempFile = new File(getBundleResource(mContext, mBundleName + "-2temp.tar"));
             boolean a = tempFile.createNewFile();
@@ -644,11 +651,11 @@ public class APIClient {
             FileUI.patch(bundleFile, tempFile, patchFile);
             byte[] updatedBundleBytes = IOUtils.toByteArray(new FileInputStream(tempFile));
             if (Utils.isNullOrEmpty(updatedBundleBytes))
-                MyLog.e( "downloadDiff: failed to get bytes from the updatedBundle: " + tempFile.getAbsolutePath());
+                MyLog.e("downloadDiff: failed to get bytes from the updatedBundle: " + tempFile.getAbsolutePath());
             FileUtils.writeByteArrayToFile(bundleFile, updatedBundleBytes);
 
         } catch (IOException | InvalidHeaderException | CompressorException | NullPointerException e) {
-            MyLog.e( "Exception: "+ e);
+            MyLog.e("Exception: " + e);
             new File(getBundleResource(mContext, mBundleName + ".tar")).delete();
         } finally {
             if (patchFile != null) {
@@ -665,7 +672,7 @@ public class APIClient {
     public byte[] writeBundleToFile(byte[] response) {
         try {
             if (response == null) {
-                MyLog.e( "writeBundleToFile: WARNING, response is null");
+                MyLog.e("writeBundleToFile: WARNING, response is null");
                 return null;
             }
             File bundleFile = new File(getBundleResource(mContext, mBundleName + ".tar"));
@@ -681,11 +688,11 @@ public class APIClient {
     public boolean tryExtractTar() {
         Context app = BreadApp.getBreadContext();
         if (app == null) {
-            MyLog.e( "tryExtractTar: failed to extract, app is null");
+            MyLog.e("tryExtractTar: failed to extract, app is null");
             return false;
         }
         File bundleFile = new File(getBundleResource(mContext, mBundleName + ".tar"));
-        MyLog.e( "tryExtractTar: " + bundleFile.getAbsolutePath());
+        MyLog.e("tryExtractTar: " + bundleFile.getAbsolutePath());
         boolean result = false;
         TarArchiveInputStream debInputStream = null;
         try {
@@ -730,7 +737,7 @@ public class APIClient {
 
         try {
             if (res.getBodyText().isEmpty()) {
-                MyLog.e( "updateFeatureFlag: JSON empty");
+                MyLog.e("updateFeatureFlag: JSON empty");
                 return;
             }
 
@@ -745,12 +752,12 @@ public class APIClient {
                     boolean isPrivate = obj.getBoolean("private");
                     BRSharedPrefs.putFeatureEnabled(mContext, enabled, name);
                 } catch (Exception e) {
-                    MyLog.e( "malformed feature at position: " + i + ", whole json: " + res+"-->Exception:"+ e);
+                    MyLog.e("malformed feature at position: " + i + ", whole json: " + res + "-->Exception:" + e);
                 }
 
             }
         } catch (JSONException e) {
-            MyLog.e( "updateFeatureFlag: failed to pull up features");
+            MyLog.e("updateFeatureFlag: failed to pull up features");
             e.printStackTrace();
         }
 
@@ -775,13 +782,13 @@ public class APIClient {
             Request request = chain.request();
 
             long t1 = System.nanoTime();
-            MyLog.d( String.format("Sending request %s on %s%n%s",
+            MyLog.d(String.format("Sending request %s on %s%n%s",
                     request.url(), chain.connection(), request.headers()));
 
             Response response = chain.proceed(request);
 
             long t2 = System.nanoTime();
-            MyLog.d( String.format("Received response for %s in %.1fms%n%s",
+            MyLog.d(String.format("Received response for %s in %.1fms%n%s",
                     response.request().url(), (t2 - t1) / 1e6d, response.headers()));
 
             return response;
@@ -790,7 +797,7 @@ public class APIClient {
 
     public void updatePlatform(final Context app) {
         if (mIsPlatformUpdating) {
-            MyLog.e( "updatePlatform: platform already Updating!");
+            MyLog.e("updatePlatform: platform already Updating!");
             return;
         }
         mIsPlatformUpdating = true;
@@ -804,7 +811,7 @@ public class APIClient {
                 APIClient apiClient = APIClient.getInstance(mContext);
                 apiClient.updateBundle();
                 long endTime = System.currentTimeMillis();
-                MyLog.d( "updateBundle " + mBundleName + ": DONE in " + (endTime - startTime) + "ms");
+                MyLog.d("updateBundle " + mBundleName + ": DONE in " + (endTime - startTime) + "ms");
                 itemFinished();
             }
         });
@@ -823,7 +830,7 @@ public class APIClient {
                 APIClient apiClient = APIClient.getInstance(mContext);
                 apiClient.updateFeatureFlag();
                 long endTime = System.currentTimeMillis();
-                MyLog.d( "updateFeatureFlag: DONE in " + (endTime - startTime) + "ms");
+                MyLog.d("updateFeatureFlag: DONE in " + (endTime - startTime) + "ms");
                 itemFinished();
             }
         });
@@ -837,7 +844,7 @@ public class APIClient {
                 APIClient apiClient = APIClient.getInstance(mContext);
                 apiClient.syncKvStore();
                 long endTime = System.currentTimeMillis();
-                MyLog.d( "syncKvStore: DONE in " + (endTime - startTime) + "ms");
+                MyLog.d("syncKvStore: DONE in " + (endTime - startTime) + "ms");
                 itemFinished();
             }
         });
@@ -852,7 +859,7 @@ public class APIClient {
                     w.updateFee(app);
                 }
                 long endTime = System.currentTimeMillis();
-                MyLog.d( "update fee: DONE in " + (endTime - startTime) + "ms");
+                MyLog.d("update fee: DONE in " + (endTime - startTime) + "ms");
                 itemFinished();
             }
         });
@@ -862,7 +869,7 @@ public class APIClient {
     private void itemFinished() {
         int items = mItemsLeftToUpdate.incrementAndGet();
         if (items >= 4) {
-            MyLog.d( "PLATFORM ALL UPDATED: " + items);
+            MyLog.d("PLATFORM ALL UPDATED: " + items);
             mIsPlatformUpdating = false;
             mItemsLeftToUpdate.set(0);
         }
@@ -915,7 +922,7 @@ public class APIClient {
 
     private void logFiles(String tag, Context ctx) {
         if (PRINT_FILES) {
-            MyLog.e( "logFiles " + tag + " : START LOGGING");
+            MyLog.e("logFiles " + tag + " : START LOGGING");
             String path = getExtractedPath(ctx, null);
 
             File directory = new File(path);
@@ -924,7 +931,7 @@ public class APIClient {
             for (int i = 0; files != null && i < files.length; i++) {
                 MyLog.e("FileName:" + files[i].getName());
             }
-            MyLog.e( "logFiles " + tag + " : START LOGGING");
+            MyLog.e("logFiles " + tag + " : START LOGGING");
         }
     }
 
@@ -1020,8 +1027,8 @@ public class APIClient {
         public void print() {
             String logText = String.format(Locale.getDefault(), "%s (%d)|%s|", url, code, getBodyText());
             if (isSuccessful())
-                MyLog.d( "BRResponse:111 " + logText);
-            else MyLog.e( "BRResponse: " + logText);
+                MyLog.d("BRResponse:111 " + logText);
+            else MyLog.e("BRResponse: " + logText);
         }
     }
 

@@ -131,13 +131,13 @@ public class AddWalletsActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (mAdapter!=null)mAdapter.refreshList(getTokenList());
+        if (mAdapter != null) mAdapter.refreshList(getTokenList());
     }
-    private ArrayList<TokenItem> getTokenList(){
+
+    private ArrayList<TokenItem> getTokenList() {
         ArrayList<TokenItem> tokenItems = new ArrayList<>();
         TokenListMetaData md = KVStoreManager.getInstance().getTokenListMetaData(this);
         for (TokenItem tokenItem : TokenUtil.getTokenItems(this)) {
-            MyLog.e(tokenItem.symbol);
             if (!md.isCurrencyEnabled(tokenItem.symbol)) {
                 tokenItems.add(tokenItem);
             }

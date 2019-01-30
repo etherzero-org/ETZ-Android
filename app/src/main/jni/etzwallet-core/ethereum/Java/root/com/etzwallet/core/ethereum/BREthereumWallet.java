@@ -306,6 +306,7 @@ public class BREthereumWallet extends BREthereumLightNode.ReferenceWithDefaultUn
      */
     public void sign (BREthereumTransaction transaction,
                       String paperKey) {
+        MyLog.i("transaction-------ID="+transaction.identifier);
         node.get().jniSignTransaction(identifier, transaction.identifier, paperKey);
     }
 

@@ -136,7 +136,7 @@ public class FragmentFingerprint extends Fragment
         animateBackgroundDim(true);
         animateSignalSlide(true);
         if (!authSucceeded)
-            completion.onCancel();
+            if (completion != null)completion.onCancel();
     }
 
     @Override

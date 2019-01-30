@@ -370,7 +370,7 @@ public class BRKeyStore {
                     }
                 } catch (IllegalBlockSizeException | BadPaddingException e) {
                     e.printStackTrace();
-                    throw new RuntimeException("failed to decrypt data: " + e.getMessage());
+                    throw new RuntimeException("failed to decrypt data: " + e.toString());
                 }
             }
             //no new format data, get the old one and migrate it to the new format

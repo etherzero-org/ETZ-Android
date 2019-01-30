@@ -135,7 +135,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 return;
             }
             if (Utils.isNullOrEmpty(paperKey)) {
-                alertDialog(app, "助记词为空！没有创建钱包！");
+                alertDialog(BreadApp.getBreadContext(), "助记词为空！没有创建钱包！");
                 MyLog.e("WalletEthManager: paper key is empty too, no wallet!");
                 return;
             }
@@ -157,7 +157,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             mWallet = node.getWallet();
 
             if (null == mWallet) {
-                alertDialog(app, "使用助记词创建ETZ钱包失败！");
+                alertDialog(BreadApp.getBreadContext(), "使用助记词创建ETZ钱包失败！");
                 MyLog.e("WalletEthManager: failed to create the ETH wallet using paperKey.");
                 return;
             }
@@ -171,7 +171,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             mWallet = node.getWallet();
 
             if (null == mWallet) {
-                alertDialog(app, "使用保存的公钥创建ETZ钱包失败！");
+                alertDialog(BreadApp.getBreadContext(), "使用保存的公钥创建ETZ钱包失败！");
                 MyLog.e("WalletEthManager: failed to create the ETH wallet using saved publicKey.");
                 return;
             }
@@ -231,7 +231,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
 
         if (!fullAddress.equals(addr.toLowerCase())) {
-            alertDialog(app, app.getString(R.string.Alert_keystore_generic_android_bug)+"y=="+addr+":x=="+fullAddress);
+            alertDialog(BreadApp.getBreadContext(), app.getString(R.string.Alert_keystore_generic_android_bug)+"y=="+addr+":x=="+fullAddress);
         }
         BRSharedPrefs.putFirstCreate(app, false);
     }
@@ -671,7 +671,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         BigDecimal cryptoAmount = amount.divide(ONE_ETH, 8, BRConstants.ROUNDING_MODE);
 
         BigDecimal fiatData = getFiatForEth(app, cryptoAmount, iso);
-        if (fiatData == null) return null;
+        if (fiatData == null) return BigDecimal.ZERO;
         return fiatData;
     }
 
@@ -972,6 +972,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             MyLog.i("submitTransaction: rid:" + rid);
         }
         MyLog.i("submitTransaction: rawTransaction:" + rawTransaction);
+
         BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
@@ -990,7 +991,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
 
-                MyLog.i("payload"+payload.toString());
+                MyLog.i("payload--------"+payload.toString());
                 JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), eth_url, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {

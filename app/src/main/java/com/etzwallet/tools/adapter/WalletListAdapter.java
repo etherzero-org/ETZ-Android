@@ -137,6 +137,7 @@ public class WalletListAdapter extends RecyclerView.Adapter<WalletListAdapter.Wa
 
             Drawable drawable = mContext.getResources().getDrawable(R.drawable.crypto_card_shape, null).mutate();
             //create gradient with 2 colors if exist
+            if (Utils.isNullOrEmpty(startColor))startColor="#ff9d9d9d";
             ((GradientDrawable) drawable).setColors(new int[]{Color.parseColor(startColor), Color.parseColor(endColor == null ? startColor : endColor)});
             ((GradientDrawable) drawable).setOrientation(GradientDrawable.Orientation.LEFT_RIGHT);
             holder.mParent.setBackground(drawable);

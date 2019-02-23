@@ -55,8 +55,10 @@ import org.web3j.crypto.Keys;
 import java.math.BigDecimal;
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import io.github.novacrypto.bip32.ExtendedPrivateKey;
 import io.github.novacrypto.bip32.networks.Bitcoin;
@@ -782,7 +784,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
                 MyLog.i("getETZBalanceurl=" + ethRpcUrl.toString());
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequest(BreadApp.getMyApp(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         try {
@@ -831,7 +833,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequestGet(BreadApp.getMyApp(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         try {
@@ -882,7 +884,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), ethUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequest(BreadApp.getMyApp(), ethUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         try {
@@ -939,7 +941,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), ethUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequest(BreadApp.getMyApp(), ethUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         try {
@@ -992,7 +994,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 }
 
                 MyLog.i("payload--------"+payload.toString());
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), eth_url, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequest(BreadApp.getMyApp(), eth_url, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         String txHash = null;
@@ -1086,7 +1088,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
                 MyLog.i("onRpcRequestCompleted: payload=222==" + payload.toString());
-                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequestGet(BreadApp.getMyApp(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         MyLog.i("onRpcRequestCompleted: responseObject=222==" + jsonResult);
@@ -1252,6 +1254,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             return;
         }
         String contractAddress="";
+        String fromBlock;
         if (!Utils.isNullOrEmpty(contract)) {
             contractAddress = contract;
         }else {
@@ -1274,14 +1277,36 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
             }
         }
+        Map<String, String> tokenBlock = new HashMap<>();
+        tokenBlock.put("0x013b6e279989aa20819a623630fe678c9f43a48f","6095689");
+        tokenBlock.put("0x7be53cb8416ff6d528e336e62887ffd5542d37fa","8821892");
+        tokenBlock.put("0xe98a268ae148ecdfc4a8e029261d8e1d8c4d8783","3379351");
+        tokenBlock.put("0xb85581c73afbf7f899abacb84d795202abe5033d","2530078");
+        tokenBlock.put("0xf30d911f189c17635c3047538f98a1fedb8875ff","104358");
+        tokenBlock.put("0x0f078ac34a827c16dd1af5fb6d1549cda74e856e","105249");
+        tokenBlock.put("0xfddb863dbff0632d57571a5af38482966e722ab4","377455");
+        tokenBlock.put("0x290a82fd9c3b1d599faf3181739a17f6f8d4cff0","1785447");
+
+        String block=BRSharedPrefs.getTokenLogBlock(BreadApp.getBreadContext(),contractAddress);
+
+        if (Utils.isNullOrEmpty(block)){
+            if(tokenBlock.containsKey(contractAddress)){
+                fromBlock=tokenBlock.get(contractAddress);
+            }else {
+                fromBlock="8821892";
+            }
+        }else {
+            fromBlock=block;
+        }
 
         final String finalContractAddress = contractAddress;
+        final String fBlock=fromBlock;
         BRExecutor.getInstance().forBackgroundTasks().execute(new Runnable() {
             @Override
             public void run() {
-                final String ethRpcUrl = JsonRpcHelper.createLogsUrl(address, finalContractAddress, event);
+                final String ethRpcUrl = JsonRpcHelper.createLogsUrl(address, finalContractAddress, fBlock);
                 MyLog.i("run: ethRpcUrl=ethRpcUrl===" + ethRpcUrl);
-                MyLog.i("run: ethRpcUrl=event===" + event);
+                MyLog.i("run: ethRpcUrl=event===" + fBlock);
                 MyLog.i("run: ethRpcUrl=contract===" + finalContractAddress);
                 MyLog.i("run: ethRpcUrl=address===" + address);
 
@@ -1293,7 +1318,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequestGet(BreadApp.getBreadContext(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequestGet(BreadApp.getMyApp(), ethRpcUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         MyLog.i("run: ethRpcUrl=logs===" + jsonResult);
@@ -1306,31 +1331,49 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
                                 // Iterate through the list of transactions and call node.announceTransaction()
                                 // to notify the core
-                                for (int i = 0; i < logsArray.length(); i++) {
+
+                                int size=logsArray.length()>100?100:logsArray.length();
+                                for (int i = 0; i < size; i++) {
                                     JSONObject log = logsArray.getJSONObject(i);
 
                                     MyLog.d("LogObject contains -> " + log.toString());
 
-                                    JSONArray topicsArray = log.getJSONArray(JsonRpcHelper.TOPICS);
+                                    JSONArray topicsArray = log.getJSONArray("topics");
                                     String[] topics = new String[topicsArray.length()];
                                     for (int dex = 0; dex < topics.length; dex++) {
                                         topics[dex] = topicsArray.getString(dex);
                                     }
 
+//                                    node.announceLog(rid,
+//                                            log.getString(JsonRpcHelper.TRANSACTION_HASH),
+//                                            log.getString(JsonRpcHelper.ADDRESS), // contract
+//                                            topics,
+//                                            log.getString(JsonRpcHelper.DATA),
+//                                            log.getString(JsonRpcHelper.GAS_PRICE),
+//                                            log.getString(JsonRpcHelper.GAS_USED),
+//                                            log.getString(JsonRpcHelper.LOG_INDEX),
+//                                            log.getString(JsonRpcHelper.BLOCK_NUMBER),
+//                                            log.getString(JsonRpcHelper.TRANSACTION_INDEX),
+//                                            log.getString(JsonRpcHelper.TIMESTAMP));
                                     node.announceLog(rid,
-                                            log.getString(JsonRpcHelper.TRANSACTION_HASH),
-                                            log.getString(JsonRpcHelper.ADDRESS), // contract
+                                            log.getString("txHash"),
+                                            log.getString("address"), // contract
                                             topics,
-                                            log.getString(JsonRpcHelper.DATA),
-                                            log.getString(JsonRpcHelper.GAS_PRICE),
-                                            log.getString(JsonRpcHelper.GAS_USED),
-                                            log.getString(JsonRpcHelper.LOG_INDEX),
-                                            log.getString(JsonRpcHelper.BLOCK_NUMBER),
-                                            log.getString(JsonRpcHelper.TRANSACTION_INDEX),
-                                            log.getString(JsonRpcHelper.TIMESTAMP));
+                                            log.getString("data"),
+                                            log.getString("gasPrice"),
+                                            log.getString("gasUsed"),
+                                            log.getString("logIndex"),
+                                            log.getString("blockNumber"),
+//                                            log.getString(JsonRpcHelper.TRANSACTION_INDEX),
+                                            "0",
+                                            log.getString("timestamp"));
+                                    if (i==size-1){
+                                        BRSharedPrefs.putTokenLogBlock(BreadApp.getBreadContext(),finalContractAddress.toLowerCase(),log.getString("blockNumber"));
+                                    }
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
+                                MyLog.i("run: ethRpcUrl=logs===JONE =="+e.toString());
                             }
                         }
                     }
@@ -1362,7 +1405,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), eth_url, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequest(BreadApp.getMyApp(), eth_url, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         try {
@@ -1530,7 +1573,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                     e.printStackTrace();
                 }
 
-                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), ethUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                JsonRpcHelper.makeRpcRequest(BreadApp.getMyApp(), ethUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
                     @Override
                     public void onRpcRequestCompleted(String jsonResult) {
                         try {

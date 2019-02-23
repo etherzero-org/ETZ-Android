@@ -148,7 +148,7 @@ public class JsonRpcHelper {
         return PROTOCOL + "://" + EASY_HOME +"api/v1/getEtzTxlist?address="+address;
     }
     //代币交易记录
-    public static String createLogsUrl(String address, String contract, String event) {
+    public static String createLogsUrl(String address, String contract, String fromBlock) {
 
 //        return PROTOCOL + "://" + EASY_HOME + "api/v1/gettokenLogs?"
 //                + "module=logs&action=getLogs"
@@ -160,7 +160,10 @@ public class JsonRpcHelper {
 //                + "&topic2=" + address;
 
 //        https://openetz.org/etzq/api/v1/gettokenLogs?address=0x86d105D5FA67F3eEf986F75b7e63C6664f88319A&topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef&topic1=0x000000000000000000000000c158bae8a8bb67fb095eec9aa72e641004e2597e
-        return PROTOCOL + "://" + EASY_HOME + "api/v1/gettokenLogs?" + (null == contract ? "" : ("address=" + contract+"&")) + "topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" + "&topic1=" + address;
+//        return PROTOCOL + "://" + EASY_HOME + "api/v1/gettokenLogs?" + (null == contract ? "" : ("address=" + contract+"&")) + "topic0=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef" + "&topic1=" + address;
+        return PROTOCOL + "://" + "etzscan.com/publicAPI?module=logs&action=getLogs&" + (null == contract ? "" : ("address=" + contract+"&")) + "&fromBlock="+fromBlock+"&topic_oprs=0_and,1_2_or"
+                +"&topics=0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef,"+address+"," + address+"&apikey=YourApiKeyToken";
+
     }
 
     @WorkerThread

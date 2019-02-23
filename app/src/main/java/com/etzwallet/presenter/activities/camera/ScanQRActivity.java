@@ -13,10 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.MyLog;
+import com.etzwallet.presenter.fragments.FragmentDiscovery;
 import com.etzwallet.tools.animation.SpringAnimator;
 import com.etzwallet.tools.qrcode.QRCodeReaderView;
 import com.etzwallet.wallet.WalletsMaster;
@@ -176,7 +178,10 @@ public class ScanQRActivity extends BRActivity implements ActivityCompat.OnReque
         lastUpdated = System.currentTimeMillis();
         if (handlingCode) return;
         handlingCode = true;
-        if (CryptoUriParser.isCryptoUrl(this, text) || BRBitId.isBitId(text)) {
+        if(text.contains("http")&&FragmentDiscovery.fd!=null){//扫描加载DAPP
+            FragmentDiscovery.fd.initUrl(text);
+            finish();
+        } else if (CryptoUriParser.isCryptoUrl(this, text) || BRBitId.isBitId(text)) {//扫描地址转帐
             MyLog.e("onQRCodeRead: isCrypto");
             runOnUiThread(new Runnable() {
                 @Override
@@ -194,7 +199,7 @@ public class ScanQRActivity extends BRActivity implements ActivityCompat.OnReque
 
                 }
             });
-        } else {
+        }else {
             MyLog.e( "onQRCodeRead: not a crypto url");
             runOnUiThread(new Runnable() {
                 @Override

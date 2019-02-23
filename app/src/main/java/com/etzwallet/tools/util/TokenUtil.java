@@ -26,6 +26,7 @@
 package com.etzwallet.tools.util;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.etzwallet.BreadApp;
@@ -33,6 +34,7 @@ import com.etzwallet.R;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.tools.threads.executor.BRExecutor;
+import com.etzwallet.wallet.util.HttpUtils;
 import com.etzwallet.wallet.util.JsonRpcHelper;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import com.etzwallet.wallet.wallets.ethereum.WalletTokenManager;
@@ -56,6 +58,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -156,11 +159,14 @@ public final class TokenUtil {
 
     public static void fetchTokensFromServer(Context context) {
         APIClient.BRResponse response = fetchTokensFromServer(context, JsonRpcHelper.getTokenListUrl());
+        MyLog.i("-------------------------ADDRESS-" + "请求数据");
         if (response != null && !response.getBodyText().isEmpty()) {
             // Synchronize on the class object since getTokenItems is static and also synchronizes on the class object
             // rather than on an instance of the class.
             synchronized (TokenItem.class) {
                 String responseBody = response.getBodyText();
+                MyLog.i("-------------------------response-" + responseBody);
+                MyLog.i("-------------------------ADDRESS-" + "请求到数据");
                 mTokenItems = parseJsonToTokenList(context, responseBody);
                 saveTokenListToFile(context, responseBody);
             }
@@ -209,8 +215,7 @@ public final class TokenUtil {
 
                 if (!Utils.isNullOrEmpty(address) && !Utils.isNullOrEmpty(name) && !Utils.isNullOrEmpty(symbol)) {
                     assert ethWalletManager != null;
-                    ethWalletManager.node.announceToken(address, symbol, name, "", decimals, null, null, 0);
-
+                        ethWalletManager.node.announceToken(address, symbol, name, "", decimals, null, null, 0);
                     // Keep a local reference to the token list, so that we can make token symbols to their
                     // gradient colors in WalletListAdapter
                     if (tokenObject.has(FIELD_IMAG)) {
@@ -259,12 +264,14 @@ public final class TokenUtil {
             File tokensFile = new File(context.getFilesDir().getPath() + File.separator + TOKENS_FILENAME);
             byte[] fileBytes;
             if (tokensFile.exists()) {
+                MyLog.i("-------------------------ADDRESS-" + "文件");
                 FileInputStream fileInputStream = new FileInputStream(tokensFile);
                 int size = fileInputStream.available();
                 fileBytes = new byte[size];
                 fileInputStream.read(fileBytes);
                 fileInputStream.close();
             } else {
+                MyLog.i("-------------------------ADDRESS-" + "系统");
                 InputStream json = context.getResources().openRawResource(R.raw.tokens);
                 int size = json.available();
                 fileBytes = new byte[size];
@@ -320,5 +327,27 @@ public final class TokenUtil {
         }
 
         return "#ffffff";
+    }
+    public  static void getTokenDatas(){
+        HttpUtils.sendOkHttpRequest(JsonRpcHelper.getTokenListUrl(), new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, Response response) throws IOException {
+//                MyLog.i("-------------------------response-" + response.body().string());
+                synchronized (TokenItem.class) {
+                    assert response.body() != null;
+                    String responseBody = response.body().string();
+                    MyLog.i("-------------------------response-" + responseBody);
+                    MyLog.i("-------------------------ADDRESS-" + "请求到数据");
+//                    mTokenItems = parseJsonToTokenList(BreadApp.getBreadContext(), responseBody);
+                    saveTokenListToFile(BreadApp.getBreadContext(), responseBody);
+                }
+
+            }
+        });
     }
 }

@@ -21,8 +21,8 @@ public class WelcomeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
-
-        new TimeCount(1500,100).start();
+        BreadApp.setBreadContext(this);
+        new TimeCount(1500, 100).start();
     }
 
     @Override
@@ -46,16 +46,13 @@ public class WelcomeActivity extends Activity {
     }
 
 
-    class TimeCount extends CountDownTimer
-    {
-        public TimeCount(long millisInFuture, long countDownInterval)
-        {
+    class TimeCount extends CountDownTimer {
+        public TimeCount(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);// 参数依次为总时长,和计时的时间间隔
         }
 
         @Override
-        public void onFinish()
-        {// 计时完毕时触发
+        public void onFinish() {// 计时完毕时触发
             String byt = BRKeyStore.getPinCode(BreadApp.getBreadContext());
             if (BRSharedPrefs.getIsSetPinCode(BreadApp.getBreadContext()) || !Utils.isNullOrEmpty(byt)) {
                 MyLog.i("WelcomeActivity---有pin码");
@@ -69,8 +66,7 @@ public class WelcomeActivity extends Activity {
         }
 
         @Override
-        public void onTick(long millisUntilFinished)
-        {// 计时过程显示
+        public void onTick(long millisUntilFinished) {// 计时过程显示
 
         }
     }

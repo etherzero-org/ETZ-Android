@@ -596,4 +596,16 @@ import java.util.UUID;
         editor.putString("NodeList", jsonSting);
         editor.apply();
     }
+    public static String getTokenLogBlock(Context context,String cAddress) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        String block=prefs.getString(cAddress , "");
+        return block;
+
+    }
+    public static void putTokenLogBlock(Context context, String cAddress,String block) {
+        SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(cAddress, block);
+        editor.apply();
+    }
 }

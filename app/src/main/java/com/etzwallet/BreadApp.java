@@ -161,13 +161,14 @@ public class BreadApp extends Application {
         registerReceiver(InternetManager.getInstance(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
 
         mObserver = new ApplicationLifecycleObserver();
-        ProcessLifecycleOwner.get().getLifecycle().addObserver(mObserver);
-        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-            @Override
-            public void run() {
-                TokenUtil.fetchTokensFromServer(BreadApp.getBreadContext());
-            }
-        });
+//        ProcessLifecycleOwner.get().getLifecycle().addObserver(mObserver);
+//        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                TokenUtil.fetchTokensFromServer(BreadApp.getBreadContext());
+
+//        });
+        TokenUtil.getTokenDatas();
 
     }
 

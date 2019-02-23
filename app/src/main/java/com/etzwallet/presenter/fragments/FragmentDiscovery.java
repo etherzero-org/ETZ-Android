@@ -60,9 +60,11 @@ import com.etzwallet.presenter.activities.HomeActivity;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
+import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.qrcode.QRUtils;
+import com.etzwallet.tools.util.BRConstants;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 
@@ -92,6 +94,7 @@ public class FragmentDiscovery extends Fragment {
     private BRText web_close;
     private EditText input;
     private ImageButton btn;
+    private ImageButton web_scan;
     private RelativeLayout webBar;
     private LinearLayout web_input_dapp;
 
@@ -105,6 +108,7 @@ public class FragmentDiscovery extends Fragment {
     String languageCode;
 
     private Map<String, Object> mapf = null;
+    public static FragmentDiscovery fd=null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,6 +121,7 @@ public class FragmentDiscovery extends Fragment {
         web_refresh = rootView.findViewById(R.id.web_refresh);
         input = rootView.findViewById(R.id.web_input);
         btn = rootView.findViewById(R.id.web_btn);
+        web_scan = rootView.findViewById(R.id.web_scan);
         web_back_up = rootView.findViewById(R.id.web_back_up);
         web_close = rootView.findViewById(R.id.web_close);
         webBar = rootView.findViewById(R.id.web_rl_title);
@@ -128,6 +133,7 @@ public class FragmentDiscovery extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        fd=this;
         languageCode = Locale.getDefault().getLanguage();
         initView();
         webHome.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +148,13 @@ public class FragmentDiscovery extends Fragment {
             public void onClick(View v) {
                 isShowTitle();
                 web.loadUrl("https://dapp.easyetz.io/");
+            }
+        });
+        web_scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                BRAnimator.openScanner(getActivity(), BRConstants.SCANNER_REQUEST);
             }
         });
         btn.setOnClickListener(new View.OnClickListener() {
@@ -184,8 +197,8 @@ public class FragmentDiscovery extends Fragment {
         web_close.setVisibility(View.GONE);
         webHome.setVisibility(View.GONE);
         web_back_up.setVisibility(View.GONE);
-//        webTitle.setVisibility(View.GONE);
-//        web_input_dapp.setVisibility(View.VISIBLE);
+        webTitle.setVisibility(View.GONE);
+        web_input_dapp.setVisibility(View.VISIBLE);
         HomeActivity.getApp().isShowNavigationBar(true);
     }
 
@@ -198,8 +211,8 @@ public class FragmentDiscovery extends Fragment {
             webHome.setVisibility(View.VISIBLE);
         }
         web_back_up.setVisibility(View.VISIBLE);
-//        webTitle.setVisibility(View.VISIBLE);
-//        web_input_dapp.setVisibility(View.GONE);
+        webTitle.setVisibility(View.VISIBLE);
+        web_input_dapp.setVisibility(View.GONE);
         HomeActivity.getApp().isShowNavigationBar(false);
     }
 
@@ -318,7 +331,8 @@ public class FragmentDiscovery extends Fragment {
 
                 mFailingUrl = url;
                 MyLog.i("weburl=" + url);
-                if (url.contains("dapp.easyetz.io")) {
+//                if (url.contains("dapp.easyetz.io")) {
+                if (url.equalsIgnoreCase("https://dapp.easyetz.io/")) {
                     isShowTitle();
 
                 } else {
@@ -586,7 +600,8 @@ public class FragmentDiscovery extends Fragment {
             if (historyItem != null) {
                 String backPageUrl = historyItem.getUrl();
                 MyLog.i("backPageUrl=" + backPageUrl);
-                if (backPageUrl.contains("dapp.easyetz.io")) {
+//                if (backPageUrl.contains("dapp.easyetz.io")) {
+                if (backPageUrl.equalsIgnoreCase("https://dapp.easyetz.io/")||backPageUrl.equalsIgnoreCase("https://dapp.easyetz.io/#/")) {
                     isShowTitle();
 
                 } else {
@@ -788,4 +803,11 @@ public class FragmentDiscovery extends Fragment {
         return "com.android.providers.media.documents".equals(uri
                 .getAuthority());
     }
+    public  void initUrl(String url){
+        if (web!=null){
+            isShowTab();
+            web.loadUrl(url);
+        }
+    }
+
 }

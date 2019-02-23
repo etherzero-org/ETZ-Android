@@ -246,7 +246,7 @@ public class PostAuth {
                     MyLog.i("onPublishTxAuth: newGasPrice==" + newGasPrice);
                     tx = mWalletManager.createTransaction(mCryptoRequest.amount, mCryptoRequest.address, data, gasL, newGasPrice);
 
-                    MyLog.i("createTransaction: token2===" + tx.getEtherTx().getHash());
+//                    MyLog.i("createTransaction: token2===" + tx.getEtherTx().getHash());
                     if (tx == null) {
                         BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Send_insufficientFunds),
                                 app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {

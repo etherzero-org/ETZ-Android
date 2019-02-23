@@ -46,6 +46,7 @@ import static android.content.Context.FINGERPRINT_SERVICE;
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
+ *
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
@@ -57,6 +58,7 @@ import static android.content.Context.FINGERPRINT_SERVICE;
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
@@ -159,6 +161,7 @@ public class Utils {
         return builder.toString();
     }
 
+
     public static byte[] hexToBytes(String s) {
         int len = s.length();
         byte[] data = new byte[len / 2];
@@ -207,20 +210,21 @@ public class Utils {
 
     public static String getAgentString(Context app, String cfnetwork) {
 
-        int versionNumber = 0;
-        if (app != null) {
-            try {
-                PackageInfo pInfo = null;
-                pInfo = app.getPackageManager().getPackageInfo(app.getPackageName(), 0);
-                versionNumber = pInfo.versionCode;
-
-            } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
+//        int versionNumber = 0;
+//        if (app != null) {
+//            try {
+//                PackageInfo pInfo = null;
+//                pInfo = app.getPackageManager().getPackageInfo(app.getPackageName(), 0);
+//                versionNumber = pInfo.versionCode;
+//
+//            } catch (PackageManager.NameNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//        }
         String release = Build.VERSION.RELEASE;
 //        return String.format("%s/%d %s %s/%s", "Bread", versionNumber, cfnetwork, "Android", release);
-        return "Bread/" + String.valueOf(versionNumber) + " " + cfnetwork + " Android/" + release;
+//        return "Bread/" + String.valueOf(versionNumber) + " " + cfnetwork + " Android/" + release;
+        return  cfnetwork + " Android/" + release;
     }
 
     public static String reverseHex(String hex) {

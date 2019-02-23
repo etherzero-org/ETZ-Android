@@ -356,13 +356,15 @@ public class APIClient {
         }
 
         Response rawResponse;
+
         try {
             if (mHTTPClient == null) {
                 mHTTPClient = new OkHttpClient.Builder().followRedirects(false)
                         .connectTimeout(CONNECTION_TIMEOUT_SECONDS, TimeUnit.SECONDS)
                         /*.addInterceptor(new LoggingInterceptor())*/.build();
             }
-            request = request.newBuilder().header("User-agent", Utils.getAgentString(mContext, "OkHttp/3.4.1")).build();
+            request = request.newBuilder().header("User-agent", Utils.getAgentString(mContext, "OkHttp/3.10.0")).build();
+            MyLog.i("***********************getAgentString="+Utils.getAgentString(mContext, "OkHttp/3.10.0"));
             rawResponse = mHTTPClient.newCall(request).execute();
             MyLog.i("sendHttpRequest: rawResponse===" + rawResponse);
         } catch (IOException e) {

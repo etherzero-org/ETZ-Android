@@ -77,6 +77,7 @@ public final class TokenUtil {
     private static final String FIELD_END_COLOR = "colorRight";
     private static final String FIELD_CONTRACT_INITIAL_VALUE = "contract_initial_value";
     private static final String TOKENS_FILENAME = "tokens.json";
+    private static  String tJson="";
 
     // TODO: In DROID-878 fix this so we don't have to store this mTokenItems... (Should be stored in appropriate wallet.)
     private static ArrayList<TokenItem> mTokenItems;
@@ -159,14 +160,11 @@ public final class TokenUtil {
 
     public static void fetchTokensFromServer(Context context) {
         APIClient.BRResponse response = fetchTokensFromServer(context, JsonRpcHelper.getTokenListUrl());
-        MyLog.i("-------------------------ADDRESS-" + "请求数据");
         if (response != null && !response.getBodyText().isEmpty()) {
             // Synchronize on the class object since getTokenItems is static and also synchronizes on the class object
             // rather than on an instance of the class.
             synchronized (TokenItem.class) {
                 String responseBody = response.getBodyText();
-                MyLog.i("-------------------------response-" + responseBody);
-                MyLog.i("-------------------------ADDRESS-" + "请求到数据");
                 mTokenItems = parseJsonToTokenList(context, responseBody);
                 saveTokenListToFile(context, responseBody);
             }
@@ -227,8 +225,6 @@ public final class TokenUtil {
                     if (tokenObject.has(FIELD_END_COLOR)) {
                         mEndColor = tokenObject.optString(FIELD_END_COLOR);
                     }
-                    MyLog.i("-------------------------ADDRESS-" + address);
-                    MyLog.i("-------------------------ADDRESS-" + symbol);
 
                     TokenItem item = new TokenItem(address, symbol, name, image);
 
@@ -264,14 +260,12 @@ public final class TokenUtil {
             File tokensFile = new File(context.getFilesDir().getPath() + File.separator + TOKENS_FILENAME);
             byte[] fileBytes;
             if (tokensFile.exists()) {
-                MyLog.i("-------------------------ADDRESS-" + "文件");
                 FileInputStream fileInputStream = new FileInputStream(tokensFile);
                 int size = fileInputStream.available();
                 fileBytes = new byte[size];
                 fileInputStream.read(fileBytes);
                 fileInputStream.close();
             } else {
-                MyLog.i("-------------------------ADDRESS-" + "系统");
                 InputStream json = context.getResources().openRawResource(R.raw.tokens);
                 int size = json.available();
                 fileBytes = new byte[size];
@@ -279,12 +273,21 @@ public final class TokenUtil {
                 json.close();
             }
 //            return parseJsonToTokenList(context, new String(fileBytes,"UTF-8"));
-            return parseJsonToTokenList(context, new String(fileBytes));
+            if (Utils.isNullOrEmpty(tJson)){
+                return parseJsonToTokenList(context, new String(fileBytes));
+
+            }else {
+
+                saveTokenListToFile(BreadApp.getBreadContext(), tJson);
+                return parseJsonToTokenList(context, tJson);
+            }
+
 
         } catch (IOException e) {
             Log.e(TAG, "Error reading tokens.json file: ", e);
-            return mTokenItems;
+            return parseJsonToTokenList(context,tJson);
         }
+
     }
 
 //    public static String getTokenIconPath(Context context, String currencyCode, boolean withBackground) {
@@ -337,11 +340,10 @@ public final class TokenUtil {
 
             @Override
             public void onResponse(@NonNull Call call, Response response) throws IOException {
-//                MyLog.i("-------------------------response-" + response.body().string());
                 synchronized (TokenItem.class) {
                     assert response.body() != null;
                     String responseBody = response.body().string();
-                    MyLog.i("-------------------------response-" + responseBody);
+                    tJson=responseBody;
                     MyLog.i("-------------------------ADDRESS-" + "请求到数据");
 //                    mTokenItems = parseJsonToTokenList(BreadApp.getBreadContext(), responseBody);
                     saveTokenListToFile(BreadApp.getBreadContext(), responseBody);

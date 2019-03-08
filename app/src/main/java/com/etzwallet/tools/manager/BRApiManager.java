@@ -189,8 +189,6 @@ public class BRApiManager {
 
     @WorkerThread
     private  synchronized  void updateETZRates(Context context){
-//        String apiKey = "d3072db4-a96f-404d-8cb3-8a54f379107b";
-//        String url = "https://api.coinmarketcap.com/v2/ticker/2843/?convert=BTC&limit=100&structure=array";
         String url = "https://api.bddfinex.com/market/ticker?market=ETZBTC";
         String result = urlGET(context, url);
         try {
@@ -230,21 +228,6 @@ public class BRApiManager {
             e.printStackTrace();
         }
     }
-
-//    @WorkerThread
-//    private  synchronized  void updateTokenRates(Context context){
-//
-//        Set<CurrencyEntity> tmp = new LinkedHashSet<>();
-//        String code = "BTC";
-//        String name = "Black Options";
-//        String iso = "BO";
-//        String rate = "0";
-//        CurrencyEntity ent1 = new CurrencyEntity(code, name, Float.valueOf(rate), iso);
-//        tmp.add(ent1);
-//
-//        RatesDataSource.getInstance(context).putCurrencies(context, tmp);
-//    }
-
 
 
     @WorkerThread

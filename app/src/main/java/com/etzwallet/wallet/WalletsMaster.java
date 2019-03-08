@@ -263,19 +263,15 @@ public class WalletsMaster {
         try {
 //            BREthereumToken[] tokens = WalletEthManager.getInstance(app).node.tokens;
             ArrayList<TokenItem> tokens=TokenUtil.getTokenItems(app);
-            MyLog.i("---------------------iso="+iso+":tokenslen="+tokens.size());
+//            MyLog.i("---------------------iso="+iso+":tokenslen="+tokens.size());
             for (TokenItem token : tokens) {
                 if ((token!=null&&!Utils.isNullOrEmpty(token.symbol))&&iso.equals(token.symbol)) {
                     return true;
                 }
             }
         } catch (Exception e) {
-            BRReportsManager.reportBug(new NullPointerException("isIsoErc20出错"), true);
-            return false;
-
+            BRReportsManager.reportBug(new NullPointerException("isIsoErc20出错"), false);
         }
-
-
         return false;
     }
 

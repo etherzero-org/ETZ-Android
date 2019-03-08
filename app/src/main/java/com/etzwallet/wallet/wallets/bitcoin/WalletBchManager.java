@@ -132,7 +132,11 @@ public final class WalletBchManager extends BaseBitcoinWalletManager {
     public String getName() {
         return NAME;
     }
-
+    @Override
+    public void refreshAddress(Context context) {
+        BRCoreAddress address = getWallet().getLegacyAddress();
+        updateCachedAddress(context, address.stringify());
+    }
     @Override
     public String decorateAddress(String addr) {
         if (Utils.isNullOrEmpty(addr)) return null;

@@ -114,6 +114,7 @@ public class BreadApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        TokenUtil.getTokenDatas();
         HOST = "stage2.breadwallet.com";
 
         final Fabric fabric = new Fabric.Builder(this)
@@ -166,9 +167,9 @@ public class BreadApp extends Application {
 //            @Override
 //            public void run() {
 //                TokenUtil.fetchTokensFromServer(BreadApp.getBreadContext());
-
+//    }
 //        });
-        TokenUtil.getTokenDatas();
+
 
     }
 

@@ -231,6 +231,7 @@ public class FragmentTxDetails extends DialogFragment {
 
                 }
 
+                if (rawFee==null)rawFee=BigDecimal.ZERO;
                 BigDecimal fee = isCryptoPreferred ? rawFee.abs() : walletManager.getFiatForSmallestCrypto(app, rawFee, null).abs();
                 BigDecimal rawTotalSent = mTransaction.getAmount().abs().add(rawFee.abs());
                 BigDecimal totalSent = isCryptoPreferred ? rawTotalSent : walletManager.getFiatForSmallestCrypto(app, rawTotalSent, null);
@@ -434,3 +435,4 @@ public class FragmentTxDetails extends DialogFragment {
         void onPaused();
     }
 }
+

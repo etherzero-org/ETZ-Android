@@ -290,14 +290,8 @@ public class FragmentReceive extends Fragment implements OnBalanceChangedListene
                 BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                     @Override
                     public void run() {
-                        if (isReceive) {
-                            mReceiveAddress = wm.getAddress();
-                        } else {
-                            mReceiveAddress = WalletBitcoinManager.getInstance(ctx).getAddress();
-                        }
-                        MyLog.i( "run: mReceiveAddress==="+mReceiveAddress);
+                        mReceiveAddress = wm.getAddress();
                         String decorated = wm.decorateAddress(mReceiveAddress);
-                        MyLog.i( "run: decorated===2"+decorated);
                         mAddress.setText(decorated);
                         Utils.correctTextSizeIfNeeded(mAddress);
                         Uri uri = CryptoUriParser.createCryptoUrl(ctx, wm, decorated, BigDecimal.ZERO, wm.getIso(), null, null);

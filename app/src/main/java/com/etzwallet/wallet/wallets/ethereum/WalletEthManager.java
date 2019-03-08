@@ -212,6 +212,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     private void confirmAddress(final Context app, String mn, String addr) {
         MyLog.i("WalletEthManager: addr==" + addr);
+        if (Utils.isNullOrEmpty(mn))return;
         AddressIndex addressIndex = BIP44
                 .m()
                 .purpose44()
@@ -229,6 +230,8 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 //        String publicKey = childPrivateKey.neuter().getPublicKey();
         String address = Keys.getAddress(keyPair);
         String fullAddress = "0x" + address;
+
+
 
 
 
@@ -389,7 +392,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
     @Override
     public BigDecimal getEstimatedFee(BigDecimal amount, String address) {
         BigDecimal fee;
-        if (amount == null) return null;
+        if (amount == null) return BigDecimal.ZERO;
         if (amount.compareTo(BigDecimal.ZERO) == 0) {
             fee = BigDecimal.ZERO;
         } else {
@@ -693,16 +696,16 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public BigDecimal getSmallestCryptoForCrypto(Context app, BigDecimal amount) {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return amount;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
         return amount.multiply(ONE_ETH);
     }
 
     @Override
     public BigDecimal getSmallestCryptoForFiat(Context app, BigDecimal amount) {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return amount;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
         String iso = BRSharedPrefs.getPreferredFiatIso(app);
         BigDecimal ethAmount = getEthForFiat(app, amount, iso);
-        if (ethAmount == null) return null;
+        if (ethAmount == null) return BigDecimal.ZERO;
         return ethAmount.multiply(ONE_ETH);
     }
 
@@ -1026,6 +1029,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                         BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                             @Override
                             public void run() {
+
                                 final Context app = BreadApp.getBreadContext();
                                 if (app != null && app instanceof Activity) {
                                     if (!Utils.isNullOrEmpty(finalTxHash)) {
@@ -1311,9 +1315,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                 MyLog.i("run: ethRpcUrl=address===" + address);
 
                 final JSONObject payload = new JSONObject();
+
                 try {
                     payload.put(JsonRpcHelper.ID, String.valueOf(rid));
                     // ?? payload.put("account", address);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

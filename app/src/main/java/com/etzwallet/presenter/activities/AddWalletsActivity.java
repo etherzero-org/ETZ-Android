@@ -19,6 +19,7 @@ import com.etzwallet.presenter.entities.TokenItem;
 import com.etzwallet.tools.adapter.AddTokenListAdapter;
 import com.etzwallet.tools.threads.executor.BRExecutor;
 import com.etzwallet.tools.util.TokenUtil;
+import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 import com.platform.APIClient;
@@ -57,9 +58,10 @@ public class AddWalletsActivity extends Activity {
                 if (metaData == null) metaData = new TokenListMetaData(null, null);
                 if (metaData.enabledCurrencies == null)
                     metaData.enabledCurrencies = new ArrayList<>();
-                if (!metaData.isCurrencyEnabled(item.symbol))
-                    metaData.enabledCurrencies.add(item);
-
+                if (!Utils.isNullOrEmpty(item.symbol)) {
+                    if (!metaData.isCurrencyEnabled(item.symbol))
+                        metaData.enabledCurrencies.add(item);
+                }
                 KVStoreManager.getInstance().putTokenListMetaData(AddWalletsActivity.this, metaData);
 
                 mAdapter.notifyDataSetChanged();
@@ -138,7 +140,7 @@ public class AddWalletsActivity extends Activity {
         ArrayList<TokenItem> tokenItems = new ArrayList<>();
         TokenListMetaData md = KVStoreManager.getInstance().getTokenListMetaData(this);
         for (TokenItem tokenItem : TokenUtil.getTokenItems(this)) {
-            if (!md.isCurrencyEnabled(tokenItem.symbol)) {
+            if (!Utils.isNullOrEmpty(tokenItem.symbol)&&!md.isCurrencyEnabled(tokenItem.symbol)) {
                 tokenItems.add(tokenItem);
             }
         }

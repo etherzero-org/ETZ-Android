@@ -412,15 +412,15 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
         BRSharedPrefs.putCachedBalance(app, getIso(), balance);
     }
 
-    @Override
-    public void refreshAddress(Context app) {
-        BRCoreAddress address = getWallet().getReceiveAddress();
-        if (Utils.isNullOrEmpty(address.stringify())) {
-            MyLog.e( "refreshAddress: WARNING, retrieved address:" + address);
-        }
-        BRSharedPrefs.putReceiveAddress(app, address.stringify(), getIso());
-
-    }
+//    @Override
+//    public void refreshAddress(Context app) {
+//        BRCoreAddress address = getWallet().getReceiveAddress();
+//        if (Utils.isNullOrEmpty(address.stringify())) {
+//            MyLog.e( "refreshAddress: WARNING, retrieved address:" + address);
+//        }
+//        BRSharedPrefs.putReceiveAddress(app, address.stringify(), getIso());
+//
+//    }
 
     @Override
     public void refreshCachedBalance(Context app) {
@@ -815,10 +815,12 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
         mWalletManagerHelper.onBalanceChanged(balance);
     }
 
-//    @Override
-//    public void addTxStatusUpdatedListener(OnTxStatusUpdatedListener listener) {
-//        mWalletManagerHelper.addTxStatusUpdatedListener(listener);
-//    }
+    protected void updateCachedAddress(Context context, String address) {
+        if (Utils.isNullOrEmpty(address)) {
+            MyLog.e( "refreshAddress: WARNING, retrieved address:" + address);
+        }
+        BRSharedPrefs.putReceiveAddress(context, address, "BTC");
+    }
 
     @Override
     public void addSyncListener(SyncListener listener) {

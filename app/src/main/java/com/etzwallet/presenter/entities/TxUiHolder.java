@@ -72,6 +72,7 @@ public class TxUiHolder {
     }
 
     public BigDecimal getFee() {
+        if(fee==null)return BigDecimal.ZERO;
         return fee;
     }
 
@@ -108,6 +109,7 @@ public class TxUiHolder {
     }
 
     public BigDecimal getAmount() {
+        if (amount==null)return BigDecimal.ZERO;
         return amount;
     }
 

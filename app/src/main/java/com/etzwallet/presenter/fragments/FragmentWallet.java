@@ -179,7 +179,8 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
         InternetManager.registerConnectionReceiver(getActivity(), this);
         updateUi();
         RatesDataSource.getInstance(getActivity()).addOnDataChangedListener(this);
-        if (WalletsMaster.getInstance(BreadApp.getBreadContext()).getCurrentWallet(BreadApp.getBreadContext()).getIso().equalsIgnoreCase("BTC")) {
+        BaseWalletManager bwm=WalletsMaster.getInstance(BreadApp.getBreadContext()).getCurrentWallet(BreadApp.getBreadContext());
+        if (bwm!=null&&bwm.getIso().equalsIgnoreCase("BTC")) {
             BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                 @Override
                 public void run() {

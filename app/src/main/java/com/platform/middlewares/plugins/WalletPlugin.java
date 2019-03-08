@@ -90,7 +90,7 @@ public class WalletPlugin implements Plugin {
                 /**whether or not the users wallet is set up yet, or is currently locked*/
                 jsonResp.put("no_wallet", wm.noWalletForPlatform(app));
 
-                String address = w.getReceiveAddress(app).stringify();
+                String address = getLegacyAddress(app, w);
                 if (Utils.isNullOrEmpty(address)) {
                     throw new IllegalArgumentException("Bitcoin address is empty");
                 }
@@ -323,7 +323,7 @@ public class WalletPlugin implements Plugin {
             JSONObject obj = new JSONObject();
             try {
                 obj.put("currency", w.getIso());
-                obj.put("address", w.getReceiveAddress(app).stringify());
+                obj.put("address", getLegacyAddress(app, w));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -552,5 +552,10 @@ public class WalletPlugin implements Plugin {
             continuation.complete();
         continuation = null;
         globalBaseRequest = null;
+    }
+    private static String getLegacyAddress(Context context, BaseWalletManager walletManager) {
+        return walletManager instanceof WalletBitcoinManager
+                ? ((WalletBitcoinManager) walletManager).getWallet().getLegacyAddress().stringify()
+                : walletManager.getReceiveAddress(context).stringify();
     }
 }

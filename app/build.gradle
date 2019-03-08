@@ -9,15 +9,17 @@ android {
         applicationId = 'com.etzwallet'
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 34
-        versionName "1.2.2"
+        versionCode 35
+        versionName "1.2.3"
         multiDexEnabled true
 
         // Similar to other properties in the defaultConfig block,
         // you can configure the ndk block for each product flavor
         // in your build configuration.
+
         ndk {
             // Specifies the ABI configurations of your native
+
             // libraries Gradle should build and package with your APK.
             abiFilters 'armeabi', 'x86', 'x86_64', 'armeabi-v7a', 'arm64-v8a'
             //, 'armeabi' (not supported by NDK 17.0.4754217)

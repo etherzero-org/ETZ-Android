@@ -3,6 +3,7 @@ package com.etzwallet.wallet.wallets.bitcoin;
 import android.content.Context;
 
 import com.etzwallet.BuildConfig;
+import com.etzwallet.core.BRCoreAddress;
 import com.etzwallet.core.BRCoreChainParams;
 import com.etzwallet.core.BRCoreMasterPubKey;
 import com.etzwallet.presenter.customviews.MyLog;
@@ -138,5 +139,9 @@ public final class WalletBitcoinManager extends BaseBitcoinWalletManager {
     }
 
     protected void syncStopped(Context context) { }
-
+    @Override
+    public void refreshAddress(Context context) {
+        BRCoreAddress address = getWallet().getLegacyAddress();
+        updateCachedAddress(context, address.stringify());
+    }
 }

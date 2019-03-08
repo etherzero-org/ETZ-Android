@@ -98,8 +98,6 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
     private BRText maxPowerValue;
     private BRText availablePowerValue;
     private LinearLayout powerContainer;
-    private Toolbar breadBar;
-
 
     private LinearLayout mProgressLayout;
     private BRText mSyncStatusLabel;
@@ -124,7 +122,7 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
     private BaseWalletManager mWallet;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_wallet);
@@ -138,7 +136,6 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         //power
         maxPowerValue = findViewById(R.id.max_power_value);
         powerContainer = findViewById(R.id.power_container);
-        breadBar = findViewById(R.id.bread_bar);
         availablePowerValue = findViewById(R.id.available_power_value);
 
 
@@ -219,8 +216,6 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         });
 
         TxManager.getInstance().init(this);
-
-        crListener.onConnectionChanged(InternetManager.getInstance().isConnected(this));
 
         updateUi();
 
@@ -523,6 +518,7 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         super.onResume();
 
         InternetManager.registerConnectionReceiver(this, crListener);
+        crListener.onConnectionChanged(InternetManager.getInstance().isConnected(this));
         TxManager.getInstance().onResume(this);
 
         RatesDataSource.getInstance(this).addOnDataChangedListener(this);
@@ -548,6 +544,10 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         wallet.addBalanceChangedListener(this);
 
         mCurrentWalletIso = wallet.getIso();
+//        if (!mCurrentWalletIso.equalsIgnoreCase("etz")||mCurrentWalletIso.equalsIgnoreCase("btc")){
+//            WalletEthManager wm=WalletEthManager.getInstance(WalletActivity.this);
+//            wm.node.jniLightNodeConnect();
+//        }
 
         wallet.addSyncListener(this);
 
@@ -563,7 +563,9 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         super.onPause();
         InternetManager.unregisterConnectionReceiver(this, crListener);
         mWallet.removeSyncListener(this);
-        SyncService.unregisterSyncNotificationBroadcastReceiver(WalletActivity.this.getApplicationContext(), mSyncNotificationBroadcastReceiver);
+        if(mSyncNotificationBroadcastReceiver!=null) {
+            SyncService.unregisterSyncNotificationBroadcastReceiver(WalletActivity.this.getApplicationContext(), mSyncNotificationBroadcastReceiver);
+        }
     }
 
     /* SyncListener methods */

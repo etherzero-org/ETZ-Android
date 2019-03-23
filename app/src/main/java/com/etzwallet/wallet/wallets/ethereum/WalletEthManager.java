@@ -3,6 +3,7 @@ package com.etzwallet.wallet.wallets.ethereum;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 
 import com.dapp.DappTransaction;
 import com.etzwallet.BreadApp;
@@ -143,16 +144,13 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
             }
             String[] words = lookupWords(app, paperKey);
 
-//            if (words.length<=0) {
-//                alertDialog(app,"BIP39钱包地址是无效的!");
-//                MyLog.e( "WalletEthManager: paper key does not validate with BIP39 Words for: "
-//                        + Locale.getDefault().getLanguage());
-//                return;
-//            }
+            if (null == words) {
+                MyLog.e( "WalletEthManager: paper key does not validate with BIP39 Words for: "
+                        + Locale.getDefault().getLanguage());
+                return;
+            }
 
             String normalizedPhrase = Normalizer.normalize(paperKey.trim(), Normalizer.Form.NFKD);//paper 为NFKD格式
-
-
             node = new BREthereumLightNode(this, network, normalizedPhrase, words);
             node.addListener(this);
 
@@ -226,7 +224,8 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 //        String childExtendedBase58 = childPrivateKey.extendedBase58();
         byte[] privateKeyBytes = childPrivateKey.getKey();
         ECKeyPair keyPair = ECKeyPair.create(privateKeyBytes);
-//        String privateKey = childPrivateKey.getPrivateKey();
+//        String privateKey = childPrivateKey.getPrivateKey();//获取私钥
+//        MyLog.i("privateKey="+privateKey);
 //        String publicKey = childPrivateKey.neuter().getPublicKey();
         String address = Keys.getAddress(keyPair);
         String fullAddress = "0x" + address;
@@ -656,14 +655,14 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public BigDecimal getFiatBalance(Context app) {
-        if (app == null) return null;
+        if (app == null) return BigDecimal.ZERO;
         MyLog.i(getCachedBalance(app) + "");
         return getFiatForSmallestCrypto(app, getCachedBalance(app), null);
     }
 
     @Override
     public BigDecimal getFiatForSmallestCrypto(Context app, BigDecimal amount, CurrencyEntity ent) {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return amount;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
         String iso = BRSharedPrefs.getPreferredFiatIso(app);
         if (ent != null) {
             //passed in a custom CurrencyEntity
@@ -682,7 +681,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public BigDecimal getCryptoForFiat(Context app, BigDecimal fiatAmount) {
-        if (fiatAmount == null || fiatAmount.compareTo(BigDecimal.ZERO) == 0) return fiatAmount;
+        if (fiatAmount == null || fiatAmount.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
         String iso = BRSharedPrefs.getPreferredFiatIso(app);
         return getEthForFiat(app, fiatAmount, iso);
 
@@ -690,7 +689,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
 
     @Override
     public BigDecimal getCryptoForSmallestCrypto(Context app, BigDecimal amount) {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return amount;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
         return amount.divide(ONE_ETH, 8, ROUNDING_MODE);
     }
 
@@ -718,11 +717,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         CurrencyEntity ethBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
         if (btcRate == null) {
             MyLog.e("getUsdFromBtc: No USD rates for BTC");
-            return null;
+            return BigDecimal.ZERO;
         }
         if (ethBtcRate == null) {
             MyLog.e("getUsdFromBtc: No BTC rates for ETH");
-            return null;
+            return BigDecimal.ZERO;
         }
 
         return ethAmount.multiply(new BigDecimal(ethBtcRate.rate)).multiply(new BigDecimal(btcRate.rate));
@@ -737,11 +736,11 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
         CurrencyEntity ethBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
         if (btcRate == null) {
             MyLog.e("getUsdFromBtc: No USD rates for BTC");
-            return null;
+            return BigDecimal.ZERO;
         }
         if (ethBtcRate == null) {
             MyLog.e("getUsdFromBtc: No BTC rates for ETH");
-            return null;
+            return BigDecimal.ZERO;
         }
 
         return fiatAmount.divide(new BigDecimal(ethBtcRate.rate).multiply(new BigDecimal(btcRate.rate)), 8, BRConstants.ROUNDING_MODE);

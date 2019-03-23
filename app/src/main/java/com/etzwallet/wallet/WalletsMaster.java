@@ -341,11 +341,11 @@ public class WalletsMaster {
     }
 
     public void refreshBalances(Context app) {
-        long start = System.currentTimeMillis();
-
         List<BaseWalletManager> list = new ArrayList<>(getAllWallets(app));
         for (BaseWalletManager wallet : list) {
-            wallet.refreshCachedBalance(app);
+            if (wallet.getIso().equalsIgnoreCase("BTC")) {
+                wallet.refreshCachedBalance(app);
+            }
         }
     }
 

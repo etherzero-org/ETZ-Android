@@ -948,6 +948,7 @@ public class BRKeyStore {
     }
 
     public static byte[] retrieveEncryptedData(Context ctx, String name) {
+        if (ctx==null)ctx=BreadApp.getMyApp();
         SharedPreferences pref = ctx.getSharedPreferences(KEY_STORE_PREFS_NAME, Context.MODE_PRIVATE);
         String base64 = pref.getString(name, null);
         if (base64 == null) return null;

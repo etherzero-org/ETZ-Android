@@ -381,18 +381,12 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
             getPower(addr);
             powerContainer.setVisibility(View.VISIBLE);
 
+            String c = (wm.getCachedBalance(this).divide(new BigDecimal(WalletEthManager.ETHER_WEI))).toString();
 
-            int b = cryptoBalance.length();
-
-            String c = cryptoBalance.substring(0, b - 3).trim();
-
-            MyLog.i("PowerValue=MAX=" + c + "b=" + b);
             DecimalFormat df = new DecimalFormat("#.00");//保留小数点后2位
             if (c.contains(",")) c = c.replace(",", "");
             double d = convertToDouble(c, 0);
-
             String d1 = df.format(d);
-
             double d2 = convertToDouble(d1, 0);
 //            float d2 = Double.valueOf(d1).floatValue();//数字格式异常。当试图将一个String转换为指定的数字类型，而该字符串确不满足数字类型要求的格式时，抛出该异常
             double e1 = (double) -1 / (d2 * 50);
@@ -528,7 +522,9 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
             @Override
             public void run() {
                 WalletEthManager.getInstance(WalletActivity.this).estimateGasPrice();
-//                wallet.refreshCachedBalance(WalletActivity.this);
+                if (wallet.getIso().equalsIgnoreCase("BTC")) {
+                    wallet.refreshCachedBalance(WalletActivity.this);
+                }
                 BRExecutor.getInstance().forMainThreadTasks().execute(new Runnable() {
                     @Override
                     public void run() {

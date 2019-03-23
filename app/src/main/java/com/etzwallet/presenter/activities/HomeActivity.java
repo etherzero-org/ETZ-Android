@@ -21,6 +21,7 @@ import com.allenliu.versionchecklib.v2.AllenVersionChecker;
 import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
 import com.etzwallet.R;
+import com.etzwallet.core.BRCoreKey;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.customviews.MyLog;
@@ -28,7 +29,9 @@ import com.etzwallet.presenter.fragments.FragmentDiscovery;
 import com.etzwallet.presenter.fragments.FragmentMy;
 import com.etzwallet.presenter.fragments.FragmentWallet;
 import com.etzwallet.tools.animation.BRDialog;
+import com.etzwallet.tools.exceptions.UserNotAuthenticatedException;
 import com.etzwallet.tools.manager.BRSharedPrefs;
+import com.etzwallet.tools.security.BRKeyStore;
 import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.util.JsonRpcHelper;
 
@@ -69,6 +72,15 @@ public class HomeActivity extends BRActivity implements OnClickListener {
                 checkVersionUpdate();
             }
         });
+//        BRCoreKey key= null;
+//        try {
+//            key = new BRCoreKey( new String(BRKeyStore.getPhrase(getApplicationContext(), 0)));
+//            String pkey=key.getPrivKey();
+//            MyLog.i("--------pkey="+pkey);
+//        } catch (UserNotAuthenticatedException e) {
+//            e.printStackTrace();
+//        }
+
 
     }
 

@@ -455,7 +455,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
     @Override
     public BigDecimal getFiatBalance(Context app) {
         if (app == null) {
-            return null;
+            return BigDecimal.ZERO;
         }
         BigDecimal balance = getFiatForSmallestCrypto(app, getCachedBalance(app), null);
         if (balance == null) {
@@ -466,6 +466,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
 
     @Override
     public BigDecimal getFiatForSmallestCrypto(Context app, BigDecimal amount, CurrencyEntity ent) {
+        if (amount==null)return BigDecimal.ZERO;
         if (amount.doubleValue() == 0) {
             return amount;
         }
@@ -474,7 +475,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
             ent = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), iso);
         }
         if (ent == null) {
-            return null;
+            return BigDecimal.ZERO;
         }
         double rate = ent.rate;
         //get crypto amount
@@ -529,6 +530,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
 
     @Override
     public BigDecimal getSmallestCryptoForCrypto(Context app, BigDecimal amount) {
+        if (amount==null)return BigDecimal.ZERO;
         if (amount.doubleValue() == 0) return amount;
         BigDecimal result = BigDecimal.ZERO;
         int unit = BRSharedPrefs.getCryptoDenomination(app, getIso());
@@ -548,6 +550,7 @@ public abstract class BaseBitcoinWalletManager extends BRCoreWalletManager imple
 
     @Override
     public BigDecimal getSmallestCryptoForFiat(Context app, BigDecimal amount) {
+        if (amount==null)return BigDecimal.ZERO;
         if (amount.doubleValue() == 0) return amount;
         String iso = BRSharedPrefs.getPreferredFiatIso(app);
         CurrencyEntity ent = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), iso);

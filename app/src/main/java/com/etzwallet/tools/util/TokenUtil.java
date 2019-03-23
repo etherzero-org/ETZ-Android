@@ -212,8 +212,10 @@ public final class TokenUtil {
                 }
 
                 if (!Utils.isNullOrEmpty(address) && !Utils.isNullOrEmpty(name) && !Utils.isNullOrEmpty(symbol)) {
-                    assert ethWalletManager != null;
+                    if (ethWalletManager==null)ethWalletManager=WalletEthManager.getInstance(BreadApp.getBreadContext());
+                    if (ethWalletManager != null) {
                         ethWalletManager.node.announceToken(address, symbol, name, "", decimals, null, null, 0);
+                    }
                     // Keep a local reference to the token list, so that we can make token symbols to their
                     // gradient colors in WalletListAdapter
                     if (tokenObject.has(FIELD_IMAG)) {
@@ -243,7 +245,7 @@ public final class TokenUtil {
     }
 
     private static void saveTokenListToFile(Context context, String jsonResponse) {
-        String filePath = context.getFilesDir().getAbsolutePath() + File.separator + TOKENS_FILENAME;
+        String filePath = BreadApp.getMyApp().getFilesDir().getAbsolutePath() + File.separator + TOKENS_FILENAME;
         try {
             BufferedWriter fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath, true), "UTF-8"));
 //            FileWriter fileWriter = new FileWriter(filePath);

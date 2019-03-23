@@ -184,6 +184,7 @@ public class FragmentWallet extends Fragment implements InternetManager.Connecti
             BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                 @Override
                 public void run() {
+                    WalletsMaster.getInstance(getActivity()).refreshBalances(getActivity());
                     Thread.currentThread().setName("BG:" + TAG + ":refreshBalances and address");
                     WalletsMaster.getInstance(BreadApp.getBreadContext()).getCurrentWallet(BreadApp.getBreadContext()).refreshAddress(BreadApp.getBreadContext());
                 }

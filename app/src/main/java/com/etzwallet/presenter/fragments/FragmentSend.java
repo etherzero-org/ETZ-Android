@@ -125,6 +125,7 @@ public class FragmentSend extends Fragment {
     private int keyboardIndex;
     private LinearLayout keyboardLayout;
     private RelativeLayout advBtnView;
+    private boolean sendshow=false;
 
     private ImageButton close;
     private ConstraintLayout amountLayout;
@@ -358,6 +359,7 @@ public class FragmentSend extends Fragment {
         contacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendshow=true;
                 Intent intent=new Intent(getActivity(), ContactsActivity.class);
                 intent.putExtra("from",1);
                 startActivity(intent);
@@ -783,18 +785,20 @@ public class FragmentSend extends Fragment {
     public void onStop() {
         super.onStop();
         BRAnimator.animateBackgroundDim(backgroundLayout, true);
-        BRAnimator.animateSignalSlide(signalLayout, true, new BRAnimator.OnSlideAnimationEnd() {
-            @Override
-            public void onAnimationEnd() {
-                if (getActivity() != null) {
-                    try {
-                        getActivity().getFragmentManager().popBackStack();
-                    } catch (Exception ignored) {
+        if (!sendshow) {
+            BRAnimator.animateSignalSlide(signalLayout, true, new BRAnimator.OnSlideAnimationEnd() {
+                @Override
+                public void onAnimationEnd() {
+                    if (getActivity() != null) {
+                        try {
+                            getActivity().getFragmentManager().popBackStack();
+                        } catch (Exception ignored) {
 
+                        }
                     }
                 }
-            }
-        });
+            });
+        }
     }
     public static BRContactsInterface ci=new BRContactsInterface() {
         @Override
@@ -807,6 +811,7 @@ public class FragmentSend extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        sendshow=false;
         backgroundLayout.setBackgroundResource(R.color.black_trans);
         loadMetaData();
 

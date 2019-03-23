@@ -222,7 +222,7 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     public BigDecimal getEstimatedFee(BigDecimal amount, String address) {
         long start = System.currentTimeMillis();
         BigDecimal fee;
-        if (amount == null) return null;
+        if (amount == null) return BigDecimal.ZERO;
         if (amount.compareTo(BigDecimal.ZERO) == 0) {
             fee = BigDecimal.ZERO;
         } else {
@@ -419,19 +419,19 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
     @Override
     public BigDecimal getFiatExchangeRate(Context app) {
         BigDecimal fiatData = getFiatForToken(app, new BigDecimal(1), BRSharedPrefs.getPreferredFiatIso(app));
-        if (fiatData == null) return null;
+        if (fiatData == null) return BigDecimal.ZERO;
         return fiatData; //dollars
     }
 
     @Override
     public BigDecimal getFiatBalance(Context app) {
-        if (app == null) return null;
+        if (app == null) return BigDecimal.ZERO;
         return getFiatForSmallestCrypto(app, getCachedBalance(app), null);
     }
 
     @Override
     public BigDecimal getFiatForSmallestCrypto(Context app, BigDecimal amount, CurrencyEntity ent) {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return amount;
+        if (amount == null || amount.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
         String iso = BRSharedPrefs.getPreferredFiatIso(app);
         if (ent != null) {
             //passed in a custom CurrencyEntity
@@ -441,30 +441,32 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         }
 
         BigDecimal fiatData = getFiatForToken(app, amount, iso);
-        if (fiatData == null) return null;
+        if (fiatData == null) return BigDecimal.ZERO;
         return fiatData;
     }
 
     @Override
     public BigDecimal getCryptoForFiat(Context app, BigDecimal fiatAmount) {
-        if (fiatAmount == null || fiatAmount.compareTo(BigDecimal.ZERO) == 0) return fiatAmount;
+        if (fiatAmount == null || fiatAmount.compareTo(BigDecimal.ZERO) == 0) return BigDecimal.ZERO;
         String iso = BRSharedPrefs.getPreferredFiatIso(app);
         return getTokensForFiat(app, fiatAmount, iso);
     }
 
     @Override
     public BigDecimal getCryptoForSmallestCrypto(Context app, BigDecimal amount) {
-        if (amount == null) return null;
+        if (amount == null) return BigDecimal.ZERO;
         return amount; //only using Tokens
     }
 
     @Override
     public BigDecimal getSmallestCryptoForCrypto(Context app, BigDecimal amount) {
+        if (amount==null)return BigDecimal.ZERO;
         return amount; //only using Tokens
     }
 
     @Override
     public BigDecimal getSmallestCryptoForFiat(Context app, BigDecimal amount) {
+        if (amount==null)return BigDecimal.ZERO;
         BigDecimal convertedCryptoAmount = getCryptoForFiat(app, amount);
         //Round the amount up for situations when the decimals of a token is smaller than the precision we're using.
         if (convertedCryptoAmount != null) {
@@ -483,11 +485,11 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         CurrencyEntity tokenBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
         if (btcRate == null) {
             MyLog.e( "getUsdFromBtc: No USD rates for BTC");
-            return null;
+            return BigDecimal.ZERO;
         }
         if (tokenBtcRate == null) {
             MyLog.e( "getUsdFromBtc: No BTC rates for ETH");
-            return null;
+            return BigDecimal.ZERO;
         }
         if (tokenBtcRate.rate == 0 || btcRate.rate == 0) return BigDecimal.ZERO;
 
@@ -503,11 +505,11 @@ public class WalletTokenManager extends BaseEthereumWalletManager {
         CurrencyEntity tokenBtcRate = RatesDataSource.getInstance(app).getCurrencyByCode(app, getIso(), "BTC");
         if (btcRate == null) {
             MyLog.e( "getUsdFromBtc: No USD rates for BTC");
-            return null;
+            return BigDecimal.ZERO;
         }
         if (tokenBtcRate == null) {
             MyLog.e("getUsdFromBtc: No BTC rates for ETH");
-            return null;
+            return BigDecimal.ZERO;
         }
 
         return fiatAmount.divide(new BigDecimal(tokenBtcRate.rate).multiply(new BigDecimal(btcRate.rate)), 8, BRConstants.ROUNDING_MODE);

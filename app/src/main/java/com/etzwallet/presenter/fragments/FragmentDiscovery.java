@@ -8,6 +8,7 @@ import android.content.ComponentName;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
@@ -32,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.WindowManager;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
@@ -78,6 +80,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 
 import io.github.novacrypto.bip44.M;
 
@@ -95,7 +98,7 @@ public class FragmentDiscovery extends Fragment {
     private EditText input;
     private ImageButton btn;
     private ImageButton web_scan;
-    private RelativeLayout webBar;
+    private RelativeLayout webTirle;
     private LinearLayout web_input_dapp;
 
     private String mFailingUrl = "https://dapp.easyetz.io/";
@@ -108,7 +111,7 @@ public class FragmentDiscovery extends Fragment {
     String languageCode;
 
     private Map<String, Object> mapf = null;
-    public static FragmentDiscovery fd=null;
+    public static FragmentDiscovery fd = null;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -124,7 +127,7 @@ public class FragmentDiscovery extends Fragment {
         web_scan = rootView.findViewById(R.id.web_scan);
         web_back_up = rootView.findViewById(R.id.web_back_up);
         web_close = rootView.findViewById(R.id.web_close);
-        webBar = rootView.findViewById(R.id.web_rl_title);
+        webTirle = rootView.findViewById(R.id.web_rl_title);
         web_input_dapp = rootView.findViewById(R.id.web_input_dapp);
         return rootView;
     }
@@ -133,7 +136,7 @@ public class FragmentDiscovery extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fd=this;
+        fd = this;
         languageCode = Locale.getDefault().getLanguage();
         initView();
         webHome.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +164,7 @@ public class FragmentDiscovery extends Fragment {
             @Override
             public void onClick(View v) {
                 String url = input.getText().toString().trim();
+                Utils.hideKeyboard(getActivity());
                 if (Patterns.WEB_URL.matcher(url).matches()) {
                     web.loadUrl(url);
                     web.evaluateJavascript("javascript:saveUrl('" + url + "')", new ValueCallback<String>() {
@@ -202,7 +206,7 @@ public class FragmentDiscovery extends Fragment {
         HomeActivity.getApp().isShowNavigationBar(true);
     }
 
-    void isShowTab(){
+    void isShowTab() {
         if (languageCode.equalsIgnoreCase("zh")) {
             web_close.setVisibility(View.VISIBLE);
             webHome.setVisibility(View.GONE);
@@ -449,14 +453,14 @@ public class FragmentDiscovery extends Fragment {
         }
 
         /**
-         ** Keccak-256 hash function that operates on a UTF-8 encoded String.
+         * * Keccak-256 hash function that operates on a UTF-8 encoded String.
          *
          * @param utf8String UTF-8 encoded string
          * @return hash value as hex encoded string
          */
         @JavascriptInterface
         public String getSha3String(String utf8String) {
-        Toast.makeText(BreadApp.getMyApp(),utf8String , Toast.LENGTH_LONG).show();
+            Toast.makeText(BreadApp.getMyApp(), utf8String, Toast.LENGTH_LONG).show();
             return Hash.sha3String(utf8String);
         }
 
@@ -504,8 +508,37 @@ public class FragmentDiscovery extends Fragment {
             });
         }
 
+        /***
+         * 横屏隐藏Title
+         */
+        @JavascriptInterface
+        public void landscapeAndHideTitle() {
+            MyLog.i("121212121212---landscapeAndHideTitle");
+            new Handler(Looper.getMainLooper()).post(new Runnable() {
+                @Override
+                public void run() {
+                    webTirle.setVisibility(View.GONE);
+                    Objects.requireNonNull(getActivity()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                    Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+                }
+            });
+
+
+        }
+
     }
 
+    /**
+     * 竖屏显示Title
+     */
+    public void portraitAndShowTitle() {
+        Objects.requireNonNull(getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        webTirle.setVisibility(View.VISIBLE);
+        Objects.requireNonNull(getActivity()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        webTirle.setVisibility(View.GONE);
+//        Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+//        Objects.requireNonNull(getActivity()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
 
     @Override
     public void onResume() {
@@ -520,7 +553,7 @@ public class FragmentDiscovery extends Fragment {
                 web.evaluateJavascript("javascript:makeSaveData('" + hash + "','" + tid + "')", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {
-                        MyLog.i("onReceiveValue-----"+value);
+                        MyLog.i("onReceiveValue-----" + value);
                     }
 
                 });
@@ -601,7 +634,8 @@ public class FragmentDiscovery extends Fragment {
                 String backPageUrl = historyItem.getUrl();
                 MyLog.i("backPageUrl=" + backPageUrl);
 //                if (backPageUrl.contains("dapp.easyetz.io")) {
-                if (backPageUrl.equalsIgnoreCase("https://dapp.easyetz.io/")||backPageUrl.equalsIgnoreCase("https://dapp.easyetz.io/#/")) {
+                if (backPageUrl.equalsIgnoreCase("https://dapp.easyetz.io/") || backPageUrl.equalsIgnoreCase("https://dapp.easyetz.io/#/")) {
+                    portraitAndShowTitle();
                     isShowTitle();
 
                 } else {
@@ -611,7 +645,6 @@ public class FragmentDiscovery extends Fragment {
             }
         }
     }
-
 
 
     @SuppressWarnings("null")
@@ -803,8 +836,9 @@ public class FragmentDiscovery extends Fragment {
         return "com.android.providers.media.documents".equals(uri
                 .getAuthority());
     }
-    public  void initUrl(String url){
-        if (web!=null){
+
+    public void initUrl(String url) {
+        if (web != null) {
             isShowTab();
             web.loadUrl(url);
         }

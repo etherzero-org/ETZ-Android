@@ -220,7 +220,8 @@ public class WalletActivity extends BRActivity implements OnTxListModified, Rate
         updateUi();
 
 
-        if (WalletsMaster.getInstance(BreadApp.getBreadContext()).getCurrentWallet(BreadApp.getBreadContext()).getIso().equalsIgnoreCase("BTC")) {
+        BaseWalletManager bwm=WalletsMaster.getInstance(BreadApp.getBreadContext()).getCurrentWallet(BreadApp.getBreadContext());
+        if (bwm!=null&&bwm.getIso().equalsIgnoreCase("BTC")) {
             BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
                 @Override
                 public void run() {

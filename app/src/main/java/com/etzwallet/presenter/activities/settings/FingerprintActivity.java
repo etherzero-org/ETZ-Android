@@ -11,6 +11,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -19,6 +20,7 @@ import com.etzwallet.R;
 import com.etzwallet.presenter.activities.util.BRActivity;
 import com.etzwallet.presenter.customviews.BRDialogView;
 import com.etzwallet.presenter.interfaces.BRAuthCompletion;
+import com.etzwallet.tools.animation.BRAnimator;
 import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRSharedPrefs;
 import com.etzwallet.tools.security.AuthManager;
@@ -57,16 +59,14 @@ public class FingerprintActivity extends BRActivity {
         limitExchange = findViewById(R.id.limit_exchange);
         limitInfo = findViewById(R.id.limit_info);
 
-//        ImageButton faq = findViewById(R.id.faq_button);
-//
-//        faq.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (!BRAnimator.isClickAllowed()) return;
-//                BaseWalletManager wm = WalletsMaster.getInstance(FingerprintActivity.this).getCurrentWallet(FingerprintActivity.this);
-//                BRAnimator.showSupportFragment(FingerprintActivity.this, BRConstants.FAQ_ENABLE_FINGERPRINT, wm);
-//            }
-//        });
+        ImageButton faq = findViewById(R.id.close_button);
+        faq.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!BRAnimator.isClickAllowed()) return;
+                onBackPressed();
+            }
+        });
 
         toggleButton.setChecked(BRSharedPrefs.getUseFingerprint(this));
 

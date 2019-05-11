@@ -107,7 +107,6 @@ public class JsonRpcHelper {
             }
         }
         return  node;
-//        return "http://192.168.199.214:9646";
 
     }
 

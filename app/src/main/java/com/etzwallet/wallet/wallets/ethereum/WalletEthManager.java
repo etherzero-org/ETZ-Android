@@ -842,7 +842,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                             if (!Utils.isNullOrEmpty(jsonResult)) {
                                 JSONObject responseObject = new JSONObject(jsonResult);
 
-                                MyLog.i("onRpcRequestCompleted: responseObject=11==" + responseObject);
+                                MyLog.i("onRpcRequestCompleted: responseObject=11==" + jsonResult);
 
 
                                 if (responseObject.has(JsonRpcHelper.RESULT)) {
@@ -1054,7 +1054,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                                     } else {
                                         String message;
                                         if (finalErrMessage.equals("") && finalErrCode == 0) {
-                                            message=String.format(Locale.getDefault(), "(%d) %s", finalErrCode,R.string.GasLimit_invalid+"/"+R.string.GasPrice_invalid);
+                                            message=String.format(Locale.getDefault(), "(%d) %s", finalErrCode,app.getResources().getString(R.string.NodeSelector_link_dead));
                                         } else {
                                             message = String.format(Locale.getDefault(), "(%d) %s", finalErrCode, finalErrMessage);
                                         }

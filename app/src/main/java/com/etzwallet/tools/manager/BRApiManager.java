@@ -109,6 +109,7 @@ public class BRApiManager {
                         tmp.code = tmpObj.getString("code");
                         tmp.rate = Float.valueOf(tmpObj.getString("rate"));
                         tmp.iso = walletManager.getIso();
+                        MyLog.i("+++++++++++++++++++++++++++"+walletManager.getIso());
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -233,7 +234,7 @@ public class BRApiManager {
     @WorkerThread
     private synchronized void updateErc20Rates(Context context) {
         //get all erc20 rates.
-        String url = "https://api.coinmarketcap.com/v1/ticker/?limit=5&convert=BTC";
+        String url = "https://api.coinmarketcap.com/v1/ticker/?limit=10&convert=BTC";
         String result = urlGET(context, url);
 
         MyLog.i( "updateErc20Rates: result==="+result);
@@ -252,11 +253,11 @@ public class BRApiManager {
 
                 Object obj = arr.get(i);
                 JSONObject json = (JSONObject) obj;
-                if (json.getString("symbol").equalsIgnoreCase("BTC")){
-                    BigDecimal btc=new BigDecimal(json.getString("price_btc"));
-                    BigDecimal usd=new BigDecimal(json.getString("price_usd"));
-//                    BigDecimal eash=new BigDecimal(json.getString("price_btc")).divide(new BigDecimal(json.getString("price_usd")),10,BigDecimal.ROUND_DOWN);
-                    String eashRate=btc.divide(usd,10,BigDecimal.ROUND_HALF_UP).toString();
+                if (json.getString("symbol").equalsIgnoreCase("USDT")){
+//                    BigDecimal btc=new BigDecimal(json.getString("price_btc"));
+//                    BigDecimal usd=new BigDecimal(json.getString("price_usd"));
+//                    String eashRate=btc.divide(usd,10,BigDecimal.ROUND_HALF_UP).toString();
+                    String eashRate=json.getString("price_btc");
                     String code = "BTC";
                     String name = json.getString("name");
                     String rate = eashRate;
@@ -388,6 +389,7 @@ public class BRApiManager {
         Request request = builder.build();
         String bodyText = null;
         APIClient.BRResponse resp = APIClient.getInstance(app).sendRequest(request, false);
+
 
         try {
             if(resp != null){

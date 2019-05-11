@@ -245,15 +245,18 @@ public final class TokenUtil {
     }
 
     private static void saveTokenListToFile(Context context, String jsonResponse) {
-        String filePath = BreadApp.getMyApp().getFilesDir().getAbsolutePath() + File.separator + TOKENS_FILENAME;
+
         try {
+            String filePath = BreadApp.getMyApp().getFilesDir().getAbsolutePath() + File.separator + TOKENS_FILENAME;
             BufferedWriter fileWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filePath, true), "UTF-8"));
 //            FileWriter fileWriter = new FileWriter(filePath);
             fileWriter.write(jsonResponse);
             fileWriter.flush();
             fileWriter.close();
         } catch (IOException e) {
-            Log.e(TAG, "Error writing tokens JSON response to tokens.json:", e);
+            MyLog.e("Error writing tokens JSON response to tokens.json:"+ e);
+        }catch (Exception ignored){
+            MyLog.e("Error writing tokens JSON response to tokens.json:"+ ignored.toString());
         }
     }
 

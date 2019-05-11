@@ -155,7 +155,8 @@
         <activity
             android:name=".presenter.activities.HomeActivity"
             android:launchMode="singleTask"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity
             android:name=".presenter.activities.settings.SyncBlockchainActivity"
             android:launchMode="singleTask"

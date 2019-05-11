@@ -178,6 +178,7 @@ public class SecurityCenterActivity extends BRActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SecurityCenterActivity.this, WriteDownActivity.class);
+                intent.putExtra("from",1);
                 startActivity(intent);
                 overridePendingTransition(R.anim.enter_from_bottom, R.anim.fade_down);
             }

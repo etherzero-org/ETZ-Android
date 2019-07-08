@@ -17,6 +17,7 @@ import com.etzwallet.presenter.customviews.BREdit;
 import com.etzwallet.presenter.customviews.BRText;
 import com.etzwallet.presenter.customviews.MyLog;
 import com.etzwallet.presenter.entities.CryptoRequest;
+import com.etzwallet.tools.animation.BRDialog;
 import com.etzwallet.tools.manager.BRReportsManager;
 import com.etzwallet.tools.manager.SendManager;
 import com.etzwallet.tools.threads.executor.BRExecutor;
@@ -45,6 +46,7 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
     private BRButton d_btn_send;
     private ImageButton back;
     private String to, vaule, data, gasL, gasP;
+    private boolean isSend=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -178,6 +180,7 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
                     }
 
                     json.put("data", data);
+                    MyLog.i("etzTransaction----address=" + data);
                     params.put(json);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -199,6 +202,7 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
                             try {
                                 JSONObject responseObject = new JSONObject(jsonResult);
                                 if (responseObject.has(JsonRpcHelper.RESULT)) {
+                                    isSend=true;
                                     gasEstimate[0] = responseObject.getString(JsonRpcHelper.RESULT);
                                     MyLog.i("getGasEstimate: gasLimit==" + gasEstimate[0]);
                                     final String g = new BigInteger(gasEstimate[0].substring(2, gasEstimate[0].length()), 16).toString(10);
@@ -207,44 +211,51 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
                                         public void run() {
 
                                             if (Long.valueOf(g) > 21000) {
+
                                                 d_gasp.setText("2");
                                             } else {
                                                 getGasPrice();
                                             }
                                             d_gasl.setText(g);
+                                            MyLog.i("etzTransaction----address=" + g);
                                         }
                                     });
 
                                 } else {
-                                    DappTransaction.this.runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            if (Utils.isNullOrEmpty(gasL)) {
-                                                d_gasl.setText(gasEstimate[0]);
-                                            } else {
-                                                d_gasl.setText(gasL);
-                                            }
-
-                                            getGasPrice();
-                                        }
-                                    });
+                                    isSend=false;
+                                    MyLog.i("gas----------"+responseObject.getString(JsonRpcHelper.ERROR));
+                                    BRDialog.showSimpleDialog(DappTransaction.this, getString(R.string.WipeWallet_failedTitle), responseObject.getString(JsonRpcHelper.ERROR));
+//                                    DappTransaction.this.runOnUiThread(new Runnable() {
+//                                        @Override
+//                                        public void run() {
+//                                            if (Utils.isNullOrEmpty(gasL)) {
+//                                                d_gasl.setText(gasEstimate[0]);
+//                                            } else {
+//                                                d_gasl.setText(gasL);
+//                                            }
+//
+//                                            getGasPrice();
+//                                        }
+//                                    });
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         } else {
-                            DappTransaction.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (Utils.isNullOrEmpty(gasL)) {
-                                        d_gasl.setText(gasEstimate[0]);
-                                    } else {
-                                        d_gasl.setText(gasL);
-                                    }
-
-                                    getGasPrice();
-                                }
-                            });
+                            isSend=false;
+                            BRDialog.showSimpleDialog(DappTransaction.this, getString(R.string.WipeWallet_failedTitle), getString(R.string.gasFailed));
+//                            DappTransaction.this.runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    if (Utils.isNullOrEmpty(gasL)) {
+//                                        d_gasl.setText(gasEstimate[0]);
+//                                    } else {
+//                                        d_gasl.setText(gasL);
+//                                    }
+//
+//                                    getGasPrice();
+//                                }
+//                            });
                         }
                     }
                 });
@@ -285,6 +296,11 @@ public class DappTransaction extends BRActivity implements View.OnClickListener 
         switch (v.getId()) {
             case R.id.dapp_send_button:
                 //not allowed now
+                if (!isSend){
+                    //评估GasL
+                    getGasEstimate(to, vaule, data);
+                    return;
+                }
                 d_btn_send.setEnabled(false);
                 WalletsMaster master = WalletsMaster.getInstance(getApplication());
                 final BaseWalletManager wm = master.getCurrentWallet(getApplication());

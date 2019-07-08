@@ -963,4 +963,5 @@
     <string name="NodeSelector.link.dead">RPC Link failed</string>
     <string name="NodeSelector.error.node">Please enter the correct node such as "http://13.211.229.106:9646 or https://sg.etznumberone.com:443"</string>
     <string name="NodeSelector.del.noderpc">Long press "Custom RPC" to move</string>
+    <string name="gasFailed">The Gas evaluation fails and is retried later</string>
 </resources>

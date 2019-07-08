@@ -33,6 +33,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.dapp.DappTransaction;
 import com.etzwallet.BreadApp;
 import com.etzwallet.BuildConfig;
 import com.etzwallet.R;
@@ -60,9 +61,15 @@ import com.etzwallet.tools.util.Utils;
 import com.etzwallet.wallet.WalletsMaster;
 import com.etzwallet.wallet.util.CryptoUriParser;
 import com.etzwallet.wallet.abstracts.BaseWalletManager;
+import com.etzwallet.wallet.util.JsonRpcHelper;
 import com.etzwallet.wallet.wallets.ethereum.WalletEthManager;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 
 import java.security.PrivateKey;
@@ -125,7 +132,7 @@ public class FragmentSend extends Fragment {
     private int keyboardIndex;
     private LinearLayout keyboardLayout;
     private RelativeLayout advBtnView;
-    private boolean sendshow=false;
+    private boolean sendshow = false;
 
     private ImageButton close;
     private ConstraintLayout amountLayout;
@@ -172,7 +179,7 @@ public class FragmentSend extends Fragment {
         amountLayout = rootView.findViewById(R.id.amount_layout);
         feeLayout = rootView.findViewById(R.id.adv_edit_text);
         advBtnView = rootView.findViewById(R.id.adv_btn_view);
-        contacts=rootView.findViewById(R.id.send_contacts);
+        contacts = rootView.findViewById(R.id.send_contacts);
 //        feeDescription = rootView.findViewById(R.id.fee_description);
 //        warningText = rootView.findViewById(R.id.warning_text);
 
@@ -203,7 +210,6 @@ public class FragmentSend extends Fragment {
         });
 
         updateText();
-
         showFeeSelectionButtons(feeButtonsShown);
         //弹出高级选项
         advancedBtn.setOnClickListener(new View.OnClickListener() {
@@ -359,9 +365,9 @@ public class FragmentSend extends Fragment {
         contacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendshow=true;
-                Intent intent=new Intent(getActivity(), ContactsActivity.class);
-                intent.putExtra("from",1);
+                sendshow = true;
+                Intent intent = new Intent(getActivity(), ContactsActivity.class);
+                intent.putExtra("from", 1);
                 startActivity(intent);
             }
         });
@@ -504,110 +510,119 @@ public class FragmentSend extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //not allowed now
-                if (!BRAnimator.isClickAllowed()) return;
-                WalletsMaster master = WalletsMaster.getInstance(getActivity());
-                final BaseWalletManager wm = master.getCurrentWallet(getActivity());
-
-                //get the current wallet used
-                if (wm == null) {
-                    MyLog.e("onClick: Wallet is null and it can't happen.");
-                    BRReportsManager.reportBug(new NullPointerException("Wallet is null and it can't happen."), true);
-                    return;
-                }
-                boolean allFilled = true;
                 String rawAddress = addressEdit.getText().toString().trim();
                 String amountStr = amountBuilder.toString().trim();
-                String comment = commentEdit.getText().toString().trim();
-                String dataValue = commentData.getText().toString().trim();
-                String gasL = gasLimitIpt.getText().toString().trim();
-                String gasP = gasPriceIpt.getText().toString().trim();
 
-
-                dataValue = dataValue.toLowerCase();
-                if (dataValue.length() == 0) {
-                    dataValue = "";
-                }
-                if (dataValue.startsWith("0x")) {
-                    dataValue = dataValue.substring(2);
-                }
-                String p = "^[a-z0-9]*$";
-                String p1 = "^[0-9]*$";
-                final Activity app = getActivity();
-
-                if (dataValue.length() > 0) {
-                    if (!Pattern.matches(p, dataValue)) {
-                        BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Data_invalid), app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
-                            @Override
-                            public void onClick(BRDialogView brDialogView) {
-                                brDialogView.dismiss();
-                            }
-                        }, null, null, 0);
-                        return;
-                    }
-                }
-                //inserted amount
-                BigDecimal rawAmount = new BigDecimal(Utils.isNullOrEmpty(amountStr) || amountStr.equalsIgnoreCase(".") ? "0" : amountStr);
-                //is the chosen ISO a crypto (could be a fiat currency)
-                boolean isIsoCrypto = master.isIsoCrypto(getActivity(), selectedIso);
-
-                BigDecimal cryptoAmount = isIsoCrypto ? wm.getSmallestCryptoForCrypto(getActivity(), rawAmount) : wm.getSmallestCryptoForFiat(getActivity(), rawAmount);
-
-                CryptoRequest req = CryptoUriParser.parseRequest(getActivity(), rawAddress);
-                if (req == null || Utils.isNullOrEmpty(req.address)) {
-                    sayInvalidClipboardData();
-                    return;
+                if (!WalletsMaster.getInstance(getActivity()).getCurrentWallet(getActivity()).getIso().equals("BTC")){
+                    getGasEstimate(rawAddress,amountStr,"");
+                }else {
+                    submitTransaction(rawAddress,amountStr,"");
                 }
 
-                if (!wm.isAddressValid(req.address)) {
-
-                    BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Send_noAddress),
-                            app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
-                                @Override
-                                public void onClick(BRDialogView brDialogView) {
-                                    brDialogView.dismissWithAnimation();
-                                }
-                            }, null, null, 0);
-                    return;
-                }
-
-                if (cryptoAmount.compareTo(BigDecimal.ZERO) < 0) {
-                    allFilled = false;
-                    SpringAnimator.failShakeAnimation(getActivity(), amountEdit);
-                }
-
-                if (cryptoAmount.compareTo(wm.getCachedBalance(getActivity())) > 0) {
-                    allFilled = false;
-                    SpringAnimator.failShakeAnimation(getActivity(), balanceText);
-                    SpringAnimator.failShakeAnimation(getActivity(), feeText);
-                }
-
-                if (WalletsMaster.getInstance(getActivity()).isIsoErc20(getActivity(), wm.getIso())) {
-
-                    BigDecimal rawFee = wm.getEstimatedFee(cryptoAmount, addressEdit.getText().toString());
-                    BaseWalletManager ethWm = WalletEthManager.getInstance(app);
-                    BigDecimal isoFee = isIsoCrypto ? rawFee : ethWm.getFiatForSmallestCrypto(app, rawFee, null);
-                    BigDecimal b = ethWm.getCachedBalance(app);
-                    if (isoFee.compareTo(b) > 0) {
-                        if (allFilled) {
-                            BigDecimal ethVal = ethWm.getCryptoForSmallestCrypto(app, isoFee);
-//                            sayInsufficientEthereumForFee(app, ethVal.setScale(ethWm.getMaxDecimalPlaces(app), BRConstants.ROUNDING_MODE).toPlainString());
-                            sayInsufficientEthereumForFee(app, "0.01ETZ");
-
-                            allFilled = false;
-                        }
-                    }
-
-                }
-                if (allFilled) {
-                    final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount, dataValue, gasL, gasP);
-                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            SendManager.sendTransaction(getActivity(), item, wm, null);
-                        }
-                    });
-                }
+//                //not allowed now
+//                if (!BRAnimator.isClickAllowed()) return;
+//                WalletsMaster master = WalletsMaster.getInstance(getActivity());
+//                final BaseWalletManager wm = master.getCurrentWallet(getActivity());
+//
+//                //get the current wallet used
+//                if (wm == null) {
+//                    MyLog.e("onClick: Wallet is null and it can't happen.");
+//                    BRReportsManager.reportBug(new NullPointerException("Wallet is null and it can't happen."), true);
+//                    return;
+//                }
+//                boolean allFilled = true;
+//                String rawAddress = addressEdit.getText().toString().trim();
+//                String amountStr = amountBuilder.toString().trim();
+//                String comment = commentEdit.getText().toString().trim();
+//                String dataValue = commentData.getText().toString().trim();
+//                String gasL = gasLimitIpt.getText().toString().trim();
+//                String gasP = gasPriceIpt.getText().toString().trim();
+//
+//
+//                dataValue = dataValue.toLowerCase();
+//                if (dataValue.length() == 0) {
+//                    dataValue = "";
+//                }
+//                if (dataValue.startsWith("0x")) {
+//                    dataValue = dataValue.substring(2);
+//                }
+//                String p = "^[a-z0-9]*$";
+//                String p1 = "^[0-9]*$";
+//                final Activity app = getActivity();
+//
+//                if (dataValue.length() > 0) {
+//                    if (!Pattern.matches(p, dataValue)) {
+//                        BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Data_invalid), app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
+//                            @Override
+//                            public void onClick(BRDialogView brDialogView) {
+//                                brDialogView.dismiss();
+//                            }
+//                        }, null, null, 0);
+//                        return;
+//                    }
+//                }
+//                //inserted amount
+//                BigDecimal rawAmount = new BigDecimal(Utils.isNullOrEmpty(amountStr) || amountStr.equalsIgnoreCase(".") ? "0" : amountStr);
+//                //is the chosen ISO a crypto (could be a fiat currency)
+//                boolean isIsoCrypto = master.isIsoCrypto(getActivity(), selectedIso);
+//
+//                BigDecimal cryptoAmount = isIsoCrypto ? wm.getSmallestCryptoForCrypto(getActivity(), rawAmount) : wm.getSmallestCryptoForFiat(getActivity(), rawAmount);
+//
+//                CryptoRequest req = CryptoUriParser.parseRequest(getActivity(), rawAddress);
+//                if (req == null || Utils.isNullOrEmpty(req.address)) {
+//                    sayInvalidClipboardData();
+//                    return;
+//                }
+//
+//                if (!wm.isAddressValid(req.address)) {
+//
+//                    BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Send_noAddress),
+//                            app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
+//                                @Override
+//                                public void onClick(BRDialogView brDialogView) {
+//                                    brDialogView.dismissWithAnimation();
+//                                }
+//                            }, null, null, 0);
+//                    return;
+//                }
+//
+//                if (cryptoAmount.compareTo(BigDecimal.ZERO) < 0) {
+//                    allFilled = false;
+//                    SpringAnimator.failShakeAnimation(getActivity(), amountEdit);
+//                }
+//
+//                if (cryptoAmount.compareTo(wm.getCachedBalance(getActivity())) > 0) {
+//                    allFilled = false;
+//                    SpringAnimator.failShakeAnimation(getActivity(), balanceText);
+//                    SpringAnimator.failShakeAnimation(getActivity(), feeText);
+//                }
+//
+//                if (WalletsMaster.getInstance(getActivity()).isIsoErc20(getActivity(), wm.getIso())) {
+//
+//                    BigDecimal rawFee = wm.getEstimatedFee(cryptoAmount, addressEdit.getText().toString());
+//                    BaseWalletManager ethWm = WalletEthManager.getInstance(app);
+//                    BigDecimal isoFee = isIsoCrypto ? rawFee : ethWm.getFiatForSmallestCrypto(app, rawFee, null);
+//                    BigDecimal b = ethWm.getCachedBalance(app);
+//                    if (isoFee.compareTo(b) > 0) {
+//                        if (allFilled) {
+//                            BigDecimal ethVal = ethWm.getCryptoForSmallestCrypto(app, isoFee);
+////                            sayInsufficientEthereumForFee(app, ethVal.setScale(ethWm.getMaxDecimalPlaces(app), BRConstants.ROUNDING_MODE).toPlainString());
+//                            sayInsufficientEthereumForFee(app, "0.01ETZ");
+//
+//                            allFilled = false;
+//                        }
+//                    }
+//
+//                }
+//                if (allFilled) {
+//                    final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount, dataValue, gasL, gasP);
+//                    BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            SendManager.sendTransaction(getActivity(), item, wm, null);
+//                        }
+//                    });
+//                }
             }
         });
 
@@ -692,6 +707,117 @@ public class FragmentSend extends Fragment {
                 signalLayout.removeView(keyboardLayout);
 
         }
+    }
+    private void submitTransaction(String rawAddress,String amountStr,String gas ){
+
+        //not allowed now
+        if (!BRAnimator.isClickAllowed()) return;
+        WalletsMaster master = WalletsMaster.getInstance(getActivity());
+        final BaseWalletManager wm = master.getCurrentWallet(getActivity());
+
+        //get the current wallet used
+        if (wm == null) {
+            MyLog.e("onClick: Wallet is null and it can't happen.");
+            BRReportsManager.reportBug(new NullPointerException("Wallet is null and it can't happen."), true);
+            return;
+        }
+        boolean allFilled = true;
+        String comment = commentEdit.getText().toString().trim();
+        String dataValue = commentData.getText().toString().trim();
+//        String amountStr = amountBuilder.toString().trim();
+        String gasL = gasLimitIpt.getText().toString().trim();
+        String gasP = gasPriceIpt.getText().toString().trim();
+        if (!Utils.isNullOrEmpty(gas)&&Utils.isNullOrEmpty(gasL)){
+            gasL=gas;
+            gasP="18";
+        }
+
+        dataValue = dataValue.toLowerCase();
+        if (dataValue.length() == 0) {
+            dataValue = "";
+        }
+        if (dataValue.startsWith("0x")) {
+            dataValue = dataValue.substring(2);
+        }
+        String p = "^[a-z0-9]*$";
+        String p1 = "^[0-9]*$";
+        final Activity app = getActivity();
+
+        if (dataValue.length() > 0) {
+            if (!Pattern.matches(p, dataValue)) {
+                BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Data_invalid), app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
+                    @Override
+                    public void onClick(BRDialogView brDialogView) {
+                        brDialogView.dismiss();
+                    }
+                }, null, null, 0);
+                return;
+            }
+        }
+        //inserted amount
+        BigDecimal rawAmount = new BigDecimal(Utils.isNullOrEmpty(amountStr) || amountStr.equalsIgnoreCase(".") ? "0" : amountStr);
+        //is the chosen ISO a crypto (could be a fiat currency)
+        boolean isIsoCrypto = master.isIsoCrypto(getActivity(), selectedIso);
+
+        BigDecimal cryptoAmount = isIsoCrypto ? wm.getSmallestCryptoForCrypto(getActivity(), rawAmount) : wm.getSmallestCryptoForFiat(getActivity(), rawAmount);
+
+        CryptoRequest req = CryptoUriParser.parseRequest(getActivity(), rawAddress);
+        if (req == null || Utils.isNullOrEmpty(req.address)) {
+            sayInvalidClipboardData();
+            return;
+        }
+
+        if (!wm.isAddressValid(req.address)) {
+
+            BRDialog.showCustomDialog(app, app.getString(R.string.Alert_error), app.getString(R.string.Send_noAddress),
+                    app.getString(R.string.AccessibilityLabels_close), null, new BRDialogView.BROnClickListener() {
+                        @Override
+                        public void onClick(BRDialogView brDialogView) {
+                            brDialogView.dismissWithAnimation();
+                        }
+                    }, null, null, 0);
+            return;
+        }
+
+        if (cryptoAmount.compareTo(BigDecimal.ZERO) < 0) {
+            allFilled = false;
+            SpringAnimator.failShakeAnimation(getActivity(), amountEdit);
+        }
+
+        if (cryptoAmount.compareTo(wm.getCachedBalance(getActivity())) > 0) {
+            allFilled = false;
+            SpringAnimator.failShakeAnimation(getActivity(), balanceText);
+            SpringAnimator.failShakeAnimation(getActivity(), feeText);
+        }
+
+        if (WalletsMaster.getInstance(getActivity()).isIsoErc20(getActivity(), wm.getIso())) {
+
+            BigDecimal rawFee = wm.getEstimatedFee(cryptoAmount, addressEdit.getText().toString());
+            BaseWalletManager ethWm = WalletEthManager.getInstance(app);
+            BigDecimal isoFee = isIsoCrypto ? rawFee : ethWm.getFiatForSmallestCrypto(app, rawFee, null);
+            BigDecimal b = ethWm.getCachedBalance(app);
+            if (isoFee.compareTo(b) > 0) {
+                if (allFilled) {
+                    BigDecimal ethVal = ethWm.getCryptoForSmallestCrypto(app, isoFee);
+//                            sayInsufficientEthereumForFee(app, ethVal.setScale(ethWm.getMaxDecimalPlaces(app), BRConstants.ROUNDING_MODE).toPlainString());
+                    sayInsufficientEthereumForFee(app, "0.01ETZ");
+
+                    allFilled = false;
+                }
+            }
+
+        }
+        if (allFilled) {
+            MyLog.i("CryptoRequest------------"+gasL+"----"+gasP);
+            final CryptoRequest item = new CryptoRequest(null, false, comment, req.address, cryptoAmount, dataValue, gasL, gasP);
+            BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+                @Override
+                public void run() {
+                    SendManager.sendTransaction(getActivity(), item, wm, null);
+                }
+            });
+        }
+
     }
 
     private void sayClipboardEmpty() {
@@ -800,7 +926,8 @@ public class FragmentSend extends Fragment {
             });
         }
     }
-    public static BRContactsInterface ci=new BRContactsInterface() {
+
+    public static BRContactsInterface ci = new BRContactsInterface() {
         @Override
         public void getContactsAddress(String address) {
 
@@ -811,7 +938,7 @@ public class FragmentSend extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        sendshow=false;
+        sendshow = false;
         backgroundLayout.setBackgroundResource(R.color.black_trans);
         loadMetaData();
 
@@ -1120,6 +1247,7 @@ public class FragmentSend extends Fragment {
 
         }
     }
+
     /**
      * 输入首字不能为0和.
      */
@@ -1147,5 +1275,67 @@ public class FragmentSend extends Fragment {
             }
         }
     };
+
+    private void getGasEstimate(final String to, final String amount, final String data) {
+        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+            @Override
+            public void run() {
+                final String ethUrl = JsonRpcHelper.getEthereumRpcUrl();
+                final JSONObject payload = new JSONObject();
+                final JSONArray params = new JSONArray();
+
+                MyLog.i("gas-----------"+amount);
+                BigDecimal bv = new BigDecimal(amount);
+                String value = bv.multiply(new BigDecimal(WalletEthManager.ETHER_WEI)).setScale(0).toString();
+                MyLog.i("gas-----------"+value);
+                try {
+                    JSONObject json = new JSONObject();
+                    json.put("from", WalletEthManager.getInstance(getActivity()).getAddress());
+                    json.put("to", to);
+                    if (Utils.isNullOrEmpty(value) || new BigDecimal(value) == BigDecimal.ZERO) {
+                        json.put("value", "");
+                    } else {
+                        json.put("value", "0x" + new BigInteger(value, 10).toString(16));
+                    }
+                    json.put("data", data);
+                    params.put(json);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    payload.put(JsonRpcHelper.METHOD, JsonRpcHelper.ETH_ESTIMATE_GAS);
+                    payload.put(JsonRpcHelper.PARAMS, params);
+                    payload.put(JsonRpcHelper.ID, "0");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                MyLog.i("gasLimit=== " + payload.toString());
+                JsonRpcHelper.makeRpcRequest(BreadApp.getBreadContext(), ethUrl, payload, new JsonRpcHelper.JsonRpcRequestListener() {
+                    @Override
+                    public void onRpcRequestCompleted(String jsonResult) {
+                        MyLog.i("gasLimit=== " + jsonResult);
+                        if (!Utils.isNullOrEmpty(jsonResult)) {
+                            try {
+                                JSONObject responseObject = new JSONObject(jsonResult);
+                                if (responseObject.has(JsonRpcHelper.RESULT)) {
+                                    String gas = responseObject.getString(JsonRpcHelper.RESULT);
+                                    MyLog.i("getGasEstimate: gasLimit==" + gas);
+                                    String gasl = new BigInteger(gas.substring(2, gas.length()), 16).toString(10);
+                                    MyLog.i("gas----------"+gasl);
+                                    submitTransaction(to,amount,gasl);
+                                }else {
+                                    MyLog.i("gas----------"+responseObject.getString(JsonRpcHelper.ERROR));
+                                    BRDialog.showSimpleDialog(getActivity(), getActivity().getString(R.string.WipeWallet_failedTitle), responseObject.getString(JsonRpcHelper.ERROR));
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
 
 }

@@ -34,6 +34,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.WindowManager;
+import android.webkit.DownloadListener;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.ValueCallback;
@@ -55,6 +56,9 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.allenliu.versionchecklib.v2.AllenVersionChecker;
+import com.allenliu.versionchecklib.v2.builder.UIData;
+import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
 import com.dapp.DappTransaction;
 import com.etzwallet.BreadApp;
 import com.etzwallet.R;
@@ -319,6 +323,7 @@ public class FragmentDiscovery extends Fragment {
         web.setOnKeyListener(new View.OnKeyListener() {
 
             public boolean onKey(View v, int keyCode, KeyEvent event) {
+
                 if ((keyCode == KeyEvent.KEYCODE_BACK) && web.canGoBack()) {
                     myLastUrl();
                     web.goBack(); // goBack()表示返回WebView的上一页面
@@ -336,8 +341,9 @@ public class FragmentDiscovery extends Fragment {
                 mFailingUrl = url;
                 MyLog.i("weburl=" + url);
 //                if (url.contains("dapp.easyetz.io")) {
-                if (url.equalsIgnoreCase("https://dapp.easyetz.io/")) {
+                if (url.equalsIgnoreCase("https://dapp.easyetz.io/") || url.equalsIgnoreCase("https://dapp.easyetz.io/#/")) {
                     isShowTitle();
+                    portraitAndShowTitle();
 
                 } else {
                     isShowTab();
@@ -349,6 +355,12 @@ public class FragmentDiscovery extends Fragment {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                MyLog.i("weburl=" + url);
+                if (url.equalsIgnoreCase("https://dapp.easyetz.io/") || url.equalsIgnoreCase("https://dapp.easyetz.io/#/")) {
+                    isShowTitle();
+                    portraitAndShowTitle();
+
+                }
                 super.onPageStarted(view, url, favicon);
             }
 
@@ -397,9 +409,10 @@ public class FragmentDiscovery extends Fragment {
                 super.onReceivedSslError(view, handler, error);
             }
         });
-
+        web.setDownloadListener(downloadListener);
         web.addJavascriptInterface(new JsInterface(getActivity()), "easyetz");
         web.loadUrl("https://dapp.easyetz.io/");
+
 //          web.loadUrl("http://127.0.0.1:3001");
     }
 
@@ -407,6 +420,18 @@ public class FragmentDiscovery extends Fragment {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
+
+    /**
+     * APK下载监听
+     */
+    DownloadListener downloadListener =new DownloadListener() {
+        @Override
+        public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+            Uri uri = Uri.parse(url);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            startActivity(intent);
+        }
+    };
 
     /**
      * H5交互
@@ -532,12 +557,16 @@ public class FragmentDiscovery extends Fragment {
      * 竖屏显示Title
      */
     public void portraitAndShowTitle() {
-        Objects.requireNonNull(getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        webTirle.setVisibility(View.VISIBLE);
-        Objects.requireNonNull(getActivity()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        webTirle.setVisibility(View.GONE);
-//        Objects.requireNonNull(getActivity()).getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        Objects.requireNonNull(getActivity()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        Configuration mConfiguration = Objects.requireNonNull(getActivity()).getResources().getConfiguration(); //获取设置的配置信息
+        int ori = mConfiguration.orientation; //获取屏幕方向
+        MyLog.i("portraitAndShowTitle===============");
+        if (ori == Configuration.ORIENTATION_LANDSCAPE) {//如果是横屏转换相间竖屏
+            MyLog.i("portraitAndShowTitle*****************");
+            Objects.requireNonNull(getActivity()).getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            webTirle.setVisibility(View.VISIBLE);
+            Objects.requireNonNull(getActivity()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+
     }
 
     @Override
@@ -546,10 +575,20 @@ public class FragmentDiscovery extends Fragment {
         if (web != null) {
             web.onResume();
             String hash = BRSharedPrefs.getlastDappHash(getActivity());
-
+//交易回调JS方法，成功返回Hash,取消交易hash为“”
             if (!Utils.isNullOrEmpty(hash) && !Utils.isNullOrEmpty(tid)) {
                 hash = hash.substring(2, hash.length());
                 MyLog.i("hash**********=" + hash);
+                web.evaluateJavascript("javascript:makeSaveData('" + hash + "','" + tid + "')", new ValueCallback<String>() {
+                    @Override
+                    public void onReceiveValue(String value) {
+                        MyLog.i("onReceiveValue-----" + value);
+                    }
+
+                });
+            }else {
+                hash="";
+                MyLog.i("onReceiveValue-----***********"+tid );
                 web.evaluateJavascript("javascript:makeSaveData('" + hash + "','" + tid + "')", new ValueCallback<String>() {
                     @Override
                     public void onReceiveValue(String value) {

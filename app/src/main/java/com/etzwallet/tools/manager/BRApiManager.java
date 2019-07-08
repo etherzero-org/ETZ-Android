@@ -91,13 +91,13 @@ public class BRApiManager {
     }
 
     @WorkerThread
-    private void updateRates(Context context, BaseWalletManager walletManager) {
+    private void updateRates(Context context, String iso) {
         if (ActivityUTILS.isMainThread()) {
             throw new NetworkOnMainThreadException();
         }
         Set<CurrencyEntity> set = new LinkedHashSet<>();
         try {
-            JSONArray arr = fetchRates(context, walletManager);
+            JSONArray arr = backupFetchRates(context);
             if (arr != null) {
                 int length = arr.length();
                 for (int i = 0; i < length; i++) {
@@ -108,8 +108,8 @@ public class BRApiManager {
                         tmp.name = tmpObj.getString("name");
                         tmp.code = tmpObj.getString("code");
                         tmp.rate = Float.valueOf(tmpObj.getString("rate"));
-                        tmp.iso = walletManager.getIso();
-                        MyLog.i("+++++++++++++++++++++++++++"+walletManager.getIso());
+                        tmp.iso = iso;
+                        MyLog.i("+++++++++++++++++++++++++++"+tmp.code+tmp.rate);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -163,6 +163,15 @@ public class BRApiManager {
             }
         });
 
+        BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
+            @Override
+            public void run() {
+                //get each wallet's rates
+                updateRates(context,"BTC");
+
+            }
+        });
+
         List<BaseWalletManager> list = new ArrayList<>(WalletsMaster.getInstance(context).getAllWallets(context));
 
         for (final BaseWalletManager w : list) {
@@ -173,14 +182,6 @@ public class BRApiManager {
                     @Override
                     public void run() {
                         w.updateFee(context);
-                    }
-                });
-                BRExecutor.getInstance().forLightWeightBackgroundTasks().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        //get each wallet's rates
-                        updateRates(context, w);
-
                     }
                 });
             }
@@ -332,30 +333,26 @@ public class BRApiManager {
         }
     }
 
-    @WorkerThread
-    public static JSONArray fetchRates(Context app, BaseWalletManager walletManager) {
-        String url = "https://" + BreadApp.HOST + "/rates?currency=" + walletManager.getIso();
-        String jsonString = urlGET(app, url);
-        JSONArray jsonArray = null;
-        if (jsonString == null) {
-            MyLog.e( "fetchRates: failed, response is null");
-            return null;
-        }
-        try {
-            JSONObject obj = new JSONObject(jsonString);
-            jsonArray = obj.getJSONArray("body");
+//    @WorkerThread
+//    public static JSONArray fetchRates(Context app, BaseWalletManager walletManager) {
+//        String url = "https://" + BreadApp.HOST + "/rates?currency=" + walletManager.getIso();
+//        String jsonString = urlGET(app, url);
+//        JSONArray jsonArray = null;
+//        if (jsonString == null) {
+//            MyLog.e( "fetchRates: failed, response is null");
+//            return null;
+//        }
+//        try {
+//            JSONObject obj = new JSONObject(jsonString);
+//            jsonArray = obj.getJSONArray("body");
+//
+//        } catch (JSONException ignored) {
+//        }
+//        return jsonArray == null ? backupFetchRates(app, walletManager) : jsonArray;
+//    }
 
-        } catch (JSONException ignored) {
-        }
-        return jsonArray == null ? backupFetchRates(app, walletManager) : jsonArray;
-    }
-
     @WorkerThread
-    public static JSONArray backupFetchRates(Context app, BaseWalletManager walletManager) {
-        if (!walletManager.getIso().equalsIgnoreCase(WalletBitcoinManager.getInstance(app).getIso())) {
-            //todo add backup for BCH
-            return null;
-        }
+    public static JSONArray backupFetchRates(Context app) {
         String jsonString = urlGET(app, "https://bitpay.com/rates");
 
         JSONArray jsonArray = null;

@@ -1002,6 +1002,7 @@ public class WalletEthManager extends BaseEthereumWalletManager implements
                         String txHash = null;
                         int errCode = 0;
                         String errMessage = "";
+                        MyLog.i("返回结果: " + jsonResult);
                         if (!Utils.isNullOrEmpty(jsonResult)) {
                             try {
 
